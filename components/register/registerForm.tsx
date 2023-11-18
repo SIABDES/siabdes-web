@@ -1,9 +1,24 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import CustomInput from '../../components/register/customeInput';
 import { ComboboxDemo } from '../ui/combobox';
 import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons';
 import { Button } from '../ui/button';
+import { Backend_URL } from '@/lib/constants';
+
+type FormInputs = {
+  namaBumdes: string;
+  email: string;
+  provinsi: string;
+  kabupaten: string;
+  kecamatan: string;
+  desa: string;
+  kodePos: string;
+  nomorTelepon: string;
+  alamatLengkap: string;
+  kataSandi: string;
+  konfirmasiKataSandi: string;
+};
 
 const RegisterForm = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -17,7 +32,7 @@ const RegisterForm = () => {
     setConfirmPasswordVisible((prev) => !prev);
   };
 
-  const [formData, setFormData] = useState({
+  const data = useRef<FormInputs>({
     namaBumdes: '',
     email: '',
     provinsi: '',
@@ -31,9 +46,37 @@ const RegisterForm = () => {
     konfirmasiKataSandi: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const register = async (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log({ data: data.current });
+    const res = await fetch(Backend_URL + '/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        identifier: data.current.email,
+        password: data.current.kataSandi,
+        bumdes: {
+          name: data.current.namaBumdes,
+          phone: data.current.nomorTelepon,
+          address: {
+            province: data.current.provinsi,
+            regency: data.current.kabupaten,
+            district: data.current.kecamatan,
+            village: data.current.desa,
+            postal_code: data.current.kodePos,
+          },
+        },
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!res.ok) {
+      alert(res.statusText);
+      return;
+    }
+    const response = await res.json();
+    alert('User Registered!');
+    console.log({ response });
   };
 
   return (
@@ -48,8 +91,7 @@ const RegisterForm = () => {
               id="namaBumdes"
               name="namaBumdes"
               placeholder="Masukkan Nama BUMDes"
-              value={formData.namaBumdes}
-              onChange={handleChange}
+              onChange={(e) => (data.current.namaBumdes = e.target.value)}
             />
             <CustomInput
               label="Email"
@@ -57,8 +99,7 @@ const RegisterForm = () => {
               id="email"
               name="email"
               placeholder="Masukkan Email"
-              value={formData.email}
-              onChange={handleChange}
+              onChange={(e) => (data.current.email = e.target.value)}
             />
           </div>
 
@@ -72,8 +113,7 @@ const RegisterForm = () => {
               id="provinsi"
               name="provinsi"
               placeholder="Masukkan Provinsi"
-              value={formData.provinsi}
-              onChange={handleChange}
+              onChange={(e) => (data.current.provinsi = e.target.value)}
             />
             <CustomInput
               label="Kabupaten"
@@ -81,8 +121,7 @@ const RegisterForm = () => {
               id="kabupaten"
               name="kabupaten"
               placeholder="Masukkan Kabupaten"
-              value={formData.kabupaten}
-              onChange={handleChange}
+              onChange={(e) => (data.current.kabupaten = e.target.value)}
             />
           </div>
           <div className="flex space-x-8">
@@ -92,8 +131,7 @@ const RegisterForm = () => {
               id="kecamatan"
               name="kecamatan"
               placeholder="Masukkan Kecamatan"
-              value={formData.kecamatan}
-              onChange={handleChange}
+              onChange={(e) => (data.current.kecamatan = e.target.value)}
             />
             <CustomInput
               label="Desa"
@@ -101,8 +139,7 @@ const RegisterForm = () => {
               id="desa"
               name="desa"
               placeholder="Masukkan Desa"
-              value={formData.desa}
-              onChange={handleChange}
+              onChange={(e) => (data.current.desa = e.target.value)}
             />
           </div>
           <div className="flex space-x-8">
@@ -112,8 +149,7 @@ const RegisterForm = () => {
               id="kodePos"
               name="kodePos"
               placeholder="Masukkan Kode Pos"
-              value={formData.kodePos}
-              onChange={handleChange}
+              onChange={(e) => (data.current.kodePos = e.target.value)}
             />
             <CustomInput
               label="Nomor Telepon"
@@ -121,8 +157,7 @@ const RegisterForm = () => {
               id="nomorTelepon"
               name="nomorTelepon"
               placeholder="Masukkan Nomor Telepon"
-              value={formData.nomorTelepon}
-              onChange={handleChange}
+              onChange={(e) => (data.current.nomorTelepon = e.target.value)}
             />
           </div>
           <CustomInput
@@ -131,8 +166,7 @@ const RegisterForm = () => {
             id="alamatLengkap"
             name="alamatLengkap"
             placeholder="Masukkan Alamat Lengkap"
-            value={formData.alamatLengkap}
-            onChange={handleChange}
+            onChange={(e) => (data.current.alamatLengkap = e.target.value)}
           />
           <div className="flex space-x-8">
             <div className="w-1/2">
@@ -143,8 +177,7 @@ const RegisterForm = () => {
                   id="kataSandi"
                   name="kataSandi"
                   placeholder="Masukkan Kata Sandi"
-                  value={formData.kataSandi}
-                  onChange={handleChange}
+                  onChange={(e) => (data.current.kataSandi = e.target.value)}
                 />
                 <button
                   type="button"
@@ -168,8 +201,9 @@ const RegisterForm = () => {
                   id="konfirmasiKataSandi"
                   name="konfirmasiKataSandi"
                   placeholder="Masukkan Ulang Kata Sandi"
-                  value={formData.konfirmasiKataSandi}
-                  onChange={handleChange}
+                  onChange={(e) =>
+                    (data.current.konfirmasiKataSandi = e.target.value)
+                  }
                 />
                 <button
                   type="button"
@@ -188,6 +222,7 @@ const RegisterForm = () => {
 
           <div className="flex justify-end">
             <Button
+              onClick={register}
               size="default"
               variant="outline"
               className="items-center mt-4 px-12 bg-[#00BFA6] "
