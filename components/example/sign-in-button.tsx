@@ -5,12 +5,12 @@ import React from 'react';
 
 const SignInButton = () => {
   const { data: session } = useSession();
-  console.log({ session });
+  // console.log({ session });
 
   if (session && session.user)
     return (
       <div className="flex gap-4 ml-auto">
-        <p className="text-sky-600">{session.user.name}</p>
+        <p className="text-sky-600">{session.user.role}</p>
         <Link
           href={'/api/auth/signout'}
           className="flex gap-4 ml-auto text-red-600"
