@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useRef } from 'react';
-import CustomInput from '../../components/register/customeInput';
+import CustomInput from './custome-input';
 import { ComboboxDemo } from '../ui/combobox';
 import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons';
 import { Button } from '../ui/button';

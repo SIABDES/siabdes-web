@@ -1,4 +1,4 @@
-import RegisterForm from '../../../components/register/registerForm';
+import RegisterForm from '../../../components/register/register-form';
 import Image from 'next/image';
 import BgLogin from '@/public/undraw_sign_up_n6im.svg';
 import Header from '@/components/header/header-landing-page';

@@ -20,28 +20,28 @@ import {
 
 const frameworks = [
   {
-    value: 'next.js',
-    label: 'Next.js',
+    value: 'akun satu',
+    label: 'Akun satu',
   },
   {
-    value: 'sveltekit',
-    label: 'SvelteKit',
+    value: 'akun dua',
+    label: 'Akun dua',
   },
   {
-    value: 'nuxt.js',
-    label: 'Nuxt.js',
+    value: 'akun tiga',
+    label: 'Akun tiga',
   },
   {
-    value: 'remix',
-    label: 'Remix',
+    value: 'akun empat',
+    label: 'Akun empat',
   },
   {
-    value: 'astro',
-    label: 'Astro',
+    value: 'akun lima',
+    label: 'Akun lima',
   },
 ];
 
-export function ComboboxDemo() {
+export function Combobox() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
 
@@ -52,18 +52,18 @@ export function ComboboxDemo() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between bg-white"
+          className="w-[200px] justify-between bg-[#DAF4FF] hover:bg-[#4194CB] mb-6"
         >
           {value
             ? frameworks.find((framework) => framework.value === value)?.label
-            : 'Select framework...'}
+            : 'Cari Akun...'}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandInput placeholder="Cari Akun..." />
+          <CommandEmpty>Tidak ditemukan.</CommandEmpty>
           <CommandGroup>
             {frameworks.map((framework) => (
               <CommandItem

@@ -8,23 +8,12 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="flex flex-row bg-neutral-100 h-screen w-screen overflow-hidden">
+    <div className="flex flex-row h-screen w-screen overflow-hidden">
       <Sidebar />
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 bg-white">
         <Header />
-        <div className="flex-1 p-4 min-h-0 overflow-auto">{children}</div>
+        <div className="flex-1 p-4 min-h-0 overflow-auto pt-28">{children}</div>
       </div>
     </div>
   );
-  //   return (
-  //     <div className="h-screen flex">
-  //       <Sidebar />
-  //       <div className="flex flex-col flex-1 relative">
-  //         <div className="bg-slate-50 flex-1 p-4 text-black z-0">
-  //           <Header />
-  //           {children}
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
 }

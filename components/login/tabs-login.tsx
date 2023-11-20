@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 
-export default function TabsDemo() {
+export default function TabsLogin() {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {

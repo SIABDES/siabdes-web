@@ -1,5 +1,5 @@
 import LoginForm from '@/components/login/login-form';
-import TabsLogin from '@/components/login/tabsLogin';
+import TabsLogin from '@/components/login/tabs-login';
 import Image from 'next/image';
 import asLogin from '@/public/undraw_login_re_4vu2.svg';
 import bgLogin from '../../public/bg-Login.jpg';
@@ -16,5 +16,3 @@ export default function Login() {
     </main>
   );
 }
-
-//flex flex-col justify-between py-[120px]
