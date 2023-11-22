@@ -1,4 +1,4 @@
-import { JournalCategoryType } from ".";
+import { JournalCategoryType } from '.';
 
 export type GeneralJournalTransactionType = {
   account_id: number;
@@ -10,7 +10,7 @@ export type GeneralJournalType = {
   id: string;
   category: JournalCategoryType;
   description: string;
-  evidence: string;
   occured_at: Date | string;
+  evidence: string;
   data_transactions: GeneralJournalTransactionType[];
 };

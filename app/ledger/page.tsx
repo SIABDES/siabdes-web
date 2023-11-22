@@ -2,19 +2,11 @@
 
 import React from 'react';
 import Layout from '@/components/layout/layout';
-import Table from '@/components/table/table';
+import { TableComponent } from '@/components/table/table';
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
 
 export default function Ledger() {
-  const tableHeaders = [
-    'No',
-    'Tanggal',
-    'Keterangan',
-    'Debit',
-    'Kredit',
-    'Saldo',
-  ];
   const tableData = [
     {
       No: '1',
@@ -55,7 +47,7 @@ export default function Ledger() {
       <div>
         <h1 className="text-2xl font-bold mb-4 text-center">Buku Besar</h1>
         <Combobox />
-        <Table headers={tableHeaders} data={tableData} />
+        <TableComponent data={tableData} />
       </div>
     </Layout>
   );
