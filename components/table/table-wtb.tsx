@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface TableProps {
   data: any[];
@@ -11,37 +11,24 @@ const Table: React.FC<TableProps> = ({ data }) => {
     }, 0);
   };
 
-  const totalNeracaSaldoDebit = calculateTotal('neracaSaldo', 'debit');
-  const totalNeracaSaldoKredit = calculateTotal('neracaSaldo', 'kredit');
-  const totalPenyesuaianDebit = calculateTotal('penyesuaian', 'debit');
-  const totalPenyesuaianKredit = calculateTotal('penyesuaian', 'kredit');
+  const totalNeracaSaldoDebit = calculateTotal("neracaSaldo", "debit");
+  const totalNeracaSaldoKredit = calculateTotal("neracaSaldo", "kredit");
+  const totalPenyesuaianDebit = calculateTotal("penyesuaian", "debit");
+  const totalPenyesuaianKredit = calculateTotal("penyesuaian", "kredit");
   const totalNeracaSetelahnyaDebit = calculateTotal(
-    'neracaSetelahnya',
-    'debit'
+    "neracaSetelahnya",
+    "debit"
   );
   const totalNeracaSetelahnyaKredit = calculateTotal(
-    'neracaSetelahnya',
-    'kredit'
+    "neracaSetelahnya",
+    "kredit"
   );
-  const totalLabaRugiDebit = calculateTotal('labaRugi', 'debit');
-  const totalLabaRugiKredit = calculateTotal('labaRugi', 'kredit');
-  const totalPosisiKeuanganDebit = calculateTotal('posisiKeuangan', 'debit');
-  const totalPosisiKeuanganKredit = calculateTotal('posisiKeuangan', 'kredit');
+  const totalLabaRugiDebit = calculateTotal("labaRugi", "debit");
+  const totalLabaRugiKredit = calculateTotal("labaRugi", "kredit");
+  const totalPosisiKeuanganDebit = calculateTotal("posisiKeuangan", "debit");
+  const totalPosisiKeuanganKredit = calculateTotal("posisiKeuangan", "kredit");
 
   const labaRugiBersih = totalLabaRugiDebit - totalLabaRugiKredit;
-
-  const totalDebit =
-    totalNeracaSaldoDebit +
-    totalPenyesuaianDebit +
-    totalNeracaSetelahnyaDebit +
-    totalLabaRugiDebit +
-    totalPosisiKeuanganDebit;
-  const totalKredit =
-    totalNeracaSaldoKredit +
-    totalPenyesuaianKredit +
-    totalNeracaSetelahnyaKredit +
-    totalLabaRugiKredit +
-    totalPosisiKeuanganKredit;
 
   return (
     <div>
@@ -122,32 +109,159 @@ const Table: React.FC<TableProps> = ({ data }) => {
             </tr>
           ))}
         </tbody>
+        <tfoot>
+          <tr>
+            <td className="border border-gray-300 p-2 font-bold">Total</td>
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalNeracaSaldoDebit}
+            </td>
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalNeracaSaldoKredit}
+            </td>
+
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalPenyesuaianDebit}
+            </td>
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalPenyesuaianKredit}
+            </td>
+
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalNeracaSetelahnyaDebit}
+            </td>
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalNeracaSetelahnyaKredit}
+            </td>
+
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalLabaRugiDebit}
+            </td>
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalLabaRugiKredit}
+            </td>
+
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalPosisiKeuanganDebit}
+            </td>
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalPosisiKeuanganKredit}
+            </td>
+          </tr>
+
+          <tr>
+            <td className="border border-gray-300 p-2 font-bold">
+              Laba/Rugi Bersih
+            </td>
+            <td className="border border-gray-300 p-2 font-bold"></td>
+            <td className="border border-gray-300 p-2 font-bold"></td>
+
+            <td className="border border-gray-300 p-2 font-bold"></td>
+            <td className="border border-gray-300 p-2 font-bold"></td>
+
+            <td className="border border-gray-300 p-2 font-bold"></td>
+            <td className="border border-gray-300 p-2 font-bold"></td>
+
+            {totalLabaRugiDebit < totalLabaRugiKredit ? (
+              <>
+                <td className="border border-gray-300 p-2 font-bold">
+                  {totalLabaRugiKredit - totalLabaRugiDebit}
+                </td>
+                <td className="border border-gray-300 p-2 font-bold"></td>
+              </>
+            ) : (
+              <>
+                <td className="border border-gray-300 p-2 font-bold"></td>
+                <td className="border border-gray-300 p-2 font-bold">
+                  {totalLabaRugiDebit - totalLabaRugiKredit}
+                </td>
+              </>
+            )}
+
+            {totalPosisiKeuanganDebit < totalPosisiKeuanganKredit ? (
+              <>
+                <td className="border border-gray-300 p-2 font-bold">
+                  {totalPosisiKeuanganKredit - totalPosisiKeuanganDebit}
+                </td>
+                <td className="border border-gray-300 p-2 font-bold"></td>
+              </>
+            ) : (
+              <>
+                <td className="border border-gray-300 p-2 font-bold"></td>
+                <td className="border border-gray-300 p-2 font-bold">
+                  {totalPosisiKeuanganDebit - totalPosisiKeuanganKredit}
+                </td>
+              </>
+            )}
+          </tr>
+          <tr>
+            <td className="border border-gray-300 p-2 font-bold">Total</td>
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalNeracaSaldoDebit}
+            </td>
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalNeracaSaldoKredit}
+            </td>
+
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalPenyesuaianDebit}
+            </td>
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalPenyesuaianKredit}
+            </td>
+
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalNeracaSetelahnyaDebit}
+            </td>
+            <td className="border border-gray-300 p-2 font-bold">
+              {totalNeracaSetelahnyaKredit}
+            </td>
+
+            {totalLabaRugiDebit < totalLabaRugiKredit ? (
+              <>
+                <td className="border border-gray-300 p-2 font-bold">
+                  {totalLabaRugiDebit +
+                    (totalLabaRugiKredit - totalLabaRugiDebit)}
+                </td>
+                <td className="border border-gray-300 p-2 font-bold">
+                  {totalLabaRugiKredit}
+                </td>
+              </>
+            ) : (
+              <>
+                <td className="border border-gray-300 p-2 font-bold">
+                  {totalLabaRugiDebit}
+                </td>
+                <td className="border border-gray-300 p-2 font-bold">
+                  {totalLabaRugiKredit +
+                    (totalLabaRugiDebit - totalLabaRugiKredit)}
+                </td>
+              </>
+            )}
+
+            {totalPosisiKeuanganDebit < totalPosisiKeuanganKredit ? (
+              <>
+                <td className="border border-gray-300 p-2 font-bold">
+                  {totalPosisiKeuanganDebit +
+                    (totalPosisiKeuanganKredit - totalPosisiKeuanganDebit)}
+                </td>
+                <td className="border border-gray-300 p-2 font-bold">
+                  {totalPosisiKeuanganKredit}
+                </td>
+              </>
+            ) : (
+              <>
+                <td className="border border-gray-300 p-2 font-bold">
+                  {totalPosisiKeuanganDebit}
+                </td>
+                <td className="border border-gray-300 p-2 font-bold">
+                  {totalPosisiKeuanganKredit +
+                    (totalPosisiKeuanganDebit - totalPosisiKeuanganKredit)}
+                </td>
+              </>
+            )}
+          </tr>
+        </tfoot>
       </table>
-      <div className="mt-4">
-        <p className="font-bold">Total:</p>
-        <table className="min-w-full border border-gray-300">
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 p-2">Total Debit</td>
-              <td className="border border-gray-300 p-2">{totalDebit}</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">Total Kredit</td>
-              <td className="border border-gray-300 p-2">{totalKredit}</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">Laba/Rugi Bersih</td>
-              <td className="border border-gray-300 p-2">{labaRugiBersih}</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 p-2">Total Keseluruhan</td>
-              <td className="border border-gray-300 p-2">
-                {totalDebit - totalKredit}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 };
