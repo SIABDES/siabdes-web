@@ -1,44 +1,95 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '@/components/layout/layout';
 import ClickableTable from '@/components/table/clickable-table';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+
+interface MappedJournal {
+  No: number;
+  'Tanggal Transaksi': string;
+  'Deskripsi Transaksi': string;
+  id: string;
+}
+
+interface Journal {
+  id: string;
+  description: string;
+  occuredAt: string;
+  evidence: string;
+  data_transactions: any[];
+}
 
 export default function GeneralJournal() {
   const router = useRouter();
+  const [tableData, setTableData] = useState<Journal[]>([]);
+  const { data: session } = useSession();
 
-  const handleRowClick = (journal_id: any) => {
-    router.push(`/general-journal/details`);
+  useEffect(() => {
+    if (session) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(
+            'http://localhost:8080/api/v1/general_journals',
+            {
+              headers: {
+                Authorization: `Bearer ${session.backendTokens.accessToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+
+          if (response.ok) {
+            const result = await response.json();
+
+            const journals = result.data.journals || [];
+            console.log(journals);
+            setTableData(journals);
+          } else {
+            console.error('Gagal mengambil data dari API');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [session]);
+
+  const handleRowClick = (journal_id: string) => {
+    router.push(`/general-journal/${journal_id}/details/`);
   };
 
   const tableHeaders = ['No', 'Tanggal Transaksi', 'Deskripsi Transaksi'];
-  const tableData = [
-    {
-      No: '1',
-      'Tanggal Transaksi': '25 Agustus 2022',
-      'Deskripsi Transaksi': 'Membeli peralatan kantor',
-    },
-    {
-      No: '2',
-      'Tanggal Transaksi': '26 agustus 2022',
-      'Deskripsi Transaksi': 'Membeli rumah untuk orang tua di kampung',
-    },
-  ];
+  const mappedTableData: MappedJournal[] = tableData.map((journal, index) => ({
+    No: index + 1,
+    'Tanggal Transaksi': new Date(journal.occuredAt).toLocaleDateString(
+      'id-ID',
+      {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      }
+    ),
+    'Deskripsi Transaksi': journal.description,
+    id: journal.id,
+  }));
 
   return (
     <Layout>
       <div>
-        <h1 className="text-2xl font-bold mb-4 text-center ">Jurnal Umum</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center">Jurnal Umum</h1>
         <Link href="/general-journal/add-journal">
           <Button className="mb-4">Tambah</Button>
         </Link>
         <ClickableTable
           headers={tableHeaders}
-          data={tableData}
-          onRowClick={handleRowClick}
+          data={mappedTableData}
+          onRowClick={(rowData) => handleRowClick(rowData.id)}
         />
       </div>
     </Layout>
