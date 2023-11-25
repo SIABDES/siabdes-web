@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 interface TableProps {
-  data: any[];
+  data: Record<string, React.ReactNode>[];
 }
 
 const Table: React.FC<TableProps> = ({ data }) => {
@@ -11,22 +11,22 @@ const Table: React.FC<TableProps> = ({ data }) => {
     }, 0);
   };
 
-  const totalNeracaSaldoDebit = calculateTotal("neracaSaldo", "debit");
-  const totalNeracaSaldoKredit = calculateTotal("neracaSaldo", "kredit");
-  const totalPenyesuaianDebit = calculateTotal("penyesuaian", "debit");
-  const totalPenyesuaianKredit = calculateTotal("penyesuaian", "kredit");
+  const totalNeracaSaldoDebit = calculateTotal('neracaSaldo', 'debit');
+  const totalNeracaSaldoKredit = calculateTotal('neracaSaldo', 'kredit');
+  const totalPenyesuaianDebit = calculateTotal('penyesuaian', 'debit');
+  const totalPenyesuaianKredit = calculateTotal('penyesuaian', 'kredit');
   const totalNeracaSetelahnyaDebit = calculateTotal(
-    "neracaSetelahnya",
-    "debit"
+    'neracaSetelahnya',
+    'debit'
   );
   const totalNeracaSetelahnyaKredit = calculateTotal(
-    "neracaSetelahnya",
-    "kredit"
+    'neracaSetelahnya',
+    'kredit'
   );
-  const totalLabaRugiDebit = calculateTotal("labaRugi", "debit");
-  const totalLabaRugiKredit = calculateTotal("labaRugi", "kredit");
-  const totalPosisiKeuanganDebit = calculateTotal("posisiKeuangan", "debit");
-  const totalPosisiKeuanganKredit = calculateTotal("posisiKeuangan", "kredit");
+  const totalLabaRugiDebit = calculateTotal('labaRugi', 'debit');
+  const totalLabaRugiKredit = calculateTotal('labaRugi', 'kredit');
+  const totalPosisiKeuanganDebit = calculateTotal('posisiKeuangan', 'debit');
+  const totalPosisiKeuanganKredit = calculateTotal('posisiKeuangan', 'kredit');
 
   const labaRugiBersih = totalLabaRugiDebit - totalLabaRugiKredit;
 

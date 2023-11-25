@@ -8,28 +8,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useGetAccounts } from '@/hooks/account/useGetAccounts';
 
-const AddEditJournal = ({ nama_akuns }) => {
-  const [akunList, setAkunList] = useState([
-    { nama_akun: '', debit: 0, kredit: 0 },
-  ]);
+export default function AddEditJournal({
+  params,
+}: {
+  params: { group_ref: number; business_types: string[]; limit: number };
+}) {
+  // const [akunList, setAkunList] = useState([
+  //   { nama_akun: '', debit: 0, kredit: 0 },
+  // ]);
 
-  const addAkun = () => {
-    setAkunList([...akunList, { nama_akun: '', debit: 0, kredit: 0 }]);
-  };
+  // const addAkun = () => {
+  //   setAkunList([...akunList, { nama_akun: '', debit: 0, kredit: 0 }]);
+  // };
 
-  const removeAkun = () => {
-    if (akunList.length > 1) {
-      const newList = [...akunList];
-      newList.pop();
-      setAkunList(newList);
-    }
-  };
+  // const removeAkun = () => {
+  //   if (akunList.length > 1) {
+  //     const newList = [...akunList];
+  //     newList.pop();
+  //     setAkunList(newList);
+  //   }
+  // };
 
+  const { data: accounts } = useGetAccounts({ params });
   return (
     <div className="mb-4">
       <h1 className="mb-2 font-semibold">Tambahkan Akun</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 text-black">
+      <div className="grid grid-cols-1 md:grid-cols -3 gap-4 mb-4 text-black">
         <div>
           <label className="block text-sm font-medium text-black">
             Nama Akun
@@ -39,9 +45,11 @@ const AddEditJournal = ({ nama_akuns }) => {
               <SelectValue placeholder="Cari Nama Akun." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="light">Toleweda</SelectItem>
-              <SelectItem value="dark">Darimaso</SelectItem>
-              <SelectItem value="system">Kikoko</SelectItem>
+              {accounts?.map((account) => (
+                <SelectItem key={String(account.id)} value={String(account.id)}>
+                  {account.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -74,9 +82,11 @@ const AddEditJournal = ({ nama_akuns }) => {
               <SelectValue placeholder="Cari Nama Akun." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="light">Toleweda</SelectItem>
-              <SelectItem value="dark">Darimaso</SelectItem>
-              <SelectItem value="system">Kikoko</SelectItem>
+              {accounts?.map((account) => (
+                <SelectItem key={account.id} value={account.id}>
+                  {account.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -101,6 +111,4 @@ const AddEditJournal = ({ nama_akuns }) => {
       </div>
     </div>
   );
-};
-
-export default AddEditJournal;
+}

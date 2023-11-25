@@ -116,7 +116,9 @@ export default function AddJournal() {
             </div>
           </div>
         </div>
-        <AddGeneralJournal nama_akuns={namaAkunsData} />
+        <AddGeneralJournal
+          params={{ group_ref: 0, business_types: [], limit: 0 }}
+        />
         <form onSubmit={handleSubmit}>
           <div className="my-10 ml-8 space-x-8">
             <Button type="button" className="btn btn-success">

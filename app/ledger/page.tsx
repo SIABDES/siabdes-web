@@ -1,12 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '@/components/layout/layout';
 import { TableComponent } from '@/components/table/table';
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
+import { useGetLedger } from '@/hooks/ledger/useGetLedger';
+import { useSession } from 'next-auth/react';
 
 export default function Ledger() {
+  const session = useSession();
+
+  const [selectedAccountId, setSelectedAccountId] = useState<number>(1);
+
   const tableData = [
     {
       No: '1',
@@ -41,14 +47,19 @@ export default function Ledger() {
       Saldo: '20000',
     },
   ];
+  {
+    const getLedgers = useGetLedger({
+      account_id: selectedAccountId,
+    });
 
-  return (
-    <Layout>
-      <div>
-        <h1 className="text-2xl font-bold mb-4 text-center">Buku Besar</h1>
-        <Combobox />
-        <TableComponent data={tableData} />
-      </div>
-    </Layout>
-  );
+    return (
+      <Layout>
+        <div>
+          <h1 className="text-2xl font-bold mb-4 text-center">Buku Besar</h1>
+          <Combobox />
+          {getLedgers.data && <TableComponent data={getLedgers.data} />}
+        </div>
+      </Layout>
+    );
+  }
 }
