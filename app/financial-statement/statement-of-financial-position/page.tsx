@@ -1,8 +1,9 @@
+"use client";
 import React from "react";
 import Layout from "@/components/layout/layout";
-import Table from "@/components/table/table";
 import TableFinancialStatement from "@/components/table/table-financial-statement";
 import { Button } from "@/components/ui/button";
+import { TableComponent } from "@/components/table/table";
 
 export default function statementOfFinancialPosition() {
   const tableTitle = [
@@ -13,7 +14,6 @@ export default function statementOfFinancialPosition() {
       range2: "31 Desember 2023",
     },
   ];
-  const tableHeaders = ["KodeRekening", "NamaAkun", "T2023", "T2022"];
   const tableData = [
     {
       KodeRekening: "1101",
@@ -81,14 +81,14 @@ export default function statementOfFinancialPosition() {
       T2023: "0",
       T2022: "0",
     },
+  ];
+  const tableFoot = [
     {
-      KodeRekening: "-",
       NamaAkun: "JUMLAH ASET",
       T2023: "0",
       T2022: "0",
     },
     {
-      KodeRekening: "-",
       NamaAkun: "JUMLAH KEWJIBAN DAN EKUITAS",
       T2023: "0",
       T2022: "0",
@@ -100,8 +100,17 @@ export default function statementOfFinancialPosition() {
         Laporan Keuangan Posisi Keuangan
       </h1>
       <Button className="mb-4">Rangeeeeee</Button>
-      <TableFinancialStatement data={tableTitle} />
-      <Table headers={tableHeaders} data={tableData} />
+      <h1 className="text-1xl font-bold mb-4 text-left">
+        Entitas Jasa <br />
+        Laporan Keuangan Posisi Keuangan <br />1 Januari 2022 - 31 Desember 2023
+      </h1>
+
+      <TableComponent
+        data={tableData}
+        onRowClick={() => {
+          console.log("row clicked");
+        }}
+      />
     </Layout>
   );
 }

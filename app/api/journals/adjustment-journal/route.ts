@@ -5,7 +5,7 @@ import { getSession } from "next-auth/react";
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
   const URL = process.env.API_URL;
-  const res = await fetch(`${URL}/journals?category=GENERAL`, {
+  const res = await fetch(`${URL}/journals?category=ADJUSTMENT`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

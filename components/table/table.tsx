@@ -5,7 +5,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
 interface TableProps {
   data: Record<string, React.ReactNode>[];
@@ -23,7 +23,9 @@ export const TableComponent: React.FC<TableProps> = ({
       <TableHeader>
         <TableRow>
           {headers.map((header) => (
-            <TableHead key={header}>{header}</TableHead>
+            <TableHead className="font-black " key={header}>
+              {header}
+            </TableHead>
           ))}
         </TableRow>
       </TableHeader>

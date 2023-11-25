@@ -1,35 +1,61 @@
 import React from "react";
+import { TableComponent } from "./table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface TableProps {
-  data: any[];
+  Header: Record<string, React.ReactNode>[];
+  data: Record<string, React.ReactNode>[];
+  Foot: Record<string, React.ReactNode>[];
+  onRowClick?: () => void;
 }
 
-const TableFinancialStatement: React.FC<TableProps> = ({ data }) => {
+const TableFinancialStatement: React.FC<TableProps> = ({
+  data,
+  onRowClick,
+  Header,
+  Foot,
+}) => {
   return (
     <div>
-      <table className="min-w-full border border-gray-300">
-        {data.map((item, index) => (
-          <thead key={index}>
-            <tr>
-              <th className="p-4 bg-gray-200 font-bold border border-gray-300">
+      <Table className="min-w-full border border-gray-300">
+        {Header.map((item, index) => (
+          <TableHeader key={index}>
+            <TableRow>
+              <TableHead className="p-4 bg-gray-200 font-bold border border-gray-300 text-center">
                 Entitas {item.unit}
-              </th>
-            </tr>
-            <tr>
-              <th className="p-4 bg-gray-200 font-bold border border-gray-300">
+              </TableHead>
+            </TableRow>
+            <TableRow>
+              <TableHead className="p-4 bg-gray-200 font-bold border border-gray-300 text-center">
                 Laporan {item.title}
-              </th>
-            </tr>
-            <tr>
-              <th className="p-4 bg-gray-200 font-bold border border-gray-300">
+              </TableHead>
+            </TableRow>
+            <TableRow>
+              <TableHead className="p-4 bg-gray-200 font-bold border border-gray-300 text-center">
                 {item.range1} - {item.range2}
-              </th>
-            </tr>
-          </thead>
+              </TableHead>
+            </TableRow>
+          </TableHeader>
         ))}
-        <tbody></tbody>
-        <tfoot></tfoot>
-      </table>
+        <TableBody>
+          <TableRow>
+            <TableCell>
+              <TableComponent data={data} onRowClick={onRowClick} />
+            </TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        </TableBody>
+        <TableFooter className="font-bold"></TableFooter>
+      </Table>
+      <TableComponent data={Foot} />
     </div>
   );
 };

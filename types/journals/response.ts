@@ -1,7 +1,7 @@
-import { GeneralJournalType } from '.';
+import { JournalType } from ".";
 
-export type GeneralJournalDetailsResponse = GeneralJournalType;
+export type JournalDetailsResponse = JournalType;
 
-export type GeneralJournalResponse = {
-  journals: GeneralJournalType[];
+export type JournalResponse = {
+  journals: JournalType[];
 };

@@ -1,4 +1,4 @@
-import { GeneralJournalDetailsResponse } from "@/types/journals/response";
+import { JournalDetailsResponse } from "@/types/journals/response";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -11,7 +11,7 @@ export function useGetJournalDetails({
     data: {
       statusCode: number;
       message: string;
-      data: GeneralJournalDetailsResponse;
+      data: JournalDetailsResponse;
     };
   };
 
@@ -29,8 +29,8 @@ export function useGetJournalDetails({
       const transactions: Record<string, React.ReactNode>[] =
         result.data_transactions.map((transaction) => {
           return {
-            "No Ref": transaction.account_id,
-            "Nama Akun": "Bambang akun",
+            "No Ref": transaction.account_ref,
+            "Nama Akun": transaction.account_name,
             Debit: transaction.is_credit ? 0 : transaction.amount,
             Kredit: transaction.is_credit ? transaction.amount : 0,
           };

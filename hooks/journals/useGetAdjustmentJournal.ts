@@ -3,7 +3,7 @@ import { JournalResponse } from "@/types/journals/response";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export function useGetGeneralJournal() {
+export function useGetAdjustmentJournal() {
   type BackendResponseSchema = {
     data: {
       statusCode: number;
@@ -12,11 +12,11 @@ export function useGetGeneralJournal() {
     };
   };
 
-  const getGeneralJournal = useQuery({
-    queryKey: ["general-journal"],
+  const getAdjustmentJournal = useQuery({
+    queryKey: ["adjustment-journal"],
     queryFn: async () => {
       const response = await axios.get<BackendResponseSchema>(
-        `/api/journals/general-journal`
+        `/api/journals/adjustment-journal`
       );
       const responseData = response.data;
       const result = responseData.data.data;
@@ -40,5 +40,5 @@ export function useGetGeneralJournal() {
     },
   });
 
-  return getGeneralJournal;
+  return getAdjustmentJournal;
 }
