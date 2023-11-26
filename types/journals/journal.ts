@@ -16,3 +16,10 @@ export type JournalType = {
   evidence: string;
   data_transactions: JournalTransactionType[];
 };
+
+export type JournalTransactionFormDataType = {
+  index: number;
+  account_id: number;
+  credit: number;
+  debit: number;
+};

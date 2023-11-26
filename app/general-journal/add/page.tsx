@@ -1,11 +1,17 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Layout from '@/components/layout/layout';
-import AddGeneralJournal from '@/components/add-edit-journal';
-import { Button } from '@/components/ui/button';
-import { useSession } from 'next-auth/react';
-import { useGetAccounts } from '@/hooks/account/useGetAccounts';
+import React, { useEffect, useState } from "react";
+import Layout from "@/components/layout/layout";
+import AddGeneralJournal from "@/components/add-edit-journal";
+import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import { useGetAccounts } from "@/hooks/account/useGetAccounts";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import JournalTransactionsForm from "@/components/pages/journals/journal-transactions-form";
+import NewTransactionForm from "@/components/pages/journals/new-transaction-form";
+import { JournalTransactionFormDataType } from "@/types/journals";
+import { useAddGeneralJournal } from "@/hooks/journals/useAddGeneralJournal";
 
 export default function AddJournal() {
   // const namaAkunsData = ['Akun 1', 'Akun 2', 'Akun 3'];
@@ -13,62 +19,61 @@ export default function AddJournal() {
   // const [selectedAccountId, setSelectedAccountId] = useState<number>(1);
   const getAccounts = useGetAccounts();
 
-  const session = useSession();
   const [formData, setFormData] = useState({
-    jenis_transaksi: '',
-    tanggal: '',
-    bukti_transaksi: '',
-    jumlah: '',
-    nomor_akun: '',
+    jenis_transaksi: "",
+    tanggal: "",
+    bukti_transaksi: "",
+    jumlah: "",
+    nomor_akun: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const [transactions, setTransactions] = useState<
+    JournalTransactionFormDataType[]
+  >([]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const { mutateAsync } = useAddGeneralJournal();
 
-    try {
-      const res = await fetch('http://localhost:8080/api/v1/general_journals', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.data?.backendTokens.accessToken}`,
-        },
-        body: JSON.stringify({
-          description: formData.jenis_transaksi,
-          occured_at: formData.tanggal,
-          evidence: formData.bukti_transaksi,
-          data_transactions: [
-            {
-              amount: formData.jumlah,
-              is_credit: false,
-              account_ref: formData.nomor_akun,
-            },
-            {
-              amount: formData.jumlah,
-              is_credit: true,
-              account_ref: formData.nomor_akun,
-            },
-          ],
-        }),
-      });
-
-      if (res.ok) {
-        const result = await res.json();
-        console.log('Transaction created successfully:', result);
-      } else {
-        console.error('Failed to add journal');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
   return (
     <Layout>
-      <div className="container ">
+      <div className="grid grid-flow-col gap-x-8">
+        <div className="col-span-4">
+          <Label>Deskripsi</Label>
+          <Input name="deskripsi" className="" />
+        </div>
+
+        <div className="col-span-4">
+          <Label>Tanggal Transaksi</Label>
+          <Input name="occured_at" type="date" />
+        </div>
+
+        <div className="col-span-4">
+          <Label>Bukti Transaksi</Label>
+          <Input name="evidence" type="file" className="cursor-pointer" />
+        </div>
+      </div>
+
+      <div className="pt-8">
+        <p>Data Transaksi</p>
+        {transactions.map((transaction) => (
+          <JournalTransactionsForm
+            key={transaction.index}
+            index={transaction.index}
+            transactions={transactions}
+            setTransactions={setTransactions}
+          />
+        ))}
+      </div>
+
+      <NewTransactionForm
+        transactions={transactions}
+        setTransactions={setTransactions}
+      />
+
+      <div className="pt-8">
+        <Button>Tambah Jurnal</Button>
+      </div>
+
+      {/* <div className="container ">
         <h1 className="text-2xl font-bold mb-5 text-center">
           Tambah Jurnal Umum
         </h1>
@@ -122,7 +127,7 @@ export default function AddJournal() {
           </div>
         </div>
         <AddGeneralJournal />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={() => {}}>
           <div className="my-10 ml-8 space-x-8">
             <Button type="button" className="btn btn-success">
               Tambah Akun
@@ -135,7 +140,7 @@ export default function AddJournal() {
             </Button>
           </div>
         </form>
-      </div>
+      </div> */}
     </Layout>
   );
 }
