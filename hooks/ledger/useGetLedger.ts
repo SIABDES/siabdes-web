@@ -51,7 +51,6 @@ export function useGetLedger({
           }
         );
 
-      console.log(transactions);
       return transactions ?? [];
     },
   });

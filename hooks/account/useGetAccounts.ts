@@ -18,6 +18,7 @@ export function useGetAccounts() {
       const responseData = response.data;
       const result = responseData.data.data;
 
+      console.log(result);
       const accounts: Record<string, React.ReactNode>[] = result.accounts.map(
         (account) => {
           return {

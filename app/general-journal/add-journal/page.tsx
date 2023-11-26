@@ -5,9 +5,14 @@ import Layout from '@/components/layout/layout';
 import AddGeneralJournal from '@/components/add-edit-journal';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
+import { useGetAccounts } from '@/hooks/account/useGetAccounts';
 
 export default function AddJournal() {
-  const namaAkunsData = ['Akun 1', 'Akun 2', 'Akun 3'];
+  // const namaAkunsData = ['Akun 1', 'Akun 2', 'Akun 3'];
+
+  // const [selectedAccountId, setSelectedAccountId] = useState<number>(1);
+  const getAccounts = useGetAccounts();
+
   const session = useSession();
   const [formData, setFormData] = useState({
     jenis_transaksi: '',
@@ -63,11 +68,11 @@ export default function AddJournal() {
   };
   return (
     <Layout>
-      <div>
+      <div className="container ">
         <h1 className="text-2xl font-bold mb-5 text-center">
           Tambah Jurnal Umum
         </h1>
-        <div className="container mb-4">
+        <div className="mb-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="mb-4">
               <label
@@ -116,9 +121,7 @@ export default function AddJournal() {
             </div>
           </div>
         </div>
-        <AddGeneralJournal
-          params={{ group_ref: 0, business_types: [], limit: 0 }}
-        />
+        <AddGeneralJournal />
         <form onSubmit={handleSubmit}>
           <div className="my-10 ml-8 space-x-8">
             <Button type="button" className="btn btn-success">

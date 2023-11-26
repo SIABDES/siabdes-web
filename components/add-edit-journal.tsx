@@ -10,11 +10,7 @@ import {
 } from '@/components/ui/select';
 import { useGetAccounts } from '@/hooks/account/useGetAccounts';
 
-export default function AddEditJournal({
-  params,
-}: {
-  params: { group_ref: number; business_types: string[]; limit: number };
-}) {
+export default function AddEditJournal() {
   // const [akunList, setAkunList] = useState([
   //   { nama_akun: '', debit: 0, kredit: 0 },
   // ]);
@@ -31,7 +27,8 @@ export default function AddEditJournal({
   //   }
   // };
 
-  const { data: accounts } = useGetAccounts({ params });
+  const accountsQuery = useGetAccounts();
+  const accounts = accountsQuery.data as Record<string, React.ReactNode>[];
   return (
     <div className="mb-4">
       <h1 className="mb-2 font-semibold">Tambahkan Akun</h1>
@@ -46,7 +43,7 @@ export default function AddEditJournal({
             </SelectTrigger>
             <SelectContent>
               {accounts?.map((account) => (
-                <SelectItem key={String(account.id)} value={String(account.id)}>
+                <SelectItem key={account.id} value={account.id}>
                   {account.name}
                 </SelectItem>
               ))}

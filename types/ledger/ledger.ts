@@ -1,7 +1,7 @@
 export type LedgerTransactionType = {
   amount: number;
   is_credit: boolean;
-  occurred_at: string;
+  occurred_at: Date | string;
   description: string;
   account_name: string;
   calculation_result: number;
