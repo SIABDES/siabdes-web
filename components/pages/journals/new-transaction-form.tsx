@@ -2,6 +2,7 @@
 
 import { JournalTransactionFormDataType } from "@/types/journals";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
+import { nanoid } from "nanoid";
 
 interface NewTransactionFormProps {
   transactions: JournalTransactionFormDataType[];
@@ -11,23 +12,17 @@ interface NewTransactionFormProps {
 }
 
 export default function NewTransactionForm(props: NewTransactionFormProps) {
-  const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    const newTransaction: JournalTransactionFormDataType = {
-      index: props.transactions.length + 1,
-      account_id: -1,
-      credit: 0,
-      debit: 0,
-    };
-
-    props.setTransactions((prev) => prev.concat(newTransaction));
+  const handleAddTransaction = () => {
+    props.setTransactions([
+      ...props.transactions,
+      { unique_id: nanoid(3), account_id: undefined, debit: 0, credit: 0 },
+    ]);
   };
 
   return (
     <button
       className="border w-full py-6 mt-8 group hover:border-primary rounded-md"
-      onClick={handleOnClick}
+      onClick={handleAddTransaction}
     >
       <p className="text-muted-foreground group-hover:text-primary font-medium">
         <span className="flex items-center justify-center gap-x-4">

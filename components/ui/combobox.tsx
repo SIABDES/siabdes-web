@@ -1,51 +1,38 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
 
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from '@/components/ui/command';
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from "@/components/ui/popover";
+import { ScrollArea } from "./scroll-area";
 
-import { useGetLedger } from '@/hooks/ledger/useGetLedger';
+type ComboBoxItem = { label: string; value: string };
 
-const frameworks = [
-  {
-    value: 'akun satu',
-    label: 'Akun satu',
-  },
-  {
-    value: 'akun dua',
-    label: 'Akun dua',
-  },
-  {
-    value: 'akun tiga',
-    label: 'Akun tiga',
-  },
-  {
-    value: 'akun empat',
-    label: 'Akun empat',
-  },
-  {
-    value: 'akun lima',
-    label: 'Akun lima',
-  },
-];
+interface ComboBoxProps {
+  items: ComboBoxItem[];
+  placeholder?: string;
+  notFoundText?: string;
+  className?: string;
+  value?: string;
+  setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
+  height?: "short" | "medium" | "tall";
+}
 
-export function Combobox() {
+export function ComboBox({ height = "medium", ...props }: ComboBoxProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('');
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -54,38 +41,56 @@ export function Combobox() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between bg-[#DAF4FF] hover:bg-[#4194CB] mb-6"
+          className={cn("justify-between w-[200px]", props.className)}
         >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : 'Cari Akun...'}
+          {props.value
+            ? props.items.find((item) => item.value === props.value)?.label
+            : props.placeholder ?? "Pilih item"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className={cn("p-0 w-[200px]", props.className)}>
         <Command>
-          <CommandInput placeholder="Cari Akun..." />
-          <CommandEmpty>Tidak ditemukan.</CommandEmpty>
-          <CommandGroup>
-            {frameworks.map((framework) => (
-              <CommandItem
-                key={framework.value}
-                value={framework.value}
-                onSelect={(currentValue) => {
-                  setValue(currentValue === value ? '' : currentValue);
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    'mr-2 h-4 w-4',
-                    value === framework.value ? 'opacity-100' : 'opacity-0'
-                  )}
-                />
-                {framework.label}
-              </CommandItem>
-            ))}
-          </CommandGroup>
+          <CommandInput placeholder={props.placeholder ?? "Cari item"} />
+          <ScrollArea
+            className={cn(
+              height === "medium" && "h-48",
+              height === "short" && "h-32",
+              height === "tall" && "h-64"
+            )}
+          >
+            <CommandEmpty>
+              {props.notFoundText ?? "Item tidak ditemukan."}
+            </CommandEmpty>
+            <CommandGroup>
+              {props.items.map((item) => (
+                <CommandItem
+                  key={item.value}
+                  value={item.label}
+                  // onSelect={(currentValue) => {
+                  //   props.setValue(
+                  //     currentValue === props.value ? "" : currentValue
+                  //   );
+                  //   setOpen(false);
+                  // }}
+                  onSelect={() => {
+                    props.setValue(
+                      item.value === props.value ? "" : item.value
+                    );
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      props.value === item.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {item.label}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </ScrollArea>
         </Command>
       </PopoverContent>
     </Popover>

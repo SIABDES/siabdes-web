@@ -1,89 +1,129 @@
 "use client";
 
+import {
+  formatNumber,
+  reverseFormatNumber,
+} from "@/common/helpers/number-format";
+import FormInput from "@/components/patan-ui/form/form-input";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { ComboBox } from "@/components/ui/combobox";
 import { Label } from "@/components/ui/label";
+import { useGetAccounts } from "@/hooks/account/useGetAccounts";
+import { AccountType } from "@/types/accounts";
 import { JournalTransactionFormDataType } from "@/types/journals";
 import { TrashIcon } from "@radix-ui/react-icons";
+import { useEffect, useState } from "react";
 
 interface JournalTransactionsFormProps {
   index: number;
-  transactions: JournalTransactionFormDataType[];
+  transaction: JournalTransactionFormDataType;
+  isAbleToDelete: boolean;
   setTransactions: React.Dispatch<
     React.SetStateAction<JournalTransactionFormDataType[]>
   >;
+  accounts: AccountType[];
 }
 
 export default function JournalTransactionsForm(
   props: JournalTransactionsFormProps
 ) {
-  const currentTransaction = props.transactions[props.index];
-  const isAbleToDelete = props.transactions.length > 2;
+  const [accountId, setAccountId] = useState<string | undefined>(
+    props.transaction.account_id?.toString()
+  );
 
-  if (!currentTransaction) {
-    return null;
-  }
+  useEffect(() => {
+    if (!accountId) return;
 
-  const handleChangeDebit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // e.preventDefault();
-    const debit = parseInt(e.target.value);
     props.setTransactions((prev) =>
       prev.map((transaction) => {
-        if (transaction.index === props.index) {
-          return { ...transaction, debit };
-        } else {
-          return transaction;
+        if (transaction.unique_id === props.transaction.unique_id) {
+          return { ...transaction, account_id: parseInt(accountId) };
         }
+        return transaction;
+      })
+    );
+  }, [accountId]);
+
+  const handleChangeDebit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newValue = reverseFormatNumber(e.target.value);
+
+    if (newValue === "" || props.transaction.credit > 0) {
+      newValue = "0";
+    }
+
+    props.setTransactions((prev) =>
+      prev.map((transaction) => {
+        if (transaction.unique_id === props.transaction.unique_id) {
+          return { ...transaction, debit: parseFloat(newValue) }; // Use newValue here
+        }
+        return transaction;
       })
     );
   };
 
   const handleChangeCredit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // e.preventDefault();
-    const credit = parseInt(e.target.value ?? 0);
+    let newValue = reverseFormatNumber(e.target.value);
+
+    if (newValue === "" || props.transaction.debit > 0) {
+      newValue = "0";
+    }
+
     props.setTransactions((prev) =>
       prev.map((transaction) => {
-        if (transaction.index === props.index) {
-          return { ...transaction, credit };
-        } else {
-          return transaction;
+        if (transaction.unique_id === props.transaction.unique_id) {
+          return { ...transaction, credit: parseFloat(newValue) }; // Use newValue here
         }
+        return transaction;
       })
     );
   };
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleDeleteTransaction = () => {
+    if (!props.isAbleToDelete) return;
 
     props.setTransactions((prev) =>
-      prev.filter((transaction) => transaction.index !== props.index)
+      prev.filter(
+        (transaction) => transaction.unique_id !== props.transaction.unique_id
+      )
     );
   };
 
   return (
     <div className="grid items-end grid-flow-col gap-x-8 pt-8">
-      <div className="col-span-7">
-        <Label>Akun</Label>
-        <Input type="text" name="debit" />
-      </div>
-
-      <div className="col-span-2">
-        <Label>Debit</Label>
-        <Input
-          type="number"
-          name="debit"
-          value={currentTransaction.debit}
-          onChange={(e) => handleChangeDebit(e)}
+      <div className=" flex flex-col gap-y-2">
+        <Label>Akun {props.index}</Label>
+        <ComboBox
+          items={
+            props.accounts.map((account) => ({
+              label: `${account.ref} - ${account.name}`,
+              value: account.id.toString(),
+            })) ?? []
+          }
+          className="min-w-[32rem]"
+          value={accountId}
+          setValue={setAccountId}
         />
       </div>
 
       <div className="col-span-2">
-        <Label>Kredit</Label>
-        <Input
-          type="number"
+        <FormInput
+          label="Debit"
           name="debit"
-          value={currentTransaction.credit}
-          onChange={(e) => handleChangeCredit(e)}
+          onChange={handleChangeDebit}
+          value={formatNumber(props.transaction.debit)}
+          type="text"
+          disabled={props.transaction.credit > 0}
+        />
+      </div>
+
+      <div className="col-span-2">
+        <FormInput
+          label="Kredit"
+          name="kredit"
+          onChange={handleChangeCredit}
+          value={formatNumber(props.transaction.credit)}
+          type="text"
+          disabled={props.transaction.debit > 0}
         />
       </div>
 
@@ -91,8 +131,8 @@ export default function JournalTransactionsForm(
         <Button
           variant={"destructive"}
           size={"icon"}
-          disabled={!isAbleToDelete}
-          onClick={(e) => handleDelete(e)}
+          onClick={handleDeleteTransaction}
+          disabled={!props.isAbleToDelete}
         >
           <TrashIcon className="w-4 h-4" />
         </Button>

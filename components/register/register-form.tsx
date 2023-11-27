@@ -1,10 +1,10 @@
-'use client';
-import React, { useState, useRef } from 'react';
-import CustomInput from './custome-input';
-import { ComboboxDemo } from '../ui/combobox';
-import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons';
-import { Button } from '../ui/button';
-import { Backend_URL } from '@/lib/constants';
+"use client";
+import React, { useState, useRef } from "react";
+import CustomInput from "./custome-input";
+import { Combobox } from "../ui/combobox";
+import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
+import { Button } from "../ui/button";
+import { Backend_URL } from "@/lib/constants";
 
 type FormInputs = {
   namaBumdes: string;
@@ -33,24 +33,24 @@ const RegisterForm = () => {
   };
 
   const data = useRef<FormInputs>({
-    namaBumdes: '',
-    email: '',
-    provinsi: '',
-    kabupaten: '',
-    kecamatan: '',
-    desa: '',
-    kodePos: '',
-    nomorTelepon: '',
-    alamatLengkap: '',
-    kataSandi: '',
-    konfirmasiKataSandi: '',
+    namaBumdes: "",
+    email: "",
+    provinsi: "",
+    kabupaten: "",
+    kecamatan: "",
+    desa: "",
+    kodePos: "",
+    nomorTelepon: "",
+    alamatLengkap: "",
+    kataSandi: "",
+    konfirmasiKataSandi: "",
   });
 
   const register = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log({ data: data.current });
-    const res = await fetch(Backend_URL + '/auth/register', {
-      method: 'POST',
+    const res = await fetch(Backend_URL + "/auth/register", {
+      method: "POST",
       body: JSON.stringify({
         identifier: data.current.email,
         password: data.current.kataSandi,
@@ -67,7 +67,7 @@ const RegisterForm = () => {
         },
       }),
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
     if (!res.ok) {
@@ -75,7 +75,7 @@ const RegisterForm = () => {
       return;
     }
     const response = await res.json();
-    alert('User Registered!');
+    alert("User Registered!");
     console.log({ response });
   };
 
@@ -173,7 +173,7 @@ const RegisterForm = () => {
               <div className="relative flex items-center">
                 <CustomInput
                   label="Kata Sandi"
-                  type={passwordVisible ? 'text' : 'password'}
+                  type={passwordVisible ? "text" : "password"}
                   id="kataSandi"
                   name="kataSandi"
                   placeholder="Masukkan Kata Sandi"
@@ -197,7 +197,7 @@ const RegisterForm = () => {
               <div className="relative flex items-center">
                 <CustomInput
                   label="Konfirmasi Kata Sandi"
-                  type={confirmPasswordVisible ? 'text' : 'password'}
+                  type={confirmPasswordVisible ? "text" : "password"}
                   id="konfirmasiKataSandi"
                   name="konfirmasiKataSandi"
                   placeholder="Masukkan Ulang Kata Sandi"

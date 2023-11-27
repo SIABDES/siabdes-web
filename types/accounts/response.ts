@@ -1,3 +1,4 @@
-import { AccountsType } from './index';
+import { BackendResponseType } from "@/common/types";
+import { AccountsType } from "./index";
 
-export type AccountsResponse = AccountsType;
+export type GetAccountsResponse = BackendResponseType<AccountsType>;

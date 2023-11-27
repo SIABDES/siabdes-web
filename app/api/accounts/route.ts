@@ -1,31 +1,29 @@
-import { authOptions } from '../auth/[...nextauth]/route';
-import { getServerSession } from 'next-auth';
-import axios from 'axios';
-import { NextRequest } from 'next/server';
+import { authOptions } from "../auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import axios from "axios";
+import { NextRequest, NextResponse } from "next/server";
+import { AxiosAuthed } from "@/common/api";
+import { ACCOUNTS } from "@/common/api/urls";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  const { nextUrl } = request;
-
-  const account_id = nextUrl.searchParams.get('account_id');
-
-  if (!account_id) {
-    return Response.json({ message: 'account_id is required' });
+  if (!session) {
+    return NextResponse.redirect("/auth/signin");
   }
 
-  const backendUrl = process.env.API_URL;
-  const res = await axios.get(`${backendUrl}/accounts`, {
-    params: {
-      account_id: 1,
-    },
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${session?.backendTokens.accessToken}`,
-    },
-  });
+  const { nextUrl } = request;
 
-  const data = res.data;
+  const account_id = nextUrl.searchParams.get("account_id");
 
-  return Response.json({ data });
+  const res = await AxiosAuthed(session?.backendTokens.accessToken).get(
+    ACCOUNTS,
+    {
+      params: {
+        account_id: account_id ? account_id : undefined,
+      },
+    }
+  );
+
+  return NextResponse.json(res.data);
 }

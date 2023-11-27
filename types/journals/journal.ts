@@ -18,8 +18,8 @@ export type JournalType = {
 };
 
 export type JournalTransactionFormDataType = {
-  index: number;
-  account_id: number;
+  unique_id: string;
+  account_id: number | undefined;
   credit: number;
   debit: number;
 };
