@@ -113,7 +113,7 @@ export default function JournalTransactionsForm(
   };
 
   return (
-    <div className="grid items-end grid-flow-col gap-x-8 pt-8">
+    <div className="grid items-end grid-flow-col gap-x-8">
       <div className=" flex flex-col gap-y-2">
         <Label>Akun {props.index}</Label>
         <ComboBox

@@ -1,8 +1,6 @@
 import { BackendResponseType } from "@/common/types";
 import { JournalCategoryType, JournalType } from ".";
 
-export type JournalDetailsResponse = JournalType;
-
 export type JournalResponse = {
   journals: JournalType[];
 };
@@ -19,3 +17,5 @@ export type AddGeneralJournalResponse = BackendResponseType<{
   id: string;
   category: JournalCategoryType;
 }>;
+
+export type GetJournalDetailsResponse = BackendResponseType<JournalType>;

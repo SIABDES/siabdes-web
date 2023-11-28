@@ -28,6 +28,7 @@ export default function FormInput({
     <div className={cn(className)}>
       <Label htmlFor={name}>{label}</Label>
       <Input
+        className="mt-1"
         name={name}
         id={name}
         placeholder={placeholder}

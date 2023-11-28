@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { JournalTransactionFormDataType } from "@/types/journals";
 import { PlusCircleIcon } from "lucide-react";
 
@@ -10,6 +11,7 @@ interface NewTransactionFormProps {
   setTransactions: React.Dispatch<
     React.SetStateAction<JournalTransactionFormDataType[]>
   >;
+  className?: string;
 }
 
 export default function NewTransactionForm(props: NewTransactionFormProps) {
@@ -22,7 +24,10 @@ export default function NewTransactionForm(props: NewTransactionFormProps) {
 
   return (
     <button
-      className="border w-full py-6 mt-8 group hover:border-primary rounded-md"
+      className={cn(
+        "border w-full py-6 mt-8 group hover:border-primary rounded-md",
+        props.className
+      )}
       onClick={handleAddTransaction}
     >
       <p className="text-muted-foreground group-hover:text-primary font-medium">

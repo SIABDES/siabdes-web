@@ -1,17 +1,14 @@
-"use client";
-
 import { AxiosClientSide } from "@/common/api";
-import { AddGeneralJournalResponse } from "@/types/journals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export function useAddGeneralJournal() {
+export function useEditJournal({ journal_id }: { journal_id: string }) {
   const queryClient = useQueryClient();
 
   const getGeneralJournals = useMutation({
-    mutationKey: ["general-journals/add"],
+    mutationKey: ["general-journals/edit", journal_id],
     mutationFn: async (formData: FormData) => {
-      const res = await AxiosClientSide.post<AddGeneralJournalResponse>(
-        "/journals/general-journals",
+      const res = await AxiosClientSide.put(
+        `/journals/${journal_id}/edit`,
         formData
       );
 
@@ -19,7 +16,7 @@ export function useAddGeneralJournal() {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["general-journals"],
+        queryKey: ["journal-details", journal_id],
       });
     },
   });
