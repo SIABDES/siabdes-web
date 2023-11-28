@@ -24,10 +24,6 @@ export function QueryClientProvider({ children }: PropsWithChildren) {
   return (
     <TanstackQueryClientProvider client={queryClient}>
       <ReactQueryStreamedHydration>{children}</ReactQueryStreamedHydration>
-
-      {process.env.NODE_ENV === "development" && (
-        <ReactQueryDevtools initialIsOpen={false} />
-      )}
     </TanstackQueryClientProvider>
   );
 }

@@ -1,9 +1,7 @@
 import { AxiosClientSide } from "@/common/api";
 import { ACCOUNTS } from "@/common/api/urls";
-import { BackendResponseType } from "@/common/types";
 import { GetAccountsResponse } from "@/types/accounts/response";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 
 export function useGetAccounts() {
   const getAccounts = useQuery({

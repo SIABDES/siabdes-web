@@ -36,7 +36,10 @@ export function useGetJournalDetails({
           };
         });
 
-      return transactions ?? [];
+      return {
+        ...result,
+        data_transactions: transactions,
+      };
     },
   });
 

@@ -1,4 +1,11 @@
 export * from "./journal";
 export * from "./response";
+export * from "./request";
+export * from "./validators";
 
-export type JournalCategoryType = "GENERAL" | "ADJUSTMENT";
+export enum JournalCategory {
+  GENERAL = "GENERAL",
+  ADJUSTMENT = "ADJUSTMENT",
+}
+
+export type JournalCategoryType = keyof typeof JournalCategory;

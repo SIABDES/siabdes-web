@@ -1,6 +1,6 @@
-"use client";
-import React, { useState } from "react";
-import Link from "next/link";
+'use client';
+import React, { useState } from 'react';
+import Link from 'next/link';
 import {
   HomeIcon, //dashboard
   ClipboardEditIcon, //general-journal
@@ -12,37 +12,37 @@ import {
   BoxesIcon, //data-master
   ChevronLeftIcon,
   MoveDownIcon,
-} from "lucide-react";
-import LogoBlack from "../../public/Logo-black.png";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+} from 'lucide-react';
+import LogoBlack from '../../public/Logo-black.png';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const Menus = [
-  { title: "Dashboard", icon: HomeIcon, href: "/dashboard" },
-  { title: "Jurnal Umum", icon: ClipboardEditIcon, href: "/general-journal" },
-  { title: "Buku Besar", icon: BookOpenIcon, href: "/ledger" },
+  { title: 'Dashboard', icon: HomeIcon, href: '/dashboard' },
+  { title: 'Jurnal Umum', icon: ClipboardEditIcon, href: '/general-journal' },
+  { title: 'Buku Besar', icon: BookOpenIcon, href: '/ledger' },
   {
-    title: "Neraca Lajur",
+    title: 'Neraca Lajur',
     // spacing: true,
     icon: ClipboardListIcon,
-    href: "/working-trial-balance",
+    href: '/working-trial-balance',
   },
   {
-    title: "Laporan Keuangan",
+    title: 'Laporan Keuangan',
     submenu: true,
     submenuItems: [
       {
-        title: "Posisi Keuangan",
-        href: "/financial-statement/statement-of-financial-position",
+        title: 'Posisi Keuangan',
+        href: '/financial-statement/statement-of-financial-position',
       },
-      { title: "Laba Rugi", href: "/financial-statement/income-statement" },
-      { title: "CALK", href: "/financial-statement/calk" },
+      { title: 'Laba Rugi', href: '/financial-statement/income-statement' },
+      { title: 'CALK', href: '/financial-statement/calk' },
     ],
     icon: DollarSignIcon,
   },
-  { title: "Jurnal Penutup", icon: ClipboardCheckIcon, href: "/closing-entry" },
-  { title: "Perpajakan", icon: CalculatorIcon, href: "/tax" },
-  { title: "Data Master", icon: BoxesIcon, href: "/data-master" },
+  { title: 'Jurnal Penutup', icon: ClipboardCheckIcon, href: '/closing-entry' },
+  { title: 'Perpajakan', icon: CalculatorIcon, href: '/tax' },
+  { title: 'Data Master', icon: BoxesIcon, href: '/data-master' },
 ];
 
 export default function Sidebar() {
@@ -60,12 +60,12 @@ export default function Sidebar() {
     <div className="flex">
       <div
         className={`bg-[#4194CB] h-screen p-5 pt-8 ${
-          open ? "w-72" : "w-20"
+          open ? 'w-72' : 'w-20'
         } duration-300 relative`}
       >
         <ChevronLeftIcon
           className={`bg-white text-black text-3xl rounded-full absolute -right-3 top-9 border border-neutral-950 cursor-pointer 
-          ${!open && "rotate-180"}`}
+          ${!open && 'rotate-180'}`}
           onClick={() => setOpen(!open)}
         />
         <div className="inline-flex">
@@ -73,12 +73,12 @@ export default function Sidebar() {
             src={LogoBlack}
             alt="Logo"
             className={`bg-slate-100 text-4xl rounded cursor-pointer block float-left mr-2 duration-500 ${
-              open && "rotate-[360deg] w-12"
-            } ${!open && "w-9 h-8"}`}
+              open && 'rotate-[360deg] w-12'
+            } ${!open && 'w-9 h-8'}`}
           />
           <h1
             className={`text-white origin-left font-medium text-2xl duration-300 pt-2 ${
-              !open && "scale-0"
+              !open && 'scale-0'
             }`}
           >
             SIABDes TAXIon
@@ -96,16 +96,18 @@ export default function Sidebar() {
                 </span>
                 <span
                   className={`text-base font-medium flex-1 ${
-                    !open && "hidden"
+                    !open && 'hidden'
                   }`}
                 >
                   {menu.title}
                 </span>
                 {menu.submenu && open && (
-                  <MoveDownIcon
-                    className={`${subMenuOpen && "rotate-180"}`}
+                  <div
+                    className={`${subMenuOpen && 'rotate-180'}`}
                     onClick={() => setSubmenuOpen(!subMenuOpen)}
-                  />
+                  >
+                    👍
+                  </div>
                 )}
               </li>
               {menu.submenu && subMenuOpen && open && (

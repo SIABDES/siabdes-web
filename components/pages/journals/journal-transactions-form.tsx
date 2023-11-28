@@ -8,10 +8,16 @@ import FormInput from "@/components/patan-ui/form/form-input";
 import { Button } from "@/components/ui/button";
 import { ComboBox } from "@/components/ui/combobox";
 import { Label } from "@/components/ui/label";
-import { useGetAccounts } from "@/hooks/account/useGetAccounts";
+import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { AccountType } from "@/types/accounts";
 import { JournalTransactionFormDataType } from "@/types/journals";
-import { TrashIcon } from "@radix-ui/react-icons";
+import { TrashIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface JournalTransactionsFormProps {
@@ -31,8 +37,26 @@ export default function JournalTransactionsForm(
     props.transaction.account_id?.toString()
   );
 
+  const hasAccount =
+    accountId === undefined || accountId.trim().length === 0 ? false : true;
+
   useEffect(() => {
-    if (!accountId) return;
+    if (!accountId) {
+      props.setTransactions((prev) =>
+        prev.map((transaction) => {
+          if (transaction.unique_id === props.transaction.unique_id) {
+            return {
+              ...transaction,
+              account_id: undefined,
+              debit: 0,
+              credit: 0,
+            };
+          }
+          return transaction;
+        })
+      );
+      return;
+    }
 
     props.setTransactions((prev) =>
       prev.map((transaction) => {
@@ -112,7 +136,7 @@ export default function JournalTransactionsForm(
           onChange={handleChangeDebit}
           value={formatNumber(props.transaction.debit)}
           type="text"
-          disabled={props.transaction.credit > 0}
+          disabled={props.transaction.credit > 0 || !hasAccount}
         />
       </div>
 
@@ -123,20 +147,33 @@ export default function JournalTransactionsForm(
           onChange={handleChangeCredit}
           value={formatNumber(props.transaction.credit)}
           type="text"
-          disabled={props.transaction.debit > 0}
+          disabled={props.transaction.debit > 0 || !hasAccount}
         />
       </div>
 
       <div className="inline-flex justify-end w-full col-span-1">
-        <Button
-          variant={"destructive"}
-          size={"icon"}
-          onClick={handleDeleteTransaction}
-          disabled={!props.isAbleToDelete}
-        >
-          <TrashIcon className="w-4 h-4" />
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant={"destructive"}
+                size={"icon"}
+                onClick={handleDeleteTransaction}
+                disabled={!props.isAbleToDelete}
+              >
+                <TrashIcon size={16} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-destructive text-destructive-foreground">
+              {props.isAbleToDelete
+                ? "Hapus data transaksi"
+                : "Minimal harus ada 2 data transaksi"}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
+
+      <Separator className="w-full" />
     </div>
   );
 }
