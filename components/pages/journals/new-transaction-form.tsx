@@ -1,7 +1,8 @@
 "use client";
 
 import { JournalTransactionFormDataType } from "@/types/journals";
-import { PlusCircledIcon } from "@radix-ui/react-icons";
+import { PlusCircleIcon } from "lucide-react";
+
 import { nanoid } from "nanoid";
 
 interface NewTransactionFormProps {
@@ -26,7 +27,7 @@ export default function NewTransactionForm(props: NewTransactionFormProps) {
     >
       <p className="text-muted-foreground group-hover:text-primary font-medium">
         <span className="flex items-center justify-center gap-x-4">
-          <PlusCircledIcon className="h-5 w-5" />
+          <PlusCircleIcon size={18} />
           Tambah Data Transaksi
         </span>
       </p>

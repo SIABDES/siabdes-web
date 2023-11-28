@@ -161,7 +161,7 @@ export default function AddJournal() {
           onClick={handleMutation}
         >
           {isMutateGeneralJournalPending ? (
-            <span>Loading...</span>
+            <span>Menambahkan...</span>
           ) : (
             <span>Tambah Jurnal</span>
           )}

@@ -13,7 +13,7 @@ export function useGetAdjustmentJournal() {
   };
 
   const getAdjustmentJournal = useQuery({
-    queryKey: ["adjustment-journal"],
+    queryKey: ["adjustment-journals"],
     queryFn: async () => {
       const response = await axios.get<BackendResponseSchema>(
         `/api/journals/adjustment-journal`
