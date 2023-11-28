@@ -1,10 +1,9 @@
 "use client";
 
-import * as React from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
+import * as React from "react";
 
-import { cn } from "@/lib/utils";
+import { formatDateToString } from "@/common/helpers/date";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -12,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { formatDateToString } from "@/common/helpers/date";
+import { cn } from "@/lib/utils";
 
 interface DatePickerProps {
   className?: string;

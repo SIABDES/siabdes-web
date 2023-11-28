@@ -1,7 +1,6 @@
 "use client";
 
 import { AxiosClientSide } from "@/common/api";
-import { GENERAL_JOURNALS } from "@/common/api/urls";
 import { GetGeneralJournalsResponse } from "@/types/journals";
 import { useQuery } from "@tanstack/react-query";
 

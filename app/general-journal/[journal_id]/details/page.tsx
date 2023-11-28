@@ -1,4 +1,5 @@
 "use client";
+
 import Layout from "@/components/layout/layout";
 import { PatanTable } from "@/components/patan-ui/table";
 import { useGetJournalDetails } from "@/hooks/journals/useGetJournalDetails";

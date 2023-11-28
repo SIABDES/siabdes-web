@@ -8,6 +8,7 @@ import FormInput from "@/components/patan-ui/form/form-input";
 import { Button } from "@/components/ui/button";
 import { ComboBox } from "@/components/ui/combobox";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { useGetAccounts } from "@/hooks/account/useGetAccounts";
 import { AccountType } from "@/types/accounts";
 import { JournalTransactionFormDataType } from "@/types/journals";
@@ -137,6 +138,8 @@ export default function JournalTransactionsForm(
           <TrashIcon className="w-4 h-4" />
         </Button>
       </div>
+
+      <Separator className="w-full" />
     </div>
   );
 }

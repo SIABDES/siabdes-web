@@ -43,7 +43,7 @@ export default function Generaljournal() {
         </header>
 
         <section className="pt-8">
-          <Table>
+          <Table className="w-full">
             <TableHeader>
               <TableRow>
                 <TableHead>No</TableHead>
@@ -55,23 +55,13 @@ export default function Generaljournal() {
             <TableBody>
               {isLoading && (
                 <>
-                  <TableRow>
-                    <TableCell colSpan={3}>
-                      <Skeleton className="w-full h-[2rem]" />
-                    </TableCell>
-                  </TableRow>
-
-                  <TableRow>
-                    <TableCell colSpan={3}>
-                      <Skeleton className="w-full h-[2rem]" />
-                    </TableCell>
-                  </TableRow>
-
-                  <TableRow>
-                    <TableCell colSpan={3}>
-                      <Skeleton className="w-full h-[2rem]" />
-                    </TableCell>
-                  </TableRow>
+                  {Array.from(Array(8).keys()).map((_, index) => (
+                    <TableRow key={index}>
+                      <TableCell colSpan={3}>
+                        <Skeleton className="w-full h-[2rem]" />
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </>
               )}
 
@@ -79,7 +69,7 @@ export default function Generaljournal() {
                 <TableRow
                   key={journal.id}
                   onClick={(e) => handleRowClick(e, journal.id)}
-                  className="cursor-pointer hover:bg-gray-200"
+                  className="cursor-pointer hover:bg-gray-200 w-full"
                 >
                   <TableCell className="w-28">{index + 1}</TableCell>
                   <TableCell className="w-80">
