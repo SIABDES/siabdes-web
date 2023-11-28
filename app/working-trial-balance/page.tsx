@@ -3,6 +3,7 @@ import React from "react";
 import TableWTB from "@/components/table/table-wtb";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { PatanTable } from "@/components/patan-ui/table";
 
 const WorkingTrialBalance: React.FC = () => {
   const data = [
@@ -156,10 +157,11 @@ const WorkingTrialBalance: React.FC = () => {
     <Layout>
       <div>
         <h1 className="text-2xl font-bold mb-4 text-center">Neraca Lajur</h1>
-        <Link href="/working-trial-balance/adjusting-entry">
+        <Link href="/working-trial-balance/adjustment-journal">
           <Button className="mb-4">Jurnal Penyesuaian</Button>
         </Link>
         <TableWTB data={data} />
+        {/* <PatanTable data={data} /> */}
       </div>
     </Layout>
   );

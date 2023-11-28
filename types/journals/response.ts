@@ -13,9 +13,16 @@ export type JournalResponseWithCount = {
 export type GetGeneralJournalsResponse =
   BackendResponseType<JournalResponseWithCount>;
 
+export type GetAdjustmentJournalsResponse =
+  BackendResponseType<JournalResponseWithCount>;
+
 export type AddGeneralJournalResponse = BackendResponseType<{
   id: string;
   category: JournalCategoryType;
 }>;
 
 export type GetJournalDetailsResponse = BackendResponseType<JournalType>;
+export type AddAdjustmentJournalResponse = BackendResponseType<{
+  id: string;
+  category: JournalCategoryType;
+}>;
