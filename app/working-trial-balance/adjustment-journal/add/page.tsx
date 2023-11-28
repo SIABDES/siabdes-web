@@ -1,18 +1,29 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import { addArrayObjectToFormData } from "@/common/helpers/multipart-form";
 import Layout from "@/components/layout/layout";
-import { Button } from "@/components/ui/button";
-import { useGetAccounts } from "@/hooks/account/useGetAccounts";
 import JournalTransactionsForm from "@/components/pages/journals/journal-transactions-form";
 import NewTransactionForm from "@/components/pages/journals/new-transaction-form";
-import { JournalTransactionFormDataType } from "@/types/journals";
-import { nanoid } from "nanoid";
-import FormInput from "@/components/patan-ui/form/form-input";
 import FormDateInput from "@/components/patan-ui/form/form-date-input";
+import FormInput from "@/components/patan-ui/form/form-input";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/components/ui/use-toast";
+import { useGetAccounts } from "@/hooks/account/useGetAccounts";
 import { useAddAdjustmentJournal } from "@/hooks/journals/useAddAdjustmentJournal";
+import {
+  JournalInputItem,
+  JournalInputItemSchema,
+  JournalTransactionFormDataType,
+} from "@/types/journals";
+import { nanoid } from "nanoid";
+import { useRouter } from "next/navigation";
+import React, { useMemo, useState } from "react";
 
-export default function AddAdjustmentJournal() {
+export default function AddJournal() {
+  const { toast } = useToast();
+  const router = useRouter();
+
   const [transactions, setTransactions] = useState<
     JournalTransactionFormDataType[]
   >([
@@ -37,11 +48,53 @@ export default function AddAdjustmentJournal() {
     return totalDebit === totalCredit && (totalDebit > 0 || totalCredit > 0);
   }, [transactions]);
 
-  useEffect(() => {
-    console.log({ isTransactionsBalance });
-  }, [transactions]);
+  const {
+    mutateAsync: mutateAdjustmentJournal,
+    isPending: isMutateAdjustmentJournalPending,
+  } = useAddAdjustmentJournal();
 
-  const { mutateAsync: addAdjustmentJournal } = useAddAdjustmentJournal();
+  const handleMutation = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (!isTransactionsBalance) {
+      return;
+    }
+
+    const formData = new FormData();
+
+    const data_transactions: JournalInputItem[] = transactions.map(
+      (transaction) =>
+        JournalInputItemSchema.parse({
+          account_id: transaction.account_id,
+          amount: transaction.debit || transaction.credit,
+          is_credit: transaction.credit > 0,
+        })
+    );
+
+    formData.append("description", description ?? "");
+    formData.append("occurred_at", occurred_at?.toISOString() ?? "");
+    addArrayObjectToFormData(formData, data_transactions, "data_transactions");
+
+    void mutateAdjustmentJournal(formData, {
+      onSuccess: () => {
+        toast({
+          title: "Status Tambah Jurnal Penyesuaian",
+          description: "Jurnal penyesuaian berhasil ditambahkan",
+          duration: 5000,
+        });
+
+        router.push("/working-trial-balance/adjustment-journal");
+      },
+      onError: (err) => {
+        toast({
+          title: "Gagal menambahkan jurnal penyesuaian",
+          description: err.message,
+          variant: "destructive",
+          duration: 5000,
+        });
+      },
+    });
+  };
 
   return (
     <Layout>
@@ -67,9 +120,8 @@ export default function AddAdjustmentJournal() {
         </div>
       </div>
 
-      <div className="pt-8">
-        <p>Data Transaksi</p>
-
+      <p className="pt-8">Data Transaksi</p>
+      <ScrollArea className="h-1/2 w-full">
         {transactions.map((transaction, index) => (
           <JournalTransactionsForm
             key={transaction.unique_id}
@@ -80,15 +132,24 @@ export default function AddAdjustmentJournal() {
             isAbleToDelete={transactions.length > 2}
           />
         ))}
-      </div>
 
-      <NewTransactionForm
-        transactions={transactions}
-        setTransactions={setTransactions}
-      />
+        <NewTransactionForm
+          transactions={transactions}
+          setTransactions={setTransactions}
+        />
+      </ScrollArea>
 
       <div className="pt-8">
-        <Button disabled={!isTransactionsBalance}>Tambah Jurnal</Button>
+        <Button
+          disabled={!isTransactionsBalance || isMutateAdjustmentJournalPending}
+          onClick={handleMutation}
+        >
+          {isMutateAdjustmentJournalPending ? (
+            <span>Menambahkan...</span>
+          ) : (
+            <span>Tambah Jurnal</span>
+          )}
+        </Button>
       </div>
     </Layout>
   );

@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetAdjustmentJournals } from "@/hooks/journals/useGetAdjustmentJournal";
+import { useGetAdjustmentJournals } from "@/hooks/journals/useGetAdjustmentJournals";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
