@@ -2,38 +2,42 @@
 import React, { use, useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
-  HomeIcon, //dashboard
-  ClipboardEditIcon, //general-journal
-  BookOpenIcon, //ledger
-  ClipboardListIcon, //working-trial-balance
-  DollarSignIcon, //financial-statement
-  ClipboardCheckIcon, //closing-entry
-  CalculatorIcon, //tax
-  BoxesIcon, //data-master
+  HomeIcon,
+  ClipboardEditIcon,
+  BookOpenIcon,
+  ClipboardListIcon,
+  DollarSignIcon,
+  ClipboardCheckIcon,
+  CalculatorIcon,
+  BoxesIcon,
   ChevronLeftIcon,
   ChevronDownIcon,
+  LucideIcon,
 } from 'lucide-react';
 import LogoBlack from '../../public/Logo-black.png';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
-import { set } from 'date-fns';
 
-const Menus = [
+type MenuItem = {
+  title: string;
+  icon?: LucideIcon;
+  href?: string;
+  subMenuItems?: MenuItem[];
+};
+
+const Menus: MenuItem[] = [
   { title: 'Dashboard', icon: HomeIcon, href: '/dashboard' },
   { title: 'Jurnal Umum', icon: ClipboardEditIcon, href: '/general-journal' },
   { title: 'Buku Besar', icon: BookOpenIcon, href: '/ledger' },
   {
     title: 'Neraca Lajur',
-    // spacing: true,
     icon: ClipboardListIcon,
     href: '/working-trial-balance',
   },
   {
     title: 'Laporan Keuangan',
     icon: DollarSignIcon,
-    submenu: true,
-    submenuItems: [
+    subMenuItems: [
       {
         title: 'Posisi Keuangan',
         href: '/financial-statement/statement-of-financial-position',
@@ -45,21 +49,21 @@ const Menus = [
   { title: 'Jurnal Penutup', icon: ClipboardCheckIcon, href: '/closing-entry' },
   {
     title: 'Perpajakan',
-    submenu: true,
-    submenuItems: [
+
+    subMenuItems: [
       {
         title: 'Pajak Penghasilan Pasal 21',
-        href: '',
+        href: '/tax/pph21',
       },
-      { title: 'Pajak Pertambahan Nilai', href: '' },
+      { title: 'Pajak Pertambahan Nilai', href: '/tax/ppn' },
     ],
     icon: CalculatorIcon,
   },
   {
     title: 'Data Master',
     icon: BoxesIcon,
-    submenu: true,
-    submenuItems: [
+
+    subMenuItems: [
       {
         title: 'Daftar Akun',
         href: '/data-master/account',
@@ -78,7 +82,6 @@ export default function Sidebar() {
   const [activeMenuIndex, setActiveMenuIndex] = useState<number | undefined>(
     undefined
   );
-  const pathname = usePathname();
 
   const handleMenuItemClick = (href?: string, index?: number) => {
     if (href) {
@@ -86,16 +89,6 @@ export default function Sidebar() {
     }
     if (index !== undefined) {
       setActiveMenuIndex(index);
-    }
-
-    if (href) {
-      return (
-        <Link href={href}>
-          <div>
-            <a>{href}</a>
-          </div>
-        </Link>
-      );
     }
 
     if (index !== undefined) {
@@ -115,7 +108,7 @@ export default function Sidebar() {
         } duration-300 relative`}
       >
         <ChevronLeftIcon
-          className={`bg-white text-black text-3xl rounded-full absolute -right-3 top-9 border border-neutral-950 cursor-pointer 
+          className={`bg-white z-10 text-black text-3xl rounded-full absolute -right-3 top-9 border border-neutral-950 cursor-pointer 
           ${!open && 'rotate-180'}`}
           onClick={() => setOpen(!open)}
         />
@@ -138,14 +131,16 @@ export default function Sidebar() {
         <ul className="pt-20">
           {Menus.map((menu, index) => (
             <React.Fragment key={index}>
-              <li
+              <div
                 className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-400 rounded-md mt-2 ${
                   activeMenuIndex === index && 'bg-red-400'
                 }`}
                 onClick={() => handleMenuItemClick(menu.href, index)}
               >
                 <span className="text-2xl block float-left">
-                  {React.createElement(menu.icon, { size: 24 })}
+                  {menu.icon
+                    ? React.createElement(menu.icon, { size: 24 })
+                    : undefined}
                 </span>
                 <span
                   className={`text-base font-medium flex-1 ${
@@ -154,7 +149,7 @@ export default function Sidebar() {
                 >
                   {menu.title}
                 </span>
-                {menu.submenu && open && (
+                {menu.subMenuItems && open && (
                   <ChevronDownIcon
                     className={`${subMenuOpen[index] ? 'rotate-180' : ''}`}
                     onClick={() =>
@@ -162,25 +157,17 @@ export default function Sidebar() {
                     }
                   />
                 )}
-              </li>
-              {menu.submenu && subMenuOpen[index] && open && (
-                <ul>
-                  {menu.submenuItems.map((submenuItem, subIndex) => (
-                    <li
-                      key={subIndex}
-                      className="text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 px-5 hover:bg-slate-400 rounded-md"
-                      onClick={() =>
-                        handleMenuItemClick(
-                          submenuItem.href
-                            ? `${menu.href}${submenuItem.href}`
-                            : menu.href
-                        )
-                      }
-                    >
-                      {submenuItem.title}
-                    </li>
+              </div>
+              {menu.subMenuItems && subMenuOpen[index] && open && (
+                <div>
+                  {menu.subMenuItems.map((submenuItem, subIndex) => (
+                    <Link href={`${submenuItem.href}`} key={subIndex}>
+                      <div className=" text-white text-sm flex items-center gap-x-4 cursor-pointer ml-10 p-2 px-5 hover:bg-slate-400 rounded-md">
+                        {submenuItem.title}
+                      </div>
+                    </Link>
                   ))}
-                </ul>
+                </div>
               )}
             </React.Fragment>
           ))}
