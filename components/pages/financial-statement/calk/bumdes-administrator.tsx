@@ -1,5 +1,5 @@
 import React from 'react';
-import InputCALK from '@/components/financial-statement//calk/input-calk';
+import InputField from '@/components/Input/input-field';
 
 const IdentitasBUMDes = () => {
   return (
@@ -8,7 +8,7 @@ const IdentitasBUMDes = () => {
         Sususan Pengurus dan BUMDes
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
-        <InputCALK
+        <InputField
           label="Penasihat"
           placeholder="Masukkan Nama Penasihat"
           name="nama_penasihat"
@@ -22,49 +22,49 @@ const IdentitasBUMDes = () => {
             Pengurus Operasional
           </label>
         </div>
-        <InputCALK
+        <InputField
           label="a. Ketua"
           placeholder="Masukkan Nama Ketua"
           name="nama_ketua"
           type="text"
           labelClassName="ml-10 text-start"
         />
-        <InputCALK
+        <InputField
           label="b. Sekretaris"
           placeholder="Masukkan Nama Sekretaris"
           name="nama_sekretaris"
           type="text"
           labelClassName="ml-10 text-start"
         />
-        <InputCALK
+        <InputField
           label="c. Bendahara"
           placeholder="Masukkan Nama Bendahara"
           name="nama_bendahara"
           type="text"
           labelClassName="ml-10 text-start"
         />
-        <InputCALK
+        <InputField
           label="d. Nama Unit"
           placeholder="Masukkan Nama Unit"
           name="nama_unit"
           type="text"
           labelClassName="ml-10 text-start"
         />
-        <InputCALK
+        <InputField
           label="৹ Kepala Unit"
           placeholder="Masukkan Nama Kepala Unit"
           name="nama_kepala_unit"
           type="text"
           labelClassName="ml-20 text-start"
         />
-        <InputCALK
+        <InputField
           label="• Anggota"
           placeholder="Masukkan Nama Anggota"
           name="nama_anggota"
           type="text"
           labelClassName="ml-32 text-start"
         />
-        <InputCALK
+        <InputField
           label="• Anggota"
           placeholder="Masukkan Nama Anggota"
           name="nama_kepala_anggota"
@@ -79,28 +79,28 @@ const IdentitasBUMDes = () => {
             Pengurus
           </label>
         </div>
-        <InputCALK
+        <InputField
           label="a. Ketua"
           placeholder="Masukkan Nama Ketua"
           name="nama_ketua"
           type="text"
           labelClassName="ml-10 text-start"
         />
-        <InputCALK
+        <InputField
           label="b. Sekretaris"
           placeholder="Masukkan Nama Sekretaris"
           name="nama_sekretaris"
           type="text"
           labelClassName="ml-10 text-start"
         />
-        <InputCALK
+        <InputField
           label="c. Bendahara"
           placeholder="Masukkan Nama Bendahara"
           name="nama_bendahara"
           type="text"
           labelClassName="ml-10 text-start"
         />
-        <InputCALK
+        <InputField
           label="d. Nama Unit"
           placeholder="Masukkan Nama Unit"
           name="nama_unit"

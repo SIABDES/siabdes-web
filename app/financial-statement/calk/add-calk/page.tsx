@@ -1,24 +1,21 @@
 import React from 'react';
 import Layout from '@/components/layout/layout';
 import { Button } from '@/components/ui/button';
-import BumdesIdentity from '@/components/financial-statement/calk/bumdes-identity';
-import BumdesAdministrator from '@/components/financial-statement/calk/bumdes-administrator';
-import ModelingHistory from '@/components/financial-statement/calk/modeling-history';
-import TotalOmzetProfitDividents from '@/components/financial-statement/calk/total-omzet-profit-dividents';
-
-import MainBusiness from '@/components/financial-statement/calk/business-activities/main-business/main-business';
-import ModelingHistoryBusiness from '@/components/financial-statement/calk/business-activities/main-business/modeling-history';
-import AssetAndTurnoverHistory from '@/components/financial-statement/calk/business-activities/main-business/asset-and-turnover-history';
-import HistoryNetProvitsAndDividends from '@/components/financial-statement/calk/business-activities/main-business/history-net-profits-and-dividends';
-import CurrentNumberAndSourcesOfLabor from '@/components/financial-statement/calk/business-activities/main-business/current-number-and-sources-of-labor';
-
-import OtherBusiness from '@/components/financial-statement/calk/business-activities/other-business/other-business';
-import ModelingHistoryOtherBusiness from '@/components/financial-statement/calk/business-activities/other-business/modeling-history';
-import AssetAndTurnoverHistoryOtherBusiness from '@/components/financial-statement/calk/business-activities/other-business/asset-and-turnover-history';
-import HistoryNetProvitsAndDividendsOtherBusiness from '@/components/financial-statement/calk/business-activities/other-business/history-net-profits-and-dividends';
-import CurrentNumberAndSourcesOfLaborOtherBusiness from '@/components/financial-statement/calk/business-activities/other-business/current-number-and-sources-of-labor';
-
-import LegalBasisForPreparingFinancialStatements from '@/components/financial-statement/calk/legal-basis-for-preparing-financial-statements';
+import BumdesIdentity from '@/components/pages/financial-statement/calk/bumdes-identity';
+import BumdesAdministrator from '@/components/pages/financial-statement/calk/bumdes-administrator';
+import ModelingHistory from '@/components/pages/financial-statement/calk/modeling-history';
+import TotalOmzetProfitDividents from '@/components/pages/financial-statement/calk/total-omzet-profit-dividents';
+import MainBusiness from '@/components/pages/financial-statement/calk/business-activities/main-business/main-business';
+import ModelingHistoryBusiness from '@/components/pages/financial-statement/calk/business-activities/main-business/modeling-history';
+import AssetAndTurnoverHistory from '@/components/pages/financial-statement/calk/business-activities/main-business/asset-and-turnover-history';
+import HistoryNetProvitsAndDividends from '@/components/pages/financial-statement/calk/business-activities/main-business/history-net-profits-and-dividends';
+import CurrentNumberAndSourcesOfLabor from '@/components/pages/financial-statement/calk/business-activities/main-business/current-number-and-sources-of-labor';
+import OtherBusiness from '@/components/pages/financial-statement/calk/business-activities/other-business/other-business';
+import ModelingHistoryOtherBusiness from '@/components/pages/financial-statement/calk/business-activities/other-business/modeling-history';
+import AssetAndTurnoverHistoryOtherBusiness from '@/components/pages/financial-statement/calk/business-activities/other-business/asset-and-turnover-history';
+import HistoryNetProvitsAndDividendsOtherBusiness from '@/components/pages/financial-statement/calk/business-activities/other-business/history-net-profits-and-dividends';
+import CurrentNumberAndSourcesOfLaborOtherBusiness from '@/components/pages/financial-statement/calk/business-activities/other-business/current-number-and-sources-of-labor';
+import LegalBasisForPreparingFinancialStatements from '@/components/pages/financial-statement/calk/legal-basis-for-preparing-financial-statements';
 
 export default function AddCALK() {
   return (

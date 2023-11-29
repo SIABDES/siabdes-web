@@ -1,21 +1,23 @@
 import React from 'react';
-import InputCALK from '@/components/financial-statement//calk/input-calk';
+import InputFieldield from '@/components/Input/input-field';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import InputField from '@/components/Input/input-field';
 
-const OtherBusiness = () => {
+const MainBusiness = () => {
   return (
     <div>
-      <h1 className="p-2 font-bold text-sm mt-4">Usaha Lain</h1>
+      <h1 className="p-2 font-bold text-lg mt-4">Aktivitas Usaha</h1>
+      <h1 className="p-2 font-bold text-sm">Usaha Utama</h1>
       <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
-        <InputCALK
-          label="Bidang Usaha lain"
-          placeholder="Masukkan Bidang Usaha lain"
-          name="bidang_usaha_lain"
+        <InputFieldield
+          label="Bidang Usaha Utama"
+          placeholder="Masukkan Bidang Usaha Utama"
+          name="bidang_usaha_utama"
           type="text"
         />
-        <InputCALK
+        <InputFieldield
           label="Kerjasama dengan Pihak Ketiga"
           placeholder="Masukkan Kerjasama dengan Pihak Ketiga"
           name="kerjasama_dengan_pihak_ketiga"
@@ -32,27 +34,27 @@ const OtherBusiness = () => {
             className={`p-2 w-full border rounded-md ml h-28`}
           />
         </div>
-        <InputCALK
+        <InputField
           label="Susunan Pengurus"
           placeholder="Masukkan Nama Pengurus"
           name="nama_pengurus"
           type="text"
         />
-        <InputCALK
+        <InputField
           label="৹ Kepala Unit"
           placeholder="Masukkan Nama Kepala Unit"
           name="nama_kepala_unit"
           type="text"
           labelClassName="ml-10 text-start"
         />
-        <InputCALK
+        <InputField
           label="• Anggota"
           placeholder="Masukkan Nama Anggota"
           name="nama_anggota"
           type="text"
           labelClassName="ml-20 text-start"
         />
-        <InputCALK
+        <InputField
           label="• Anggota"
           placeholder="Masukkan Nama Anggota"
           name="nama_kepala_anggota"
@@ -63,4 +65,4 @@ const OtherBusiness = () => {
     </div>
   );
 };
-export default OtherBusiness;
+export default MainBusiness;

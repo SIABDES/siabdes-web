@@ -2,7 +2,7 @@ import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 
-interface InputCALKProps {
+interface InputFieldProps {
   label?: string;
   name?: string;
   placeholder?: string;
@@ -11,9 +11,10 @@ interface InputCALKProps {
   containerClassName?: string;
   labelClassName?: string;
   inputClassName?: string;
+  disabled?: boolean;
 }
 
-const InputCALK: React.FC<InputCALKProps> = ({
+const InputField: React.FC<InputFieldProps> = ({
   label,
   name,
   placeholder,
@@ -22,6 +23,7 @@ const InputCALK: React.FC<InputCALKProps> = ({
   labelClassName,
   inputClassName,
   //   required,
+  disabled,
 }) => {
   return (
     <div className={`flex ${containerClassName || ''}`}>
@@ -40,9 +42,10 @@ const InputCALK: React.FC<InputCALKProps> = ({
         name={name}
         className={`p-2 w-full border rounded-md ml ${inputClassName || ''}`}
         // required={required}
+        disabled={disabled}
       />
     </div>
   );
 };
 
-export default InputCALK;
+export default InputField;

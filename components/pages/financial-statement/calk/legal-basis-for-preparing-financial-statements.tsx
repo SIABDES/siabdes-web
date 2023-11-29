@@ -1,7 +1,5 @@
 import React from 'react';
-import InputCALK from '@/components/financial-statement//calk/input-calk';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import InputField from '@/components/Input/input-field';
 
 const LegalBasisForPreparingFinancialStatements = () => {
   return (
@@ -14,55 +12,55 @@ const LegalBasisForPreparingFinancialStatements = () => {
         peraturan perundang-undangan yang mengatur keuangan, yaitu:
       </p>
       <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
-        <InputCALK
+        <InputField
           label="Peraturan Daerah Kabupaten"
           placeholder="Masukkan Peraturan Daerah Kabupaten"
           name="peraturan_daerah_kabupaten"
           type="text"
         />
-        <InputCALK
+        <InputField
           label="Nomor"
           placeholder="Masukkan Nomor"
           name="nomor"
           type="text"
         />
-        <InputCALK
+        <InputField
           label="Tahun"
           placeholder="Masukkan Tahun"
           name="tahun"
           type="number"
         />
-        <InputCALK
+        <InputField
           label="Tentang"
           placeholder="Masukkan Tentang"
           name="tentang"
           type="text"
         />
-        <InputCALK
+        <InputField
           label="Peraturan Desa"
           placeholder="Masukkan Peraturan Desa"
           name="peraturan_desa"
           type="text"
         />
-        <InputCALK
+        <InputField
           label="Nomor"
           placeholder="Masukkan Nomor"
           name="nomor"
           type="text"
         />
-        <InputCALK
+        <InputField
           label="Tahun"
           placeholder="Masukkan Tahun"
           name="tahun"
           type="number"
         />
-        <InputCALK
+        <InputField
           label="Tentang"
           placeholder="Masukkan Tentang"
           name="tentang"
           type="text"
         />
-        <InputCALK
+        <InputField
           label="AD/ART BUMDes"
           placeholder="Masukkan AD/ART BUMDes"
           name="ad_art_bumdes"
@@ -74,13 +72,13 @@ const LegalBasisForPreparingFinancialStatements = () => {
         Tanggal Pembuatan Dokumen Catatan Akhir Laporan Keuangan
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
-        <InputCALK
+        <InputField
           label="Tanggal Dokumen"
           placeholder="Masukkan Tanggal Dokumen"
           name="tanggal_dokumen"
           type="date"
         />
-        <InputCALK
+        <InputField
           label="Nama Ketua"
           placeholder="Masukkan Nama Ketua"
           name="nama_ketua"

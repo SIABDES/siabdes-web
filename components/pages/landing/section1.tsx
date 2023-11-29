@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import bgLanding from '../../public/pie-chart-two-color-61eb2.svg';
 import bgLanding2 from '../../public/mountain-two-color.svg';
-import bg from '../../public/finance-analytics-monochromatic.svg';
+import bg from '../../../public/finance-analytics-monochromatic.svg';
 import Link from 'next/link';
 
 export default function Section1() {

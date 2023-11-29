@@ -26,8 +26,6 @@ export async function PUT(
     return NextResponse.json(res.data);
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.log(error.response?.data);
-
       return NextResponse.json(error.response?.data, {
         status: error.response?.status,
         statusText: error.response?.statusText,
