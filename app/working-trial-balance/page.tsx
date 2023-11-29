@@ -129,34 +129,34 @@ export default function WorkingTrialBalance() {
               <TableRow>
                 <TableCell className="w-28 font-bold">Jumlah</TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.sum.neraca_saldo.debit}
+                  {formatNumber(summary?.sum.neraca_saldo.debit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.sum.neraca_saldo.credit}
+                  {formatNumber(summary?.sum.neraca_saldo.credit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.sum.penyesuaian.debit}
+                  {formatNumber(summary?.sum.penyesuaian.debit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.sum.penyesuaian.credit}
+                  {formatNumber(summary?.sum.penyesuaian.credit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.sum.neraca_setelahnya.debit}
+                  {formatNumber(summary?.sum.neraca_setelahnya.debit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.sum.neraca_setelahnya.credit}
+                  {formatNumber(summary?.sum.neraca_setelahnya.credit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.sum.laba_rugi.debit}
+                  {formatNumber(summary?.sum.laba_rugi.debit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.sum.laba_rugi.credit}
+                  {formatNumber(summary?.sum.laba_rugi.credit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.sum.posisi_keuangan.debit}
+                  {formatNumber(summary?.sum.posisi_keuangan.debit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.sum.posisi_keuangan.credit}
+                  {formatNumber(summary?.sum.posisi_keuangan.credit)}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -170,49 +170,53 @@ export default function WorkingTrialBalance() {
                 <TableCell className="w-28 font-bold  text-center"></TableCell>
                 <TableCell className="w-28 font-bold  text-center"></TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.laba_rugi_bersih.laba_rugi.debit}
+                  {formatNumber(summary?.laba_rugi_bersih.laba_rugi.debit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.laba_rugi_bersih.laba_rugi.credit}
+                  {formatNumber(summary?.laba_rugi_bersih.laba_rugi.credit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.laba_rugi_bersih.posisi_keuangan.debit}
+                  {formatNumber(
+                    summary?.laba_rugi_bersih.posisi_keuangan.debit
+                  )}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.laba_rugi_bersih.posisi_keuangan.credit}
+                  {formatNumber(
+                    summary?.laba_rugi_bersih.posisi_keuangan.credit
+                  )}
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className="w-28 font-bold">Total</TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.total.neraca_saldo.debit}
+                  {formatNumber(summary?.total.neraca_saldo.debit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.total.neraca_saldo.credit}
+                  {formatNumber(summary?.total.neraca_saldo.credit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.total.penyesuaian.debit}
+                  {formatNumber(summary?.total.penyesuaian.debit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.total.penyesuaian.credit}
+                  {formatNumber(summary?.total.penyesuaian.credit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.total.neraca_setelahnya.debit}
+                  {formatNumber(summary?.total.neraca_setelahnya.debit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.total.neraca_setelahnya.credit}
+                  {formatNumber(summary?.total.neraca_setelahnya.credit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.total.laba_rugi.debit}
+                  {formatNumber(summary?.total.laba_rugi.debit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.total.laba_rugi.credit}
+                  {formatNumber(summary?.total.laba_rugi.credit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.total.posisi_keuangan.debit}
+                  {formatNumber(summary?.total.posisi_keuangan.debit)}
                 </TableCell>
                 <TableCell className="w-28 font-bold  text-center">
-                  {summary?.total.posisi_keuangan.credit}
+                  {formatNumber(summary?.total.posisi_keuangan.credit)}
                 </TableCell>
               </TableRow>
             </TableBody>
