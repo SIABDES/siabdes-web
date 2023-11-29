@@ -12,15 +12,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetGeneralJournals } from "@/hooks/journals/useGetGeneralJournals";
+import { useGetAdjustmentJournals } from "@/hooks/journals/useGetAdjustmentJournals";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import React from "react";
 
-export default function Generaljournal() {
+export default function Adjustmentjournal() {
   const router = useRouter();
-  const { data, isLoading } = useGetGeneralJournals();
+  const { data, isLoading } = useGetAdjustmentJournals();
 
   const handleRowClick = (
     e: React.MouseEvent<HTMLTableRowElement>,
@@ -28,22 +28,24 @@ export default function Generaljournal() {
   ) => {
     e.preventDefault();
 
-    router.push(`/general-journal/${journalId}/details`);
+    router.push(
+      `/working-trial-balance/adjustment-journal/${journalId}/details`
+    );
   };
 
   return (
     <Layout>
       <section>
         <header className="flex justify-between items-center">
-          <h4 className="text-sm">General Journal</h4>
+          <h4 className="text-sm">Adjustment Journal</h4>
 
-          <Link href="/general-journal/add">
+          <Link href="/working-trial-balance/adjustment-journal/add">
             <Button>Tambah Jurnal</Button>
           </Link>
         </header>
 
         <section className="pt-8">
-          <Table className="w-full">
+          <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>No</TableHead>
@@ -55,13 +57,23 @@ export default function Generaljournal() {
             <TableBody>
               {isLoading && (
                 <>
-                  {Array.from(Array(8).keys()).map((_, index) => (
-                    <TableRow key={index}>
-                      <TableCell colSpan={3}>
-                        <Skeleton className="w-full h-[2rem]" />
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  <TableRow>
+                    <TableCell colSpan={3}>
+                      <Skeleton className="w-full h-[2rem]" />
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell colSpan={3}>
+                      <Skeleton className="w-full h-[2rem]" />
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell colSpan={3}>
+                      <Skeleton className="w-full h-[2rem]" />
+                    </TableCell>
+                  </TableRow>
                 </>
               )}
 
@@ -69,7 +81,7 @@ export default function Generaljournal() {
                 <TableRow
                   key={journal.id}
                   onClick={(e) => handleRowClick(e, journal.id)}
-                  className="cursor-pointer hover:bg-gray-200 w-full"
+                  className="cursor-pointer hover:bg-gray-200"
                 >
                   <TableCell className="w-28">{index + 1}</TableCell>
                   <TableCell className="w-80">

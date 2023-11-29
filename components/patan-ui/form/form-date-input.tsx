@@ -1,5 +1,5 @@
 import { DatePicker } from "@/components/ui/date-picker";
-import { Label } from "@radix-ui/react-label";
+import { Label } from "@/components/ui/label";
 
 interface FormDateInputProps {
   label?: string;

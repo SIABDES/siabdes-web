@@ -1,9 +1,8 @@
-import { authOptions } from "../auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
-import axios from "axios";
-import { NextRequest, NextResponse } from "next/server";
 import { AxiosAuthed } from "@/common/api";
 import { ACCOUNTS } from "@/common/api/urls";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);

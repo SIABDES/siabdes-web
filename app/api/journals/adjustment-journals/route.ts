@@ -1,10 +1,10 @@
-import { AxiosAuthed } from "@/common/api";
-import { GENERAL_JOURNALS, JOURNALS } from "@/common/api/urls";
-import { JournalCategory } from "@/types/journals";
-import { AxiosError } from "axios";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { AxiosAuthed } from "@/common/api";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { ADJUSTMENT_JOURNALS, JOURNALS } from "@/common/api/urls";
+import { JournalCategory } from "@/types/journals";
+import { AxiosError } from "axios";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   }
 
   const res = await AxiosAuthed(session.backendTokens.accessToken).get(
-    GENERAL_JOURNALS
+    ADJUSTMENT_JOURNALS
   );
 
   return NextResponse.json(res.data);
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const payload = await request.formData();
 
-  payload.append("category", JournalCategory.GENERAL);
+  payload.append("category", JournalCategory.ADJUSTMENT);
 
   const session = await getServerSession(authOptions);
 

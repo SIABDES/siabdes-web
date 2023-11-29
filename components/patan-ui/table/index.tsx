@@ -1,3 +1,4 @@
+import { formatNumber } from "@/common/helpers/number-format";
 import {
   Table,
   TableBody,
@@ -28,7 +29,11 @@ export const PatanTable: React.FC<PatanTableProps> = ({ data = [{}] }) => {
           return (
             <TableRow key={index.toString()}>
               {Object.values(row).map((value, index) => (
-                <TableCell key={`${value}-${index}`}>{value}</TableCell>
+                <TableCell key={`${value}-${index}`}>
+                  {typeof value === "number" || typeof value === "bigint"
+                    ? formatNumber(value)
+                    : value}
+                </TableCell>
               ))}
             </TableRow>
           );

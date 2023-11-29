@@ -29,6 +29,8 @@ interface ComboBoxProps {
   value?: string;
   setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
   height?: "short" | "medium" | "tall";
+  disabled?: boolean;
+  blacklistedValues?: string[];
 }
 
 export function ComboBox({ height = "medium", ...props }: ComboBoxProps) {
@@ -42,6 +44,7 @@ export function ComboBox({ height = "medium", ...props }: ComboBoxProps) {
           role="combobox"
           aria-expanded={open}
           className={cn("justify-between w-[200px]", props.className)}
+          disabled={props.disabled ?? false}
         >
           {props.value
             ? props.items.find((item) => item.value === props.value)?.label
@@ -67,12 +70,9 @@ export function ComboBox({ height = "medium", ...props }: ComboBoxProps) {
                 <CommandItem
                   key={item.value}
                   value={item.label}
-                  // onSelect={(currentValue) => {
-                  //   props.setValue(
-                  //     currentValue === props.value ? "" : currentValue
-                  //   );
-                  //   setOpen(false);
-                  // }}
+                  disabled={
+                    props.blacklistedValues?.includes(item.value) ?? false
+                  }
                   onSelect={() => {
                     props.setValue(
                       item.value === props.value ? "" : item.value

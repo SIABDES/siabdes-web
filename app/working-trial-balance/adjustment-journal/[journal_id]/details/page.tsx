@@ -15,12 +15,10 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/use-toast";
 import useDeleteJournal from "@/hooks/journals/useDeleteJournal";
 import { useGetJournalDetails } from "@/hooks/journals/useGetJournalDetails";
 import { EditIcon, TrashIcon } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -29,7 +27,12 @@ export default function Details({
 }: {
   params: { journal_id: string };
 }) {
-  const { data: details, isFetched } = useGetJournalDetails({ params });
+  const {
+    data: details,
+    isFetching,
+    isLoading,
+    isFetched,
+  } = useGetJournalDetails({ params });
 
   const router = useRouter();
   const { toast } = useToast();
@@ -50,7 +53,7 @@ export default function Details({
           description: "Jurnal berhasil dihapus",
           duration: 5000,
         });
-        router.push("/general-journal");
+        router.push("/working-trial-balance/adjustment-journal");
       },
       onError: () => {
         toast({
@@ -65,7 +68,7 @@ export default function Details({
 
   return (
     <Layout>
-      <h5 className="text-lg font-semibold">Jurnal Umum</h5>
+      <h5 className="text-lg font-semibold">Jurnal Penyesuaian</h5>
 
       {isFetched && details && (
         <div className="inline-flex justify-between items-center w-full pb-8 pt-4">
@@ -88,11 +91,9 @@ export default function Details({
           </table>
 
           <div className="inline-flex gap-x-4 justify-end">
-            <Button variant={"outline"} asChild>
-              <Link href={`/general-journal/${params.journal_id}/edit`}>
-                <EditIcon size={16} className="mr-2" />
-                Edit Jurnal
-              </Link>
+            <Button variant={"outline"}>
+              <EditIcon size={16} className="mr-2" />
+              Edit Jurnal
             </Button>
 
             <AlertDialog>
@@ -134,11 +135,7 @@ export default function Details({
         </div>
       )}
 
-      {isFetched && details ? (
-        <PatanTable data={details.tableData} />
-      ) : (
-        <Skeleton className="w-full h-72 pt-8" />
-      )}
+      <PatanTable data={details?.data_transactions ?? [{}]} />
     </Layout>
   );
 }

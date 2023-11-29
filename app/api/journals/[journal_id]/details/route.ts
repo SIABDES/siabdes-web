@@ -1,27 +1,23 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { getServerSession } from 'next-auth';
-import { getSession } from 'next-auth/react';
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { AxiosAuthed } from "@/common/api";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { journal_id: string } }
 ) {
   const { journal_id } = params;
 
   const session = await getServerSession(authOptions);
 
-  const res = await fetch(
-    `http://localhost:8080/api/v1/journals/${journal_id}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${session?.backendTokens.accessToken}`,
-      },
-    }
+  if (!session) {
+    return NextResponse.redirect("/login");
+  }
+
+  const res = await AxiosAuthed(session.backendTokens.accessToken).get(
+    `/journals/${journal_id}`
   );
 
-  const data = await res.json();
-
-  return Response.json({ data });
+  return NextResponse.json(res.data);
 }
