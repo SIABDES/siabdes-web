@@ -1,34 +1,46 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import axios from 'axios';
-import { getServerSession } from 'next-auth';
-import { getSession } from 'next-auth/react';
-import { NextRequest } from 'next/server';
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { AxiosAuthed } from "@/common/api";
+import { LEDGERS } from "@/common/api/urls";
+import axios, { AxiosError } from "axios";
+import { getServerSession } from "next-auth";
+import { getSession } from "next-auth/react";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
+  const nextUrl = request.nextUrl;
   const session = await getServerSession(authOptions);
 
-  const { nextUrl } = request;
-
-  const account_id = nextUrl.searchParams.get('account_id');
-
-  if (!account_id) {
-    return Response.json({ message: 'account_id is required' });
+  if (!session) {
+    return NextResponse.redirect("/login");
   }
 
-  const backendUrl = process.env.API_URL;
+  const account_id = nextUrl.searchParams.get("account_id");
 
-  // console.log(session?.backendTokens.accessToken);
+  if (!account_id) {
+    return NextResponse.json({
+      error: "account_id is required",
+    });
+  }
 
-  const res = await axios.get(`${backendUrl}/ledgers`, {
-    params: {
-      account_id: 1,
-    },
-    headers: {
-      Authorization: `Bearer ${session?.backendTokens.accessToken}`,
-    },
-  });
+  try {
+    const res = await AxiosAuthed(session.backendTokens.accessToken).get(
+      LEDGERS,
+      {
+        params: {
+          account_id,
+        },
+      }
+    );
 
-  const data = res.data;
+    return NextResponse.json(res.data);
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return NextResponse.json(error.response?.data, {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+      });
+    }
 
-  return Response.json({ data });
+    throw error;
+  }
 }

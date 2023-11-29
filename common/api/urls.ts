@@ -3,3 +3,6 @@ export const GENERAL_JOURNALS = "/journals?category=GENERAL";
 export const ADJUSTMENT_JOURNALS = "/journals?category=ADJUSTMENT";
 
 export const ACCOUNTS = "/accounts";
+
+export const WTB = "/wtb";
+export const LEDGERS = "/ledgers";
