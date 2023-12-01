@@ -38,11 +38,11 @@ const Menus: MenuItem[] = [
     title: 'Laporan Keuangan',
     icon: DollarSignIcon,
     subMenuItems: [
+      { title: 'Laba Rugi', href: '/financial-statement/income-statement' },
       {
         title: 'Posisi Keuangan',
         href: '/financial-statement/statement-of-financial-position',
       },
-      { title: 'Laba Rugi', href: '/financial-statement/income-statement' },
       { title: 'CALK', href: '/financial-statement/calk' },
     ],
   },
@@ -66,7 +66,7 @@ const Menus: MenuItem[] = [
     subMenuItems: [
       {
         title: 'Daftar Akun',
-        href: '/data-master/account',
+        href: '/data-master/accounts',
       },
       { title: 'Data Tenaga Kerja', href: '/data-master/employees' },
     ],
@@ -106,6 +106,9 @@ export default function Sidebar() {
         className={`bg-[#4194CB] h-screen p-5 pt-8 ${
           open ? 'w-72' : 'w-20'
         } duration-300 relative`}
+        // className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-slate-800 p-4 transition-all duration-200 ease-in-out ${
+        //   open ? 'translate-x-0' : '-translate-x-64'
+        // }`}
       >
         <ChevronLeftIcon
           className={`bg-white z-10 text-black text-3xl rounded-full absolute -right-3 top-9 border border-neutral-950 cursor-pointer 
