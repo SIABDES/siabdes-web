@@ -7,11 +7,13 @@ interface InputFieldProps {
   name?: string;
   placeholder?: string;
   type?: string;
+  value?: string | number;
   //   required?: string;
   containerClassName?: string;
   labelClassName?: string;
   inputClassName?: string;
   disabled?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -19,11 +21,13 @@ const InputField: React.FC<InputFieldProps> = ({
   name,
   placeholder,
   type,
+  value,
   containerClassName,
   labelClassName,
   inputClassName,
   //   required,
   disabled,
+  onChange,
 }) => {
   return (
     <div className={`flex ${containerClassName || ''}`}>
@@ -40,9 +44,11 @@ const InputField: React.FC<InputFieldProps> = ({
         type={type}
         placeholder={placeholder}
         name={name}
+        value={value}
         className={`p-2 w-full border rounded-md ml ${inputClassName || ''}`}
         // required={required}
         disabled={disabled}
+        onChange={onChange}
       />
     </div>
   );

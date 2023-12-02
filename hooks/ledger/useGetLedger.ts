@@ -1,6 +1,6 @@
-import { AxiosClientSide } from "@/common/api";
-import { GetLedgerByIdResponse, LedgerType } from "@/types/ledger";
-import { useQuery } from "@tanstack/react-query";
+import { AxiosClientSide } from '@/common/api';
+import { GetLedgerByIdResponse, LedgerType } from '@/types/ledger';
+import { useQuery } from '@tanstack/react-query';
 
 export function useGetLedger({
   account_id,
@@ -9,7 +9,7 @@ export function useGetLedger({
   unit_id?: string;
 }) {
   const getLedger = useQuery({
-    queryKey: ["ledgers"],
+    queryKey: ['ledgers', account_id],
     queryFn: async () => {
       if (!account_id) {
         return {

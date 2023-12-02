@@ -1,97 +1,112 @@
-"use client";
-import React from "react";
-import Layout from "@/components/layout/layout";
-import TableFinancialStatement from "@/components/table/table-financial-statement";
-import { Button } from "@/components/ui/button";
-import { TableComponent } from "@/components/table/table";
+'use client';
+import React from 'react';
+import Layout from '@/components/layout/layout';
+import { CalendarDateRangePicker } from '@/components/date-range-picker';
+import { Button } from '@/components/ui/button';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useGetWtb } from '@/hooks/wtb/useGetWtb';
 
-export default function LabaRugi() {
-  const tableTitle = [
-    {
-      unit: "Jasa",
-      title: "Laba Rugi",
-      range1: "1 Januari 2022",
-      range2: "31 Desember 2023",
-    },
-  ];
-  const tableData = [
-    {
-      KodeRekening: "4101",
-      NamaAkun: "Pendapatan Tiket Masuk Perseorangan",
-      T2023: "0",
-      T2022: "0",
-    },
-    {
-      KodeRekening: "4102",
-      NamaAkun: "Pendapatan Tiket Masuk Rombongan",
-      T2023: "0",
-      T2022: "0",
-    },
-    {
-      KodeRekening: "4199",
-      NamaAkun: "Pendapatan Tiket Lainnya",
-      T2023: "0",
-      T2022: "0",
-    },
-    {
-      KodeRekening: "4301",
-      NamaAkun: "Pendapatan Komisi",
-      T2023: "0",
-      T2022: "0",
-    },
-    {
-      KodeRekening: "4302",
-      NamaAkun: "Pendapatan Parkir",
-      T2023: "0",
-      T2022: "0",
-    },
-    {
-      KodeRekening: "4303",
-      NamaAkun: "Pendapatan Toilet",
-      T2023: "0",
-      T2022: "0",
-    },
-    {
-      KodeRekening: "4304",
-      NamaAkun: "Pendapatan Sewa",
-      T2023: "0",
-      T2022: "0",
-    },
-  ];
-  const tableFoot = [
-    {
-      NamaAkun: "JUMLAH PENDAPATAN",
-      T2023: "0",
-      T2022: "0",
-    },
-    {
-      NamaAkun: "JUMLAH BEBAN",
-      T2023: "0",
-      T2022: "0",
-    },
-    {
-      NamaAkun: "LABA/RUGI BERSIH",
-      T2023: "0",
-      T2022: "0",
-    },
-  ];
+export default function IncomeStatement() {
+  const { data, isLoading } = useGetWtb();
+
+  const accounts = data?.list;
+
+  const filteredAccounts = accounts?.filter(
+    (account) => !account.account.is_posisi_keuangan
+  );
+
+  // if (account.account.ref === '6' && account.account.ref ===
+  //                     '8') {
+  //                       return `(${account.result.laba_rugi.debit})`;
+  //                     } else {
+  //                       return `${account.result.laba_rugi.debit}`;
+  //                     }
+
+  function formatDebit(account: any) {
+    if (account.account.ref === '6' && account.account.ref === '8') {
+      return `(${account.result.laba_rugi.debit})`;
+    } else {
+      return `${account.result.laba_rugi.debit}`;
+    }
+  }
+
+  const getRandomYear = (startYear: number, endYear: number) => {
+    return Math.floor(Math.random() * (endYear - startYear + 1)) + startYear;
+  };
   return (
     <Layout>
-      <h1 className="text-2xl font-bold mb-4 text-center">
-        Laporan Keuangan Laba Rugi
-      </h1>
-      <Button className="mb-4">Rangeeeeee</Button>
-      <h1 className="text-1xl font-bold mb-4 text-left">
-        Entitas Jasa <br />
-        Laporan Keuangan Laba Rugi <br />1 Januari 2022 - 31 Desember 2023
-      </h1>
+      <section>
+        <header>
+          <h1 className="text-2xl font-bold mb-4 text-center">
+            Laporan Keuangan Laba Rugi
+          </h1>
+          <div className="flex justify-between pt-4">
+            <h1 className="text-base font-medium mb-4 text-left">
+              Entitas Jasa <br />
+              Laporan Keuangan Laba Rugi <br />1 Januari 2022 - 31 Desember 2023
+            </h1>
+            <div className="flex space-x-2 pt-8">
+              <CalendarDateRangePicker />
+              <Button className="">Terapkan</Button>
+            </div>
+          </div>
+        </header>
 
-      <TableComponent
-        data={tableData}
-        onRowClick={() => {
-          console.log("row clicked");
-        }}
-      />
+        <section className="pt-8">
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-center font-bold">
+                  Kode Rekening
+                </TableHead>
+                <TableHead className="text-center font-bold">
+                  Nama Akun
+                </TableHead>
+                <TableHead className="text-center font-bold">2023</TableHead>
+                <TableHead className="text-center font-bold">2022</TableHead>
+              </TableRow>
+            </TableHeader>
+
+            <TableBody>
+              {isLoading && (
+                <>
+                  {Array.from(Array(8).keys()).map((_, index) => (
+                    <TableRow key={index}>
+                      <TableCell colSpan={4}>
+                        <Skeleton className="w-full h-[2rem]" />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </>
+              )}
+
+              {filteredAccounts &&
+                filteredAccounts.map((account) => (
+                  <TableRow key={account.account.id}>
+                    <TableCell className="text-center">
+                      {account.account.ref}
+                    </TableCell>
+                    <TableCell>{account.account.name}</TableCell>
+                    <TableCell className="text-center">
+                      {formatDebit(account)}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {`(${account.result.laba_rugi.debit})`}
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </section>
+      </section>
     </Layout>
   );
 }

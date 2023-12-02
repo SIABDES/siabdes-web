@@ -1,10 +1,10 @@
-"use client";
-import Layout from "@/components/layout/layout";
-import React from "react";
-import TableWTB from "@/components/table/table-wtb";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { PatanTable } from "@/components/patan-ui/table";
+'use client';
+import Layout from '@/components/layout/layout';
+import React from 'react';
+import TableWTB from '@/components/table/table-wtb';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { PatanTable } from '@/components/patan-ui/table';
 import {
   Table,
   TableBody,
@@ -12,12 +12,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useGetWtb } from "@/hooks/wtb/useGetWtb";
-import { useRouter } from "next/navigation";
-import { Skeleton } from "@/components/ui/skeleton";
-import { formatDateToString } from "@/common/helpers/date";
-import { formatNumber } from "@/common/helpers/number-format";
+} from '@/components/ui/table';
+import { useGetWtb } from '@/hooks/wtb/useGetWtb';
+import { useRouter } from 'next/navigation';
+import { Skeleton } from '@/components/ui/skeleton';
+import { formatDateToString } from '@/common/helpers/date';
+import { formatNumber } from '@/common/helpers/number-format';
 
 export default function WorkingTrialBalance() {
   const router = useRouter();
@@ -80,7 +80,7 @@ export default function WorkingTrialBalance() {
                 <>
                   {Array.from(Array(8).keys()).map((_, index) => (
                     <TableRow key={index}>
-                      <TableCell colSpan={3}>
+                      <TableCell colSpan={11}>
                         <Skeleton className="w-full h-[2rem]" />
                       </TableCell>
                     </TableRow>
