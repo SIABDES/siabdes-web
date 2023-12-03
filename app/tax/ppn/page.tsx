@@ -1,10 +1,31 @@
 // import React from 'react';
-import Layout from '@/components/layout/layout';
-import InputField from '@/components/Input/input-field';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+"use client";
+import Layout from "@/components/layout/layout";
+import InputField from "@/components/Input/input-field";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
+import { Calendar } from "@/components/ui/calendar";
+import { ComboBox } from "@/components/ui/combobox";
+import { useState } from "react";
+import FormInput from "@/components/patan-ui/form/form-input";
 
 export default function PPN() {
   return (
@@ -56,11 +77,27 @@ export default function PPN() {
               type="text"
             />
             <div className="flex">
-              <Label className="p-2 text-sm font-medium text-black">
+              <Label className="p-2 text-sm font-medium text-black w-full space-y-2">
                 Objek Pajak
               </Label>
               <h1 className="p-2 text-sm font-medium text-black">:</h1>
-              <RadioGroup defaultValue="barang flex">
+              <Select>
+                <SelectTrigger className="">
+                  <SelectValue placeholder="Pilih Objek Pajak" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="kena_pajak_dalam_negeri">
+                    Kena Pajak - Dalam Negeri
+                  </SelectItem>
+                  <SelectItem value="kena_pajak_luar_negeri">
+                    Kena Pajak - Luar Negeri
+                  </SelectItem>
+                  <SelectItem value="tidak_kena_pajak">
+                    Tidak Kena Pajak
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              {/* <RadioGroup defaultValue="barang flex">
                 <div className="flex gap-6 justify-center p-2">
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="barang" id="barang" />
@@ -71,7 +108,7 @@ export default function PPN() {
                     <Label htmlFor="jasa">Jasa</Label>
                   </div>
                 </div>
-              </RadioGroup>
+              </RadioGroup> */}
             </div>
           </div>
         </section>
@@ -83,32 +120,51 @@ export default function PPN() {
           </header>
           <div className="flex gap-5 text-center w-full">
             <div className="w-full">
-              <Label>Harga Saham</Label>
-              <Input></Input>
+              {/* <Label>Harga Saham</Label> */}
+              <FormInput
+                label="Harga Saham"
+                name="harga_saham"
+                type="text"
+                // value={1000}
+                disabled={false}
+                onChange={() => {}}
+              />
             </div>
             <p className="mt-7 text-xl">×</p>
             <div className="w-full">
-              <Label>Kuantitas</Label>
-              <Input></Input>
+              {/* <Label>Kuantitas</Label> */}
+              <FormInput
+                label="Kuantitas"
+                name="kuantitas"
+                type="text"
+                // value={1000}
+                disabled={false}
+                onChange={() => {}}
+              />
             </div>
             <p className="mt-7 text-xl">=</p>
             <div className="w-full">
               <Label>Harga Total</Label>
-              <Input className="bg-[#D4D4D4]"></Input>
+              <Input
+                className="bg-[#D4D4D4]"
+                disabled={true}
+                placeholder="sss"
+                // value={}
+              ></Input>
             </div>
             <div className="w-full">
               <Label>Potongan Harga</Label>
-              <Input></Input>
+              <Input name="harga_saham" type="number"></Input>
             </div>
           </div>
           <div className="flex gap-5 text-center">
             <div className="">
               <Label>DPP</Label>
-              <Input className="bg-[#D4D4D4]"></Input>
+              <Input className="bg-[#D4D4D4]" disabled={true}></Input>
             </div>
             <div className="">
               <Label>Tarif PPN</Label>
-              <Input className="bg-[#D4D4D4]"></Input>
+              <Input className="bg-[#D4D4D4]" disabled={true}></Input>
             </div>
             <p className="mt-7 text-xl">%</p>
             <div className="flex w-full mt-4 bg-[#B8E2F4] p-3 rounded-lg">

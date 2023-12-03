@@ -1,64 +1,75 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Layout from '@/components/layout/layout';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { ComboBox } from '@/components/ui/combobox';
-import InputField from '@/components/Input/input-field';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Button } from '@/components/ui/button';
+import React, { useState } from "react";
+import Layout from "@/components/layout/layout";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { ComboBox } from "@/components/ui/combobox";
+import InputField from "@/components/Input/input-field";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Button } from "@/components/ui/button";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Add() {
   const statusKaryawan = [
-    { label: 'Karyawan Lama', value: 'karyawan_lama' },
-    { label: 'Karyawan Baru', value: 'karyawan_baru' },
+    { label: "Karyawan Lama", value: "karyawan_lama" },
+    { label: "Karyawan Baru", value: "karyawan_baru" },
   ];
 
   const jenisKelamin = [
-    { label: 'Laki-laki', value: 'laki-laki' },
-    { label: 'Perempuan', value: 'perempuan' },
+    { label: "Laki-laki", value: "laki-laki" },
+    { label: "Perempuan", value: "perempuan" },
   ];
 
   const statusPerkawinan = [
-    { label: 'Belum Kawin', value: 'belum_kawin' },
-    { label: 'Kawin', value: 'kawin' },
-    { label: 'Cerai', value: 'cerai' },
+    { label: "Belum Kawin", value: "belum_kawin" },
+    { label: "Kawin", value: "kawin" },
+    { label: "Cerai", value: "cerai" },
   ];
 
   const statusNPWP = [
-    { label: 'Digabung Dengan Suami', value: 'digabung_dengan_suami' },
-    { label: 'Dipisah Dari Suami', value: 'dipisah_dari_suami' },
+    { label: "Digabung Dengan Suami", value: "digabung_dengan_suami" },
+    { label: "Dipisah Dari Suami", value: "dipisah_dari_suami" },
   ];
 
   const jumlahTanggungan = [
-    { label: 'Tidak Ada', value: 'tidak_ada' },
-    { label: '1 (Satu)', value: '1' },
-    { label: '2 (Dua)', value: '2' },
-    { label: '3 (Tiga)', value: '3' },
+    { label: "Tidak Ada", value: "tidak_ada" },
+    { label: "1 (Satu)", value: "1" },
+    { label: "2 (Dua)", value: "2" },
+    { label: "3 (Tiga)", value: "3" },
   ];
 
   const JenisTenagaKerja = [
-    { label: 'Pegawai Tetap Bulanan', value: 'pegawai_tetap_bulanan' },
-    { label: 'Pegawai Tidak Tetap', value: 'pegawai_tidak_tetap' },
-    { label: 'Pesangon', value: 'pesangon' },
-    { label: 'Lainnya', value: 'lainnya' },
+    { label: "Pegawai Tetap Bulanan", value: "pegawai_tetap_bulanan" },
+    { label: "Pegawai Tidak Tetap", value: "pegawai_tidak_tetap" },
+    { label: "Pesangon", value: "pesangon" },
+    { label: "Lainnya", value: "lainnya" },
   ];
 
   const JenisPegawaiTidakTetap = [
-    { label: 'Mingguan', value: 'mingguan' },
-    { label: 'Borongan', value: 'borongan' },
-    { label: 'Satuan', value: 'satuan' },
+    { label: "Mingguan", value: "mingguan" },
+    { label: "Borongan", value: "borongan" },
+    { label: "Satuan", value: "satuan" },
   ];
 
   const JenisPesangon = [
-    { label: 'Sekaligus', value: 'sekaligus' },
-    { label: 'Berkala', value: 'berkala' },
+    { label: "Sekaligus", value: "sekaligus" },
+    { label: "Berkala", value: "berkala" },
   ];
 
   const JenisLainnya = [
-    { label: 'Peserta Kegiatan', value: 'peserta_kegiatan' },
-    { label: 'Pengawas Non Pegawai', value: 'pengawas_non_pegawai' },
+    { label: "Peserta Kegiatan", value: "peserta_kegiatan" },
+    { label: "Pengawas Non Pegawai", value: "pengawas_non_pegawai" },
   ];
 
   const [selectedStatusKaryawan, setSelectedStatusKaryawan] = useState<
@@ -88,6 +99,15 @@ export default function Add() {
     string | undefined
   >(undefined);
 
+  const [statusNpwp, setStatusNpwp] = useState<
+    "ada_npwp" | "tidak_ada_npwp" | undefined
+  >(undefined);
+
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+
+    setStatusNpwp(e.target.value as "ada_npwp" | "tidak_ada_npwp");
+  };
   return (
     <Layout>
       <section>
@@ -115,8 +135,13 @@ export default function Add() {
               placeholder="Masukkan NPWP"
               name="npwp"
               type="number"
+              disabled={statusNpwp === "tidak_ada_npwp"}
             />
-            <RadioGroup defaultValue="ada_npwp">
+            <RadioGroup
+              defaultValue="ada_npwp"
+              id="npwp"
+              onChange={handleRadioChange}
+            >
               <div className="flex gap-6 justify-center ml-72 p-2">
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="ada_npwp" id="ada_npwp" />
@@ -134,12 +159,22 @@ export default function Add() {
               Status Tenaga Kerja
             </Label>
             <h1 className="p-2 text-sm font-medium text-black">:</h1>
+            <Select>
+              <SelectTrigger className="">
+                <SelectValue placeholder="Pilih Status Tenaga Kerja" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="karyawan_lama">Karyawan Lama</SelectItem>
+                <SelectItem value="karyawan_baru">Karayawan Baru</SelectItem>
+              </SelectContent>
+            </Select>
+            {/* 
             <ComboBox
               className="w-full"
               items={statusKaryawan}
               value={selectedStatusKaryawan}
               setValue={(value) => setSelectedStatusKaryawan(value)}
-            />
+            /> */}
           </div>
           <InputField
             label="Bulan Mulai Bekerja"
@@ -152,12 +187,25 @@ export default function Add() {
               Jenis Kelamin
             </Label>
             <h1 className="p-2 text-sm font-medium text-black">:</h1>
+            <Select>
+              <SelectTrigger className="">
+                <SelectValue placeholder="Pilih Jenis Kelamin" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="laki-laki">Laki-laki</SelectItem>
+                <SelectItem value="perempuan">Perempuan</SelectItem>
+              </SelectContent>
+            </Select>
+            {/* <Label className="p-2 block text-sm font-medium text-black w-full">
+              Jenis Kelamin
+            </Label>
+            <h1 className="p-2 text-sm font-medium text-black">:</h1>
             <ComboBox
               className="w-full"
               items={jenisKelamin}
               value={selectedJenisKelamin}
               setValue={(value) => setSelectedJenisKelamin(value)}
-            />
+            /> */}
           </div>
           <h1 className="text-sm font-semibold p-2 text-left text-black">
             Status Penghasilan Tidak Kena Pajak
@@ -167,15 +215,45 @@ export default function Add() {
               Status Perkawinan
             </Label>
             <h1 className="p-2 text-sm font-medium text-black">:</h1>
+            <Select>
+              <SelectTrigger className="">
+                <SelectValue placeholder="Pilih Status Perkawinan" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="kawin">Kawin</SelectItem>
+                <SelectItem value="belum_kawin">Belum Kawin</SelectItem>
+              </SelectContent>
+            </Select>
+            {/* <Label className="p-2 block text-sm font-medium text-black w-full">
+              Status Perkawinan
+            </Label>
+            <h1 className="p-2 text-sm font-medium text-black">:</h1>
             <ComboBox
               className="w-full"
               items={statusPerkawinan}
               value={selectedStatusPerkawinan}
               setValue={(value) => setSelectedStatusPerkawinan(value)}
-            />
+            /> */}
           </div>
           <div className="flex">
             <Label className="p-2 block text-sm font-medium text-black w-full">
+              Status NPWP
+            </Label>
+            <h1 className="p-2 text-sm font-medium text-black">:</h1>
+            <Select>
+              <SelectTrigger className="">
+                <SelectValue placeholder="Pilih Status NPWP" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="digabung_dengan_suami">
+                  Digabung Dengan Suami
+                </SelectItem>
+                <SelectItem value="dipisah_dengan_suami">
+                  Dipisah Dengan Suami
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            {/* <Label className="p-2 block text-sm font-medium text-black w-full">
               Status NPWP
             </Label>
             <h1 className="p-2 text-sm font-medium text-black">:</h1>
@@ -184,10 +262,25 @@ export default function Add() {
               items={statusNPWP}
               value={selectedStatusNPWP}
               setValue={(value) => setSelectedStatusNPWP(value)}
-            />
+            /> */}
           </div>
           <div className="flex">
             <Label className="p-2 block text-sm font-medium text-black w-full">
+              Jumlah Tanggungan
+            </Label>
+            <h1 className="p-2 text-sm font-medium text-black">:</h1>
+            <Select>
+              <SelectTrigger className="">
+                <SelectValue placeholder="Pilih Jumlah Tanggungan" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="0">Tidak Ada</SelectItem>
+                <SelectItem value="1">1 (Satu)</SelectItem>
+                <SelectItem value="2">2 (Dua)</SelectItem>
+                <SelectItem value="3">3 (Tiga)</SelectItem>
+              </SelectContent>
+            </Select>
+            {/* <Label className="p-2 block text-sm font-medium text-black w-full">
               Jumlah Tanggungan
             </Label>
             <h1 className="p-2 text-sm font-medium text-black">:</h1>
@@ -196,10 +289,47 @@ export default function Add() {
               items={jumlahTanggungan}
               value={selectedJumlahTanggungan}
               setValue={(value) => setSelectedJumlahTanggungan(value)}
-            />
+            /> */}
           </div>
           <div className="flex">
             <Label className="p-2 block text-sm font-medium text-black w-full">
+              Jenis Tenaga Kerja
+            </Label>
+            <h1 className="p-2 text-sm font-medium text-black">:</h1>
+            <Select>
+              <SelectTrigger className="">
+                <SelectValue placeholder="Pilih Jenis Tenaga Kerja" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="pegawai_tetap_bulanan">
+                  Pegawai Tetap Bulanan
+                </SelectItem>
+                <SelectSeparator />
+                <SelectGroup>
+                  <SelectLabel>Pegawai Tidak Tetap</SelectLabel>
+                  <SelectItem value="minguan">Mingguan</SelectItem>
+                  <SelectItem value="borongan">Borongan</SelectItem>
+                  <SelectItem value="satuan">Satuan</SelectItem>
+                </SelectGroup>
+                <SelectSeparator />
+                <SelectGroup>
+                  <SelectLabel>Pesangon</SelectLabel>
+                  <SelectItem value="sekaligus">Sekaligus</SelectItem>
+                  <SelectItem value="berkala">Berkala</SelectItem>
+                </SelectGroup>
+                <SelectSeparator />
+                <SelectGroup>
+                  <SelectLabel>Lainnya</SelectLabel>
+                  <SelectItem value="peserta_kegiatan">
+                    Peserta Kegiatan
+                  </SelectItem>
+                  <SelectItem value="pengawas_non_pegawai">
+                    Pengawas non Pegawai
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {/* <Label className="p-2 block text-sm font-medium text-black w-full">
               Jenis Tenaga Kerja
             </Label>
             <h1 className="p-2 text-sm font-medium text-black">:</h1>
@@ -208,7 +338,7 @@ export default function Add() {
               items={JenisTenagaKerja}
               value={selectedJenisTenagaKerja}
               setValue={(value) => setSelectedJenisTenagaKerja(value)}
-            />
+            /> */}
           </div>
         </section>
         <div className="flex justify-end mt-10 mb-10">

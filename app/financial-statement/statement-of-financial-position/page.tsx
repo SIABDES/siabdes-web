@@ -1,8 +1,8 @@
-'use client';
-import React from 'react';
-import Layout from '@/components/layout/layout';
-import { CalendarDateRangePicker } from '@/components/date-range-picker';
-import { Button } from '@/components/ui/button';
+"use client";
+import React from "react";
+import Layout from "@/components/layout/layout";
+import { CalendarDateRangePicker } from "@/components/date-range-picker";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -10,12 +10,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useGetWtb } from '@/hooks/wtb/useGetWtb';
+} from "@/components/ui/table";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useGetWtb } from "@/hooks/wtb/useGetWtb";
 
 export default function StatementOfFinancialPosition() {
-  const { data, isLoading } = useGetWtb();
+  const { data, isLoading } = useGetWtb({
+    start_occurred_at: new Date("2024-12-02T09:53:31.920Z"),
+    end_occurred_at: new Date("2024-12-02T09:53:31.920Z"),
+  });
 
   const accounts = data?.list;
   console.log(accounts);
@@ -23,6 +26,9 @@ export default function StatementOfFinancialPosition() {
   const filteredAccounts = accounts?.filter(
     (account) => account.account.is_posisi_keuangan
   );
+  function sum(posisi_keuangan: any) {
+    return posisi_keuangan.debit + posisi_keuangan.credit;
+  }
   return (
     <Layout>
       <section>
@@ -75,14 +81,14 @@ export default function StatementOfFinancialPosition() {
                 filteredAccounts.map((account) => (
                   <TableRow key={account.account.id}>
                     <TableCell className="text-center">
-                      {account.account.ref}
+                      {account.account.ref.complete_ref}
                     </TableCell>
                     <TableCell>{account.account.name}</TableCell>
                     <TableCell className="text-center">
-                      {account.result.posisi_keuangan.debit}
+                      {sum(account.result.posisi_keuangan)}
                     </TableCell>
                     <TableCell className="text-center">
-                      {account.result.posisi_keuangan.debit}
+                      {sum(account.result.posisi_keuangan)}
                     </TableCell>
                   </TableRow>
                 ))}

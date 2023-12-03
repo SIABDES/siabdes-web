@@ -11,8 +11,13 @@ export type AccountType = {
   id: string;
   name: string;
   is_credit: boolean;
-  ref: string;
+  ref: RefType;
   is_posisi_keuangan: boolean;
+};
+export type RefType = {
+  account_ref: string;
+  complete_ref: string;
+  group_ref: string;
 };
 
 export type ResultType = {

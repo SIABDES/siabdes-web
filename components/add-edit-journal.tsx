@@ -1,14 +1,14 @@
-'use client';
-import React, { useState } from 'react';
-import { Button } from './ui/button';
+"use client";
+import React, { useState } from "react";
+import { Button } from "./ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useGetAccounts } from '@/hooks/account/useGetAccounts';
+} from "@/components/ui/select";
+import { useGetAccounts } from "@/hooks/account/useGetAccounts";
 
 export default function AddEditJournal() {
   // const [akunList, setAkunList] = useState([

@@ -1,8 +1,8 @@
-'use client';
-import React from 'react';
-import Layout from '@/components/layout/layout';
-import { CalendarDateRangePicker } from '@/components/date-range-picker';
-import { Button } from '@/components/ui/button';
+"use client";
+import React from "react";
+import Layout from "@/components/layout/layout";
+import { CalendarDateRangePicker } from "@/components/date-range-picker";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -10,34 +10,30 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useGetWtb } from '@/hooks/wtb/useGetWtb';
+} from "@/components/ui/table";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useGetWtb } from "@/hooks/wtb/useGetWtb";
 
 export default function IncomeStatement() {
-  const { data, isLoading } = useGetWtb();
-
-  const accounts = data?.list;
-
-  const filteredAccounts = accounts?.filter(
+  const { data, isLoading } = useGetWtb({
+    start_occured_at: new Date(2022, 1, 1),
+    end_occured_at: new Date(2023, 12, 31),
+  });
+  const accounts = data?.list ?? [];
+  const filteredAccounts = accounts.filter(
     (account) => !account.account.is_posisi_keuangan
   );
 
-  // if (account.account.ref === '6' && account.account.ref ===
-  //                     '8') {
-  //                       return `(${account.result.laba_rugi.debit})`;
-  //                     } else {
-  //                       return `${account.result.laba_rugi.debit}`;
-  //                     }
-
   function formatDebit(account: any) {
-    if (account.account.ref === '6' && account.account.ref === '8') {
+    if (account.account.ref === "6" && account.account.ref === "8") {
       return `(${account.result.laba_rugi.debit})`;
     } else {
       return `${account.result.laba_rugi.debit}`;
     }
   }
-
+  function sum(laba_rugi: any) {
+    return laba_rugi.debit + laba_rugi.credit;
+  }
   const getRandomYear = (startYear: number, endYear: number) => {
     return Math.floor(Math.random() * (endYear - startYear + 1)) + startYear;
   };
@@ -89,17 +85,17 @@ export default function IncomeStatement() {
               )}
 
               {filteredAccounts &&
-                filteredAccounts.map((account) => (
-                  <TableRow key={account.account.id}>
+                filteredAccounts.map((account, index) => (
+                  <TableRow key={index + 1}>
                     <TableCell className="text-center">
-                      {account.account.ref}
+                      {account.account.ref.complete_ref}
                     </TableCell>
                     <TableCell>{account.account.name}</TableCell>
                     <TableCell className="text-center">
-                      {formatDebit(account)}
+                      {sum(account.result.laba_rugi)}
                     </TableCell>
                     <TableCell className="text-center">
-                      {`(${account.result.laba_rugi.debit})`}
+                      {sum(account.result.laba_rugi)}
                     </TableCell>
                   </TableRow>
                 ))}
