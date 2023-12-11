@@ -20,7 +20,10 @@ export const RegisterSchema = z.object({
     regency: z.string(),
     district: z.string(),
     village: z.string(),
-    postalCode: z.string(),
+    postalCode: z
+      .string()
+      .min(5, "Kode Pos hanya memiliki 5 digit")
+      .max(5, "Kode Pos hanya memiliki 5 digit"),
   }),
 });
 

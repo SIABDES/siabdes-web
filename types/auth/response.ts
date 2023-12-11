@@ -1,3 +1,6 @@
 import { BackendResponseType } from "@/common/types";
 
-export type LoginResponse = BackendResponseType<>;
+export type AuthRegisterResponse = BackendResponseType<{
+  userId: string;
+  bumdesId: string;
+}>;

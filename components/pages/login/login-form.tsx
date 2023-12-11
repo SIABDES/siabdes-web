@@ -14,9 +14,12 @@ import { LoginFormData, LoginSchema } from "@/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function LoginForm() {
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -26,11 +29,13 @@ export default function LoginForm() {
     },
   });
 
-  const onLoginSubmit = (data: LoginFormData) => {
+  const onLoginSubmit = async (data: LoginFormData) => {
+    setLoading(true);
+
     signIn("credentials", {
       ...data,
       callbackUrl: "/auth/redirect",
-    });
+    }).finally(() => setLoading(false));
   };
 
   return (
@@ -77,8 +82,8 @@ export default function LoginForm() {
         </div>
 
         <div className="flex flex-col gap-y-6 mt-2">
-          <Button type="submit" className="w-full mt-6">
-            Masuk
+          <Button type="submit" className="w-full mt-6" disabled={loading}>
+            {loading ? "Loading..." : "Masuk"}
           </Button>
 
           <span className="text-center text-sm font-medium text-muted-foreground">
