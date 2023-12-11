@@ -26,3 +26,5 @@ export type AddAdjustmentJournalResponse = BackendResponseType<{
   id: string;
   category: JournalCategoryType;
 }>;
+
+export type GetJournalEvidenceResponse = BackendResponseType<string>;

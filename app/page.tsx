@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import Header from '@/components/header/header-landing-page';
-import Section1 from '@/components/pages/landing/section1';
-import Section2 from '@/components/pages/landing/section2';
+import LandingNavbar from "@/components/pages/landing/landing-navbar";
+import Section1 from "@/components/pages/landing/section1";
+import Section2 from "@/components/pages/landing/section2";
 
 export default function Home() {
   return (
     <>
-      <Header />
+      <LandingNavbar />
       <Section1 />
       <Section2 />
     </>

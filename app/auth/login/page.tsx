@@ -1,17 +1,27 @@
-import LoginForm from '@/components/login/login-form';
-import TabsLogin from '@/components/login/tabs-login';
-import Image from 'next/image';
-import asLogin from '@/public/undraw_login_re_4vu2.svg';
-import bgLogin from '../../public/bg-Login.jpg';
-import Header from '@/components/header/header-landing-page';
+"use client";
+
+import LoginForm from "@/components/pages/login/login-form";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import LoginImage from "@/public/undraw_login_re_4vu2.svg";
+import Image from "next/image";
 
 export default function Login() {
   return (
-    <main className="relative h-screen flex flex-col items-center justify-center">
-      <Header />
-      <div className="flex flex-row space-x-32">
-        <Image src={asLogin} alt="login" width={600} />
-        <LoginForm />
+    <main className="max-w-6xl mx-auto flex flex-col items-center justify-between mt-16">
+      <div className="grid grid-cols-12 gap-x-16">
+        <div className="col-span-6">
+          <Image src={LoginImage} alt="login" className="max-w-lg" />
+        </div>
+
+        <Card className="col-span-5">
+          <CardHeader>
+            <h4 className="text-lg text-center font-medium mb-2">Masuk</h4>
+          </CardHeader>
+
+          <CardContent>
+            <LoginForm />
+          </CardContent>
+        </Card>
       </div>
     </main>
   );

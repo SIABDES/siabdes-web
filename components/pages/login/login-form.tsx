@@ -1,57 +1,97 @@
-'use client';
-import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons';
-import { useState } from 'react';
+"use client";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { LoginFormData, LoginSchema } from "@/types/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
 
 export default function LoginForm() {
-  const [passwordVisible, setpasswordVisible] = useState(false);
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      // Add default values for the controlled inputs
+      identifier: "",
+      password: "",
+    },
+  });
 
-  const togglepasswordVisibility = () => {
-    setpasswordVisible((prev) => !prev);
+  const onLoginSubmit = (data: LoginFormData) => {
+    signIn("credentials", {
+      ...data,
+      callbackUrl: "/auth/redirect",
+    });
   };
 
   return (
-    <div className="inline-flex gap-[28px] rounded-xl justify-center items-center  w-[500px] h-[434px]">
-      <div>
-        <form className="flex flex-col">
-          <h1 className="self-center text-5xl font-bold mb-14">
-            Selamat Datang di <br /> SIABDes TAXian
-          </h1>
-          <label>
-            Email atau <span className="italic">Username</span>{' '}
-            <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="emailOrUsername"
-            name="emailOrUsername"
-            placeholder="Masukkan Email atau Username"
-            className="py-3 px-2 text-black bg-[#ffffff] border border-[#2a2a2b] rounded-lg w-[420px] text-sm"
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onLoginSubmit)}
+        className="flex flex-col justify-between"
+      >
+        <div className="flex flex-col gap-y-4">
+          <FormField
+            control={form.control}
+            name="identifier"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel htmlFor="identifier">Email atau Username</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Tulis email atau username anda.."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
 
-          <label className="mr-2 mt-4">Kata Sandi</label>
-          <div className="relative flex items-center">
-            <input
-              type={passwordVisible ? 'text' : 'password'}
-              name="password"
-              placeholder="Masukkan Kata Sandi"
-              className="py-3 px-2 text-black bg-[#ffffff] border border-[#2a2a2b] rounded-lg w-[420px] text-sm"
-            />
-            <button
-              type="button"
-              className="absolute right-4 top-5 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              onClick={togglepasswordVisibility}
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Tulis password anda.."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="flex flex-col gap-y-6 mt-2">
+          <Button type="submit" className="w-full mt-6">
+            Masuk
+          </Button>
+
+          <span className="text-center text-sm font-medium text-muted-foreground">
+            Belum punya akun?{" "}
+            <Link
+              href="/auth/register"
+              className="text-primary/80 hover:underline"
             >
-              {passwordVisible ? (
-                <EyeOpenIcon className="w-6 h-6" />
-              ) : (
-                <EyeClosedIcon className="w-6 h-6" />
-              )}
-            </button>
-          </div>
-          <button className="bg-[#00BFA6] w-[420px] h-[40px] rounded-lg text-[#181819] font-semibold mt-10">
-            Login
-          </button>
-        </form>
-      </div>
-    </div>
+              Daftar
+            </Link>
+          </span>
+        </div>
+      </form>
+    </Form>
   );
 }

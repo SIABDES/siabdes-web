@@ -1,15 +1,17 @@
-import NextAuth, { User } from "next-auth";
+import NextAuth, { DefaultSession, User } from "next-auth";
 
 export type UserRole = "BUMDES" | "UNIT";
 
 declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string;
-      bumdesId: string;
-      unitId?: string;
-      role: UserRole;
-    };
+  interface User {
+    id: string;
+    bumdesId: string;
+    unitId?: string;
+    role: UserRole;
+  }
+
+  interface Session extends DefaultSession {
+    user: User;
 
     backendTokens: {
       accessToken: string;

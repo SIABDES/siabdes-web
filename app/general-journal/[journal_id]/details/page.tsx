@@ -18,8 +18,9 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/use-toast";
 import useDeleteJournal from "@/hooks/journals/useDeleteJournal";
+import useGetGeneralJournalEvidence from "@/hooks/journals/useGetGeneralJournalEvidence";
 import { useGetJournalDetails } from "@/hooks/journals/useGetJournalDetails";
-import { EditIcon, TrashIcon } from "lucide-react";
+import { DownloadIcon, EditIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -41,6 +42,11 @@ export default function Details({
   } = useDeleteJournal({
     journal_id: params.journal_id,
   });
+
+  const { data: evidence, isLoading: isEvidenceUrlLoading } =
+    useGetGeneralJournalEvidence({
+      journal_id: params.journal_id,
+    });
 
   const handleDeleteJournal = (e: React.MouseEvent<HTMLButtonElement>) => {
     void mutateDeleteJournal(undefined, {
@@ -88,6 +94,15 @@ export default function Details({
           </table>
 
           <div className="inline-flex gap-x-4 justify-end">
+            {!isEvidenceUrlLoading && evidence ? (
+              <Button variant={"outline"} asChild>
+                <Link href={evidence}>
+                  <DownloadIcon size={16} className="mr-2" />
+                  Download Bukti
+                </Link>
+              </Button>
+            ) : null}
+
             <Button variant={"outline"} asChild>
               <Link href={`/general-journal/${params.journal_id}/edit`}>
                 <EditIcon size={16} className="mr-2" />
