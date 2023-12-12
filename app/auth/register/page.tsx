@@ -308,7 +308,7 @@ export default function RegisterPage() {
                   name="credentials.email"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel htmlFor={field.name}>Nama Bumdes</FormLabel>
+                      <FormLabel htmlFor={field.name}>Email Bumdes</FormLabel>
                       <FormControl>
                         <Input
                           type="email"

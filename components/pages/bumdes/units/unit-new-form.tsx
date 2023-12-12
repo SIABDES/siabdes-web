@@ -1,5 +1,7 @@
 "use client";
 
+import { AxiosClientSide } from "@/common/api";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,8 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Select,
   SelectContent,
@@ -18,18 +18,71 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "@/components/ui/use-toast";
+import { useNewUnit } from "@/hooks/units/useNewUnit";
 import { NewUnitRequest, NewUnitSchema } from "@/types/units";
-import { AxiosClientSide } from "@/common/api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 export default function UnitNewForm() {
+  const router = useRouter();
   const form = useForm<NewUnitRequest>({
     resolver: zodResolver(NewUnitSchema),
+    defaultValues: {
+      address: "",
+      leader: "",
+      name: "",
+      phone_number: "",
+      credentials: {
+        confirmPassword: "",
+        identifier: "",
+        password: "",
+      },
+    },
   });
 
+  const { mutateAsync: mutateNewUnit, isPending: isPendingNewUnit } =
+    useNewUnit();
+
   const onSubmit = async (data: NewUnitRequest) => {
-    const res = await AxiosClientSide.post("/units", data);
+    const validatedData = NewUnitSchema.safeParse(data);
+
+    if (!validatedData.success) {
+      toast({
+        title: "Kesalahan Input Pengguna",
+        description: "Mohon periksa kembali inputan anda..",
+        variant: "destructive",
+      });
+      console.log("asdasdsad");
+    }
+
+    await mutateNewUnit(data, {
+      onSettled: () => {
+        toast({
+          title: "Menambahkan...",
+          description: "Sedang menambahkan unit baru..",
+        });
+      },
+      onSuccess: () => {
+        router.push("/bumdes/units");
+        toast({
+          title: "Sukses",
+          description: "Berhasil menambahkan unit baru..",
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: "Terjadi Error",
+          description:
+            (error instanceof AxiosError && error.response?.data.message) ??
+            "Terjadi kesalahan internal..",
+          variant: "destructive",
+        });
+      },
+    });
   };
 
   return (
@@ -183,8 +236,8 @@ export default function UnitNewForm() {
           />
         </div>
 
-        <Button type="submit" className="w-fit">
-          Tambah Unit
+        <Button type="submit" className="w-fit" disabled={isPendingNewUnit}>
+          {isPendingNewUnit ? "Menambahkan Unit..." : "Tambah Unit"}
         </Button>
       </form>
     </Form>
