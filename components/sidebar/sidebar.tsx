@@ -26,36 +26,47 @@ type MenuItem = {
 };
 
 const Menus: MenuItem[] = [
-  { title: 'Dashboard', icon: HomeIcon, href: '/dashboard' },
-  { title: 'Jurnal Umum', icon: ClipboardEditIcon, href: '/general-journal' },
-  { title: 'Buku Besar', icon: BookOpenIcon, href: '/ledger' },
+  { title: 'Dashboard', icon: HomeIcon, href: '/unit/dashboard' },
+  {
+    title: 'Jurnal Umum',
+    icon: ClipboardEditIcon,
+    href: '/unit/general-journal',
+  },
+  { title: 'Buku Besar', icon: BookOpenIcon, href: '/unit/ledger' },
   {
     title: 'Neraca Lajur',
     icon: ClipboardListIcon,
-    href: '/working-trial-balance',
+    href: '/unit/working-trial-balance',
   },
   {
     title: 'Laporan Keuangan',
     icon: DollarSignIcon,
     subMenuItems: [
-      { title: 'Laba Rugi', href: '/financial-statement/income-statement' },
+      {
+        title: 'Laba Rugi',
+        href: '/unit/financial-statement/income-statement',
+      },
       {
         title: 'Posisi Keuangan',
-        href: '/financial-statement/statement-of-financial-position',
+        href: '/unit/financial-statement/statement-of-financial-position',
       },
-      { title: 'CALK', href: '/financial-statement/calk' },
+      { title: 'CALK', href: '/unit/financial-statement/calk' },
     ],
   },
-  { title: 'Jurnal Penutup', icon: ClipboardCheckIcon, href: '/closing-entry' },
+  {
+    title: 'Jurnal Penutup',
+    icon: ClipboardCheckIcon,
+    href: '/unit/closing-entry',
+  },
   {
     title: 'Perpajakan',
 
     subMenuItems: [
       {
         title: 'Pajak Penghasilan Pasal 21',
-        href: '/tax/pph21',
+        href: '/unit/tax/pph21',
       },
-      { title: 'Pajak Pertambahan Nilai', href: '/tax/ppn' },
+      { title: 'Pajak Pertambahan Nilai', href: '/unit/tax/ppn' },
     ],
     icon: CalculatorIcon,
   },
@@ -66,9 +77,9 @@ const Menus: MenuItem[] = [
     subMenuItems: [
       {
         title: 'Daftar Akun',
-        href: '/data-master/accounts',
+        href: '/unit/data-master/accounts',
       },
-      { title: 'Data Tenaga Kerja', href: '/data-master/employees' },
+      { title: 'Data Tenaga Kerja', href: '/unit/data-master/employees' },
     ],
   },
 ];
@@ -136,7 +147,7 @@ export default function Sidebar() {
             <React.Fragment key={index}>
               <div
                 className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-400 rounded-md mt-2 ${
-                  activeMenuIndex === index && 'bg-red-400'
+                  activeMenuIndex === index && 'bg-slate-400'
                 }`}
                 onClick={() => handleMenuItemClick(menu.href, index)}
               >

@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 export interface BumdesIdentityFormData {
   nama_bumdes?: string;
   tanggal_pendirian_bumdes?: string;

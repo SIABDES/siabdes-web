@@ -1,6 +1,7 @@
 'use client';
+import { ModelingHistoryFormData } from '@/types/financial-statement/calk/modeling-history';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   TableBody,
@@ -10,18 +11,16 @@ import {
   TableRow,
   TableFooter,
 } from '@/components/ui/table';
+import { set } from 'date-fns';
 
-interface TableRowData {
-  tahun: string;
-  noPerdes: string;
-  pemerintahDesaRp: string;
-  pemerintahDesaPercent: string;
-  pihakLainRp: string;
-  pihakLainPercent: string;
+interface ModelingHistoryProps {
+  onUpdateFormData: (data: ModelingHistoryFormData[]) => void;
 }
 
-const ModelingHistory = () => {
-  const [rows, setRows] = useState<TableRowData[]>([
+const ModelingHistory: React.FC<ModelingHistoryProps> = ({
+  onUpdateFormData,
+}) => {
+  const [rows, setRows] = useState<ModelingHistoryFormData[]>([
     {
       tahun: '',
       noPerdes: '',
@@ -31,6 +30,15 @@ const ModelingHistory = () => {
       pihakLainPercent: '',
     },
   ]);
+
+  const [total, setTotal] = useState<ModelingHistoryFormData>({
+    tahun: '',
+    noPerdes: '',
+    pemerintahDesaRp: '',
+    pemerintahDesaPercent: '',
+    pihakLainRp: '',
+    pihakLainPercent: '',
+  });
 
   const addRow = () => {
     setRows([
@@ -48,18 +56,20 @@ const ModelingHistory = () => {
 
   const updateRow = (
     index: number,
-    column: keyof TableRowData,
+    column: keyof ModelingHistoryFormData,
     value: string
   ) => {
     const updatedRows = [...rows];
     updatedRows[index][column] = value;
     setRows(updatedRows);
+    calculateTotal(updatedRows);
   };
 
   const removeRow = (index: number) => {
     if (rows.length > 1) {
       const updatedRows = rows.filter((_, rowIndex) => rowIndex !== index);
       setRows(updatedRows);
+      calculateTotal(updatedRows);
     }
   };
 
@@ -70,12 +80,43 @@ const ModelingHistory = () => {
     }).format(value);
   };
 
-  const calculateTotal = (column: keyof TableRowData) => {
-    return rows.reduce(
+  // const calculateTotal = (column: keyof ModelingHistoryFormData) => {
+  //   setTotal({
+  //     ...total,
+  //     [column]: calculateColumnTotal(rows, column),
+  //   });
+  // };
+
+  const calculateTotal = (updateRow: ModelingHistoryFormData[]) => {
+    setTotal({
+      tahun: '',
+      noPerdes: '',
+      pemerintahDesaRp: formatIDR(
+        calculateColumnTotal(updateRow, 'pemerintahDesaRp')
+      ),
+      pemerintahDesaPercent: formatIDR(
+        calculateColumnTotal(updateRow, 'pemerintahDesaPercent')
+      ),
+      pihakLainRp: formatIDR(calculateColumnTotal(updateRow, 'pihakLainRp')),
+      pihakLainPercent: formatIDR(
+        calculateColumnTotal(updateRow, 'pihakLainPercent')
+      ),
+    });
+  };
+
+  const calculateColumnTotal = (
+    data: ModelingHistoryFormData[],
+    column: keyof ModelingHistoryFormData
+  ) => {
+    return data.reduce(
       (total, row) => total + parseFloat(row[column] || '0'),
       0
     );
   };
+
+  // useEffect(() => {
+  //   onUpdateFormData(rows);
+  // }, [rows, onUpdateFormData]);
   return (
     <div>
       <h1 className="p-2 font-bold text-lg mt-4">Riwayat Pemodelan</h1>
@@ -202,16 +243,16 @@ const ModelingHistory = () => {
               TOTAL
             </TableCell>
             <TableCell className="border text-center">
-              {formatIDR(calculateTotal('pemerintahDesaRp'))}
+              {total.pemerintahDesaRp}
             </TableCell>
             <TableCell className="border text-center">
-              {formatIDR(calculateTotal('pemerintahDesaPercent'))}
+              {total.pemerintahDesaPercent}
             </TableCell>
             <TableCell className="border text-center">
-              {formatIDR(calculateTotal('pihakLainRp'))}
+              {total.pihakLainRp}
             </TableCell>
             <TableCell className="border text-center">
-              {formatIDR(calculateTotal('pihakLainPercent'))}
+              {total.pihakLainPercent}
             </TableCell>
           </TableRow>
         </TableFooter>
