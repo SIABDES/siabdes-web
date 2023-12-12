@@ -24,12 +24,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const res = await AxiosAuthed(session.backendTokens.accessToken).get(
-      LEDGERS,
-      {
-        params: {
-          account_id,
-        },
-      }
+      `/ledgers/${account_id}`
     );
 
     return NextResponse.json(res.data);
