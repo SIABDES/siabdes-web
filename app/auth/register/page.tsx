@@ -19,13 +19,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "@/components/ui/use-toast";
+import useRegisterBumdes from "@/hooks/auth/useRegisterBumdes";
 import { RegisterFormData, RegisterSchema } from "@/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export default function RegisterPage() {
-  const [index, setIndex] = useState<number>(1);
+  const router = useRouter();
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -45,7 +47,33 @@ export default function RegisterPage() {
     },
   });
 
-  const onSubmit = (data: RegisterFormData) => {};
+  const {
+    mutateAsync: mutateRegisterBumdes,
+    isPending: isMutateRegisterPending,
+  } = useRegisterBumdes();
+
+  const onSubmit = (data: RegisterFormData) => {
+    void mutateRegisterBumdes(data, {
+      onSuccess: () => {
+        toast({
+          variant: "default",
+          title: "Berhasil mendaftarkan akun.",
+          description: `Email '${data.credentials.email}' berhasil di daftarkan.`,
+          duration: 5000,
+        });
+
+        void router.push("/auth/login");
+      },
+      onError: (error) => {
+        toast({
+          variant: "destructive",
+          title: "Gagal mendaftarkan akun.",
+          description: error.message,
+          duration: 5000,
+        });
+      },
+    });
+  };
 
   return (
     <div>
@@ -170,10 +198,10 @@ export default function RegisterPage() {
 
                   <FormField
                     control={form.control}
-                    name="address.village"
+                    name="address.district"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>Desa</FormLabel>
+                        <FormLabel htmlFor={field.name}>Kecamatan</FormLabel>
                         <FormControl>
                           <Select
                             onValueChange={field.onChange}
@@ -198,12 +226,43 @@ export default function RegisterPage() {
                       </FormItem>
                     )}
                   />
+
+                  <FormField
+                    control={form.control}
+                    name="address.village"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel htmlFor={field.name}>Desa</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Pilih desa" />
+                              </SelectTrigger>
+                            </FormControl>
+
+                            <SelectContent>
+                              <SelectItem value={"COMMERCE"}>Dagang</SelectItem>
+                              <SelectItem value={"SERVICES"}>Jasa</SelectItem>
+                              <SelectItem value={"INDUSTRY"}>
+                                Industri
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
                 <div className="flex flex-row gap-x-4 mt-4">
                   <FormField
                     control={form.control}
-                    name="profile.phone"
+                    name="address.completeAddress"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel htmlFor={field.name}>
@@ -223,7 +282,7 @@ export default function RegisterPage() {
 
                   <FormField
                     control={form.control}
-                    name="profile.phone"
+                    name="address.postalCode"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel htmlFor={field.name}>Kode Pos</FormLabel>
@@ -265,7 +324,7 @@ export default function RegisterPage() {
                 <div className="flex flex-row gap-x-6 mt-4">
                   <FormField
                     control={form.control}
-                    name="credentials.email"
+                    name="credentials.password"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel htmlFor={field.name}>Password</FormLabel>
@@ -283,7 +342,7 @@ export default function RegisterPage() {
 
                   <FormField
                     control={form.control}
-                    name="credentials.email"
+                    name="credentials.passwordConfirmation"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel htmlFor={field.name}>
@@ -304,7 +363,15 @@ export default function RegisterPage() {
               </CardContent>
             </Card>
 
-            <Button className="w-fit mt-4">Daftarkan Bumdes</Button>
+            <Button
+              type="submit"
+              className="w-fit mt-4"
+              disabled={isMutateRegisterPending}
+            >
+              {isMutateRegisterPending
+                ? "Mendaftarkan Bumdes..."
+                : "Daftarkan Bumdes"}
+            </Button>
           </form>
         </Form>
       </div>
