@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../[...nextauth]/route";
-import { RegisterFormData } from "@/types/auth";
+import { RegisterFormData, RegisterSchema } from "@/types/auth";
 import { AxiosNoAuth } from "@/common/api";
 import { AxiosError } from "axios";
 import { AuthRegisterResponse } from "@/types/auth/response";
@@ -22,7 +22,16 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const data: RegisterFormData = await req.json();
+  const body = await req.json();
+  const payload = await RegisterSchema.safeParseAsync(body);
+
+  if (!payload.success) {
+    return NextResponse.json(payload.error, {
+      status: 400,
+    });
+  }
+
+  const { data } = payload;
 
   try {
     const res = await AxiosNoAuth.post<AuthRegisterResponse>("/auth/register", {
@@ -39,6 +48,11 @@ export async function POST(req: NextRequest) {
           postal_code: data.address.postalCode,
           complete_address: data.address.completeAddress,
         },
+      },
+      organization: {
+        leader: data.organization.leader,
+        secretary: data.organization.secretary,
+        treasurer: data.organization.treasurer,
       },
     });
 

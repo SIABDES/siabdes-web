@@ -1,23 +1,30 @@
+import { BussinessType } from "@/types/accounts";
 import NextAuth, { DefaultSession, User } from "next-auth";
 
 export type UserRole = "BUMDES" | "UNIT";
+export type BackendTokensStruct = {
+  accessToken: string;
+  refreshToken: string;
+};
+export type UserStruct = {
+  id: string;
+  bumdesId: string;
+  bumdesName: string;
+  unitId?: string;
+  unitName?: string;
+  role: UserRole;
+  businessType?: BussinessType;
+};
 
 declare module "next-auth" {
   interface User {
-    id: string;
-    bumdesId: string;
-    unitId?: string;
-    role: UserRole;
+    user: UserStruct;
+    backendTokens: BackendTokensStruct;
   }
 
   interface Session extends DefaultSession {
-    user: User;
-
-    backendTokens: {
-      accessToken: string;
-      refreshToken: string;
-      //   expiresIn: number;
-    };
+    user: UserStruct;
+    backendTokens: BackendTokensStruct;
   }
 }
 
@@ -25,17 +32,8 @@ import { JWT } from "next-auth/jwt";
 
 declare module "next-auth/jwt" {
   interface JWT {
-    user: {
-      id: string;
-      bumdesId: string;
-      unitId?: string;
-      role: UserRole;
-    };
+    user: UserStruct;
 
-    backendTokens: {
-      accessToken: string;
-      refreshToken: string;
-      //   expiresIn: number;
-    };
+    backendTokens: BackendTokensStruct;
   }
 }

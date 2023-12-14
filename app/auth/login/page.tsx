@@ -1,5 +1,4 @@
-"use client";
-
+import ErrorMessage from "@/components/error-message";
 import LoginForm from "@/components/pages/login/login-form";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import LoginImage from "@/public/undraw_login_re_4vu2.svg";
@@ -16,6 +15,8 @@ export default function Login() {
         <Card className="col-span-5">
           <CardHeader>
             <h4 className="text-lg text-center font-medium mb-2">Masuk</h4>
+
+            <ErrorMessage className="text-center" variant="alert" />
           </CardHeader>
 
           <CardContent>

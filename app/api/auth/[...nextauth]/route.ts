@@ -1,11 +1,14 @@
-import { Backend_URL } from "@/lib/constants";
+import { AxiosNoAuth } from "@/common/api";
+import { BACKEND_URL } from "@/common/configs";
+import { AuthLoginResponse } from "@/types/auth/response";
+import { AxiosError } from "axios";
 import { NextAuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 async function refreshToken(token: JWT): Promise<JWT> {
-  const res = await fetch(Backend_URL + "/auth/refresh", {
+  const res = await fetch(BACKEND_URL + "/auth/refresh", {
     method: "POST",
     headers: {
       authorization: `Refresh ${token.backendTokens.refreshToken}`,
@@ -34,27 +37,36 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
 
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials?.identifier || !credentials?.password) return null;
         const { identifier, password } = credentials;
 
-        const res = await fetch(Backend_URL + "/auth/login", {
-          method: "POST",
-          body: JSON.stringify({
-            identifier,
-            password,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (res.status == 401) {
-          return null;
+        try {
+          const response = await AxiosNoAuth.post<AuthLoginResponse>(
+            "/auth/login",
+            {
+              identifier,
+              password,
+            }
+          );
+
+          const { backendTokens, user } = response.data.data;
+
+          return {
+            id: user.id,
+            user,
+            backendTokens,
+          };
+        } catch (error) {
+          console.log("error");
+
+          if (error instanceof AxiosError) {
+            if (error.response?.status === 403)
+              throw new Error("Kredensial atau password salah");
+          }
+
+          throw error;
         }
-
-        const responseResult = await res.json();
-
-        return responseResult.data;
       },
     }),
   ],
@@ -81,7 +93,7 @@ export const authOptions: NextAuthOptions = {
 
   pages: {
     signIn: "/auth/login",
-    error: "/error",
+    error: "/auth/login",
   },
 };
 
