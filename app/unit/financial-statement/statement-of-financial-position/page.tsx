@@ -1,8 +1,8 @@
-"use client";
-import React from "react";
-import Layout from "@/components/layout/layout";
-import { CalendarDateRangePicker } from "@/components/date-range-picker";
-import { Button } from "@/components/ui/button";
+'use client';
+import React from 'react';
+import Layout from '@/components/layout/layout';
+import { CalendarDateRangePicker } from '@/components/date-range-picker';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -10,18 +10,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useGetWtb } from "@/hooks/wtb/useGetWtb";
+} from '@/components/ui/table';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useGetWtb } from '@/hooks/wtb/useGetWtb';
+import Link from 'next/link';
 
 export default function StatementOfFinancialPosition() {
   const { data, isLoading } = useGetWtb({
-    start_occurred_at: new Date("2024-12-02T09:53:31.920Z"),
-    end_occurred_at: new Date("2024-12-02T09:53:31.920Z"),
+    start_occurred_at: new Date('2024-12-02T09:53:31.920Z'),
+    end_occurred_at: new Date('2024-12-02T09:53:31.920Z'),
   });
 
   const accounts = data?.list;
-  console.log(accounts);
+  // console.log(accounts);
 
   const filteredAccounts = accounts?.filter(
     (account) => account.account.is_posisi_keuangan
@@ -42,9 +43,11 @@ export default function StatementOfFinancialPosition() {
               Laporan Keuangan Posisi Keuangan <br />1 Januari 2022 - 31
               Desember 2023
             </h1>
-            <div className="flex space-x-2 pt-8">
+            <div className="flex space-x-6 pt-8">
               <CalendarDateRangePicker />
-              <Button className="">Terapkan</Button>
+              <Link href="/unit/financial-statement/report/statement-of-financial-position/preview">
+                <Button className="">Cetak</Button>
+              </Link>
             </div>
           </div>
         </header>

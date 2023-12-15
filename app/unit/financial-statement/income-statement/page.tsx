@@ -1,8 +1,8 @@
-"use client";
-import React from "react";
-import Layout from "@/components/layout/layout";
-import { CalendarDateRangePicker } from "@/components/date-range-picker";
-import { Button } from "@/components/ui/button";
+'use client';
+import React from 'react';
+import Layout from '@/components/layout/layout';
+import { CalendarDateRangePicker } from '@/components/date-range-picker';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -10,14 +10,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useGetWtb } from "@/hooks/wtb/useGetWtb";
+} from '@/components/ui/table';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useGetWtb } from '@/hooks/wtb/useGetWtb';
+import Link from 'next/link';
 
 export default function IncomeStatement() {
   const { data, isLoading } = useGetWtb({
-    start_occured_at: new Date(2022, 1, 1),
-    end_occured_at: new Date(2023, 12, 31),
+    start_occurred_at: new Date(2022, 1, 1),
+    end_occurred_at: new Date(2023, 12, 31),
   });
   const accounts = data?.list ?? [];
   const filteredAccounts = accounts.filter(
@@ -25,7 +26,7 @@ export default function IncomeStatement() {
   );
 
   function formatDebit(account: any) {
-    if (account.account.ref === "6" && account.account.ref === "8") {
+    if (account.account.ref === '6' && account.account.ref === '8') {
       return `(${account.result.laba_rugi.debit})`;
     } else {
       return `${account.result.laba_rugi.debit}`;
@@ -49,9 +50,11 @@ export default function IncomeStatement() {
               Entitas Jasa <br />
               Laporan Keuangan Laba Rugi <br />1 Januari 2022 - 31 Desember 2023
             </h1>
-            <div className="flex space-x-2 pt-8">
+            <div className="flex space-x-6 pt-8">
               <CalendarDateRangePicker />
-              <Button className="">Terapkan</Button>
+              <Link href="/unit/financial-statement/report/income-statement/preview">
+                <Button>Cetak</Button>
+              </Link>
             </div>
           </div>
         </header>
