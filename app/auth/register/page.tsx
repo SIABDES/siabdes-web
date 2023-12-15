@@ -40,6 +40,11 @@ export default function RegisterPage() {
         password: "",
         passwordConfirmation: "",
       },
+      organization: {
+        leader: "",
+        secretary: "",
+        treasurer: "",
+      },
       address: {
         postalCode: "",
         completeAddress: "",
@@ -118,6 +123,75 @@ export default function RegisterPage() {
                         </FormLabel>
                         <FormControl>
                           <Input placeholder="Tulis nama bumdes." {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent>
+                <h6 className="text-lg font-medium mt-4">
+                  Struktur Organisasi
+                </h6>
+
+                <Separator className="my-2" />
+
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="organization.leader"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel htmlFor={field.name}>Nama Ketua</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Tulis nama ketua bumdes."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="flex flex-row gap-x-6 mt-4">
+                  <FormField
+                    control={form.control}
+                    name="organization.treasurer"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel htmlFor={field.name}>
+                          Nama Bendahara
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Tulis nama bendahara bumdes."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="organization.secretary"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel htmlFor={field.name}>
+                          Nama Sekeretaris
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Tulis nama sekertaris bumdes."
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -266,8 +340,7 @@ export default function RegisterPage() {
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel htmlFor={field.name}>
-                          Alamat Lengkap{" "}
-                          <span className="text-gray-400">(opsional)</span>
+                          Alamat Lengkap
                         </FormLabel>
                         <FormControl>
                           <Input
@@ -308,7 +381,7 @@ export default function RegisterPage() {
                   name="credentials.email"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel htmlFor={field.name}>Nama Bumdes</FormLabel>
+                      <FormLabel htmlFor={field.name}>Email Bumdes</FormLabel>
                       <FormControl>
                         <Input
                           type="email"
