@@ -39,7 +39,7 @@ export default function StatemenOfFinancialPosition() {
         {!isLoading && data && (
           <>
             <Asset accounts={data.list} />
-            <LiabilityEquity accounts={data.list} />
+            <LiabilityEquity data={data} />
             <Sign />
           </>
         )}

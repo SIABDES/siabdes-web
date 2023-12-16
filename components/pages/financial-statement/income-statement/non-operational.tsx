@@ -82,7 +82,7 @@ export default function NonOperational({
         </div>
       </div>
       <div className="flex border-2 border-black p-3 text-sm font-bold justify-between">
-        <h1>Total Laba/Rugi Operasional</h1>
+        <h1>Total Laba/Rugi Non-Operasional</h1>
         <h1>{formatNumber(totalNonOperationalLossProfit)}</h1>
       </div>
     </section>

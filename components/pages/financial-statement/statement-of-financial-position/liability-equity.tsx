@@ -1,17 +1,22 @@
 import React from 'react';
 import { WtbType } from '@/types/wtb/account';
 import { formatNumber } from '@/common/helpers/number-format';
+import { WtbSummaryType } from '@/types/wtb/summary';
+import { WtbResponse } from '@/types/wtb/response';
 
 interface LiabilityEquityProps {
-  accounts: WtbType[];
+  data: WtbResponse;
 }
 
-export default function LiabilityEquity({ accounts }: LiabilityEquityProps) {
+export default function LiabilityEquity({ data }: LiabilityEquityProps) {
+  const accounts = data?.list;
+  const summary = data?.summary;
+
   const filteredShortTermLiability = accounts?.filter(
     (account) =>
       account.account.ref.group_ref === '2' &&
       account.account.ref.account_ref.startsWith('1') &&
-      account.result.posisi_keuangan.credit > 0
+      account.result.posisi_keuangan.credit !== 0
   );
 
   const totalShortTermLiability = filteredShortTermLiability?.reduce(
@@ -23,7 +28,7 @@ export default function LiabilityEquity({ accounts }: LiabilityEquityProps) {
     (account) =>
       account.account.ref.group_ref === '2' &&
       account.account.ref.account_ref.startsWith('2') &&
-      account.result.posisi_keuangan.credit > 0
+      account.result.posisi_keuangan.credit !== 0
   );
 
   const totalLongTermLiability = filteredLongTermLiability?.reduce(
@@ -37,7 +42,7 @@ export default function LiabilityEquity({ accounts }: LiabilityEquityProps) {
     (account) =>
       account.account.ref.group_ref === '3' &&
       account.account.ref.account_ref.startsWith('1') &&
-      account.result.posisi_keuangan.credit > 0
+      account.result.posisi_keuangan.credit !== 0
   );
 
   const totalEquity = filteredEquity?.reduce(
@@ -45,7 +50,19 @@ export default function LiabilityEquity({ accounts }: LiabilityEquityProps) {
     0
   );
 
-  const totalLiabilityEquity = totalLiability + totalEquity;
+  const filteredRecapEarning = accounts?.filter(
+    (account) =>
+      account.account.ref.group_ref === '3' &&
+      account.account.ref.account_ref === '1002'
+    // account.result.posisi_keuangan.credit !== 0
+  );
+
+  const totalIncomeStatement =
+    summary.laba_rugi_bersih.laba_rugi.credit +
+    summary.laba_rugi_bersih.laba_rugi.debit;
+
+  const totalLiabilityEquity =
+    totalLiability + totalEquity + totalIncomeStatement;
 
   return (
     <section>
@@ -109,9 +126,23 @@ export default function LiabilityEquity({ accounts }: LiabilityEquityProps) {
               <h1>{formatNumber(account.result.posisi_keuangan.credit)}</h1>
             </div>
           ))}
+
+          {filteredRecapEarning?.map((account) => (
+            <div
+              key={account.account.id}
+              className="flex justify-between text-sm ml-3"
+            >
+              <div className="flex space-x-1">
+                <p>{`(${account.account.ref.account_ref})`}</p>
+                <p>{account.account.name}</p>
+              </div>
+              <h1>{formatNumber(totalIncomeStatement)}</h1>
+            </div>
+          ))}
+
           <div className="flex justify-between text-sm font-bold text-red-600">
             <h1>Total Ekuitas</h1>
-            <h1>{formatNumber(totalEquity)}</h1>
+            <h1>{formatNumber(totalEquity + totalIncomeStatement)}</h1>
           </div>
         </div>
         <div className="flex text-sm font-bold justify-between">
