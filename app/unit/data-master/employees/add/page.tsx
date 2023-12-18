@@ -307,15 +307,21 @@ export default function Add() {
                 <SelectSeparator />
                 <SelectGroup>
                   <SelectLabel>Pegawai Tidak Tetap</SelectLabel>
-                  <SelectItem value="minguan">Mingguan</SelectItem>
-                  <SelectItem value="borongan">Borongan</SelectItem>
-                  <SelectItem value="satuan">Satuan</SelectItem>
+                  <SelectItem value="minguan">
+                    Pegawai Tidak Tetap - Mingguan
+                  </SelectItem>
+                  <SelectItem value="borongan">
+                    Pegawai Tidak Tetap - Borongan
+                  </SelectItem>
+                  <SelectItem value="satuan">
+                    Pegawai Tidak Tetap - Satuan
+                  </SelectItem>
                 </SelectGroup>
                 <SelectSeparator />
                 <SelectGroup>
                   <SelectLabel>Pesangon</SelectLabel>
-                  <SelectItem value="sekaligus">Sekaligus</SelectItem>
-                  <SelectItem value="berkala">Berkala</SelectItem>
+                  <SelectItem value="sekaligus">Pesangon Sekaligus</SelectItem>
+                  <SelectItem value="berkala">Pesangon Berkala</SelectItem>
                 </SelectGroup>
                 <SelectSeparator />
                 <SelectGroup>

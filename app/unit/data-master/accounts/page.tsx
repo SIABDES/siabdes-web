@@ -14,6 +14,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetAccounts } from "@/hooks/account/useGetAccounts";
 import { TabContentAccounts } from "@/components/pages/data-master/accounts/tab-content-accounts";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function ListAccount() {
   const data = useGetAccounts();
@@ -23,11 +25,19 @@ export default function ListAccount() {
     data.data?.filter((account) => parseInt(account.group_ref) > 3) ?? [];
   return (
     <Layout>
-      <h1 className="text-2xl font-bold mb-4 text-center ">Daftar Akun</h1>
+      <header className="flex justify-between items-center mb-5">
+        <h1 className="text-2xl font-bold text-center align-baseline">
+          Daftar Akun
+        </h1>
+        <Link href="/unit/data-master/accounts/add">
+          <Button>Tambah Akun</Button>
+        </Link>
+      </header>
+      {/* <h1 className="text-2xl font-bold mb-4 text-center ">Daftar Akun</h1> */}
       <Tabs defaultValue="rill_account">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="rill_account">Rill Account</TabsTrigger>
-          <TabsTrigger value="nominal_account">Nominal Account</TabsTrigger>
+          <TabsTrigger value="rill_account">Akun Rill</TabsTrigger>
+          <TabsTrigger value="nominal_account">Akun Nominal</TabsTrigger>
         </TabsList>
         <TabContentAccounts data={rill_account} value="rill_account" />
         <TabContentAccounts data={nominal_account} value="nominal_account" />
