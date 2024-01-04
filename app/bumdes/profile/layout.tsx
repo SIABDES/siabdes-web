@@ -1,12 +1,10 @@
 "use client";
 
 import ProfileNavItem from "@/components/pages/bumdes/bumdes-profile-nav-item";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
   BarChart2Icon,
   CircleDollarSignIcon,
-  TrashIcon,
   UserIcon,
   Users2Icon,
 } from "lucide-react";
@@ -37,15 +35,15 @@ export default function BumdesUnitProfileRoot({
         />
 
         <ProfileNavItem
-          href="/bumdes/profile/financial"
-          as={`/bumdes/profile/financial`}
+          href="/bumdes/profile/funding"
+          as={`/bumdes/profile/funding`}
           icon={CircleDollarSignIcon}
           label="Riwayat Pemodalan"
         />
 
         <ProfileNavItem
-          href="/bumdes/profile/profit"
-          as={`/bumdes/profile/profit`}
+          href="/bumdes/profile/incomes"
+          as={`/bumdes/profile/incomes`}
           icon={BarChart2Icon}
           label="Omzet/Keuntungan/Dividen"
         />

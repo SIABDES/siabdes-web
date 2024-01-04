@@ -12,12 +12,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { Matcher } from "react-day-picker";
 
 interface DatePickerProps {
   className?: string;
   date?: Date;
   setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
   placeholder?: string;
+  disabled?: Matcher | Matcher[] | undefined;
 }
 
 export function DatePicker(props: DatePickerProps) {
@@ -42,9 +44,10 @@ export function DatePicker(props: DatePickerProps) {
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
-          mode="single"
+          mode={"single"}
           selected={props.date}
           onSelect={props.setDate}
+          disabled={props.disabled}
           initialFocus
         />
       </PopoverContent>
