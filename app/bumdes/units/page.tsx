@@ -40,7 +40,7 @@ export default function BumdesUnitsPage() {
             </Select>
           </div>
           <Link href={"/bumdes/units/new"}>
-            <Button>Tambah Bumdes</Button>
+            <Button>Tambah Unit</Button>
           </Link>
         </div>
       </div>

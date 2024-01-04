@@ -24,17 +24,19 @@ export const TabContentAccounts: React.FC<TabContentAccountsProps> = ({
           <TableHeader>
             <TableRow>
               <TableHead>No</TableHead>
-              <TableHead>Nama Akun</TableHead>
               <TableHead className="text-center">Kode Akun</TableHead>
-              <TableHead className="text-center">Saldo Umum</TableHead>
+              <TableHead>Nama Akun</TableHead>
+              <TableHead>Kategori Akun</TableHead>
+              <TableHead className="text-center">Saldo Normal</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((account, index) => (
               <TableRow key={index}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{account.name}</TableCell>
                 <TableCell className="text-center">{account.ref}</TableCell>
+                <TableCell>{account.name}</TableCell>
+                <TableCell>Kategori</TableCell>
                 {account.is_credit ? (
                   <TableCell className="text-center">Kredit</TableCell>
                 ) : (

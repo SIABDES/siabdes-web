@@ -1,20 +1,29 @@
 import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
-import React from 'react';
 import { authOptions } from '../../auth/[...nextauth]/route';
+import { NextResponse } from 'next/server';
 import { AxiosAuthed } from '@/common/api';
+import { AxiosError } from 'axios';
+import { GetBumdesProfileResponse } from '@/types/bumdes';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const session = await getServerSession(authOptions);
+
   if (!session) {
-    return NextResponse.redirect('/login');
+    return NextResponse.redirect('/auth/login');
   }
 
-  const res = await AxiosAuthed(session.backendTokens.accessToken).get(
-    `/bumdes/${session.user.bumdesId}/profile`
-  );
+  try {
+    const res = await AxiosAuthed(
+      session.backendTokens.accessToken
+    ).get<GetBumdesProfileResponse>(`/bumdes/${session.user.bumdesId}/profile`);
 
-  const { data } = res.data;
-
-  return NextResponse.json(data);
+    return NextResponse.json(res.data);
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 404) {
+        return NextResponse.redirect('/bumdes/profile');
+      }
+    }
+    throw error;
+  }
 }

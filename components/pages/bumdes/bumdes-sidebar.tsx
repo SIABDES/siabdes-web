@@ -41,7 +41,7 @@ export function BumdesSidebar(props: BumdesSidebarProps) {
         <section
           id="sidebar-content"
           className={cn(
-            "overflow-y-scroll py-4 pt-16 flex flex-col gap-y-4 items-center row-span-12",
+            "py-4 pt-16 flex flex-col gap-y-4 items-center row-span-12",
             props.isOpen ? "" : ""
           )}
         >

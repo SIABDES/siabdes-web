@@ -10,6 +10,7 @@ import useGetUnitProfile from '@/hooks/units/profile/useGetUnitProfile';
 
 export default function UnitProfile() {
   const session = useSession();
+
   return (
     <Layout>
       <header>

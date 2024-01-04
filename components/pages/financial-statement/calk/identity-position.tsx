@@ -16,6 +16,7 @@ export default function IdentityPosition() {
   console.log('unit', unit);
 
   const [members, setMembers] = useState<string[]>([]);
+  const [collabs, setCollabs] = useState<string[]>([]);
   const [formValues, setFormValues] = useState({
     bidang_usaha: data?.business_type,
     nama_usaha: unit?.name,
@@ -44,6 +45,20 @@ export default function IdentityPosition() {
     const updatedMembers = [...members];
     updatedMembers.splice(index, 1);
     setMembers(updatedMembers);
+  };
+
+  const addCollab = () => {
+    setCollabs([...collabs, '']);
+  };
+  const handleCollabChange = (index: number, value: string) => {
+    const updatedCollabs = [...collabs];
+    updatedCollabs[index] = value;
+    setCollabs(updatedCollabs);
+  };
+  const handleRemoveCollab = (index: number) => {
+    const updatedCollabs = [...collabs];
+    updatedCollabs.splice(index, 1);
+    setCollabs(updatedCollabs);
   };
 
   const handleInputChange = (name: string, value: string) => {
@@ -100,16 +115,46 @@ export default function IdentityPosition() {
           value={formValues.nomor_telepon}
           onChange={(e) => handleInputChange('nomor_telepon', e.target.value)}
         />
-        <InputField
-          label="Kerjasama dengan Pihak Ketiga"
-          placeholder="Masukkan kerjasama dengan pihak ketiga"
-          name="kerjasama_pihak_ketiga"
-          type="text"
-          value={formValues.kerjasama_pihak_ketiga}
-          onChange={(e) =>
-            handleInputChange('kerjasama_pihak_ketiga', e.target.value)
-          }
-        />
+        <div className="flex">
+          <label
+            htmlFor="Susunan Pengurus"
+            className="p-2 block text-sm font-medium text-black w-full"
+          >
+            Kerjasama Denga Pihak Ketiga
+          </label>
+        </div>
+        {collabs.map((collab, index) => (
+          <div key={index} className="flex">
+            <Label
+              htmlFor="Kerjasama"
+              className="p-2 block text-sm font-medium text-black w-full pl-10 pr-14"
+            >
+              • Kerjasama {index + 1}
+            </Label>
+
+            <h1 className="p-2 text-sm font-medium text-black">:</h1>
+            <Input
+              type="text"
+              placeholder={`Masukkan Nama Pihak Ketiga`}
+              name={`collab_${index + 1}`}
+              value={collab}
+              onChange={(e) => handleCollabChange(index, e.target.value)}
+              disabled={formSaved}
+            />
+            <TrashIcon
+              className="ml-4 w-16 h-9 text-red-500 cursor-pointer"
+              onClick={() => handleRemoveCollab(index)}
+            />
+          </div>
+        ))}
+
+        <Button
+          type="button"
+          className="p-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md ml-10"
+          onClick={addCollab}
+        >
+          Tambah Kerjasama
+        </Button>
         <div className="flex">
           <Label className="p-2 block text-sm font-medium text-black w-full">
             Deskripsi Kegiatan Usaha
@@ -148,7 +193,7 @@ export default function IdentityPosition() {
           <div key={index} className="flex">
             <Label
               htmlFor="Anggota"
-              className="p-2 block text-sm font-medium text-black w-full  pl-10"
+              className="p-2 block text-sm font-medium text-black w-full pl-10 pr-24"
             >
               Anggota {index + 1}
             </Label>

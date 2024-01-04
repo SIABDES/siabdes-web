@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Session } from 'inspector';
-import { ArrowRight, LogOutIcon } from 'lucide-react';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import Link from 'next/link';
+import { Button } from "@/components/ui/button";
+import { Session } from "inspector";
+import { ArrowRight, LogOutIcon } from "lucide-react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function LandingNavbar() {
   const { data: session, status: authStatus } = useSession();
@@ -26,17 +26,27 @@ export default function LandingNavbar() {
           </Link>
         </div>
         <div className="inline-flex gap-x-4">
-          {authStatus === 'authenticated' ? (
+          {authStatus === "authenticated" ? (
             <>
-              <Link href={'/unit/dashboard'}>
-                <Button>
-                  Ke Dashboard <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
+              {session.user.role === "BUMDES" && (
+                <Link href={"/bumdes"}>
+                  <Button>
+                    Ke Dashboard <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              )}
+
+              {session.user.role === "UNIT" && (
+                <Link href={"/unit/dashboard"}>
+                  <Button>
+                    Ke Dashboard <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              )}
 
               <Button
-                variant={'destructiveLink'}
-                onClick={() => signOut({ callbackUrl: '/' })}
+                variant={"destructiveLink"}
+                onClick={() => signOut({ callbackUrl: "/" })}
               >
                 <LogOutIcon className="w-4 h-4 mr-2" />
                 Keluar
@@ -44,11 +54,11 @@ export default function LandingNavbar() {
             </>
           ) : (
             <>
-              <Link href={'/auth/login'}>
-                <Button variant={'outline'}>Masuk</Button>
+              <Link href={"/auth/login"}>
+                <Button variant={"outline"}>Masuk</Button>
               </Link>
               <Link href="/auth/register">
-                <Button variant={'default'}>Daftar</Button>
+                <Button variant={"default"}>Daftar</Button>
               </Link>
             </>
           )}
