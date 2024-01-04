@@ -9,7 +9,7 @@ import Heading3_6 from '../heading-3/heading3-6';
 export default function Heading2_3() {
   return (
     <section>
-      <section className="mx-56">
+      <section className="">
         <h2 className="text-start text-lg font-semibold mb-2 mt-4">
           C. Penerapan Kebijakan Akuntansi
         </h2>
@@ -20,7 +20,7 @@ export default function Heading2_3() {
         </p>
       </section>
 
-      <section className="mx-56">
+      <section className="">
         <Heading3_1 />
         <Heading3_2 />
         <Heading3_3 />

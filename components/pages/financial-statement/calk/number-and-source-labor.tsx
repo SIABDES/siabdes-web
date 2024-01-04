@@ -43,21 +43,25 @@ export default function CurrentNumberAndSourcesOfLabor() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="text-center font-semibold">Uraian</TableHead>
-            <TableHead className="text-center font-semibold">
+            <TableCell className="border border-black text-center font-bold">
+              Uraian
+            </TableCell>
+            <TableCell className="border border-black text-center font-bold">
               Tenaga Kerja Tetap
-            </TableHead>
-            <TableHead className="text-center font-semibold">
+            </TableCell>
+            <TableCell className="border border-black text-center font-bold">
               Tenaga Kerja Tidak Tetap
-            </TableHead>
+            </TableCell>
           </TableRow>
         </TableHeader>
 
         <TableBody>
           {data.map((row, rowIndex) => (
             <TableRow key={rowIndex}>
-              <TableCell className="text-center">{row.description}</TableCell>
-              <TableCell className="text-center">
+              <TableCell className="border border-black">
+                {row.description}
+              </TableCell>
+              <TableCell className="border border-black text-center ">
                 <Input
                   type="number"
                   className="text-center"
@@ -68,7 +72,7 @@ export default function CurrentNumberAndSourcesOfLabor() {
                   }
                 />
               </TableCell>
-              <TableCell className="text-center">
+              <TableCell className="border border-black text-center">
                 <Input
                   type="number"
                   className="text-center"
@@ -85,11 +89,13 @@ export default function CurrentNumberAndSourcesOfLabor() {
 
         <TableFooter>
           <TableRow>
-            <TableCell className="text-center">Total Tenaga Kerja</TableCell>
-            <TableCell className="text-center">
+            <TableCell className="border border-black text-center font-bold">
+              Total Tenaga Kerja
+            </TableCell>
+            <TableCell className="border border-black text-center font-bold">
               {calculateColumnSum('permanent')}
             </TableCell>
-            <TableCell className="text-center">
+            <TableCell className="border border-black text-center font-bold">
               {calculateColumnSum('nonPermanent')}
             </TableCell>
           </TableRow>

@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import IdentityPosition from '@/components/pages/financial-statement/calk/identity-position';
 import CapitalAssetsNetProfitLabor from '@/components/pages/financial-statement/calk/capital-assets-netprofit-labor';
+import useGetUnitProfile from '@/hooks/units/profile/useGetUnitProfile';
 
 export default function UnitProfile() {
   const session = useSession();

@@ -34,8 +34,8 @@ const TableSum: React.FC<TableProps> = ({
     setRows([...rows, new Array(headers.length).fill('')]);
   };
 
-  console.log('rows', rows);
-  console.log('totals', totals);
+  // console.log('rows', rows);
+  // console.log('totals', totals);
   const handleDeleteRow = (index: number) => {
     if (rows.length > 1) {
       const newRows = [...rows];

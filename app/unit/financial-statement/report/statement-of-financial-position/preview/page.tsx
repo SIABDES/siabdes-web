@@ -8,11 +8,15 @@ import LiabilityEquity from '@/components/pages/financial-statement/statement-of
 import Sign from '@/components/pages/financial-statement/statement-of-financial-position/sign';
 import { useGetWtb } from '@/hooks/wtb/useGetWtb';
 
-export default function StatemenOfFinancialPosition() {
+export default function StatementOfFinancialPosition() {
   const { data, isLoading } = useGetWtb({
-    start_occurred_at: new Date(2022, 1, 1),
-    end_occurred_at: new Date(2023, 12, 31),
+    start_occurred_at: new Date(2023, 2, 1),
+    end_occurred_at: new Date(2023, 2, 28),
   });
+  // const { data: Awal, isLoading: asd } = useGetWtb({
+  //   start_occurred_at: new Date(2023, 2, 1),
+  //   end_occurred_at: new Date(2023, 2, 28),
+  // });
 
   return (
     <section>

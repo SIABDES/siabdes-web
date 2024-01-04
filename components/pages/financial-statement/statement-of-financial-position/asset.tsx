@@ -20,35 +20,6 @@ export default function Asset({ accounts }: AssetProps) {
       account.result.posisi_keuangan.credit,
     0
   );
-  // const filteredCurrentAssetDebit = accounts?.filter(
-  //   (account) =>
-  //     account.account.ref.group_ref === '1' &&
-  //     account.account.ref.account_ref.startsWith('1') &&
-  //     account.account.is_credit === false
-  //   // account.result.posisi_keuangan.debit > 0
-  // );
-
-  // const totalCurrentAssetDebit = filteredCurrentAssetDebit?.reduce(
-  //   (total, account) => total + account.result.posisi_keuangan.debit,
-  //   0
-  // );
-
-  // const filteredCurrentAssetCredit = accounts?.filter(
-  //   (account) =>
-  //     account.account.ref.group_ref === '1' &&
-  //     account.account.ref.account_ref.startsWith('1') &&
-  //     account.account.is_credit === true
-  //   // account.result.posisi_keuangan.debit > 0
-  // );
-
-  // const totalCurrentAssetCredit = filteredCurrentAssetCredit?.reduce(
-  //   (total, account) => total + account.result.posisi_keuangan.credit,
-  //   0
-  // );
-
-  // const totalCurrentAsset = useMemo(() => {
-  //   return totalCurrentAssetDebit - totalCurrentAssetCredit;
-  // }, [totalCurrentAssetDebit, totalCurrentAssetCredit]);
 
   const filteredNonCurrentAsset = accounts?.filter(
     (account) =>
@@ -64,34 +35,6 @@ export default function Asset({ accounts }: AssetProps) {
       account.result.posisi_keuangan.credit,
     0
   );
-  // const filteredNonCurrentAssetDebit = accounts?.filter(
-  //   (account) =>
-  //     account.account.ref.group_ref === '1' &&
-  //     account.account.ref.account_ref.startsWith('2') &&
-  //     account.account.is_credit === false
-  //   // account.result.posisi_keuangan.debit  0
-  // );
-
-  // const totalNonCurrentAssetDebit = filteredNonCurrentAssetDebit?.reduce(
-  //   (total, account) => total + account.result.posisi_keuangan.debit,
-  //   0
-  // );
-
-  // const filteredNonCurrentAssetCredit = accounts?.filter(
-  //   (account) =>
-  //     account.account.ref.group_ref === '1' &&
-  //     account.account.ref.account_ref.startsWith('2') &&
-  //     account.account.is_credit === true
-  //   // account.result.posisi_keuangan.Credit  0
-  // );
-
-  // const totalNonCurrentAssetCredit = filteredNonCurrentAssetCredit?.reduce(
-  //   (total, account) => total + account.result.posisi_keuangan.credit,
-  //   0
-  // );
-  // const totalNonCurrentAsset = useMemo(() => {
-  //   return totalNonCurrentAssetDebit - totalNonCurrentAssetCredit;
-  // }, [totalNonCurrentAssetDebit, totalNonCurrentAssetCredit]);
 
   const totalAsset = useMemo(() => {
     return totalCurrentAsset + totalNonCurrentAsset;

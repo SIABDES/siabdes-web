@@ -14,12 +14,16 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetWtb } from '@/hooks/wtb/useGetWtb';
 import Link from 'next/link';
+import { DateRange } from 'react-day-picker';
 
 export default function IncomeStatement() {
+  const [date, setDate] = React.useState<DateRange | undefined>(undefined);
+
   const { data, isLoading } = useGetWtb({
-    start_occurred_at: new Date(2022, 1, 1),
-    end_occurred_at: new Date(2023, 12, 31),
+    start_occurred_at: date?.from,
+    end_occurred_at: date?.to,
   });
+
   const accounts = data?.list ?? [];
   const filteredAccounts = accounts.filter(
     (account) => !account.account.is_posisi_keuangan
@@ -51,7 +55,7 @@ export default function IncomeStatement() {
               Laporan Keuangan Laba Rugi <br />1 Januari 2022 - 31 Desember 2023
             </h1>
             <div className="flex space-x-6 pt-8">
-              <CalendarDateRangePicker />
+              <CalendarDateRangePicker date={date} setDate={setDate} />
               <Link href="/unit/financial-statement/report/income-statement/preview">
                 <Button>Cetak</Button>
               </Link>

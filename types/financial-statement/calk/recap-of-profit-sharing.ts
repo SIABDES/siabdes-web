@@ -9,4 +9,5 @@ export interface RecapOfProfitSharingFormData {
   total2020?: string;
   total2021?: string;
   total2022?: string;
+  [key: number]: string;
 }

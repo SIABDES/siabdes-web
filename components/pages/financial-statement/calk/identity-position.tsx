@@ -5,19 +5,28 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { PlusIcon, TrashIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { GetUnitProfileResponse } from '@/types/units/profile/response';
+import useGetUnitProfile from '@/hooks/units/profile/useGetUnitProfile';
 
 export default function IdentityPosition() {
+  const { data } = useGetUnitProfile();
+  const unit = data;
+
+  console.log('data', data);
+  console.log('unit', unit);
+
   const [members, setMembers] = useState<string[]>([]);
   const [formValues, setFormValues] = useState({
-    bidang_usaha: '',
-    nama_usaha: '',
-    alamat_usaha: '',
-    nomor_telepon: '',
-    kerjasama_pihak_ketiga: '',
-    deskripsi_kegiatan_usaha: '',
-    kepala_unit_usaha: '',
-    anggota: [],
-    tahun_berdiri: '',
+    bidang_usaha: data?.business_type,
+    nama_usaha: unit?.name,
+    alamat_usaha: unit?.address,
+    nomor_telepon: unit?.phone,
+    kerjasama_pihak_ketiga: unit?.third_party_partners,
+    deskripsi_kegiatan_usaha: unit?.description,
+    kepala_unit_usaha: unit?.organization.leader,
+    // anggota: [],
+    anggota: unit?.organization.members,
+    tahun_berdiri: unit?.founded_at,
   });
   const [formSaved, setFormSaved] = useState(false);
 
@@ -65,6 +74,7 @@ export default function IdentityPosition() {
           type="text"
           value={formValues.bidang_usaha}
           onChange={(e) => handleInputChange('bidang_usaha', e.target.value)}
+          disabled={true}
         />
         <InputField
           label="Nama Usaha"

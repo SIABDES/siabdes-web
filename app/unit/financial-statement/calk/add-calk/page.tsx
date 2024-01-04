@@ -1,19 +1,72 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Layout from '@/components/layout/layout';
 import { Button } from '@/components/ui/button';
 import InputField from '@/components/Input/input-field';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  TableFooter,
-} from '@/components/ui/table';
 import RecapOfProfitSharing from '@/components/pages/financial-statement/calk/recap-of-profit-sharing';
+import { useRouter } from 'next/navigation';
+import { RecapOfProfitSharingFormData } from '@/types/financial-statement/calk/recap-of-profit-sharing';
 
 export default function AddCALK() {
+  const router = useRouter();
+
+  const [formValues, setFormValues] = useState({
+    peraturan_daerah_kabupaten: '',
+    nomor_peraturan_daerah_kabupaten: '',
+    tahun_peraturan_daerah_kabupaten: '',
+    tentang_peraturan_daerah_kabupaten: '',
+    peraturan_desa: '',
+    nomor_peraturan_desa: '',
+    tahun_peraturan_desa: '',
+    tentang_peraturan_desa: '',
+    ad_art_bumdes: '',
+    tanggal_dokumen: '',
+    nama_ketua: '',
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  const [recapOfProfitSharingData, setRecapOfProfitSharingData] =
+    useState<RecapOfProfitSharingFormData>({});
+
+  const handleRecapOfProfitSharingChange = (
+    updatedData: RecapOfProfitSharingFormData
+  ) => {
+    setRecapOfProfitSharingData(updatedData);
+  };
+  const handleSave = () => {
+    const data = {
+      peraturan_daerah_kabupaten: formValues.peraturan_daerah_kabupaten,
+      nomor_peraturan_daerah_kabupaten:
+        formValues.nomor_peraturan_daerah_kabupaten,
+      tahun_peraturan_daerah_kabupaten:
+        formValues.tahun_peraturan_daerah_kabupaten,
+      tentang_peraturan_daerah_kabupaten:
+        formValues.tentang_peraturan_daerah_kabupaten,
+      peraturan_desa: formValues.peraturan_desa,
+      nomor_peraturan_desa: formValues.nomor_peraturan_desa,
+      tahun_peraturan_desa: formValues.tahun_peraturan_desa,
+      tentang_peraturan_desa: formValues.tentang_peraturan_desa,
+      ad_art_bumdes: formValues.ad_art_bumdes,
+      tanggal_dokumen: formValues.tanggal_dokumen,
+      nama_ketua: formValues.nama_ketua,
+      recapOfProfitSharing: recapOfProfitSharingData,
+    };
+
+    router.push(
+      '/unit/financial-statement/report/calk/preview?data=' +
+        JSON.stringify(data)
+    );
+    console.log(data);
+  };
+
   return (
     <Layout>
       <header>
@@ -34,6 +87,8 @@ export default function AddCALK() {
           placeholder="Masukkan Peraturan Daerah Kabupaten"
           name="peraturan_daerah_kabupaten"
           type="text"
+          value={formValues.peraturan_daerah_kabupaten}
+          onChange={handleInputChange}
           labelClassName="text-sm font-bold text-black"
         />
         <InputField
@@ -41,24 +96,32 @@ export default function AddCALK() {
           placeholder="Masukkan nomor"
           name="nomor_peraturan_daerah_kabupaten"
           type="text"
+          value={formValues.nomor_peraturan_daerah_kabupaten}
+          onChange={handleInputChange}
         />
         <InputField
           label="Tahun"
           placeholder="Masukkan tahun"
           name="tahun_peraturan_daerah_kabupaten"
           type="text"
+          value={formValues.tahun_peraturan_daerah_kabupaten}
+          onChange={handleInputChange}
         />
         <InputField
           label="Tentang"
           placeholder="Masukkan tentang"
           name="tentang_peraturan_daerah_kabupaten"
           type="text"
+          value={formValues.tentang_peraturan_daerah_kabupaten}
+          onChange={handleInputChange}
         />
         <InputField
           label="Peraturan Desa"
           placeholder="Masukkan Peraturan Desa"
           name="peraturan_desa"
           type="text"
+          value={formValues.peraturan_desa}
+          onChange={handleInputChange}
           labelClassName="text-sm font-bold text-black"
         />
         <InputField
@@ -66,24 +129,32 @@ export default function AddCALK() {
           placeholder="Masukkan nomor"
           name="nomor_peraturan_desa"
           type="text"
+          value={formValues.nomor_peraturan_desa}
+          onChange={handleInputChange}
         />
         <InputField
           label="Tahun"
           placeholder="Masukkan tahun"
           name="tahun_peraturan_desa"
           type="text"
+          value={formValues.tahun_peraturan_desa}
+          onChange={handleInputChange}
         />
         <InputField
           label="Tentang"
           placeholder="Masukkan tentang"
           name="tentang_peraturan_desa"
           type="text"
+          value={formValues.tentang_peraturan_desa}
+          onChange={handleInputChange}
         />
         <InputField
           label="AD/ART BUMDes"
           placeholder="Masukkan AD/ART BUMDes"
           name="ad_art_bumdes"
           type="text"
+          value={formValues.ad_art_bumdes}
+          onChange={handleInputChange}
           labelClassName="text-sm font-bold text-black"
         />
       </section>
@@ -95,18 +166,29 @@ export default function AddCALK() {
           label="Tanggal Dokumen"
           type="date"
           name="tanggal_dokumen"
+          value={formValues.tanggal_dokumen}
+          onChange={handleInputChange}
         />
-        <InputField label="Nama ketua" type="text" name="nama_ketua" />
+        <InputField
+          label="Nama ketua"
+          type="text"
+          name="nama_ketua"
+          value={formValues.nama_ketua}
+          onChange={handleInputChange}
+        />
       </section>
       <section>
         <h2 className="p-2 mt-4 text-lg font-bold text-black w-full">
           Rekap Bagi Hasil
         </h2>
-        <RecapOfProfitSharing />
+        <RecapOfProfitSharing
+          data={recapOfProfitSharingData}
+          onChange={handleRecapOfProfitSharingChange}
+        />
       </section>
       <div className="flex justify-end mt-10 mb-10">
         <Button
-          // onClick={handleSave}
+          onClick={handleSave}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Simpan
@@ -227,7 +309,8 @@ export default function AddCALK() {
 //     };
 //     console.log(data);
 //     router.push(
-//       '/financial-statement/report/calk/preview?data=' + JSON.stringify(data)
+//       '/unit/financial-statement/report/calk/preview?data=' +
+//         JSON.stringify(data)
 //     );
 //   };
 

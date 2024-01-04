@@ -14,11 +14,14 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetWtb } from '@/hooks/wtb/useGetWtb';
 import Link from 'next/link';
+import { DateRange } from 'react-day-picker';
 
 export default function StatementOfFinancialPosition() {
+  const [date, setDate] = React.useState<DateRange | undefined>(undefined);
+
   const { data, isLoading } = useGetWtb({
-    start_occurred_at: new Date('2024-12-02T09:53:31.920Z'),
-    end_occurred_at: new Date('2024-12-02T09:53:31.920Z'),
+    start_occurred_at: date?.from,
+    end_occurred_at: date?.to,
   });
 
   const accounts = data?.list;
@@ -44,7 +47,7 @@ export default function StatementOfFinancialPosition() {
               Desember 2023
             </h1>
             <div className="flex space-x-6 pt-8">
-              <CalendarDateRangePicker />
+              <CalendarDateRangePicker date={date} setDate={setDate} />
               <Link href="/unit/financial-statement/report/statement-of-financial-position/preview">
                 <Button className="">Cetak</Button>
               </Link>

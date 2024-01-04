@@ -33,13 +33,13 @@ const InputField: React.FC<InputFieldProps> = ({
     <div className={`flex ${containerClassName || ''}`}>
       <Label
         htmlFor={name}
-        className={`p-2 block text-sm font-medium text-black w-full ${
+        className={`p-2 block text-base font-medium text-black w-full ${
           labelClassName || ''
         }}`}
       >
         {label}
       </Label>
-      <h1 className="p-2 text-sm font-medium text-black">:</h1>
+      <h1 className="p-2 text-base font-medium text-black">:</h1>
       <Input
         type={type}
         placeholder={placeholder}

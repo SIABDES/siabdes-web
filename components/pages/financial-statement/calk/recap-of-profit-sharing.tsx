@@ -12,7 +12,15 @@ import {
 import { Input } from '@/components/ui/input';
 import { RecapOfProfitSharingFormData } from '@/types/financial-statement/calk/recap-of-profit-sharing';
 
-export default function RecapOfProfitSharing() {
+interface RecapOfProfitSharingProps {
+  data: RecapOfProfitSharingFormData;
+  onChange: (data: RecapOfProfitSharingFormData) => void;
+}
+
+export default function RecapOfProfitSharing({
+  data,
+  onChange,
+}: RecapOfProfitSharingProps) {
   const [dataByYear, setDataByYear] = useState<{
     [year: number]: RecapOfProfitSharingFormData;
   }>({
@@ -41,7 +49,6 @@ export default function RecapOfProfitSharing() {
       shuDanaSosialdll: '',
     },
   });
-
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
     field: keyof RecapOfProfitSharingFormData,
@@ -51,6 +58,11 @@ export default function RecapOfProfitSharing() {
       ...prevData,
       [year]: { ...prevData[year], [field]: e.target.value },
     }));
+    const updatedData = {
+      ...data,
+      [year]: { ...data[year], [field]: e.target.value },
+    };
+    onChange(updatedData);
   };
 
   const calculateTotal = (
@@ -84,35 +96,45 @@ export default function RecapOfProfitSharing() {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="font-semibold text-center">Tahun</TableHead>
-          <TableHead className="font-semibold  text-center">
+          <TableCell className="border border-black text-center font-bold">
             SHU BUMDes
-          </TableHead>
-          <TableHead className="font-semibold text-center">
+          </TableCell>
+          <TableCell className="border border-black text-center font-bold">
             Dana SHU PADes
-          </TableHead>
-          <TableHead className="font-semibold text-center">
+          </TableCell>
+          <TableCell className="border border-black text-center font-bold">
             Dana SHU Direksi
-          </TableHead>
-          <TableHead className="font-semibold text-center">
+          </TableCell>
+          <TableCell className="border border-black text-center font-bold">
             Dana SHU Komisaris
-          </TableHead>
-          <TableHead className="font-semibold text-center">
+          </TableCell>
+          <TableCell className="border border-black text-center font-bold">
             SHU Dewan Pengawas
-          </TableHead>
-          <TableHead className="font-semibold text-center">
+          </TableCell>
+          <TableCell className="border border-black text-center font-bold">
             SHU Dana Sosial, dll
-          </TableHead>
-          <TableHead className="font-semibold text-center">Total</TableHead>
+          </TableCell>
+          <TableCell className="border border-black text-center font-bold">
+            Total
+          </TableCell>
         </TableRow>
+        {/* <TableRow className="border border-black text-center font-bold">
+          <TableCell>20%</TableCell>
+          <TableCell>20%</TableCell>
+          <TableCell>20%</TableCell>
+          <TableCell>10%</TableCell>
+          <TableCell>10%</TableCell>
+          <TableCell>20%</TableCell>
+          <TableCell>100%</TableCell>
+        </TableRow> */}
       </TableHeader>
 
       <TableBody>
         {years.map((year) => (
           <TableRow key={year}>
-            <TableCell className="text-center">{year}</TableCell>
+            {/* <TableCell className="text-center">{year}</TableCell> */}
             {Object.keys(dataByYear[year]).map((key) => (
-              <TableCell className="text-center" key={key}>
+              <TableCell className="border border-black text-center" key={key}>
                 <Input
                   type="text"
                   className="text-center"
@@ -127,7 +149,7 @@ export default function RecapOfProfitSharing() {
                 />
               </TableCell>
             ))}
-            <TableCell className="text-center">
+            <TableCell className="border border-black text-center">
               {calculateTotal('total', year)}
             </TableCell>
           </TableRow>
@@ -135,14 +157,14 @@ export default function RecapOfProfitSharing() {
       </TableBody>
 
       <TableFooter>
-        <TableRow>
+        {/* <TableRow>
           <TableCell className="text-center">TOTAL</TableCell>
           {Object.keys(dataByYear[2020]).map((key) => (
             <TableCell className="text-center" key={key}>
               {calculateTotal(key as keyof RecapOfProfitSharingFormData, 2020)}
             </TableCell>
           ))}
-        </TableRow>
+        </TableRow> */}
       </TableFooter>
     </Table>
   );
