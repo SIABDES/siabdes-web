@@ -16,20 +16,22 @@ export default function Operational({
   const filteredOperationalIncome = accounts?.filter(
     (account) =>
       account.account.ref.group_ref === '4' &&
-      account.result.laba_rugi.credit > 0
+      account.result.laba_rugi.credit !== 0
   );
   const totalOperationalIncome = filteredOperationalIncome?.reduce(
-    (total, account) => total + account.result.laba_rugi.credit,
+    (total, account) =>
+      total + account.result.laba_rugi.credit - account.result.laba_rugi.debit,
     0
   );
 
   const filteredOperationalCost = accounts?.filter(
     (account) =>
       account.account.ref.group_ref === '6' &&
-      account.result.laba_rugi.debit > 0
+      account.result.laba_rugi.debit !== 0
   );
   const totalOperationalCost = filteredOperationalCost?.reduce(
-    (total, account) => total + account.result.laba_rugi.debit,
+    (total, account) =>
+      total + account.result.laba_rugi.debit - account.result.laba_rugi.credit,
     0
   );
 
@@ -51,7 +53,11 @@ export default function Operational({
               <p>{`(${account.account.ref.account_ref})`}</p>
               <p>{account.account.name}</p>
             </div>
-            <h1>{formatNumber(account.result.laba_rugi.credit)}</h1>
+            <h1>
+              {formatNumber(
+                account.result.laba_rugi.credit - account.result.laba_rugi.debit
+              )}
+            </h1>
           </div>
         ))}
 

@@ -13,6 +13,8 @@ export type JournalType = {
   category: JournalCategoryType;
   description: string;
   occured_at: Date | string;
+  updated_at: Date | string;
+  created_at: Date | string;
   evidence: string;
   data_transactions: JournalTransactionType[];
 };

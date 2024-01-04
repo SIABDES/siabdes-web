@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { formatDateToString } from '@/common/helpers/date';
-import Layout from '@/components/layout/layout';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
+import { formatDateToString } from "@/common/helpers/date";
+import Layout from "@/components/layout/layout";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -11,12 +11,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { useGetAdjustmentJournals } from '@/hooks/journals/useGetAdjustmentJournals';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+} from "@/components/ui/table";
+import { useGetAdjustmentJournals } from "@/hooks/journals/useGetAdjustmentJournals";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-import React from 'react';
+import React from "react";
 
 export default function Adjustmentjournal() {
   const router = useRouter();
@@ -37,7 +37,7 @@ export default function Adjustmentjournal() {
     <Layout>
       <section>
         <header className="flex justify-between items-center">
-          <h4 className="text-sm">Adjustment Journal</h4>
+          <h4 className="text-sm">Jurnal Penyesuaian</h4>
 
           <Link href="/unit/working-trial-balance/adjustment-journal/add">
             <Button>Tambah Jurnal</Button>
