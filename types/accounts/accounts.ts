@@ -1,6 +1,6 @@
-import { BussinessType } from '.';
+import { BussinessType } from ".";
 
-export type AccountType = {
+export type AccountType = AccountSubgroupType & {
   id: number;
   group_ref: string;
   ref: string;
@@ -13,4 +13,15 @@ export type AccountType = {
 export type AccountsType = {
   _count: number;
   accounts: AccountType[];
+};
+
+export type AccountGroupType = {
+  group_ref: string;
+  group_name: string;
+  subgroups: AccountSubgroupType[];
+};
+
+export type AccountSubgroupType = {
+  subgroup_ref: string;
+  subgroup_name: string;
 };
