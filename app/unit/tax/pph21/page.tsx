@@ -4,10 +4,12 @@ import React from 'react';
 import Layout from '@/components/layout/layout';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 import ClikableTable from '@/components/table/clickable-table';
 import DropdownMenuButtonPPh21 from '@/components/pages/pph21/button-pph21/dropdown-menu-button-pph21';
 
 export default function PPH21() {
+  const router = useRouter();
   const tableHeaders = [
     'No',
     'Nama Lengkap',
@@ -65,8 +67,8 @@ export default function PPH21() {
       Status: 'Lunas',
     },
   ];
-  const handleRowClick = (employees_id: any) => {
-    // router.push(`/data-master/employees/details`);
+  const handleRowClick = (tax_id: any) => {
+    router.push(`/unit/tax/pph21/{tax_id}/details`);
   };
   const rows = [
     {

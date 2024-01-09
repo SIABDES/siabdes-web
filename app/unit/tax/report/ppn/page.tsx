@@ -1,12 +1,8 @@
 'use client';
-import Layout from '@/components/layout/layout';
 import React, { useMemo, useState } from 'react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import ClikableTable from '@/components/table/clickable-table';
+import Image from 'next/image';
+import Lengkong from '../../../../../public/lengkong.png';
 import TablePPN from '@/components/pages/tax/ppn/tabe-ppn';
-import { set } from 'date-fns';
-import { formatNumber } from '@/common/helpers/number-format';
 
 export default function PPN() {
   const tableHeadersIncome = [
@@ -79,26 +75,33 @@ export default function PPN() {
     [sumOutcome, sumIncome]
   );
   return (
-    <Layout>
-      <header className="flex justify-between items-center">
-        <h1 className="align-baseline my-auto font-semibold">
-          Pajak Pertambahan Nilai
-        </h1>
-        <div className="flex space-x-6">
-          <Link href="/unit/tax/ppn/add">
-            <Button>Tambah PPN</Button>
-          </Link>
-          <Link href="/unit/tax/report/ppn">
-            <Button>Cetak</Button>
-          </Link>
+    <section>
+      <header>
+        <div className="flex justify-center mt-10 space-x-6">
+          <div>
+            <Image src={Lengkong} alt="bg" width={130} />
+          </div>
+          <div className="text-center">
+            <div className="font-bold text-xl mb-2 max-w-md">
+              <h1>BADAN USAHA MILIK DESA LENGKONG</h1>
+              <h1>LAPORAN PAJAK PERTAMBAHAN NILAI</h1>
+              <h1>UNIT USAHA JASA WISATA</h1>
+            </div>
+            <h3>
+              01/01/2023-31/12/2023 <br />
+              (Dalam rupiah)
+            </h3>
+          </div>
         </div>
+        <p className="h-1 w-2/5 mx-auto my-8 bg-black border-0 rounded" />
       </header>
-      <section className="pt-8 space-y-9">
-        {/* <ClikableTable
-          headers={tableHeadersIncome}
-          data={tableDataIncome}
-          onRowClick={handleRowClick}
-        /> */}
+      <div className="px-36 space-y-9 mb-9">
+        <div className="text-center">
+          <h1 className="font-semibold text-xl">
+            LAPORAN PAJAK PERTAMBAHAN NILAI
+          </h1>
+          <h2>Periode 1 Januari - 31 januari 2023</h2>
+        </div>
         <div>
           <h2 className="font-semibold mt-2 mb-2">PPn Masukan</h2>
           <TablePPN
@@ -117,23 +120,13 @@ export default function PPN() {
           />
         </div>
 
-        <div className="flex justify-center font-semibold space-x-24">
-          <div>
-            <div className="flex space-x-4">
-              <h2>PPN Masukan :</h2>
-              <p>{sumIncome.toLocaleString()}</p>
-            </div>
-            <div className="flex space-x-4">
-              <h2>PPN Keluaran : </h2>
-              <p>{sumOutcome.toLocaleString()}</p>
-            </div>
-          </div>
-          <div className="flex space-x-4">
-            <h2>PPN ({totalPPN < 0 ? 'Lebih Bayar' : 'Kurang Bayar'}) :</h2>
-            <p>{totalPPN.toLocaleString()}</p>
-          </div>
+        <div className="flex space-x-4 justify-center">
+          <h2 className="font-semibold text-xl">
+            PPN ({totalPPN < 0 ? 'Lebih Bayar' : 'Kurang Bayar'}) :
+          </h2>
+          <p className="font-semibold text-xl">{totalPPN.toLocaleString()}</p>
         </div>
-      </section>
-    </Layout>
+      </div>
+    </section>
   );
 }

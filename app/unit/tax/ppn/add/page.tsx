@@ -1,18 +1,18 @@
 // import React from 'react';
-"use client";
-import Layout from "@/components/layout/layout";
-import InputField from "@/components/Input/input-field";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+'use client';
+import Layout from '@/components/layout/layout';
+import InputField from '@/components/Input/input-field';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   Command,
   CommandEmpty,
@@ -21,17 +21,20 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command";
-import { Calendar } from "@/components/ui/calendar";
-import { ComboBox } from "@/components/ui/combobox";
-import FormInput from "@/components/patan-ui/form/form-input";
-import PpnEssentialsForm from "@/components/pages/tax/ppn/form/ppn-essentials-form";
-import { set } from "date-fns";
-import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
-import React, { useMemo, useState } from "react";
-import PpnTransactionsContainerForm from "@/components/pages/tax/ppn/form/ppn-transactions-container-form";
-import { PpnTransactionFormDataType } from "@/types/ppn/ppn";
+} from '@/components/ui/command';
+import { Calendar } from '@/components/ui/calendar';
+import { ComboBox } from '@/components/ui/combobox';
+import FormInput from '@/components/patan-ui/form/form-input';
+import PpnEssentialsForm from '@/components/pages/tax/ppn/form/ppn-essentials-form';
+import { set } from 'date-fns';
+import { useToast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
+import React, { useMemo, useState } from 'react';
+import PpnTransactionsContainerForm from '@/components/pages/tax/ppn/form/ppn-transactions-container-form';
+import { PpnTransactionFormDataType } from '@/types/ppn/ppn';
+import Tax from '../../page';
+import TaxInformation from '@/components/pages/tax/tax-information';
+import Link from 'next/link';
 
 export default function AddPpn() {
   const { toast } = useToast();
@@ -41,7 +44,7 @@ export default function AddPpn() {
     PpnTransactionFormDataType[]
   >([
     {
-      unique_id: "1",
+      unique_id: '1',
       name: undefined,
       type: undefined,
       price: 0,
@@ -55,15 +58,20 @@ export default function AddPpn() {
   ]);
   const [evidence, setEvidence] = useState<File | null>(null);
   const [occurred_at, setOccurredAt] = useState<Date | undefined>(new Date());
-  const [targetCompany, setTargetCompany] = useState<string | null>(null);
+  const [taxableEmployers, setTaxableEmployers] = useState<string | null>(null);
   const [numberEvidence, setNumberEvidence] = useState<string | null>(null);
   return (
     <Layout>
-      <h5 className="text-base font-semibold pb-8">Tambah PPN</h5>
+      <header className="flex justify-between">
+        <h5 className="text-base font-semibold pb-8">Tambah PPN</h5>
+        <Link href="/unit/tax/ppn">
+          <Button>Kembali</Button>
+        </Link>
+      </header>
 
       <PpnEssentialsForm
-        targetCompany={targetCompany}
-        setTargetCompany={setTargetCompany}
+        taxableEmployers={taxableEmployers}
+        setTaxableEmployers={setTaxableEmployers}
         occurred_at={occurred_at}
         setOccurredAt={setOccurredAt}
         numberEvidence={numberEvidence}
@@ -76,6 +84,7 @@ export default function AddPpn() {
         transactions={transactions}
       />
 
+      <TaxInformation />
       {/* <div className="pt-8">
         <Button
           disabled={!isTransactionsBalance || isMutatePpnPending}
