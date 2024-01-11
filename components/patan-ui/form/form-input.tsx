@@ -1,15 +1,15 @@
-import React from "react";
-import { Label } from "../../ui/label";
-import { Input } from "../../ui/input";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+import React, { InputHTMLAttributes } from 'react';
+import { Input } from '../../ui/input';
+import { Label } from '../../ui/label';
 
-interface FormInputProps {
+interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
   name: string;
-  value?: React.InputHTMLAttributes<HTMLInputElement>["value"];
-  type: React.InputHTMLAttributes<HTMLInputElement>["type"];
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: React.InputHTMLAttributes<HTMLInputElement>['value'];
+  type: React.InputHTMLAttributes<HTMLInputElement>['type'];
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   className?: string;
 }
@@ -23,6 +23,7 @@ export default function FormInput({
   value,
   disabled = false,
   className,
+  ...props
 }: FormInputProps) {
   return (
     <div className={cn(className)}>
@@ -36,6 +37,7 @@ export default function FormInput({
         type={type}
         onChange={onChange}
         disabled={disabled}
+        {...props}
       />
     </div>
   );

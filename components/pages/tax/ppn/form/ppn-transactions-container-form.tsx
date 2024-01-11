@@ -1,19 +1,21 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { AccountType } from "@/types/accounts";
-import PpnTransactionsForm from "../ppn-transaction-form";
-import { PpnTransactionFormDataType } from "@/types/ppn/ppn";
-import PpnNewTransactionForm from "../new-transaction-form";
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { AccountType } from '@/types/accounts';
+import PpnTransactionsForm from '../ppn-transaction-form';
+import { PpnTaxObjectType, PpnTransactionFormDataType } from '@/types/ppn/ppn';
+import PpnNewTransactionForm from '../new-transaction-form';
 
 interface PpnTransactionsFormProps {
   transactions: PpnTransactionFormDataType[];
   setTransactions: React.Dispatch<
     React.SetStateAction<PpnTransactionFormDataType[]>
   >;
+  taxObjeks: PpnTaxObjectType | null;
 }
 
 export default function PpnTransactionsContainerForm({
   setTransactions,
   transactions,
+  taxObjeks,
 }: PpnTransactionsFormProps) {
   return (
     <>
@@ -27,6 +29,7 @@ export default function PpnTransactionsContainerForm({
               transaction={transaction}
               setTransactions={setTransactions}
               isAbleToDelete={transactions.length > 1}
+              taxObjeks={taxObjeks}
             />
           ))}
         </div>

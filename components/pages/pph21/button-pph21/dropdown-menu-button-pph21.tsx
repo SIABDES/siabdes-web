@@ -43,7 +43,7 @@ export default function DropdownMenuButtonPPh21() {
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
-                  <Link href="/unit/tax/pph21/add/temporary-employee/weekly-salary">
+                  {/* <Link href="/unit/tax/pph21/add/temporary-employee/weekly-salary">
                     <DropdownMenuItem>Upah Mingguan</DropdownMenuItem>
                   </Link>
                   <Link href="/unit/tax/pph21/add/temporary-employee/one-time-salary">
@@ -51,12 +51,21 @@ export default function DropdownMenuButtonPPh21() {
                   </Link>
                   <Link href="/unit/tax/pph21/add/temporary-employee/piece-salary">
                     <DropdownMenuItem>Upah Satuan</DropdownMenuItem>
+                  </Link> */}
+                  <Link href={'/unit'}>
+                    <DropdownMenuItem>Dibayar Bulanan</DropdownMenuItem>
+                  </Link>
+                  <Link href={'/unit'}>
+                    <DropdownMenuItem>Tidak Dibayar Bulanan</DropdownMenuItem>
                   </Link>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
             </DropdownMenuSub>
           </DropdownMenuGroup>
-
+          <DropdownMenuSeparator />
+          <Link href="/unit/tax/pph21/add/permanent-employee">
+            <DropdownMenuItem>Bukan Pegawai</DropdownMenuItem>
+          </Link>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuSub>
@@ -64,14 +73,10 @@ export default function DropdownMenuButtonPPh21() {
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
                   <Link href="/unit/tax/pph21/add/severance-pay/periodic">
-                    <DropdownMenuItem>
-                      Pesangon Dibayar Secara Berkala
-                    </DropdownMenuItem>
+                    <DropdownMenuItem>Dibayar Berkala</DropdownMenuItem>
                   </Link>
                   <Link href="/unit/tax/pph21/add/severance-pay/one-time">
-                    <DropdownMenuItem>
-                      Pesangon Dibayar Sekaligus
-                    </DropdownMenuItem>
+                    <DropdownMenuItem>Dibayar Sekaligus</DropdownMenuItem>
                   </Link>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>

@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
+import { PpnTaxObjectType } from '@/types/ppn/ppn';
 
 interface PpnEssentialsFormProps {
   taxableEmployers: string | null;
@@ -19,6 +20,7 @@ interface PpnEssentialsFormProps {
   numberEvidence: string | null;
   setNumberEvidence: React.Dispatch<React.SetStateAction<string | null>>;
   setEvidence: React.Dispatch<React.SetStateAction<File | null>>;
+  setTaxObjeks: React.Dispatch<React.SetStateAction<PpnTaxObjectType | null>>;
 }
 
 export default function PpnEssentialsForm({
@@ -29,6 +31,7 @@ export default function PpnEssentialsForm({
   numberEvidence,
   setNumberEvidence,
   setEvidence,
+  setTaxObjeks,
 }: PpnEssentialsFormProps) {
   return (
     <div className="grid grid-flow-col gap-x-8">
@@ -68,18 +71,24 @@ export default function PpnEssentialsForm({
           <Label className="p-2 text-sm font-medium text-black w-full space-y-2">
             Objek Pajak
           </Label>
-          <Select>
+          <Select
+            onValueChange={(value) => {
+              setTaxObjeks(value as PpnTaxObjectType);
+            }}
+          >
             <SelectTrigger className="">
               <SelectValue placeholder="Pilih Objek Pajak" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="kena_pajak_dalam_negeri">
+              <SelectItem value={PpnTaxObjectType.KENA_PAJAK_DALAM_NEGERI}>
                 Kena Pajak - Dalam Negeri
               </SelectItem>
-              <SelectItem value="kena_pajak_luar_negeri">
+              <SelectItem value={PpnTaxObjectType.KENA_PAJAK_LUAR_NEGERI}>
                 Kena Pajak - Luar Negeri
               </SelectItem>
-              <SelectItem value="tidak_kena_pajak">Tidak Kena Pajak</SelectItem>
+              <SelectItem value={PpnTaxObjectType.TIDAK_KENA_PAJAK}>
+                Tidak Kena Pajak
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>

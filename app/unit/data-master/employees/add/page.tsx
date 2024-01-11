@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Layout from "@/components/layout/layout";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { ComboBox } from "@/components/ui/combobox";
-import InputField from "@/components/Input/input-field";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Button } from "@/components/ui/button";
+import React, { useState } from 'react';
+import Layout from '@/components/layout/layout';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { ComboBox } from '@/components/ui/combobox';
+import InputField from '@/components/Input/input-field';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Button } from '@/components/ui/button';
 
 import {
   Select,
@@ -18,58 +18,58 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
 export default function Add() {
   const statusKaryawan = [
-    { label: "Karyawan Lama", value: "karyawan_lama" },
-    { label: "Karyawan Baru", value: "karyawan_baru" },
+    { label: 'Karyawan Lama', value: 'karyawan_lama' },
+    { label: 'Karyawan Baru', value: 'karyawan_baru' },
   ];
 
   const jenisKelamin = [
-    { label: "Laki-laki", value: "laki-laki" },
-    { label: "Perempuan", value: "perempuan" },
+    { label: 'Laki-laki', value: 'laki-laki' },
+    { label: 'Perempuan', value: 'perempuan' },
   ];
 
   const statusPerkawinan = [
-    { label: "Belum Kawin", value: "belum_kawin" },
-    { label: "Kawin", value: "kawin" },
-    { label: "Cerai", value: "cerai" },
+    { label: 'Belum Kawin', value: 'belum_kawin' },
+    { label: 'Kawin', value: 'kawin' },
+    { label: 'Cerai', value: 'cerai' },
   ];
 
   const statusNPWP = [
-    { label: "Digabung Dengan Suami", value: "digabung_dengan_suami" },
-    { label: "Dipisah Dari Suami", value: "dipisah_dari_suami" },
+    { label: 'Digabung Dengan Suami', value: 'digabung_dengan_suami' },
+    { label: 'Dipisah Dari Suami', value: 'dipisah_dari_suami' },
   ];
 
   const jumlahTanggungan = [
-    { label: "Tidak Ada", value: "tidak_ada" },
-    { label: "1 (Satu)", value: "1" },
-    { label: "2 (Dua)", value: "2" },
-    { label: "3 (Tiga)", value: "3" },
+    { label: 'Tidak Ada', value: 'tidak_ada' },
+    { label: '1 (Satu)', value: '1' },
+    { label: '2 (Dua)', value: '2' },
+    { label: '3 (Tiga)', value: '3' },
   ];
 
   const JenisTenagaKerja = [
-    { label: "Pegawai Tetap Bulanan", value: "pegawai_tetap_bulanan" },
-    { label: "Pegawai Tidak Tetap", value: "pegawai_tidak_tetap" },
-    { label: "Pesangon", value: "pesangon" },
-    { label: "Lainnya", value: "lainnya" },
+    { label: 'Pegawai Tetap Bulanan', value: 'pegawai_tetap_bulanan' },
+    { label: 'Pegawai Tidak Tetap', value: 'pegawai_tidak_tetap' },
+    { label: 'Pesangon', value: 'pesangon' },
+    { label: 'Lainnya', value: 'lainnya' },
   ];
 
   const JenisPegawaiTidakTetap = [
-    { label: "Mingguan", value: "mingguan" },
-    { label: "Borongan", value: "borongan" },
-    { label: "Satuan", value: "satuan" },
+    { label: 'Mingguan', value: 'mingguan' },
+    { label: 'Borongan', value: 'borongan' },
+    { label: 'Satuan', value: 'satuan' },
   ];
 
   const JenisPesangon = [
-    { label: "Sekaligus", value: "sekaligus" },
-    { label: "Berkala", value: "berkala" },
+    { label: 'Sekaligus', value: 'sekaligus' },
+    { label: 'Berkala', value: 'berkala' },
   ];
 
   const JenisLainnya = [
-    { label: "Peserta Kegiatan", value: "peserta_kegiatan" },
-    { label: "Pengawas Non Pegawai", value: "pengawas_non_pegawai" },
+    { label: 'Peserta Kegiatan', value: 'peserta_kegiatan' },
+    { label: 'Pengawas Non Pegawai', value: 'pengawas_non_pegawai' },
   ];
 
   const [selectedStatusKaryawan, setSelectedStatusKaryawan] = useState<
@@ -100,13 +100,13 @@ export default function Add() {
   >(undefined);
 
   const [statusNpwp, setStatusNpwp] = useState<
-    "ada_npwp" | "tidak_ada_npwp" | undefined
+    'ada_npwp' | 'tidak_ada_npwp' | undefined
   >(undefined);
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
 
-    setStatusNpwp(e.target.value as "ada_npwp" | "tidak_ada_npwp");
+    setStatusNpwp(e.target.value as 'ada_npwp' | 'tidak_ada_npwp');
   };
   return (
     <Layout>
@@ -135,7 +135,7 @@ export default function Add() {
               placeholder="Masukkan NPWP"
               name="npwp"
               type="number"
-              disabled={statusNpwp === "tidak_ada_npwp"}
+              disabled={statusNpwp === 'tidak_ada_npwp'}
             />
             <RadioGroup
               defaultValue="ada_npwp"
@@ -301,31 +301,28 @@ export default function Add() {
                 <SelectValue placeholder="Pilih Jenis Tenaga Kerja" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="pegawai_tetap_bulanan">
-                  Pegawai Tetap Bulanan
-                </SelectItem>
+                <SelectItem value="pegawai_tetap">Pegawai Tetap</SelectItem>
                 <SelectSeparator />
                 <SelectGroup>
                   <SelectLabel>Pegawai Tidak Tetap</SelectLabel>
-                  <SelectItem value="minguan">
-                    Pegawai Tidak Tetap - Mingguan
+                  <SelectItem value="dibayar_bulanan">
+                    Dibayar Bulanan
                   </SelectItem>
-                  <SelectItem value="borongan">
-                    Pegawai Tidak Tetap - Borongan
-                  </SelectItem>
-                  <SelectItem value="satuan">
-                    Pegawai Tidak Tetap - Satuan
+                  <SelectItem value="tidak_dibayar_bulanan">
+                    Tidak Dibayar Bulanan
                   </SelectItem>
                 </SelectGroup>
+                <SelectSeparator />
+                <SelectItem value="bukan_pegawai">Bukan Pegawai</SelectItem>
                 <SelectSeparator />
                 <SelectGroup>
                   <SelectLabel>Pesangon</SelectLabel>
-                  <SelectItem value="sekaligus">Pesangon Sekaligus</SelectItem>
-                  <SelectItem value="berkala">Pesangon Berkala</SelectItem>
+                  <SelectItem value="sekaligus">Dibayar Berkala</SelectItem>
+                  <SelectItem value="berkala">Dibayar Sekaligus</SelectItem>
                 </SelectGroup>
                 <SelectSeparator />
                 <SelectGroup>
-                  <SelectLabel>Lainnya</SelectLabel>
+                  <SelectLabel>PPh 21 Lainnya</SelectLabel>
                   <SelectItem value="peserta_kegiatan">
                     Peserta Kegiatan
                   </SelectItem>

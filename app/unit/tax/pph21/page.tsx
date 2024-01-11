@@ -7,6 +7,18 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import ClikableTable from '@/components/table/clickable-table';
 import DropdownMenuButtonPPh21 from '@/components/pages/pph21/button-pph21/dropdown-menu-button-pph21';
+import { Command, CommandInput, CommandList } from '@/components/ui/command';
+import { CalendarDateRangePicker } from '@/components/date-range-picker';
+import { DateRange } from 'react-day-picker';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export default function PPH21() {
   const router = useRouter();
@@ -103,16 +115,66 @@ export default function PPH21() {
     },
     // Add more rows as needed
   ];
+  const [date, setDate] = React.useState<DateRange | undefined>(undefined);
   return (
     <Layout>
-      <header className="flex justify-between items-center">
-        <h1 className="align-baseline my-auto font-semibold">
-          Pajak Penghasilan 21
-        </h1>
-        <div>
-          <DropdownMenuButtonPPh21 />
+      <h1 className="align-baseline my-auto font-semibold">
+        Pajak Penghasilan 21
+      </h1>
+      <div className="flex justify-between mb-3 mt-3">
+        <Command className="rounded-lg border shadow-md w-72">
+          <CommandInput placeholder="Type a command or search..." />
+          <CommandList></CommandList>
+        </Command>
+        <Link href="/unit/tax/pph21">
+          <Button>Kembali</Button>
+        </Link>
+      </div>
+      <div className="flex justify-between">
+        <div className="flex space-x-6">
+          <div>
+            <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Pilih tenega kerja" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Fruits</SelectLabel>
+                  <SelectItem value="apple">Apple</SelectItem>
+                  <SelectItem value="banana">Banana</SelectItem>
+                  <SelectItem value="blueberry">Blueberry</SelectItem>
+                  <SelectItem value="grapes">Grapes</SelectItem>
+                  <SelectItem value="pineapple">Pineapple</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Januari 2024" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Fruits</SelectLabel>
+                  <SelectItem value="apple">Apple</SelectItem>
+                  <SelectItem value="banana">Banana</SelectItem>
+                  <SelectItem value="blueberry">Blueberry</SelectItem>
+                  <SelectItem value="grapes">Grapes</SelectItem>
+                  <SelectItem value="pineapple">Pineapple</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-      </header>
+
+        <div className="flex space-x-6">
+          <DropdownMenuButtonPPh21 />
+          <Link href="/unit/tax/report/pph">
+            <Button>Unduh Keseluruhan</Button>
+          </Link>
+        </div>
+      </div>
       <section className="pt-8">
         <ClikableTable
           headers={tableHeaders}

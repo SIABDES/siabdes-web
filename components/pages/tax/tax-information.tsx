@@ -2,21 +2,21 @@ import React from 'react';
 
 export default function TaxInformation() {
   return (
-    <div className="border-2 border-black p-3 my-10 space-y-6">
+    <div className="border-2 border-black p-3 my-10 space-y-6 mt-20">
       <header className="bg-[#B8E2F4] p-2 mb-5">
-        <h1 className="text-center font-semibold text-lg">
+        <h1 className="text-center font-semibold text-base">
           Keterangan Objek Pajak Pertambahan Nilai
         </h1>
       </header>
-      <h1 className="underline underline-offset-8 font-semibold">
+      <h1 className="underline underline-offset-8 font-semibold text-base">
         OBJEK PAJAK PPN
       </h1>
       <div className="flex space-x-4">
         <div className="border-2 border-black p-3 rounded-lg">
-          <h2 className="text-center font-semibold text-lg mb-3">
+          <h2 className="text-center font-semibold text-base mb-3">
             Barang Kena Pajak (BKP)
           </h2>
-          <ol className="list-decimal ml-8">
+          <ol className="list-decimal ml-8 text-sm">
             <li>
               Penyerahan barang Kena Pajak di dalam Daerah Pabean yang dilakukan
               oleh Pengusaha Kena Pajak
@@ -33,10 +33,10 @@ export default function TaxInformation() {
           </ol>
         </div>
         <div className="border-2 border-black p-3 rounded-lg">
-          <h2 className="text-center font-semibold text-lg mb-3">
+          <h2 className="text-center font-semibold text-base mb-3">
             Jasa Kena Pajak (JKP)
           </h2>
-          <ol className="list-decimal ml-8">
+          <ol className="list-decimal ml-8 text-sm">
             <li>
               Penyerahan Jasa Kena Pajak di dalam Daerah Pabean yang dilakukan
               oleh Pengusaha Kena Pajak
@@ -50,14 +50,14 @@ export default function TaxInformation() {
         </div>
       </div>
 
-      <h1 className="underline underline-offset-8 font-semibold">
+      <h1 className="underline underline-offset-8 font-semibold text-base">
         BUKAN OBJEK PAJAK PPN
       </h1>
       <div className="border-2 border-black p-3 rounded-lg">
-        <h2 className="text-center font-semibold text-lg mb-3">
+        <h2 className="text-center font-semibold text-base mb-3">
           Bukan Barang Kena Pajak (BKP)
         </h2>
-        <ol className="list-decimal ml-8">
+        <ol className="list-decimal ml-8 text-sm">
           <li>
             Barang kebutuhan pokok yang sangat dibutuhkan oleh rakyat banyak,
             seperti beras, garam, daging, telur, susu, buah dan sayur
@@ -78,10 +78,10 @@ export default function TaxInformation() {
       </div>
 
       <div className="border-2 border-black p-3 rounded-lg">
-        <h2 className="text-center font-semibold text-lg mb-3">
+        <h2 className="text-center font-semibold text-base mb-3">
           Bukan Jasa Kena Pajak (JKP)
         </h2>
-        <ol className="list-decimal ml-8">
+        <ol className="list-decimal ml-8 text-sm">
           <li>
             Jasa pelayanan kesahatan medik
             <ol className="list-[lower-alpha] ml-5 mb-2">
