@@ -9,6 +9,15 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
@@ -18,10 +27,11 @@ import {
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-export default function LaborData() {
-  const form = useForm<PermanentEmployeeFormData>({
-    resolver: zodResolver(PermanentEmployeeSchema),
-  });
+interface LaborDataProps {
+  form: ReturnType<typeof useForm<PermanentEmployeeFormData>>;
+}
+
+export default function LaborData({ form }: LaborDataProps) {
   return (
     <Card className="border border-gray-300 mb-9 pb-3 shadow-md">
       <h1 className="text-center font-bold text-sm pt-3">Data Tenaga kerja</h1>
@@ -32,7 +42,7 @@ export default function LaborData() {
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel htmlFor={field.name}>
-                Nomer Induk Kependudukan (NIK)
+                Nomor Induk Kependudukan (NIK)
               </FormLabel>
               <FormControl>
                 <Input
@@ -52,11 +62,33 @@ export default function LaborData() {
             <FormItem className="w-full">
               <FormLabel htmlFor={field.name}>Masa Pajak</FormLabel>
               <FormControl>
-                <Input
+                {/* <Input
                   className="border border-gray-400"
                   placeholder="Masukkan periode pajak"
                   {...field}
-                />
+                /> */}
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Pilih Bulan" />
+                  </SelectTrigger>
+                  <SelectContent className="h-60">
+                    <SelectGroup>
+                      <SelectLabel>Bulan</SelectLabel>
+                      <SelectItem value="1">Januari</SelectItem>
+                      <SelectItem value="2">Februari</SelectItem>
+                      <SelectItem value="3">Maret</SelectItem>
+                      <SelectItem value="4">April</SelectItem>
+                      <SelectItem value="5">Mei</SelectItem>
+                      <SelectItem value="6">Juni</SelectItem>
+                      <SelectItem value="7">Juli</SelectItem>
+                      <SelectItem value="8">Agustus</SelectItem>
+                      <SelectItem value="9">September</SelectItem>
+                      <SelectItem value="10">Oktober</SelectItem>
+                      <SelectItem value="11">November</SelectItem>
+                      <SelectItem value="12">Desember</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -67,9 +99,9 @@ export default function LaborData() {
           name="name"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel htmlFor={field.name}>Nama Panjang</FormLabel>
+              <FormLabel htmlFor={field.name}>Nama Lengkap</FormLabel>
               <FormControl>
-                <Input className="border border-gray-400" {...field} disabled />
+                <Input className="border border-gray-400" {...field} readOnly />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -84,7 +116,7 @@ export default function LaborData() {
                 Status Penghasilan Tidak Kena Pajak (PTKP)
               </FormLabel>
               <FormControl>
-                <Input className="border border-gray-400" {...field} disabled />
+                <Input className="border border-gray-400" {...field} readOnly />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -99,7 +131,7 @@ export default function LaborData() {
                 Nomor Pokok Wajib Pajak (NPWP)
               </FormLabel>
               <FormControl>
-                <Input className="border border-gray-400" {...field} disabled />
+                <Input className="border border-gray-400" {...field} readOnly />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -111,10 +143,10 @@ export default function LaborData() {
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel htmlFor={field.name}>
-                Katagori Terif Efektif (TER)
+                Katagori Tarif Efektif Rata-rata (TER)
               </FormLabel>
               <FormControl>
-                <Input className="border border-gray-400" {...field} disabled />
+                <Input className="border border-gray-400" {...field} readOnly />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -127,7 +159,7 @@ export default function LaborData() {
             <FormItem className="w-full">
               <FormLabel htmlFor={field.name}>Jenis Kelamin</FormLabel>
               <FormControl>
-                <Input className="border border-gray-400" {...field} disabled />
+                <Input className="border border-gray-400" {...field} readOnly />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -142,7 +174,7 @@ export default function LaborData() {
                 Penghasilan Tidak Kena Pajak (PTKP)
               </FormLabel>
               <FormControl>
-                <Input className="border border-gray-400" {...field} disabled />
+                <Input className="border border-gray-400" {...field} readOnly />
               </FormControl>
               <FormMessage />
             </FormItem>

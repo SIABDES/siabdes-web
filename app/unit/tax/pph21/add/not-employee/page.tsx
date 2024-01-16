@@ -22,7 +22,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-export default function NonEmployeeSupervisor() {
+
+export default function NotEmployee() {
   const form = useForm<PermanentEmployeeFormData>({
     resolver: zodResolver(PermanentEmployeeSchema),
   });
@@ -46,37 +47,108 @@ export default function NonEmployeeSupervisor() {
         </div>
         <Card className="bg-white border border-gray-300 p-3 rounded-xl mt-5 pb-5">
           <h1 className="mt-3 mb-4 text-center font-bold text-lg">
-            PPh 21 Lainnya - Pengawas Non Pegawai
+            Bukan Pegawai
           </h1>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}></form>
             <LaborData form={form} />
-            <Card className="w-1/3 mb-9">
-              <FormField
-                control={form.control}
-                name="ptkp"
-                render={({ field }) => (
-                  <FormItem className="w-full grid grid-cols-2 items-center bg-blue-300 px-6 py-2 rounded-lg">
-                    <FormLabel htmlFor={field.name}>
-                      Jumlah Penghasilan
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        className="border border-gray-400 bg-[#E5F5FC]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </Card>
             <Card className=" mt-9 mb-9 pt-6 pb-3 px-3">
-              <h1 className="text-center font-bold text-sm mb-3">
+              {/* <h1 className="text-center font-bold text-sm mb-3">
                 Perhitungan Pajak PPh 21
-              </h1>
+              </h1> */}
               <div className="grid grid-cols-2 gap-x-9">
                 <Card className="p-3 border border-gray-300 shadow-md">
+                  <h2 className="text-center font-medium text-sm py-2  rounded-md w-80 mx-auto">
+                    Penghasilan Bruto
+                  </h2>
+                  <div className="space-y-3 mt-3">
+                    <FormField
+                      control={form.control}
+                      name="ptkp"
+                      render={({ field }) => (
+                        <FormItem className="w-full grid grid-cols-2 items-center">
+                          <FormLabel htmlFor={field.name}>
+                            Penghasilan Bruto
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              className="border border-gray-400"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <h2 className="text-center font-medium text-sm py-2  rounded-md w-80 mx-auto mt-12">
+                    Penghasilan Kena Pajak
+                  </h2>
+                  <div className="grid grid-cols-9 mt-3">
+                    <FormField
+                      control={form.control}
+                      name="ptkp"
+                      render={({ field }) => (
+                        <FormItem className="w-full flex items-end">
+                          <FormControl>
+                            <Input
+                              className="border border-gray-400"
+                              {...field}
+                              disabled
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div className="flex justify-center items-end col-span-1">
+                      <span className="text-lg mb-2">x</span>
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name="ptkp"
+                      render={({ field }) => (
+                        <FormItem className="w-full col-span-3">
+                          <FormLabel htmlFor={field.name}>
+                            Penghasilan Bruto
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              className="border border-gray-400"
+                              {...field}
+                              disabled
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div className="flex justify-center items-end col-span-1">
+                      <span className="text-lg mb-2">=</span>
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name="ptkp"
+                      render={({ field }) => (
+                        <FormItem className="w-full col-span-3">
+                          <FormLabel htmlFor={field.name}>PKP</FormLabel>
+                          <FormControl>
+                            <Input
+                              className="border border-gray-400"
+                              {...field}
+                              disabled
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </Card>
+                <Card className="p-3 border border-gray-300 shadow-md">
+                  <h1 className="text-center font-bold text-sm mb-3">
+                    Perhitungan Pajak PPh 21
+                  </h1>
                   <h2 className="text-center font-medium text-sm py-2 bg-blue-200 rounded-md w-80 mx-auto">
                     Wajib Pajak Memiliki NPWP
                   </h2>
@@ -363,9 +435,7 @@ export default function NonEmployeeSupervisor() {
                       />
                     </div>
                   </div>
-                </Card>
-                <Card className="p-3 border border-gray-300 shadow-md">
-                  <h2 className="text-center font-medium text-sm py-2 bg-blue-200 rounded-md w-80 mx-auto">
+                  <h2 className="text-center font-medium text-sm py-2 bg-blue-200 rounded-md w-80 mx-auto mt-6">
                     Wajib Pajak Tidak Memiliki NPWP
                   </h2>
                   <p className="my-2">Peraturan DJP Nomor: PER-16/PJ/2016 :</p>

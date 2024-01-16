@@ -52,10 +52,16 @@ export default function DropdownMenuButtonPPh21() {
                   <Link href="/unit/tax/pph21/add/temporary-employee/piece-salary">
                     <DropdownMenuItem>Upah Satuan</DropdownMenuItem>
                   </Link> */}
-                  <Link href={'/unit'}>
+                  <Link
+                    href={'/unit/tax/pph21/add/temporary-employee/paid-monthly'}
+                  >
                     <DropdownMenuItem>Dibayar Bulanan</DropdownMenuItem>
                   </Link>
-                  <Link href={'/unit'}>
+                  <Link
+                    href={
+                      '/unit/tax/pph21/add/temporary-employee/not-paid-monthly'
+                    }
+                  >
                     <DropdownMenuItem>Tidak Dibayar Bulanan</DropdownMenuItem>
                   </Link>
                 </DropdownMenuSubContent>
@@ -63,7 +69,7 @@ export default function DropdownMenuButtonPPh21() {
             </DropdownMenuSub>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <Link href="/unit/tax/pph21/add/permanent-employee">
+          <Link href="/unit/tax/pph21/add/not-employee">
             <DropdownMenuItem>Bukan Pegawai</DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator />

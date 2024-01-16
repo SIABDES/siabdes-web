@@ -1,21 +1,10 @@
 'use client';
 
 import Layout from '@/components/layout/layout';
-import { Button } from '@/components/ui/button';
-import React, { use } from 'react';
 import LaborData from '@/components/pages/pph21/general/labor-data';
-import PPh21Calculation from '@/components/pages/pph21/permanent-employee/pph21-calculation';
-import Premi from '@/components/pages/pph21/permanent-employee/premi';
-import Dues from '@/components/pages/pph21/permanent-employee/dues';
-import PPh21RateAYear from '@/components/pages/pph21/permanent-employee/pph21-rate-a-year';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TabContentAccounts } from '@/components/pages/data-master/accounts/tab-content-accounts';
-import {
-  PermanentEmployeeFormData,
-  PermanentEmployeeSchema,
-} from '@/types/pph21/permanent-employee/permanent-employee';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import Results from '@/components/pages/pph21/general/results';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -24,9 +13,15 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Car } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  PermanentEmployeeFormData,
+  PermanentEmployeeSchema,
+} from '@/types/pph21/permanent-employee/permanent-employee';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
 
 export default function PermanentEmployee() {
   const form = useForm<PermanentEmployeeFormData>({
@@ -46,7 +41,9 @@ export default function PermanentEmployee() {
           </h1>
           <div className="flex space-x-6">
             <Button>Lampiran</Button>
-            <Button>Kembali</Button>
+            <Link href="/unit/tax/pph21">
+              <Button>Kembali</Button>
+            </Link>
           </div>
         </div>
         <Tabs defaultValue="januariNovember">
@@ -59,164 +56,11 @@ export default function PermanentEmployee() {
           <TabsContent value="januariNovember">
             <Card className="bg-white border border-gray-300 p-3 rounded-xl mt-5 pb-5">
               <h1 className="mt-3 mb-4 text-center font-bold text-lg">
-                Pegawai Tetap Bulanan - (Januari - Desember)
+                Pegawai Tetap Bulanan Masa Pajak Januari - November
               </h1>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}></form>
-                <LaborData />
-                {/* <Card className="border border-gray-300 mb-9 pb-3 shadow-md">
-              <h1 className="text-center font-bold text-sm pt-3">
-                Data Tenaga kerja
-              </h1>
-              <CardContent className="grid grid-cols-2 p-3 gap-x-12 gap-y-8 ">
-                <FormField
-                  control={form.control}
-                  name="nik"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel htmlFor={field.name}>
-                        Nomer Induk Kependudukan (NIK)
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="border border-gray-400"
-                          placeholder="Masukkan NIK"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="tax_period"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel htmlFor={field.name}>Masa Pajak</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="border border-gray-400"
-                          placeholder="Masukkan periode pajak"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel htmlFor={field.name}>Nama Panjang</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="border border-gray-400"
-                          {...field}
-                          disabled
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="status_ptkp"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel htmlFor={field.name}>
-                        Status Penghasilan Tidak Kena Pajak (PTKP)
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="border border-gray-400"
-                          {...field}
-                          disabled
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="npwp"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel htmlFor={field.name}>
-                        Nomor Pokok Wajib Pajak (NPWP)
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="border border-gray-400"
-                          {...field}
-                          disabled
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="category"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel htmlFor={field.name}>
-                        Katagori Terif Efektif (TER)
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="border border-gray-400"
-                          {...field}
-                          disabled
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="gender"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel htmlFor={field.name}>Jenis Kelamin</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="border border-gray-400"
-                          {...field}
-                          disabled
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="ptkp"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel htmlFor={field.name}>
-                        Penghasilan Tidak Kena Pajak (PTKP)
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="border border-gray-400"
-                          {...field}
-                          disabled
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-            </Card> */}
+                <LaborData form={form} />
                 <div className="grid grid-cols-9 gap-x-12 gap-y-8 mt-9">
                   <Card className="col-span-4 border border-gray-300 shadow-md">
                     <h1 className="text-center font-bold text-sm mb-3 pt-3">
@@ -233,6 +77,7 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
+                                placeholder="Rp"
                               />
                             </FormControl>
                             <FormMessage />
@@ -251,6 +96,7 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
+                                placeholder="Rp"
                               />
                             </FormControl>
                             <FormMessage />
@@ -269,6 +115,7 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
+                                placeholder="Rp"
                               />
                             </FormControl>
                             <FormMessage />
@@ -285,6 +132,7 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
+                                placeholder="Rp"
                               />
                             </FormControl>
                             <FormMessage />
@@ -301,6 +149,7 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
+                                placeholder="Rp"
                               />
                             </FormControl>
                             <FormMessage />
@@ -319,6 +168,7 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
+                                placeholder="Rp"
                               />
                             </FormControl>
                             <FormMessage />
@@ -337,7 +187,8 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
-                                disabled
+                                placeholder="Rp"
+                                readOnly
                               />
                             </FormControl>
                             <FormMessage />
@@ -370,7 +221,7 @@ export default function PermanentEmployee() {
                                 <Input
                                   className="border border-gray-400"
                                   {...field}
-                                  disabled
+                                  readOnly
                                 />
                               </FormControl>
                               <FormMessage />
@@ -392,7 +243,7 @@ export default function PermanentEmployee() {
                                 <Input
                                   className="border border-gray-400"
                                   {...field}
-                                  disabled
+                                  readOnly
                                 />
                               </FormControl>
                               <FormMessage />
@@ -412,7 +263,7 @@ export default function PermanentEmployee() {
                                 <Input
                                   className="border border-gray-400"
                                   {...field}
-                                  disabled
+                                  readOnly
                                 />
                               </FormControl>
                               <FormMessage />
@@ -436,7 +287,8 @@ export default function PermanentEmployee() {
                                 <Input
                                   className="border border-gray-400"
                                   {...field}
-                                  disabled
+                                  readOnly
+                                  value={'20%'}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -455,7 +307,7 @@ export default function PermanentEmployee() {
                                 <Input
                                   className="border border-gray-400"
                                   {...field}
-                                  disabled
+                                  readOnly
                                 />
                               </FormControl>
                               <FormMessage />
@@ -474,7 +326,7 @@ export default function PermanentEmployee() {
                                 <Input
                                   className="border border-gray-400"
                                   {...field}
-                                  disabled
+                                  readOnly
                                 />
                               </FormControl>
                               <FormMessage />
@@ -485,82 +337,18 @@ export default function PermanentEmployee() {
                     </CardContent>
                   </Card>
                 </div>
-                <div className="grid grid-cols-3 gap-x-9 mt-9">
-                  <Card>
-                    <FormField
-                      control={form.control}
-                      name="ptkp"
-                      render={({ field }) => (
-                        <FormItem className="w-full grid grid-cols-2 items-center bg-blue-300 px-6 py-2 rounded-lg">
-                          <FormLabel htmlFor={field.name}>
-                            Jumlah Penghasilan
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              className="border border-gray-400 bg-[#E5F5FC]"
-                              {...field}
-                              disabled
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </Card>
-                  <Card>
-                    <FormField
-                      control={form.control}
-                      name="ptkp"
-                      render={({ field }) => (
-                        <FormItem className="w-full grid grid-cols-2 items-center bg-blue-300 px-6 py-2 rounded-lg">
-                          <FormLabel htmlFor={field.name}>
-                            Jumlah PPh 21
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              className="border border-gray-400 bg-[#E5F5FC]"
-                              {...field}
-                              disabled
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </Card>
-                  <Card>
-                    <FormField
-                      control={form.control}
-                      name="ptkp"
-                      render={({ field }) => (
-                        <FormItem className="w-full grid grid-cols-2 items-center bg-blue-300 px-6 py-2 rounded-lg">
-                          <FormLabel htmlFor={field.name}>
-                            Penerimaan Bersih
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              className="border border-gray-400 bg-[#E5F5FC]"
-                              {...field}
-                              disabled
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </Card>
-                </div>
+                <Results form={form} />
               </Form>
             </Card>
           </TabsContent>
           <TabsContent value="desember">
             <Card className="bg-white border border-gray-300 p-3 rounded-xl mt-5 pb-5">
               <h1 className="mt-3 mb-4 text-center font-bold text-lg">
-                Pegawai Tetap Bulanan - Desember
+                Pegawai Tetap Bulanan Masa Desember
               </h1>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}></form>
-                <LaborData />
+                <LaborData form={form} />
                 <div className="grid grid-cols-2 gap-x-9">
                   <Card className="border border-gray-300 shadow-md">
                     <h1 className="text-center font-bold text-sm mb-3 pt-3">
@@ -573,14 +361,14 @@ export default function PermanentEmployee() {
                         render={({ field }) => (
                           <FormItem className="w-full grid grid-cols-2 items-center">
                             <FormLabel htmlFor={field.name}>
-                              Penghasilan Bruto Kumulatif sampai Nov
+                              Penghasilan Bruto Kumulatif Jan-Nov
                             </FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="Rp. "
                                 className="border border-gray-400"
                                 {...field}
-                                disabled
+                                readOnly
                               />
                             </FormControl>
                             <FormMessage />
@@ -598,6 +386,7 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
+                                placeholder="Rp"
                               />
                             </FormControl>
                             <FormMessage />
@@ -616,6 +405,7 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
+                                placeholder="Rp"
                               />
                             </FormControl>
                             <FormMessage />
@@ -634,6 +424,7 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
+                                placeholder="Rp"
                               />
                             </FormControl>
                             <FormMessage />
@@ -650,6 +441,7 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
+                                placeholder="Rp"
                               />
                             </FormControl>
                             <FormMessage />
@@ -666,6 +458,7 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
+                                placeholder="Rp"
                               />
                             </FormControl>
                             <FormMessage />
@@ -684,6 +477,7 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
+                                placeholder="Rp"
                               />
                             </FormControl>
                             <FormMessage />
@@ -702,7 +496,8 @@ export default function PermanentEmployee() {
                               <Input
                                 className="border border-gray-400"
                                 {...field}
-                                disabled
+                                placeholder="Rp"
+                                readOnly
                               />
                             </FormControl>
                             <FormMessage />
@@ -730,7 +525,7 @@ export default function PermanentEmployee() {
                                   placeholder="Rp. "
                                   className="border border-gray-400"
                                   {...field}
-                                  disabled
+                                  readOnly
                                 />
                               </FormControl>
                               <FormMessage />
@@ -749,7 +544,8 @@ export default function PermanentEmployee() {
                                 <Input
                                   className="border border-gray-400"
                                   {...field}
-                                  disabled
+                                  placeholder="Rp"
+                                  readOnly
                                 />
                               </FormControl>
                               <FormMessage />
@@ -768,7 +564,8 @@ export default function PermanentEmployee() {
                                 <Input
                                   className="border border-gray-400"
                                   {...field}
-                                  disabled
+                                  placeholder="Rp"
+                                  readOnly
                                 />
                               </FormControl>
                               <FormMessage />
@@ -787,7 +584,8 @@ export default function PermanentEmployee() {
                                 <Input
                                   className="border border-gray-400"
                                   {...field}
-                                  disabled
+                                  placeholder="Rp"
+                                  readOnly
                                 />
                               </FormControl>
                               <FormMessage />
@@ -814,7 +612,7 @@ export default function PermanentEmployee() {
                                   placeholder="Rp. "
                                   className="border border-gray-400"
                                   {...field}
-                                  disabled
+                                  readOnly
                                 />
                               </FormControl>
                               <FormMessage />
@@ -833,7 +631,8 @@ export default function PermanentEmployee() {
                                 <Input
                                   className="border border-gray-400"
                                   {...field}
-                                  disabled
+                                  placeholder="Rp"
+                                  readOnly
                                 />
                               </FormControl>
                               <FormMessage />
@@ -853,7 +652,9 @@ export default function PermanentEmployee() {
                       <h2 className="text-center font-medium text-sm py-2 bg-blue-200 rounded-md w-80 mx-auto">
                         Wajib Pajak Memiliki NPWP
                       </h2>
-                      <p className="my-2">Tarif Pasal 17 ayat (1a) :</p>
+                      <p className="my-2 text-red-500">
+                        Tarif Pasal 17 ayat (1a) :
+                      </p>
                       <div className="space-y-3">
                         <div className="grid grid-cols-9">
                           <FormField
@@ -865,7 +666,8 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
+                                    value={'5%'}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -884,7 +686,7 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -903,7 +705,7 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -921,7 +723,8 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
+                                    value={'15%'}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -940,7 +743,7 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -959,7 +762,7 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -977,7 +780,8 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
+                                    value={'25%'}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -996,7 +800,7 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -1015,7 +819,7 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -1033,7 +837,8 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
+                                    value={'30%'}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -1052,7 +857,7 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -1071,7 +876,7 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -1089,7 +894,8 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
+                                    value={'35%'}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -1108,7 +914,7 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -1127,7 +933,7 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -1141,7 +947,7 @@ export default function PermanentEmployee() {
                       <h2 className="text-center font-medium text-sm py-2 bg-blue-200 rounded-md w-80 mx-auto">
                         Wajib Pajak Tidak Memiliki NPWP
                       </h2>
-                      <p className="my-2">
+                      <p className="my-2 text-red-500">
                         Peraturan DJP Nomor: PER-16/PJ/2016 :
                       </p>
                       <div className="space-y-3">
@@ -1155,7 +961,8 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
+                                    value={'20%'}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -1174,7 +981,7 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -1193,7 +1000,7 @@ export default function PermanentEmployee() {
                                   <Input
                                     className="border border-gray-400"
                                     {...field}
-                                    disabled
+                                    readOnly
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -1220,10 +1027,10 @@ export default function PermanentEmployee() {
                           </FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Rp. "
+                              placeholder="Rp"
                               className="border border-gray-400"
                               {...field}
-                              disabled
+                              readOnly
                             />
                           </FormControl>
                           <FormMessage />
@@ -1243,7 +1050,8 @@ export default function PermanentEmployee() {
                             <Input
                               className="border border-gray-400"
                               {...field}
-                              disabled
+                              placeholder="Rp"
+                              readOnly
                             />
                           </FormControl>
                           <FormMessage />
@@ -1263,7 +1071,8 @@ export default function PermanentEmployee() {
                             <Input
                               className="border border-gray-400"
                               {...field}
-                              disabled
+                              placeholder="Rp"
+                              readOnly
                             />
                           </FormControl>
                           <FormMessage />
@@ -1272,71 +1081,7 @@ export default function PermanentEmployee() {
                     />
                   </CardContent>
                 </Card>
-                <div className="grid grid-cols-3 gap-x-9 mt-9">
-                  <Card>
-                    <FormField
-                      control={form.control}
-                      name="ptkp"
-                      render={({ field }) => (
-                        <FormItem className="w-full grid grid-cols-2 items-center bg-blue-300 px-6 py-2 rounded-lg">
-                          <FormLabel htmlFor={field.name}>
-                            Jumlah Penghasilan
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              className="border border-gray-400 bg-[#E5F5FC]"
-                              {...field}
-                              disabled
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </Card>
-                  <Card>
-                    <FormField
-                      control={form.control}
-                      name="ptkp"
-                      render={({ field }) => (
-                        <FormItem className="w-full grid grid-cols-2 items-center bg-blue-300 px-6 py-2 rounded-lg">
-                          <FormLabel htmlFor={field.name}>
-                            Jumlah PPh 21
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              className="border border-gray-400 bg-[#E5F5FC]"
-                              {...field}
-                              disabled
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </Card>
-                  <Card>
-                    <FormField
-                      control={form.control}
-                      name="ptkp"
-                      render={({ field }) => (
-                        <FormItem className="w-full grid grid-cols-2 items-center bg-blue-300 px-6 py-2 rounded-lg">
-                          <FormLabel htmlFor={field.name}>
-                            Penerimaan Bersih
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              className="border border-gray-400 bg-[#E5F5FC]"
-                              {...field}
-                              disabled
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </Card>
-                </div>
+                <Results form={form} />
               </Form>
             </Card>
           </TabsContent>
