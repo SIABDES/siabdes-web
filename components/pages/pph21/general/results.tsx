@@ -13,15 +13,23 @@ import { useForm } from 'react-hook-form';
 
 interface ResultsProps {
   form: ReturnType<typeof useForm<PermanentEmployeeFormData>>;
+  total_salary: string;
+  total_pph21: string;
+  net_receipts: string;
 }
 
-export default function Results({ form }: ResultsProps) {
+export default function Results({
+  form,
+  total_salary,
+  total_pph21,
+  net_receipts,
+}: ResultsProps) {
   return (
     <div className="grid grid-cols-3 gap-x-9 mt-9">
       <Card>
         <FormField
           control={form.control}
-          name="ptkp"
+          name={total_salary as any}
           render={({ field }) => (
             <FormItem className="w-full grid grid-cols-2 items-center bg-blue-300 px-6 py-2 rounded-lg">
               <FormLabel htmlFor={field.name}>Jumlah Penghasilan</FormLabel>
@@ -41,7 +49,7 @@ export default function Results({ form }: ResultsProps) {
       <Card>
         <FormField
           control={form.control}
-          name="ptkp"
+          name={total_pph21 as any}
           render={({ field }) => (
             <FormItem className="w-full grid grid-cols-2 items-center bg-blue-300 px-6 py-2 rounded-lg">
               <FormLabel htmlFor={field.name}>Jumlah PPh 21</FormLabel>
@@ -61,7 +69,7 @@ export default function Results({ form }: ResultsProps) {
       <Card>
         <FormField
           control={form.control}
-          name="ptkp"
+          name={net_receipts as any}
           render={({ field }) => (
             <FormItem className="w-full grid grid-cols-2 items-center bg-blue-300 px-6 py-2 rounded-lg">
               <FormLabel htmlFor={field.name}>Penerimaan Bersih</FormLabel>

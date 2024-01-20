@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { AxiosClientSide } from "@/common/api";
-import { Button } from "@/components/ui/button";
+import { AxiosClientSide } from '@/common/api';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -9,37 +9,37 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { toast } from "@/components/ui/use-toast";
-import { useNewUnit } from "@/hooks/units/useNewUnit";
-import { NewUnitRequest, NewUnitSchema } from "@/types/units";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { toast } from '@/components/ui/use-toast';
+import { useNewUnit } from '@/hooks/units/useNewUnit';
+import { NewUnitRequest, NewUnitSchema } from '@/types/units';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AxiosError } from 'axios';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 
 export default function UnitNewForm() {
   const router = useRouter();
   const form = useForm<NewUnitRequest>({
     resolver: zodResolver(NewUnitSchema),
     defaultValues: {
-      address: "",
-      leader: "",
-      name: "",
-      phone_number: "",
+      address: '',
+      leader: '',
+      name: '',
+      phone_number: '',
       credentials: {
-        confirmPassword: "",
-        identifier: "",
-        password: "",
+        confirmPassword: '',
+        identifier: '',
+        password: '',
       },
     },
   });
@@ -52,34 +52,34 @@ export default function UnitNewForm() {
 
     if (!validatedData.success) {
       toast({
-        title: "Kesalahan Input Pengguna",
-        description: "Mohon periksa kembali inputan anda..",
-        variant: "destructive",
+        title: 'Kesalahan Input Pengguna',
+        description: 'Mohon periksa kembali inputan anda..',
+        variant: 'destructive',
       });
-      console.log("asdasdsad");
+      console.log('asdasdsad');
     }
 
     await mutateNewUnit(data, {
       onSettled: () => {
         toast({
-          title: "Menambahkan...",
-          description: "Sedang menambahkan unit baru..",
+          title: 'Menambahkan...',
+          description: 'Sedang menambahkan unit baru..',
         });
       },
       onSuccess: () => {
-        router.push("/bumdes/units");
+        router.push('/bumdes/units');
         toast({
-          title: "Sukses",
-          description: "Berhasil menambahkan unit baru..",
+          title: 'Sukses',
+          description: 'Berhasil menambahkan unit baru..',
         });
       },
       onError: (error) => {
         toast({
-          title: "Terjadi Error",
+          title: 'Terjadi Error',
           description:
             (error instanceof AxiosError && error.response?.data.message) ??
-            "Terjadi kesalahan internal..",
-          variant: "destructive",
+            'Terjadi kesalahan internal..',
+          variant: 'destructive',
         });
       },
     });
@@ -127,9 +127,9 @@ export default function UnitNewForm() {
                   </FormControl>
 
                   <SelectContent>
-                    <SelectItem value={"COMMERCE"}>Dagang</SelectItem>
-                    <SelectItem value={"SERVICES"}>Jasa</SelectItem>
-                    <SelectItem value={"INDUSTRY"}>Industri</SelectItem>
+                    <SelectItem value={'COMMERCE'}>Dagang</SelectItem>
+                    <SelectItem value={'SERVICES'}>Jasa</SelectItem>
+                    <SelectItem value={'INDUSTRY'}>Industri</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -237,7 +237,7 @@ export default function UnitNewForm() {
         </div>
 
         <Button type="submit" className="w-fit" disabled={isPendingNewUnit}>
-          {isPendingNewUnit ? "Menambahkan Unit..." : "Tambah Unit"}
+          {isPendingNewUnit ? 'Menambahkan Unit...' : 'Tambah Unit'}
         </Button>
       </form>
     </Form>

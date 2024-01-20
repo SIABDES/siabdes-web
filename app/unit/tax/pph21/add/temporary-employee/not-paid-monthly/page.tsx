@@ -46,7 +46,7 @@ export default function NotPaidMonthly() {
         </div>
         <Card className="bg-white border border-gray-300 p-3 rounded-xl mt-5 pb-5">
           <h1 className="mt-3 mb-4 text-center font-bold text-lg">
-            Pegawai Tidak Tetap - Tidak Dibayar Bulanan / Upah Harian
+            Pegawai Tidak Tetap - Dibayar Harian / Tidak Dibayar Bulanan
           </h1>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}></form>

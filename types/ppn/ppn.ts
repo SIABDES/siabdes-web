@@ -32,3 +32,24 @@ export enum PpnTransactionType {
   PEMBELIAN = 'PURCHASE',
   PENJUALAN = 'SALES',
 }
+
+export type PpnTransaction = {
+  id: string;
+  given_to: string;
+  item_type: PpnItemType;
+  transaction_type: PpnTransactionType;
+  transaction_date: string;
+  transaction_number: string;
+  tax_object: PpnTaxObjectType;
+};
+
+export type PpnObjectItem = {
+  id: string;
+  name: string;
+  quantity: string;
+  price: string;
+  discount: string;
+  total_price: string;
+  dpp: string;
+  ppn: string;
+};

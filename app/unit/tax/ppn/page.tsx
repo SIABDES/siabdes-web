@@ -1,4 +1,5 @@
 'use client';
+
 import Layout from '@/components/layout/layout';
 import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
@@ -12,8 +13,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Command, CommandInput, CommandList } from '@/components/ui/command';
 import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import { DateRange } from 'react-day-picker';
+import useGetPPN from '@/hooks/ppn/useGetPPN';
 
 export default function PPN() {
+  const { data, isLoading } = useGetPPN();
+  const ppn = data?.data.taxes;
+  console.log(ppn);
   const router = useRouter();
   const tableHeadersIncome = [
     'Tanggal',
@@ -29,96 +34,41 @@ export default function PPN() {
     'Objek Pajak',
     'PPN',
   ];
-  const tableDataIncome = [
-    {
-      Tanggal: '12 Oktober 2021',
-      'Nama Pengusaha Kena Pajak': 'PT Cipta Karya',
-      'No. Bukti Transaksi': '1920192019021.0001',
-      'Objek Pajak': 'Objek Kena Pajak - Dalam Negeri',
-      PPN: '10.000.000',
-    },
-    {
-      Tanggal: '12 Oktober 2021',
-      'Nama Pengusaha Kena Pajak': 'PT Cipta Karya',
-      'No. Bukti Transaksi': '1920192019021.0001',
-      'Objek Pajak': 'Objek Kena Pajak - Dalam Negeri',
-      PPN: '20.000.000',
-    },
-    {
-      Tanggal: '12 Oktober 2021',
-      'Nama Pengusaha Kena Pajak': 'PT Cipta Karya',
-      'No. Bukti Transaksi': '1920192019021.0001',
-      'Objek Pajak': 'Objek Kena Pajak - Dalam Negeri',
-      PPN: '40.000.000',
-    },
-  ];
-  const tableDataOutcome = [
-    {
-      Tanggal: '12 Oktober 2021',
-      'Nama Pengusaha Kena Pajak': 'PT Cipta Karya',
-      'No. Bukti Transaksi': '1920192019021.0001',
-      'Objek Pajak': 'Objek Kena Pajak - Dalam Negeri',
-      PPN: '20.000.000',
-    },
-    {
-      Tanggal: '12 Oktober 2021',
-      'Nama Pengusaha Kena Pajak': 'PT Cipta Karya',
-      'No. Bukti Transaksi': '1920192019021.0001',
-      'Objek Pajak': 'Objek Kena Pajak - Dalam Negeri',
-      PPN: '20.000.000',
-    },
-    {
-      Tanggal: '12 Oktober 2021',
-      'Nama Pengusaha Kena Pajak': 'PT Cipta Karya',
-      'No. Bukti Transaksi': '1920192019021.0001',
-      'Objek Pajak': 'Objek Kena Pajak - Dalam Negeri',
-      PPN: '40.000.000',
-    },
-    {
-      Tanggal: '12 Oktober 2021',
-      'Nama Pengusaha Kena Pajak': 'PT Cipta Karya',
-      'No. Bukti Transaksi': '1920192019021.0001',
-      'Objek Pajak': 'Objek Kena Pajak - Dalam Negeri',
-      PPN: '20.000.000',
-    },
-    {
-      Tanggal: '12 Oktober 2021',
-      'Nama Pengusaha Kena Pajak': 'PT Cipta Karya',
-      'No. Bukti Transaksi': '1920192019021.0001',
-      'Objek Pajak': 'Objek Kena Pajak - Dalam Negeri',
-      PPN: '20.000.000',
-    },
-    {
-      Tanggal: '12 Oktober 2021',
-      'Nama Pengusaha Kena Pajak': 'PT Cipta Karya',
-      'No. Bukti Transaksi': '1920192019021.0001',
-      'Objek Pajak': 'Objek Kena Pajak - Dalam Negeri',
-      PPN: '40.000.000',
-    },
-    {
-      Tanggal: '12 Oktober 2021',
-      'Nama Pengusaha Kena Pajak': 'PT Cipta Karya',
-      'No. Bukti Transaksi': '1920192019021.0001',
-      'Objek Pajak': 'Objek Kena Pajak - Dalam Negeri',
-      PPN: '20.000.000',
-    },
-    {
-      Tanggal: '12 Oktober 2021',
-      'Nama Pengusaha Kena Pajak': 'PT Cipta Karya',
-      'No. Bukti Transaksi': '1920192019021.0001',
-      'Objek Pajak': 'Objek Kena Pajak - Dalam Negeri',
-      PPN: '20.000.000',
-    },
-    {
-      Tanggal: '12 Oktober 2021',
-      'Nama Pengusaha Kena Pajak': 'PT Cipta Karya',
-      'No. Bukti Transaksi': '1920192019021.0001',
-      'Objek Pajak': 'Objek Kena Pajak - Dalam Negeri',
-      PPN: '40.000.000',
-    },
-  ];
-  const handleRowClick = (tax_id: any) => {
-    router.push(`/unit/tax/ppn/{tax_id}/details`);
+  // const tableDataIncome = ppn
+  //   .filter((item) => item.transaction_type === 'SALES')
+  //   .map((item) => ({
+  //     Tanggal: item.transaction_date,
+  //     'Nama Pengusaha Kena Pajak': item.given_to,
+  //     'No. Bukti Transaksi': item.transaction_number,
+  //     'Objek Pajak': item.tax_object,
+  //     PPN: formatNumber(parseFloat(item.PPN.replace(/\./g, ''))),
+  //   }));
+
+  const tableDataIncome = ppn
+    ?.filter((item) => item.transaction_type === 'SALES')
+    .map((item) => ({
+      Tanggal: item.transaction_date,
+      'Nama Pengusaha Kena Pajak': item.given_to,
+      'No. Bukti Transaksi': item.transaction_number,
+      'Objek Pajak': item.tax_object,
+      PPN: formatNumber(parseFloat(item.tax_object.replace(/\./g, ''))),
+    }));
+
+  const tableDataOutcome = ppn
+    ?.filter((item) => item.transaction_type === 'PURCHASE')
+    .map((item) => ({
+      Tanggal: item.transaction_date,
+      'Nama Pengusaha Kena Pajak': item.given_to,
+      'No. Bukti Transaksi': item.transaction_number,
+      'Objek Pajak': item.tax_object,
+      PPN: formatNumber(parseFloat(item.tax_object.replace(/\./g, ''))),
+    }));
+  const handleRowClick = (
+    e: React.MouseEvent<HTMLTableRowElement>,
+    ppnId: string
+  ) => {
+    e.preventDefault();
+    router.push(`/unit/tax/ppn/${ppnId}/details`);
   };
   const [sumIncome, setSumIncome] = useState(0);
   const [sumOutcome, setSumOutcome] = useState(0);
@@ -164,6 +114,7 @@ export default function PPN() {
           <h2 className="font-semibold mt-2 mb-2">PPN Masukan</h2>
           <div className="h-72 w-full">
             <TablePPN
+              // isLoading={isLoading}
               headers={tableHeadersIncome}
               data={tableDataIncome}
               onSumCalculated={setSumIncome}

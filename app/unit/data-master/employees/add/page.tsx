@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import Layout from '@/components/layout/layout';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -19,336 +19,531 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
+import { EmployeesSchema, EmployeeFormDataType } from '@/types/employees/dto';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  EmployeesChildrenAmount,
+  EmployeesExistenceNPWP as ada,
+  EmployeesGender,
+  EmployeesMarriageStatus,
+  EmployeesNPWPStatus,
+  EmployeesStatus,
+  EmployeesType,
+} from '@/types/employees/employees';
+import Link from 'next/link';
+import { format } from 'path';
+import { useRouter } from 'next/navigation';
+import useAddEmployee from '@/hooks/employee/useAddEmployee';
+import { toast } from '@/components/ui/use-toast';
+import { AxiosError } from 'axios';
+import { DatePicker } from '@/components/ui/date-picker';
 
 export default function Add() {
-  const statusKaryawan = [
-    { label: 'Karyawan Lama', value: 'karyawan_lama' },
-    { label: 'Karyawan Baru', value: 'karyawan_baru' },
-  ];
+  const router = useRouter();
 
-  const jenisKelamin = [
-    { label: 'Laki-laki', value: 'laki-laki' },
-    { label: 'Perempuan', value: 'perempuan' },
-  ];
+  const form = useForm<EmployeeFormDataType>({
+    resolver: zodResolver(EmployeesSchema),
+    defaultValues: {
+      name: '',
+      gender: EmployeesGender.PRIA,
+      nik: '',
+      start_working_at: new Date(),
+      npwp: '',
+      // existence_npwp: EmployeesExistenceNPWP.ADA,
+      npwp_status: undefined,
+      marriage_status: undefined,
+      children_amount: undefined,
+      employee_status: undefined,
+      employee_type: undefined,
+    },
+  });
+  const [existenceNPWP, setExistenceNPWP] = useState(ada.ADA);
+  useEffect(() => {
+    console.log(form.watch());
+  }, [form]);
 
-  const statusPerkawinan = [
-    { label: 'Belum Kawin', value: 'belum_kawin' },
-    { label: 'Kawin', value: 'kawin' },
-    { label: 'Cerai', value: 'cerai' },
-  ];
+  //new Date().getFullYear().toString() + '-01-01',
+  const formatNPWP = (value: string) => {
+    const cleanedValue = value.replace(/\D/g, '');
 
-  const statusNPWP = [
-    { label: 'Digabung Dengan Suami', value: 'digabung_dengan_suami' },
-    { label: 'Dipisah Dari Suami', value: 'dipisah_dari_suami' },
-  ];
+    let formatted = '';
+    for (let i = 0; i < cleanedValue.length && formatted.length < 20; i++) {
+      if (i === 2 || i === 5 || i === 8 || i === 12) {
+        formatted += '.';
+      }
+      if (i === 9) {
+        formatted += '-';
+      }
+      formatted += cleanedValue[i];
+    }
 
-  const jumlahTanggungan = [
-    { label: 'Tidak Ada', value: 'tidak_ada' },
-    { label: '1 (Satu)', value: '1' },
-    { label: '2 (Dua)', value: '2' },
-    { label: '3 (Tiga)', value: '3' },
-  ];
+    return formatted;
+  };
 
-  const JenisTenagaKerja = [
-    { label: 'Pegawai Tetap Bulanan', value: 'pegawai_tetap_bulanan' },
-    { label: 'Pegawai Tidak Tetap', value: 'pegawai_tidak_tetap' },
-    { label: 'Pesangon', value: 'pesangon' },
-    { label: 'Lainnya', value: 'lainnya' },
-  ];
+  const { mutateAsync: mutateNewEmployee, isPending: isPendingNewEmployee } =
+    useAddEmployee();
 
-  const JenisPegawaiTidakTetap = [
-    { label: 'Mingguan', value: 'mingguan' },
-    { label: 'Borongan', value: 'borongan' },
-    { label: 'Satuan', value: 'satuan' },
-  ];
+  const onSubmit = async (data: EmployeeFormDataType) => {
+    console.log('mantaps dadada');
 
-  const JenisPesangon = [
-    { label: 'Sekaligus', value: 'sekaligus' },
-    { label: 'Berkala', value: 'berkala' },
-  ];
+    const validatedData = EmployeesSchema.safeParse(data);
 
-  const JenisLainnya = [
-    { label: 'Peserta Kegiatan', value: 'peserta_kegiatan' },
-    { label: 'Pengawas Non Pegawai', value: 'pengawas_non_pegawai' },
-  ];
+    if (!validatedData.success) {
+      toast({
+        title: 'Kesalahan Input Pengguna',
+        description: 'Mohon periksa kembali inputan anda..',
+        variant: 'destructive',
+      });
+      console.log('asdasdsad');
+    }
 
-  const [selectedStatusKaryawan, setSelectedStatusKaryawan] = useState<
-    string | undefined
-  >(undefined);
-  const [selectedJenisKelamin, setSelectedJenisKelamin] = useState<
-    string | undefined
-  >(undefined);
-  const [selectedStatusPerkawinan, setSelectedStatusPerkawinan] = useState<
-    string | undefined
-  >(undefined);
-  const [selectedStatusNPWP, setSelectedStatusNPWP] = useState<
-    string | undefined
-  >(undefined);
-  const [selectedJumlahTanggungan, setSelectedJumlahTanggungan] = useState<
-    string | undefined
-  >(undefined);
-  const [selectedJenisTenagaKerja, setSelectedJenisTenagaKerja] = useState<
-    string | undefined
-  >(undefined);
-  const [selectedJenisPegawaiTidakTetap, setSelectedJenisPegawaiTidakTetap] =
-    useState<string | undefined>(undefined);
-  const [selectedJenisPesangon, setSelectedJenisPesangon] = useState<
-    string | undefined
-  >(undefined);
-  const [selectedJenisLainnya, setSelectedJenisLainnya] = useState<
-    string | undefined
-  >(undefined);
-
-  const [statusNpwp, setStatusNpwp] = useState<
-    'ada_npwp' | 'tidak_ada_npwp' | undefined
-  >(undefined);
-
-  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-
-    setStatusNpwp(e.target.value as 'ada_npwp' | 'tidak_ada_npwp');
+    await mutateNewEmployee(data, {
+      onSettled: () => {
+        toast({
+          title: 'Menambahkan...',
+          description: 'Sedang menambahkan data tenaga kerja..',
+        });
+      },
+      onSuccess: () => {
+        router.push('/unit/data-master/employees');
+        toast({
+          title: 'Berhasil',
+          description: 'Berhasil menambahkan data tenaga kerja..',
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: 'Gagal',
+          description:
+            (error instanceof AxiosError && error.response?.data.message) ??
+            'Terjadi kesalahan internal..',
+          variant: 'destructive',
+        });
+      },
+    });
   };
   return (
     <Layout>
       <section>
-        <header>
-          <h1 className="text-2xl font-bold mb-4 text-left underline underline-offset-8 ">
+        <header className="flex justify-between items-center">
+          <h1 className="text-lg font-bold text-left">
             Tambah Data Tenaga Kerja Unit
           </h1>
+          <Link href="/unit/data-master/employees">
+            <Button>Kembali</Button>
+          </Link>
         </header>
-        <section className="border p-6 grid grid-cols-1 md:grid-cols-1 gap-2">
-          <InputField
-            label="Nama Lengkap"
-            placeholder="Masukkan Nama Lengkap"
-            name="nama_lengkap"
-            type="text"
-          />
-          <InputField
-            label="NIK"
-            placeholder="Masukkan NIK"
-            name="nik"
-            type="number"
-          />
-          <div>
-            <InputField
-              label="NPWP"
-              placeholder="Masukkan NPWP"
-              name="npwp"
-              type="number"
-              disabled={statusNpwp === 'tidak_ada_npwp'}
-            />
-            <RadioGroup
-              defaultValue="ada_npwp"
-              id="npwp"
-              onChange={handleRadioChange}
-            >
-              <div className="flex gap-6 justify-center ml-72 p-2">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="ada_npwp" id="ada_npwp" />
-                  <Label htmlFor="ada_npwp">Ada NPWP</Label>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <Card className="border border-gray-300 shadow-md pt-3 mt-6">
+              <CardContent>
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid grid-cols-2 items-center">
+                      <FormLabel htmlFor={field.name}>Nama Lengkap</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="border border-gray-400"
+                          placeholder="Masukkan nama lengkap"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="nik"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid grid-cols-2 items-center">
+                      <FormLabel htmlFor={field.name}>
+                        Nomor Induk kependudukan (NIK)
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="border border-gray-400"
+                          placeholder="Masukkan NIK"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="npwp"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid grid-cols-2 items-center">
+                      <FormLabel htmlFor={field.name}>
+                        Nomor Pokok Wajib Pajak (NPWP)
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="border border-gray-400"
+                          {...field}
+                          value={formatNPWP(String(field.value))}
+                          // disabled={
+                          //   existence_npwp === EmployeesExistenceNPWP.ADA
+                          // }
+                          // disabled={
+                          //   form.watch('existence_npwp') ===
+                          //   EmployeesExistenceNPWP.TIDAK_ADA
+                          // }
+                          // placeholder={
+                          //   form.watch('existence_npwp') ===
+                          //   EmployeesExistenceNPWP.TIDAK_ADA
+                          //     ? '00.000.000.0-000.000'
+                          //     : '_ _ . _ _ _ . _ _ _ . _ - _ _ _ . _ _ _'
+                          // }
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <div></div>
+                      </FormControl>
+                      <FormControl></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div>
+                  <RadioGroup defaultValue="ada" className="grid grid-cols-2">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="ada" />
+                      <Label htmlFor="ada">Ada NPWP</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="tidak" />
+                      <Label htmlFor="tidak">Tidak Ada NPWP</Label>
+                    </div>
+                  </RadioGroup>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="tidak_ada_npwp" id="tidak_ada_npwp" />
-                  <Label htmlFor="tidak_ada_npwp">Tidak Ada NPWP</Label>
-                </div>
-              </div>
-            </RadioGroup>
-          </div>
-          <div className="flex">
-            <Label className="p-2 block text-sm font-medium text-black w-full">
-              Status Tenaga Kerja
-            </Label>
-            <h1 className="p-2 text-sm font-medium text-black">:</h1>
-            <Select>
-              <SelectTrigger className="">
-                <SelectValue placeholder="Pilih Status Tenaga Kerja" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="karyawan_lama">Karyawan Lama</SelectItem>
-                <SelectItem value="karyawan_baru">Karayawan Baru</SelectItem>
-              </SelectContent>
-            </Select>
-            {/* 
-            <ComboBox
-              className="w-full"
-              items={statusKaryawan}
-              value={selectedStatusKaryawan}
-              setValue={(value) => setSelectedStatusKaryawan(value)}
-            /> */}
-          </div>
-          <InputField
-            label="Bulan Mulai Bekerja"
-            placeholder="Masukkan Bulan Mulai Bekerja"
-            name="bulan_mulai_bekerja"
-            type="date"
-          />
-          <div className="flex">
-            <Label className="p-2 block text-sm font-medium text-black w-full">
-              Jenis Kelamin
-            </Label>
-            <h1 className="p-2 text-sm font-medium text-black">:</h1>
-            <Select>
-              <SelectTrigger className="">
-                <SelectValue placeholder="Pilih Jenis Kelamin" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="laki-laki">Laki-laki</SelectItem>
-                <SelectItem value="perempuan">Perempuan</SelectItem>
-              </SelectContent>
-            </Select>
-            {/* <Label className="p-2 block text-sm font-medium text-black w-full">
-              Jenis Kelamin
-            </Label>
-            <h1 className="p-2 text-sm font-medium text-black">:</h1>
-            <ComboBox
-              className="w-full"
-              items={jenisKelamin}
-              value={selectedJenisKelamin}
-              setValue={(value) => setSelectedJenisKelamin(value)}
-            /> */}
-          </div>
-          <h1 className="text-sm font-semibold p-2 text-left text-black">
-            Status Penghasilan Tidak Kena Pajak
-          </h1>
-          <div className="flex">
-            <Label className="p-2 block text-sm font-medium text-black w-full">
-              Status Perkawinan
-            </Label>
-            <h1 className="p-2 text-sm font-medium text-black">:</h1>
-            <Select>
-              <SelectTrigger className="">
-                <SelectValue placeholder="Pilih Status Perkawinan" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="kawin">Kawin</SelectItem>
-                <SelectItem value="belum_kawin">Belum Kawin</SelectItem>
-              </SelectContent>
-            </Select>
-            {/* <Label className="p-2 block text-sm font-medium text-black w-full">
-              Status Perkawinan
-            </Label>
-            <h1 className="p-2 text-sm font-medium text-black">:</h1>
-            <ComboBox
-              className="w-full"
-              items={statusPerkawinan}
-              value={selectedStatusPerkawinan}
-              setValue={(value) => setSelectedStatusPerkawinan(value)}
-            /> */}
-          </div>
-          <div className="flex">
-            <Label className="p-2 block text-sm font-medium text-black w-full">
-              Status NPWP
-            </Label>
-            <h1 className="p-2 text-sm font-medium text-black">:</h1>
-            <Select>
-              <SelectTrigger className="">
-                <SelectValue placeholder="Pilih Status NPWP" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="digabung_dengan_suami">
-                  Digabung Dengan Suami
-                </SelectItem>
-                <SelectItem value="dipisah_dengan_suami">
-                  Dipisah Dengan Suami
-                </SelectItem>
-              </SelectContent>
-            </Select>
-            {/* <Label className="p-2 block text-sm font-medium text-black w-full">
-              Status NPWP
-            </Label>
-            <h1 className="p-2 text-sm font-medium text-black">:</h1>
-            <ComboBox
-              className="w-full"
-              items={statusNPWP}
-              value={selectedStatusNPWP}
-              setValue={(value) => setSelectedStatusNPWP(value)}
-            /> */}
-          </div>
-          <div className="flex">
-            <Label className="p-2 block text-sm font-medium text-black w-full">
-              Jumlah Tanggungan
-            </Label>
-            <h1 className="p-2 text-sm font-medium text-black">:</h1>
-            <Select>
-              <SelectTrigger className="">
-                <SelectValue placeholder="Pilih Jumlah Tanggungan" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="0">Tidak Ada</SelectItem>
-                <SelectItem value="1">1 (Satu)</SelectItem>
-                <SelectItem value="2">2 (Dua)</SelectItem>
-                <SelectItem value="3">3 (Tiga)</SelectItem>
-              </SelectContent>
-            </Select>
-            {/* <Label className="p-2 block text-sm font-medium text-black w-full">
-              Jumlah Tanggungan
-            </Label>
-            <h1 className="p-2 text-sm font-medium text-black">:</h1>
-            <ComboBox
-              className="w-full"
-              items={jumlahTanggungan}
-              value={selectedJumlahTanggungan}
-              setValue={(value) => setSelectedJumlahTanggungan(value)}
-            /> */}
-          </div>
-          <div className="flex">
-            <Label className="p-2 block text-sm font-medium text-black w-full">
-              Jenis Tenaga Kerja
-            </Label>
-            <h1 className="p-2 text-sm font-medium text-black">:</h1>
-            <Select>
-              <SelectTrigger className="">
-                <SelectValue placeholder="Pilih Jenis Tenaga Kerja" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="pegawai_tetap">Pegawai Tetap</SelectItem>
-                <SelectSeparator />
-                <SelectGroup>
-                  <SelectLabel>Pegawai Tidak Tetap</SelectLabel>
-                  <SelectItem value="dibayar_bulanan">
-                    Dibayar Bulanan
-                  </SelectItem>
-                  <SelectItem value="tidak_dibayar_bulanan">
-                    Tidak Dibayar Bulanan
-                  </SelectItem>
-                </SelectGroup>
-                <SelectSeparator />
-                <SelectItem value="bukan_pegawai">Bukan Pegawai</SelectItem>
-                <SelectSeparator />
-                <SelectGroup>
-                  <SelectLabel>Pesangon</SelectLabel>
-                  <SelectItem value="sekaligus">Dibayar Berkala</SelectItem>
-                  <SelectItem value="berkala">Dibayar Sekaligus</SelectItem>
-                </SelectGroup>
-                <SelectSeparator />
-                <SelectGroup>
-                  <SelectLabel>PPh 21 Lainnya</SelectLabel>
-                  <SelectItem value="peserta_kegiatan">
-                    Peserta Kegiatan
-                  </SelectItem>
-                  <SelectItem value="pengawas_non_pegawai">
-                    Pengawas non Pegawai
-                  </SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {/* <Label className="p-2 block text-sm font-medium text-black w-full">
-              Jenis Tenaga Kerja
-            </Label>
-            <h1 className="p-2 text-sm font-medium text-black">:</h1>
-            <ComboBox
-              className="w-full"
-              items={JenisTenagaKerja}
-              value={selectedJenisTenagaKerja}
-              setValue={(value) => setSelectedJenisTenagaKerja(value)}
-            /> */}
-          </div>
-        </section>
-        <div className="flex justify-end mt-10 mb-10">
-          <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Simpan
-          </Button>
-        </div>
+                {/* <FormField
+                  control={form.control}
+                  name="existence_npwp"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid grid-cols-2 items-center mb-3">
+                      <FormLabel htmlFor={field.name}></FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={EmployeesExistenceNPWP.ADA}
+                          className="grid grid-cols-2"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem
+                              value={EmployeesExistenceNPWP.ADA}
+                            />
+                            <Label htmlFor="yes">Ada NPWP</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem
+                              value={EmployeesExistenceNPWP.TIDAK_ADA}
+                            />
+                            <Label htmlFor="no">Tidak Ada NPWP</Label>
+                          </div>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                /> */}
+                <FormField
+                  control={form.control}
+                  name="employee_status"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid grid-cols-2 items-center">
+                      <FormLabel htmlFor={field.name}>
+                        Status Tenaga Kerja
+                      </FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl className="border border-gray-400">
+                            <SelectTrigger>
+                              <SelectValue placeholder="Pilih status tenaga kerja" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value={EmployeesStatus.KARYAWAN_LAMA}>
+                              Karyawan Lama
+                            </SelectItem>
+                            <SelectItem value={EmployeesStatus.KARYAWAN_BARU}>
+                              Karyawan Baru
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="start_working_at"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid grid-cols-2 items-center">
+                      <FormLabel htmlFor={field.name}>
+                        Bulan Mulai Bekerja
+                      </FormLabel>
+                      <FormControl>
+                        {/* <Input
+                          type="date"
+                          className="border border-gray-400"
+                          placeholder="Masukkan nama lengkap"
+                          {...field}
+                          min={
+                            form.watch('employee_status') ===
+                            EmployeesStatus.KARYAWAN_BARU
+                              ? new Date().getFullYear().toString() + '-01-01'
+                              : undefined
+                          }
+                        /> */}
+                        <DatePicker
+                          date={field.value}
+                          setDate={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="gender"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid grid-cols-2 items-center">
+                      <FormLabel htmlFor={field.name}>Jenis Kelamin</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl className="border border-gray-400">
+                            <SelectTrigger>
+                              <SelectValue placeholder="Pilih jenis kelamin" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value={EmployeesGender.PRIA}>
+                              Laki-laki
+                            </SelectItem>
+                            <SelectItem value={EmployeesGender.WANITA}>
+                              Perempuan
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <p className="font-semibold mt-3">
+                  Status Penghasilan Tidak Kena Pajak
+                </p>
+                <FormField
+                  control={form.control}
+                  name="marriage_status"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid grid-cols-2 items-center">
+                      <FormLabel htmlFor={field.name}>
+                        Status Perkawinan
+                      </FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl className="border border-gray-400">
+                            <SelectTrigger>
+                              <SelectValue placeholder="Pilih status perkawinan" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value={EmployeesMarriageStatus.KAWIN}>
+                              Kawin
+                            </SelectItem>
+                            <SelectItem
+                              value={EmployeesMarriageStatus.BELUM_KAWIN}
+                            >
+                              Belum Kawin
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="npwp_status"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid grid-cols-2 items-center">
+                      <FormLabel htmlFor={field.name}>Status NPWP</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          disabled={
+                            form.watch('gender') === EmployeesGender.PRIA ||
+                            (form.watch('gender') === EmployeesGender.WANITA &&
+                              form.watch('marriage_status') ===
+                                EmployeesMarriageStatus.BELUM_KAWIN)
+                          }
+                        >
+                          <FormControl className="border border-gray-400">
+                            <SelectTrigger>
+                              <SelectValue
+                                placeholder={
+                                  form.watch('gender') === EmployeesGender.PRIA
+                                    ? '_ _ _ _ _ _ _ _ _'
+                                    : 'Pilih status NPWP'
+                                }
+                              />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem
+                              value={EmployeesNPWPStatus.DIGABUNG_DENGAN_SUAMI}
+                            >
+                              Digabung dengan suami
+                            </SelectItem>
+                            <SelectItem
+                              value={EmployeesNPWPStatus.DIPISAH_DENGAN_SUAMI}
+                            >
+                              Dipisah dengan suami
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="children_amount"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid grid-cols-2 items-center">
+                      <FormLabel htmlFor={field.name}>
+                        Jumlah Tanggungan
+                      </FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl className="border border-gray-400">
+                            <SelectTrigger>
+                              <SelectValue placeholder="Pilih jumlah tanggungan" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem
+                              value={EmployeesChildrenAmount.TIDAK_ADA}
+                            >
+                              Tidak Ada
+                            </SelectItem>
+                            <SelectItem value={EmployeesChildrenAmount.SATU}>
+                              1 (Satu)
+                            </SelectItem>
+                            <SelectItem value={EmployeesChildrenAmount.DUA}>
+                              2 (Dua)
+                            </SelectItem>
+                            <SelectItem value={EmployeesChildrenAmount.TIGA}>
+                              3 (Tiga)
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="employee_type"
+                  render={({ field }) => (
+                    <FormItem className="w-full grid grid-cols-2 items-center">
+                      <FormLabel htmlFor={field.name}>
+                        Jenis Tenaga Kerja
+                      </FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl className="border border-gray-400">
+                            <SelectTrigger>
+                              <SelectValue placeholder="Pilih jenis tenaga kerja" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value={EmployeesType.PEGAWAI_TETAP}>
+                              Pegawai Tetap
+                            </SelectItem>
+                            <SelectItem value={EmployeesType.DIBAYAR_BULANAN}>
+                              Pegawai Tidak Tetap - Dibayar Bulanan
+                            </SelectItem>
+                            <SelectItem value={EmployeesType.DIBAYAR_HARIAN}>
+                              Pegawai Tidak Tetap - Tidak Dibayar Bulanan
+                            </SelectItem>
+                            <SelectItem value={EmployeesType.BUKAN_PEGAWAI}>
+                              Bukan Pegawai
+                            </SelectItem>
+                            <SelectItem value={EmployeesType.DIBAYAR_SEKALIGUS}>
+                              Pesangon - Dibayar Sekaligus
+                            </SelectItem>
+                            <SelectItem value={EmployeesType.DIBAYAR_BERKALA}>
+                              Pesangon - Dibayar Berkala
+                            </SelectItem>
+                            <SelectItem value={EmployeesType.PESERTA_KEGIATAN}>
+                              PPh 21 Lainnya - Peserta Kegiatan
+                            </SelectItem>
+                            <SelectItem
+                              value={EmployeesType.PENGAWAS_NON_PEGAWAI}
+                            >
+                              PPh 21 Lainnya - Pengawas Non Pegawai
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+            <div className="flex justify-end mt-10 mb-10">
+              <Button
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                // onClick={form.handleSubmit(onSubmit)}
+                disabled={isPendingNewEmployee}
+              >
+                {isPendingNewEmployee
+                  ? 'Menambahkan Karyawan...'
+                  : 'Tambah Karyawan'}
+              </Button>
+            </div>
+          </form>
+        </Form>
       </section>
     </Layout>
   );

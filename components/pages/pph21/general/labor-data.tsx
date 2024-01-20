@@ -1,6 +1,5 @@
 import React from 'react';
-import InputField from '@/components/Input/input-field';
-import { LaborDataType } from '@/types/pph21/labor-data';
+
 import {
   Form,
   FormControl,
@@ -20,12 +19,8 @@ import {
 } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import {
-  PermanentEmployeeFormData,
-  PermanentEmployeeSchema,
-} from '@/types/pph21/permanent-employee/permanent-employee';
+import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 interface LaborDataProps {
   form: ReturnType<typeof useForm<PermanentEmployeeFormData>>;

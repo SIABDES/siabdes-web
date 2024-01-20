@@ -132,7 +132,7 @@ export default function AddPpn() {
         </Link>
       </header>
 
-      {/* <Form {...form}>
+      <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Card>
             <CardContent className="grid grid-cols-3 p-3 gap-x-12 gap-y-8">
@@ -483,7 +483,7 @@ export default function AddPpn() {
             </ScrollArea>
           </Card>
         </form>
-      </Form> */}
+      </Form>
 
       <PpnEssentialsForm
         taxableEmployers={taxableEmployers}

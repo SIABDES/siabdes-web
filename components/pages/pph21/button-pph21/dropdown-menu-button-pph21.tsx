@@ -62,7 +62,7 @@ export default function DropdownMenuButtonPPh21() {
                       '/unit/tax/pph21/add/temporary-employee/not-paid-monthly'
                     }
                   >
-                    <DropdownMenuItem>Tidak Dibayar Bulanan</DropdownMenuItem>
+                    <DropdownMenuItem>Dibayar Harian</DropdownMenuItem>
                   </Link>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>

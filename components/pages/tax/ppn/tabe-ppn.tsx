@@ -9,17 +9,19 @@ import {
   TableFooter,
 } from '@/components/ui/table';
 import React from 'react';
+import { GetPPNResponse } from '@/types/ppn/response';
 
 interface TablePPNProps {
   headers: string[];
-  data: any[];
+  data: any[] | undefined;
   onSumCalculated: (sum: number) => void;
-  onRowClick: (rowData: any) => void;
+  // onRowClick: (e rowData: any) => void;
+  onRowClick: (e: React.MouseEvent<HTMLTableRowElement>, rowData: any) => void;
 }
 
 export default function TablePPN({
   headers,
-  data,
+  data = [],
   onSumCalculated,
   onRowClick,
 }: TablePPNProps) {
@@ -53,6 +55,27 @@ export default function TablePPN({
               <TableRow
                 key={rowIndex}
                 className="transition-all hover:bg-gray-100 cursor-pointer"
+                onClick={(e) => onRowClick(e, row)}
+              >
+                <TableCell className="p-4 border border-gray-300">
+                  {rowIndex + 1}
+                </TableCell>
+                {headers.map((header, colIndex) => (
+                  <TableCell
+                    key={colIndex}
+                    className="p-4 border border-gray-300"
+                  >
+                    {row[header]}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+          {/* <TableBody>
+            {data.map((row, rowIndex) => (
+              <TableRow
+                key={rowIndex}
+                className="transition-all hover:bg-gray-100 cursor-pointer"
               >
                 <TableCell className="p-4 border border-gray-300">
                   {rowIndex + 1}
@@ -68,7 +91,7 @@ export default function TablePPN({
                 ))}
               </TableRow>
             ))}
-          </TableBody>
+          </TableBody> */}
           <TableFooter>
             <TableRow>
               <TableCell
