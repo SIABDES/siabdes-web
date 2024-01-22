@@ -1,6 +1,12 @@
 'use client';
 
-import React, { use, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FormHTMLAttributes,
+  use,
+  useEffect,
+  useState,
+} from 'react';
 import Layout from '@/components/layout/layout';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -47,19 +53,22 @@ import useAddEmployee from '@/hooks/employee/useAddEmployee';
 import { toast } from '@/components/ui/use-toast';
 import { AxiosError } from 'axios';
 import { DatePicker } from '@/components/ui/date-picker';
+import { string } from 'zod';
+import { Value } from '@radix-ui/react-select';
+import { UndoIcon } from 'lucide-react';
 
 export default function Add() {
   const router = useRouter();
-
+  const { mutateAsync: mutateNewEmployee, isPending: isPendingNewEmployee } =
+    useAddEmployee();
   const form = useForm<EmployeeFormDataType>({
     resolver: zodResolver(EmployeesSchema),
     defaultValues: {
       name: '',
-      gender: EmployeesGender.PRIA,
+      gender: undefined,
       nik: '',
-      start_working_at: new Date(),
+      start_working_at: undefined,
       npwp: '',
-      // existence_npwp: EmployeesExistenceNPWP.ADA,
       npwp_status: undefined,
       marriage_status: undefined,
       children_amount: undefined,
@@ -67,7 +76,8 @@ export default function Add() {
       employee_type: undefined,
     },
   });
-  const [existenceNPWP, setExistenceNPWP] = useState(ada.ADA);
+  const [existenceNPWP, setExistenceNPWP] = useState<string | undefined>('ada');
+
   useEffect(() => {
     console.log(form.watch());
   }, [form]);
@@ -90,9 +100,6 @@ export default function Add() {
     return formatted;
   };
 
-  const { mutateAsync: mutateNewEmployee, isPending: isPendingNewEmployee } =
-    useAddEmployee();
-
   const onSubmit = async (data: EmployeeFormDataType) => {
     console.log('mantaps dadada');
 
@@ -104,7 +111,7 @@ export default function Add() {
         description: 'Mohon periksa kembali inputan anda..',
         variant: 'destructive',
       });
-      console.log('asdasdsad');
+      console.log('Selamat pagi dunia - ini error', validatedData.error);
     }
 
     await mutateNewEmployee(data, {
@@ -115,11 +122,11 @@ export default function Add() {
         });
       },
       onSuccess: () => {
-        router.push('/unit/data-master/employees');
         toast({
           title: 'Berhasil',
           description: 'Berhasil menambahkan data tenaga kerja..',
         });
+        router.push('/unit/data-master/employees');
       },
       onError: (error) => {
         toast({
@@ -195,72 +202,49 @@ export default function Add() {
                         <Input
                           className="border border-gray-400"
                           {...field}
-                          value={formatNPWP(String(field.value))}
-                          // disabled={
-                          //   existence_npwp === EmployeesExistenceNPWP.ADA
+                          placeholder={
+                            existenceNPWP === 'ada'
+                              ? '_ _ . _ _ _ . _ _ _ - _ . _ _ _ . _ _ _'
+                              : '00.000.000-0.000.000'
+                          }
+                          // value={
+                          //   existenceNPWP === 'tidak'
+                          //     ? undefined
+                          //     : formatNPWP(String(field.value))
                           // }
-                          // disabled={
-                          //   form.watch('existence_npwp') ===
-                          //   EmployeesExistenceNPWP.TIDAK_ADA
-                          // }
-                          // placeholder={
-                          //   form.watch('existence_npwp') ===
-                          //   EmployeesExistenceNPWP.TIDAK_ADA
-                          //     ? '00.000.000.0-000.000'
-                          //     : '_ _ . _ _ _ . _ _ _ . _ - _ _ _ . _ _ _'
-                          // }
+                          value={
+                            existenceNPWP === 'tidak' ? '' : form.watch('npwp')
+                          }
+                          disabled={existenceNPWP === 'tidak'}
                         />
                       </FormControl>
-                      <FormControl>
-                        <div></div>
-                      </FormControl>
-                      <FormControl></FormControl>
+                      <div></div>
+                      <div>
+                        <RadioGroup
+                          className="grid grid-cols-2 mb-3"
+                          defaultValue={existenceNPWP}
+                          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                            const selectedValue = e.target.value;
+                            if (selectedValue !== existenceNPWP) {
+                              setExistenceNPWP(selectedValue);
+                            }
+                          }}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="ada" />
+                            <Label htmlFor="ada">Ada NPWP</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="tidak" />
+                            <Label htmlFor="tidak">Tidak Ada NPWP</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <div>
-                  <RadioGroup defaultValue="ada" className="grid grid-cols-2">
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="ada" />
-                      <Label htmlFor="ada">Ada NPWP</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="tidak" />
-                      <Label htmlFor="tidak">Tidak Ada NPWP</Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-                {/* <FormField
-                  control={form.control}
-                  name="existence_npwp"
-                  render={({ field }) => (
-                    <FormItem className="w-full grid grid-cols-2 items-center mb-3">
-                      <FormLabel htmlFor={field.name}></FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={EmployeesExistenceNPWP.ADA}
-                          className="grid grid-cols-2"
-                        >
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem
-                              value={EmployeesExistenceNPWP.ADA}
-                            />
-                            <Label htmlFor="yes">Ada NPWP</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem
-                              value={EmployeesExistenceNPWP.TIDAK_ADA}
-                            />
-                            <Label htmlFor="no">Tidak Ada NPWP</Label>
-                          </div>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
+
                 <FormField
                   control={form.control}
                   name="employee_status"
@@ -315,6 +299,8 @@ export default function Add() {
                           }
                         /> */}
                         <DatePicker
+                          className="w-full border border-gray-400"
+                          placeholder="Pilih bulan mulai bekerja"
                           date={field.value}
                           setDate={field.onChange}
                         />
@@ -406,6 +392,14 @@ export default function Add() {
                               form.watch('marriage_status') ===
                                 EmployeesMarriageStatus.BELUM_KAWIN)
                           }
+                          // value={
+                          //   form.watch('gender') === EmployeesGender.PRIA ||
+                          //   (form.watch('gender') === EmployeesGender.WANITA &&
+                          //     form.watch('marriage_status') ===
+                          //       EmployeesMarriageStatus.BELUM_KAWIN)
+                          //     ? undefined
+                          //     : field.value
+                          // }
                         >
                           <FormControl className="border border-gray-400">
                             <SelectTrigger>

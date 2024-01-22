@@ -12,6 +12,7 @@ export default function useAddEmployee() {
         '/employees',
         data
       );
+      console.log('use add: ', res.data.data);
       return res.data.data;
     },
     onMutate: async () => {

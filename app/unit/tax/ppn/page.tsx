@@ -225,7 +225,7 @@ export default function PPN() {
                               ? ppnDetails?.tax_object?.ppn_id?.pph
                               : 'Loading...'} */}
                             {/* {ppn.tax_object.pph} */}
-                            Gak ada datanya yg dari database
+                            {ppn.tax_object}
                           </TableCell>
                         </TableRow>
                       ))}
@@ -324,6 +324,7 @@ export default function PPN() {
                           <TableCell className="px-6 py-4">
                             {/* {ppn.tax_object.pph} */}
                             Gak ada datanya yg dari database
+                            {ppn.tax_object}
                           </TableCell>
                         </TableRow>
                       ))}

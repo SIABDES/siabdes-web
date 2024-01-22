@@ -179,9 +179,7 @@ export default function AddPpn() {
           <TaxInformation />
 
           <div className="pt-8">
-            <Button type="submit" onClick={() => console.log('manbt')}>
-              Tambah
-            </Button>
+            <Button type="submit">Tambah</Button>
           </div>
         </form>
       </Form>
