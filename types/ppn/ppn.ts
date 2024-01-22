@@ -1,3 +1,4 @@
+// type untuk menambahkan perhitungan nilai object ppn
 export type PpnTransactionFormDataType = {
   unique_id: string;
   name: string | undefined;

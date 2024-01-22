@@ -10,16 +10,39 @@ import { set } from 'date-fns';
 import { formatNumber } from '@/common/helpers/number-format';
 import { useRouter } from 'next/navigation';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Command, CommandInput, CommandList } from '@/components/ui/command';
+import {
+  Command,
+  CommandEmpty,
+  CommandInput,
+  CommandList,
+} from '@/components/ui/command';
 import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import { DateRange } from 'react-day-picker';
 import useGetPPN from '@/hooks/ppn/useGetPPN';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableFooter,
+} from '@/components/ui/table';
+import { Skeleton } from '@/components/ui/skeleton';
+import { formatDateToString } from '@/common/helpers/date';
+import { formatPPNtaxObject } from '@/common/helpers/ppn-format';
+import useGetPPNDetails from '@/hooks/ppn/useGetPPNDetails';
+import Details from './[ppn_id]/details/page';
 
 export default function PPN() {
   const { data, isLoading } = useGetPPN();
   const ppn = data?.data.taxes;
   console.log(ppn);
+
   const router = useRouter();
+
+  const [isPPNDetailsFetched, setIsPPNDetailsFetched] = useState(false);
+  const [ppnDetails, setPPNDetails] = useState<any>({});
   const tableHeadersIncome = [
     'Tanggal',
     'Nama Pengusaha Kena Pajak',
@@ -113,24 +136,202 @@ export default function PPN() {
         <div>
           <h2 className="font-semibold mt-2 mb-2">PPN Masukan</h2>
           <div className="h-72 w-full">
-            <TablePPN
-              // isLoading={isLoading}
+            {/* <TablePPN
               headers={tableHeadersIncome}
               data={tableDataIncome}
               onSumCalculated={setSumIncome}
               onRowClick={handleRowClick}
-            />
+            /> */}
+            <ScrollArea className="h-full w-full rounded-md border">
+              <div className="overflow-x-auto">
+                <Table className="relative w-full">
+                  <TableHeader className="">
+                    <TableRow>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        No
+                      </TableHead>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        Tanggal
+                      </TableHead>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        Nama Pengusaha Kena Pajak
+                      </TableHead>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        No. Bukti Transaksi
+                      </TableHead>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        Objek Pajak
+                      </TableHead>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        PPN
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody className="divide-y ">
+                    {isLoading && (
+                      <>
+                        {Array.from(Array(8).keys()).map((_, index) => (
+                          <TableRow key={index}>
+                            <TableCell className="px-6 py-4">
+                              <Skeleton className="w-full h-[2rem]" />
+                            </TableCell>
+                            <TableCell className="px-6 py-4">
+                              <Skeleton className="w-full h-[2rem]" />
+                            </TableCell>
+                            <TableCell className="px-6 py-4">
+                              <Skeleton className="w-full h-[2rem]" />
+                            </TableCell>
+                            <TableCell className="px-6 py-4">
+                              <Skeleton className="w-full h-[2rem]" />
+                            </TableCell>
+                            <TableCell className="px-6 py-4">
+                              <Skeleton className="w-full h-[2rem]" />
+                            </TableCell>
+                            <TableCell className="px-6 py-4">
+                              <Skeleton className="w-full h-[2rem]" />
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </>
+                    )}
+
+                    {ppn
+                      ?.filter((ppn) => ppn.transaction_type === 'PURCHASE')
+                      .map((ppn, index) => (
+                        <TableRow
+                          key={ppn.id}
+                          onClick={(e) => handleRowClick(e, ppn.id)}
+                          className="cursor-pointer hover:bg-gray-200 w-full"
+                        >
+                          <TableCell className="px-6 py-4">
+                            {index + 1}
+                          </TableCell>
+                          <TableCell className="px-6 py-4">
+                            {formatDateToString(ppn.transaction_date)}
+                          </TableCell>
+                          <TableCell className="px-6 py-4">
+                            {ppn.given_to}
+                          </TableCell>
+                          <TableCell className="px-6 py-4">
+                            {ppn.transaction_number}
+                          </TableCell>
+                          <TableCell className="px-6 py-4">
+                            {formatPPNtaxObject(ppn.tax_object)}
+                          </TableCell>
+                          <TableCell className="px-6 py-4">
+                            {/* {ppn.tax_object.ppn_id. */}
+                            {/* {pp} */}
+                            {/* {isPPNDetailsFetched
+                              ? ppnDetails?.tax_object?.ppn_id?.pph
+                              : 'Loading...'} */}
+                            {/* {ppn.tax_object.pph} */}
+                            Gak ada datanya yg dari database
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </ScrollArea>
           </div>
         </div>
 
-        <h2 className="font-semibold mt-2 mb-2">PPN Keluaran</h2>
-        <div className="h-72 w-full">
-          <TablePPN
+        <div>
+          <h2 className="font-semibold mt-2 mb-2">PPN Keluaran</h2>
+          <div className="h-72 w-full">
+            {/* <TablePPN
             headers={tableHeadersOutcome}
             data={tableDataOutcome}
             onSumCalculated={setSumOutcome}
             onRowClick={handleRowClick}
-          />
+          /> */}
+            <ScrollArea className="h-full w-full rounded-md border">
+              <div className="overflow-x-auto">
+                <Table className="relative w-full">
+                  <TableHeader className="">
+                    <TableRow>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        No
+                      </TableHead>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        Tanggal
+                      </TableHead>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        Nama Pengusaha Kena Pajak
+                      </TableHead>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        No. Bukti Transaksi
+                      </TableHead>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        Objek Pajak
+                      </TableHead>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        PPN
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody className="divide-y ">
+                    {isLoading && (
+                      <>
+                        {Array.from(Array(8).keys()).map((_, index) => (
+                          <TableRow key={index}>
+                            <TableCell className="px-6 py-4">
+                              <Skeleton className="w-full h-[2rem]" />
+                            </TableCell>
+                            <TableCell className="px-6 py-4">
+                              <Skeleton className="w-full h-[2rem]" />
+                            </TableCell>
+                            <TableCell className="px-6 py-4">
+                              <Skeleton className="w-full h-[2rem]" />
+                            </TableCell>
+                            <TableCell className="px-6 py-4">
+                              <Skeleton className="w-full h-[2rem]" />
+                            </TableCell>
+                            <TableCell className="px-6 py-4">
+                              <Skeleton className="w-full h-[2rem]" />
+                            </TableCell>
+                            <TableCell className="px-6 py-4">
+                              <Skeleton className="w-full h-[2rem]" />
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </>
+                    )}
+
+                    {ppn
+                      ?.filter((ppn) => ppn.transaction_type === 'SALES')
+                      .map((ppn, index) => (
+                        <TableRow
+                          key={ppn.id}
+                          onClick={(e) => handleRowClick(e, ppn.id)}
+                          className="cursor-pointer hover:bg-gray-200 w-full"
+                        >
+                          <TableCell className="px-6 py-4">
+                            {index + 1}
+                          </TableCell>
+                          <TableCell className="px-6 py-4">
+                            {formatDateToString(ppn.transaction_date)}
+                          </TableCell>
+                          <TableCell className="px-6 py-4">
+                            {ppn.given_to}
+                          </TableCell>
+                          <TableCell className="px-6 py-4">
+                            {ppn.transaction_number}
+                          </TableCell>
+                          <TableCell className="px-6 py-4">
+                            {formatPPNtaxObject(ppn.tax_object)}
+                          </TableCell>
+                          <TableCell className="px-6 py-4">
+                            {/* {ppn.tax_object.pph} */}
+                            Gak ada datanya yg dari database
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </ScrollArea>
+          </div>
         </div>
 
         <div className="flex justify-center font-semibold space-x-24">
