@@ -22,3 +22,13 @@ export type GetPPNDetailsResponse = BackendResponseType<{
   tax_object: PpnTaxObjectType;
   objects: PpnObjectItem[];
 }>;
+
+export type AddPPNDataResponse = BackendResponseType<{
+  id: string;
+  created_at: string;
+}>;
+
+export type UpdatePPNDataResponse = BackendResponseType<{
+  id: string;
+  updated_at: string;
+}>;

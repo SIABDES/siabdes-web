@@ -21,7 +21,7 @@ import {
 export default function Employees() {
   const router = useRouter();
   const { data, isLoading } = useGetEmployees();
-  const employees = data?.data.employees;
+  const employees = data?.data?.employees || [];
 
   // const handleRowClick = (employees_id: any) => {
   //   router.push(`/unit/data-master/employees/details`);
