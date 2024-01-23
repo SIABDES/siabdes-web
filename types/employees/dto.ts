@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 import {
   EmployeesChildrenAmount,
   EmployeesExistenceNPWP,
@@ -7,7 +7,7 @@ import {
   EmployeesNPWPStatus,
   EmployeesStatus,
   EmployeesType,
-} from './employees';
+} from "./employees";
 
 export const EmployeesSchema = z.object({
   name: z.string(),
@@ -103,3 +103,9 @@ export type FemaleUnitEmployeeType = z.infer<typeof FemaleUnitEmployeeSchema>;
 // });
 
 export type EmployeeFormDataType = z.infer<typeof EmployeesSchema>;
+
+export const EmployeeSearchSchema = z.object({
+  name: z.string().optional(),
+});
+
+export type EmployeeSearchFormDataType = z.infer<typeof EmployeeSearchSchema>;

@@ -1,13 +1,14 @@
-import React from 'react';
+"use client";
 
+import { Card, CardContent } from "@/components/ui/card";
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -16,11 +17,9 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
-import { useForm } from 'react-hook-form';
+} from "@/components/ui/select";
+import { PermanentEmployeeFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { useForm } from "react-hook-form";
 
 interface LaborDataProps {
   form: ReturnType<typeof useForm<PermanentEmployeeFormData>>;

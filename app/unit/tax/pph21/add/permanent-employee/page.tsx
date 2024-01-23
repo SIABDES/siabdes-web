@@ -1,31 +1,30 @@
-'use client';
+"use client";
 
-import Layout from '@/components/layout/layout';
-import LaborData from '@/components/pages/pph21/general/labor-data';
-import Results from '@/components/pages/pph21/general/results';
-import PermanentEmployeeDes from '@/components/pages/pph21/permanent-employee/December/des';
-import PermanentEmployeeJanNov from '@/components/pages/pph21/permanent-employee/January-November/jan-nov';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import Layout from "@/components/layout/layout";
+import LaborData from "@/components/pages/pph21/general/labor-data";
+import PermanentEmployeeDes from "@/components/pages/pph21/permanent-employee/December/des";
+import PermanentEmployeeJanNov from "@/components/pages/pph21/permanent-employee/January-November/jan-nov";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { ComboBox } from "@/components/ui/combobox";
+import { Form } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import useGetEmployees from "@/hooks/employee/useGetEmployees";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+  EmployeeSearchFormDataType,
+  EmployeeSearchSchema,
+} from "@/types/employees/dto";
 import {
   PermanentEmployeeFormData,
   PermanentEmployeeSchema,
-} from '@/types/pph21/permanent-employee/permanent-employee';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { object } from 'zod';
+} from "@/types/pph21/permanent-employee/permanent-employee";
+import { PPh21SelectedEmployee } from "@/types/pph21/pph21-employee";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function PermanentEmployee() {
   const form = useForm<PermanentEmployeeFormData>({
@@ -85,27 +84,33 @@ export default function PermanentEmployee() {
     },
   });
 
+  const { data: employees, isLoading: isEmployeesLoading } = useGetEmployees();
+
+  const [selectedEmployee, setSelectedEmployee] = useState<
+    PPh21SelectedEmployee | undefined
+  >(undefined);
+
   const onSubmit = (data: PermanentEmployeeFormData) => {
     console.log(data);
   };
 
   const grossSalaryJanNovWatcher = form.watch([
-    'gross_salary.salary',
-    'gross_salary.allowance',
-    'gross_salary.bonus',
-    'gross_salary.gross_income',
-    'gross_salary.thr',
-    'gross_salary.overtime_salary',
-    'gross_salary.assurance',
+    "gross_salary.salary",
+    "gross_salary.allowance",
+    "gross_salary.bonus",
+    "gross_salary.gross_income",
+    "gross_salary.thr",
+    "gross_salary.overtime_salary",
+    "gross_salary.assurance",
   ]);
 
   const grossSalaryDecWatcher = form.watch([
-    'gross_salary.salary_dec',
-    'gross_salary.allowance_dec',
-    'gross_salary.thr_dec',
-    'gross_salary.bonus_dec',
-    'gross_salary.overtime_salary_dec',
-    'gross_salary.assurance_dec',
+    "gross_salary.salary_dec",
+    "gross_salary.allowance_dec",
+    "gross_salary.thr_dec",
+    "gross_salary.bonus_dec",
+    "gross_salary.overtime_salary_dec",
+    "gross_salary.assurance_dec",
     // 'gross_salary.gross_total',
   ]);
 
@@ -118,19 +123,23 @@ export default function PermanentEmployee() {
     const totalPPh21NonNPWP = totalPPh21HasNPWP * (20 / 100);
     const totalNetReceipts = totalJanNov - totalPPh21NonNPWP;
 
-    form.setValue('result.total_salary', totalJanNov);
-    form.setValue('calculations.pph21_has_npwp', totalPPh21HasNPWP);
-    form.setValue('calculations.pph21_non_npwp', totalPPh21NonNPWP);
-    form.setValue('result.total_pph21', totalPPh21NonNPWP);
-    form.setValue('result.net_receipts', totalNetReceipts);
+    form.setValue("result.total_salary", totalJanNov);
+    form.setValue("calculations.pph21_has_npwp", totalPPh21HasNPWP);
+    form.setValue("calculations.pph21_non_npwp", totalPPh21NonNPWP);
+    form.setValue("result.total_pph21", totalPPh21NonNPWP);
+    form.setValue("result.net_receipts", totalNetReceipts);
 
     // Calculate for Dec
     const totalDec = Object.values(grossSalaryDecWatcher).reduce(
       (acc, curr) => Number(acc) + Number(curr)
     );
 
-    form.setValue('result.total_salary_dec', totalDec);
+    form.setValue("result.total_salary_dec", totalDec);
   }, [grossSalaryJanNovWatcher, grossSalaryDecWatcher, form]);
+
+  const handleSelectEmployee = (value: string) => {};
+
+  console.log(employees);
 
   return (
     <Layout>
@@ -154,6 +163,25 @@ export default function PermanentEmployee() {
             <TabsTrigger value="desember">Desember</TabsTrigger>
           </TabsList>
           <TabsContent value="januariNovember">
+            {/* <LaborData form={form} /> */}
+
+            <Card>
+              <CardContent className="py-4">
+                <h4 className="text-sm font-medium">Data Tenaga Kerja</h4>
+
+                <div className="w-full flex gap-y-4 flex-col">
+                  <Label>Nomor Induk Kependudukan (NIK)</Label>
+                  <ComboBox
+                    items={[]}
+                    setValue={handleSelectEmployee}
+                    value={undefined}
+                    notFoundText="Data pegawai tidak ditemukan..."
+                    className="w-full"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
             <PermanentEmployeeJanNov form={form} onSubmit={onSubmit} />
           </TabsContent>
           <TabsContent value="desember">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   FormControl,
@@ -6,11 +6,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
-import { useForm } from 'react-hook-form';
+} from "@/components/ui/form";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { PermanentEmployeeFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { useForm } from "react-hook-form";
 
 interface GrossIncomeProps {
   form: ReturnType<typeof useForm<PermanentEmployeeFormData>>;
@@ -31,6 +31,7 @@ export default function GrossIncome({ form }: GrossIncomeProps) {
               <FormLabel htmlFor={field.name}>Gaji</FormLabel>
               <FormControl>
                 <Input
+                  type="number"
                   className="border border-gray-400"
                   {...field}
                   placeholder="Rp"

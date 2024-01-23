@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   Form,
@@ -7,15 +7,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
-import { useForm } from 'react-hook-form';
-import LaborData from '../../general/labor-data';
-import Results from '../../general/results';
-import GrossIncome from './gross_income';
-import PPh21Calculation from './pph21-calculation';
+} from "@/components/ui/form";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { PermanentEmployeeFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { useForm } from "react-hook-form";
+import LaborData from "../../general/labor-data";
+import Results from "../../general/results";
+import GrossIncome from "./gross_income";
+import PPh21Calculation from "./pph21-calculation";
 
 interface PermanentEmployeeJanNovProps {
   form: ReturnType<typeof useForm<PermanentEmployeeFormData>>;

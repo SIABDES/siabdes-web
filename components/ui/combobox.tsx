@@ -27,7 +27,9 @@ interface ComboBoxProps {
   notFoundText?: string;
   className?: string;
   value?: string;
-  setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setValue:
+    | React.Dispatch<React.SetStateAction<string | undefined>>
+    | ((value: string) => void);
   height?: "short" | "medium" | "tall";
   disabled?: boolean;
   blacklistedValues?: string[];
@@ -52,7 +54,9 @@ export function ComboBox({ height = "medium", ...props }: ComboBoxProps) {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={cn("p-0 w-[200px]", props.className)}>
+      <PopoverContent
+        className={cn("p-0 popover-content-same-width-as-trigger")}
+      >
         <Command>
           <CommandInput placeholder={props.placeholder ?? "Cari item"} />
           <ScrollArea

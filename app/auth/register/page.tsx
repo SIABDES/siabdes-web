@@ -1,7 +1,9 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { ComboBox } from "@/components/ui/combobox";
+import { ComboboxForm } from "@/components/patan-ui/form/combobox-form";
 import {
   Form,
   FormControl,
@@ -9,22 +11,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
-import { toast } from '@/components/ui/use-toast';
-import useRegisterBumdes from '@/hooks/auth/useRegisterBumdes';
-import { RegisterFormData, RegisterSchema } from '@/types/auth';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "@/components/ui/use-toast";
+import useRegisterBumdes from "@/hooks/auth/useRegisterBumdes";
+import useGetManyProvinsi from "@/hooks/wilayah/useGetManyProvinsi";
+import { RegisterFormData, RegisterSchema } from "@/types/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -32,25 +35,30 @@ export default function RegisterPage() {
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       profile: {
-        name: '',
-        phone: '',
+        name: "",
+        phone: "",
       },
       credentials: {
-        email: '',
-        password: '',
-        passwordConfirmation: '',
+        email: "",
+        password: "",
+        passwordConfirmation: "",
       },
       organization: {
-        leader: '',
-        secretary: '',
-        treasurer: '',
+        leader: "",
+        secretary: "",
+        treasurer: "",
       },
       address: {
-        postalCode: '',
-        completeAddress: '',
+        postalCode: "",
+        completeAddress: "",
       },
     },
   });
+
+  const { data: getProvinsi, isLoading: isGetProvinsiLoading } =
+    useGetManyProvinsi();
+
+  console.log(form.getValues());
 
   const {
     mutateAsync: mutateRegisterBumdes,
@@ -61,18 +69,18 @@ export default function RegisterPage() {
     void mutateRegisterBumdes(data, {
       onSuccess: () => {
         toast({
-          variant: 'default',
-          title: 'Berhasil mendaftarkan akun.',
+          variant: "default",
+          title: "Berhasil mendaftarkan akun.",
           description: `Email '${data.credentials.email}' berhasil di daftarkan.`,
           duration: 5000,
         });
 
-        void router.push('/auth/login');
+        void router.push("/auth/login");
       },
       onError: (error) => {
         toast({
-          variant: 'destructive',
-          title: 'Gagal mendaftarkan akun.',
+          variant: "destructive",
+          title: "Gagal mendaftarkan akun.",
           description: error.message,
           duration: 5000,
         });
@@ -212,30 +220,20 @@ export default function RegisterPage() {
                     control={form.control}
                     name="address.province"
                     render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>Provinsi</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Pilih provinsi" />
-                              </SelectTrigger>
-                            </FormControl>
-
-                            <SelectContent>
-                              <SelectItem value={'COMMERCE'}>Dagang</SelectItem>
-                              <SelectItem value={'SERVICES'}>Jasa</SelectItem>
-                              <SelectItem value={'INDUSTRY'}>
-                                Industri
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                      <ComboboxForm
+                        form={form}
+                        name="address.province"
+                        label="Provinsi"
+                        triggerPlaceholder="Pilih provinsi"
+                        isLoading={isGetProvinsiLoading}
+                        loadingText="Memuat provinsi..."
+                        items={
+                          getProvinsi?.data.map((p) => ({
+                            label: p.nama,
+                            value: p.kode,
+                          })) ?? []
+                        }
+                      />
                     )}
                   />
 
@@ -257,9 +255,9 @@ export default function RegisterPage() {
                             </FormControl>
 
                             <SelectContent>
-                              <SelectItem value={'COMMERCE'}>Dagang</SelectItem>
-                              <SelectItem value={'SERVICES'}>Jasa</SelectItem>
-                              <SelectItem value={'INDUSTRY'}>
+                              <SelectItem value={"COMMERCE"}>Dagang</SelectItem>
+                              <SelectItem value={"SERVICES"}>Jasa</SelectItem>
+                              <SelectItem value={"INDUSTRY"}>
                                 Industri
                               </SelectItem>
                             </SelectContent>
@@ -288,9 +286,9 @@ export default function RegisterPage() {
                             </FormControl>
 
                             <SelectContent>
-                              <SelectItem value={'COMMERCE'}>Dagang</SelectItem>
-                              <SelectItem value={'SERVICES'}>Jasa</SelectItem>
-                              <SelectItem value={'INDUSTRY'}>
+                              <SelectItem value={"COMMERCE"}>Dagang</SelectItem>
+                              <SelectItem value={"SERVICES"}>Jasa</SelectItem>
+                              <SelectItem value={"INDUSTRY"}>
                                 Industri
                               </SelectItem>
                             </SelectContent>
@@ -319,9 +317,9 @@ export default function RegisterPage() {
                             </FormControl>
 
                             <SelectContent>
-                              <SelectItem value={'COMMERCE'}>Dagang</SelectItem>
-                              <SelectItem value={'SERVICES'}>Jasa</SelectItem>
-                              <SelectItem value={'INDUSTRY'}>
+                              <SelectItem value={"COMMERCE"}>Dagang</SelectItem>
+                              <SelectItem value={"SERVICES"}>Jasa</SelectItem>
+                              <SelectItem value={"INDUSTRY"}>
                                 Industri
                               </SelectItem>
                             </SelectContent>
@@ -442,8 +440,8 @@ export default function RegisterPage() {
               disabled={isMutateRegisterPending}
             >
               {isMutateRegisterPending
-                ? 'Mendaftarkan Bumdes...'
-                : 'Daftarkan Bumdes'}
+                ? "Mendaftarkan Bumdes..."
+                : "Daftarkan Bumdes"}
             </Button>
           </form>
         </Form>
