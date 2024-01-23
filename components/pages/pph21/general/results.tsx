@@ -1,18 +1,17 @@
-import { Card } from '@/components/ui/card';
+import { Card } from "@/components/ui/card";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
-import React from 'react';
-import { useForm } from 'react-hook-form';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { PermanentEmployeeBeforeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { useForm } from "react-hook-form";
 
 interface ResultsProps {
-  form: ReturnType<typeof useForm<PermanentEmployeeFormData>>;
+  form: ReturnType<typeof useForm<PermanentEmployeeBeforeDecemberFormData>>;
   total_salary: string;
   total_pph21: string;
   net_receipts: string;

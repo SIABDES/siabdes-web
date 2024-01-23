@@ -1,5 +1,5 @@
-import { BackendResponseType } from '@/common/types';
-import { Employee, EmployeeOverview } from './employees';
+import { BackendResponseType } from "@/common/types";
+import { Employee, EmployeeOverview } from "./employees";
 
 export type EmployeesOverviewResponse = {
   _count: number;
@@ -9,7 +9,7 @@ export type EmployeesOverviewResponse = {
 export type GetEmployeesResponse =
   BackendResponseType<EmployeesOverviewResponse>;
 
-export type GetEmplooyeDetailsResponse = BackendResponseType<Employee>;
+export type GetEmployeeDetailsResponse = BackendResponseType<Employee>;
 
 export type AddEmployeeDataResponse = BackendResponseType<{
   id: string;
