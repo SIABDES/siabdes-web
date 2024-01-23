@@ -30,7 +30,7 @@ export const CreatePPNSchema = z.object({
 
 export type CreatePPNFormData = z.infer<typeof CreatePPNSchema>;
 
-export type PPNTransactionFormDataType = z.infer<typeof PpnObjectItemSchema>;
+// export type PPNTransactionFormDataType = z.infer<typeof PpnObjectItemSchema>;
 
 export const UpdatePPNRequest = z.object({
   given_to: z.string().min(1).optional(),

@@ -15,3 +15,8 @@ export type AddEmployeeDataResponse = BackendResponseType<{
   id: string;
   created_at: string;
 }>;
+
+export type UpdateEmployeeDataResponse = BackendResponseType<{
+  id: string;
+  updated_at: string;
+}>;

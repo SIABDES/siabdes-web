@@ -7,7 +7,7 @@ export function useEditPPN({ ppn_id }: { ppn_id: string }) {
   const getPPN = useMutation({
     mutationKey: ['ppn/edit', ppn_id],
     mutationFn: async (formData: FormData) => {
-      const res = await AxiosClientSide.put(`/ppn/${ppn_id}/edit`, formData);
+      const res = await AxiosClientSide.put(`/ppn/${ppn_id}`, formData);
 
       return res.data;
     },
