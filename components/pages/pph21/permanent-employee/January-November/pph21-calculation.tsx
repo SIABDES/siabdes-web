@@ -1,19 +1,17 @@
-import React from 'react';
-
+import { Card, CardContent } from "@/components/ui/card";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
-import { useForm } from 'react-hook-form';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { PermanentEmployeeBeforeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { useForm } from "react-hook-form";
 
 interface PPh21CalculationProps {
-  form: ReturnType<typeof useForm<PermanentEmployeeFormData>>;
+  form: ReturnType<typeof useForm<PermanentEmployeeBeforeDecemberFormData>>;
 }
 
 export default function PPh21Calculation({ form }: PPh21CalculationProps) {
@@ -31,12 +29,13 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
             name="constants.tariff_ter"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor={field.name}>Tarif TER</FormLabel>
+                <FormLabel htmlFor={field.name}>Tarif TER (%)</FormLabel>
                 <FormControl>
                   <Input
+                    type="number"
                     className="border border-gray-400"
                     {...field}
-                    value={`${field.value}%`}
+                    value={field.value}
                     readOnly
                   />
                 </FormControl>
@@ -55,6 +54,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
                 <FormLabel htmlFor={field.name}>Penghasilan Bruto</FormLabel>
                 <FormControl>
                   <Input
+                    type="number"
                     className="border border-gray-400"
                     {...field}
                     readOnly
@@ -75,6 +75,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
                 <FormLabel htmlFor={field.name}>PPh 21</FormLabel>
                 <FormControl>
                   <Input
+                    type="number"
                     className="border border-gray-400"
                     {...field}
                     readOnly
@@ -97,9 +98,10 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
               <FormItem className="w-full">
                 <FormControl>
                   <Input
+                    type="number"
                     className="border border-gray-400"
                     {...field}
-                    value={`${field.value}%`}
+                    value={field.value}
                     readOnly
                   />
                 </FormControl>
@@ -114,9 +116,10 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
             control={form.control}
             name="calculations.pph21_has_npwp"
             render={({ field }) => (
-              <FormItem className="w-full col-span-3">
+              <FormItem id={field.name} className="w-full col-span-3">
                 <FormControl>
                   <Input
+                    type="number"
                     className="border border-gray-400"
                     {...field}
                     readOnly
@@ -133,9 +136,10 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
             control={form.control}
             name="calculations.pph21_non_npwp"
             render={({ field }) => (
-              <FormItem className="w-full col-span-3">
+              <FormItem id={field.name} className="w-full col-span-3">
                 <FormControl>
                   <Input
+                    type="number"
                     className="border border-gray-400"
                     {...field}
                     readOnly

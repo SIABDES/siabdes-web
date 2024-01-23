@@ -1,5 +1,4 @@
-import React from "react";
-
+import { Card, CardContent } from "@/components/ui/card";
 import {
   FormControl,
   FormField,
@@ -7,13 +6,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { PermanentEmployeeFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { PermanentEmployeeBeforeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
 import { useForm } from "react-hook-form";
 
 interface GrossIncomeProps {
-  form: ReturnType<typeof useForm<PermanentEmployeeFormData>>;
+  form: ReturnType<typeof useForm<PermanentEmployeeBeforeDecemberFormData>>;
 }
 
 export default function GrossIncome({ form }: GrossIncomeProps) {

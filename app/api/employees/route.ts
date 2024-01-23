@@ -47,7 +47,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
   const payload = await request.json();
-  console.log("ini payload", payload);
 
   try {
     const res = await AxiosAuthed(session?.backendTokens.accessToken).post(
@@ -55,7 +54,6 @@ export async function POST(request: NextRequest) {
       payload
     );
 
-    console.log("ini res", res.data);
     return NextResponse.json(res.data);
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -63,7 +61,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.redirect(loginUrl);
       }
       if (error.response?.status === 400) {
-        console.log("ini error", error.response?.data);
         return NextResponse.json(error.response?.data);
       }
     }

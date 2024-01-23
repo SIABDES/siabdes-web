@@ -18,6 +18,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "./scroll-area";
+import { FormMessage } from "./form";
 
 type ComboBoxItem = { label: string; value: string };
 
@@ -33,10 +34,28 @@ interface ComboBoxProps {
   height?: "short" | "medium" | "tall";
   disabled?: boolean;
   blacklistedValues?: string[];
+  isLoading?: boolean;
+  search?: string;
+  setSearch?:
+    | React.Dispatch<React.SetStateAction<string | undefined>>
+    | ((value: string) => void);
+  loadingText?: string;
+  triggerText?: string;
+  closeOnSelect?: boolean;
+  errorMessage?: string;
 }
 
-export function ComboBox({ height = "medium", ...props }: ComboBoxProps) {
+export function ComboBox({
+  height = "medium",
+  loadingText = "Memuat...",
+  placeholder = "Cari item...",
+  triggerText = "Pilih item...",
+  closeOnSelect = true,
+  ...props
+}: ComboBoxProps) {
   const [open, setOpen] = React.useState(false);
+
+  const displayTriggerText = props.isLoading ? loadingText : triggerText;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -46,11 +65,11 @@ export function ComboBox({ height = "medium", ...props }: ComboBoxProps) {
           role="combobox"
           aria-expanded={open}
           className={cn("justify-between w-[200px]", props.className)}
-          disabled={props.disabled ?? false}
+          disabled={props.disabled || props.isLoading}
         >
           {props.value
             ? props.items.find((item) => item.value === props.value)?.label
-            : props.placeholder ?? "Pilih item"}
+            : displayTriggerText}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -58,7 +77,13 @@ export function ComboBox({ height = "medium", ...props }: ComboBoxProps) {
         className={cn("p-0 popover-content-same-width-as-trigger")}
       >
         <Command>
-          <CommandInput placeholder={props.placeholder ?? "Cari item"} />
+          <CommandInput
+            placeholder={placeholder}
+            value={props.search ?? undefined}
+            onValueChange={
+              props.setSearch ? (value) => props.setSearch?.(value) : undefined
+            }
+          />
           <ScrollArea
             className={cn(
               height === "medium" && "h-48",
@@ -81,7 +106,8 @@ export function ComboBox({ height = "medium", ...props }: ComboBoxProps) {
                     props.setValue(
                       item.value === props.value ? "" : item.value
                     );
-                    setOpen(false);
+
+                    if (closeOnSelect) setOpen(false);
                   }}
                 >
                   <Check
@@ -97,6 +123,12 @@ export function ComboBox({ height = "medium", ...props }: ComboBoxProps) {
           </ScrollArea>
         </Command>
       </PopoverContent>
+
+      <p
+        className={cn(props.errorMessage ? "block text-destructive" : "hidden")}
+      >
+        {props.errorMessage}
+      </p>
     </Popover>
   );
 }

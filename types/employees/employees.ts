@@ -53,6 +53,14 @@ export type Employee = {
   employee_status: EmployeesStatus;
   employee_type: EmployeesType;
   start_working_at: string;
+  ptkp: {
+    status: string;
+    boundary_salary: number;
+  };
+  ter: {
+    type: string;
+    percentage: number;
+  };
 };
 
 export type EmployeeOverview = {
