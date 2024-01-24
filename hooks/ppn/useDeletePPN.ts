@@ -1,6 +1,5 @@
 import { AxiosClientSide } from '@/common/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React from 'react';
 
 export default function useDeletePPN(params: { ppn_id: string }) {
   const { ppn_id } = params;

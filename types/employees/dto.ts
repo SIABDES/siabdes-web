@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 import {
   EmployeesChildrenAmount,
   EmployeesExistenceNPWP,
@@ -7,7 +7,7 @@ import {
   EmployeesNPWPStatus,
   EmployeesStatus,
   EmployeesType,
-} from "./employees";
+} from './employees';
 
 export const EmployeesSchema = z.object({
   name: z.string(),
@@ -104,8 +104,43 @@ export type FemaleUnitEmployeeType = z.infer<typeof FemaleUnitEmployeeSchema>;
 
 export type EmployeeFormDataType = z.infer<typeof EmployeesSchema>;
 
-export const EmployeeSearchSchema = z.object({
-  name: z.string().optional(),
+// update employee
+export const UpdateEmployeeRequest = z.object({
+  name: z.string(),
+  nik: z.string(),
+  start_working_at: z.date(),
+  npwp: z.string().optional(),
+  gender: z.enum([EmployeesGender.PRIA, EmployeesGender.WANITA]),
+  marriage_status: z.enum([
+    EmployeesMarriageStatus.KAWIN,
+    EmployeesMarriageStatus.BELUM_KAWIN,
+  ]),
+  children_amount: z.enum([
+    EmployeesChildrenAmount.TIDAK_ADA,
+    EmployeesChildrenAmount.SATU,
+    EmployeesChildrenAmount.DUA,
+    EmployeesChildrenAmount.TIGA,
+  ]),
+  employee_status: z.enum([
+    EmployeesStatus.KARYAWAN_BARU,
+    EmployeesStatus.KARYAWAN_LAMA,
+  ]),
+  employee_type: z.enum([
+    EmployeesType.PEGAWAI_TETAP,
+    EmployeesType.DIBAYAR_BULANAN,
+    EmployeesType.DIBAYAR_HARIAN,
+    EmployeesType.BUKAN_PEGAWAI,
+    EmployeesType.DIBAYAR_BERKALA,
+    EmployeesType.DIBAYAR_SEKALIGUS,
+    EmployeesType.PESERTA_KEGIATAN,
+    EmployeesType.PENGAWAS_NON_PEGAWAI,
+  ]),
+  npwp_status: z
+    .enum([
+      EmployeesNPWPStatus.DIGABUNG_DENGAN_SUAMI,
+      EmployeesNPWPStatus.DIPISAH_DENGAN_SUAMI,
+    ])
+    .optional(),
 });
 
-export type EmployeeSearchFormDataType = z.infer<typeof EmployeeSearchSchema>;
+export type UpdateEmployeeFormData = z.infer<typeof UpdateEmployeeRequest>;

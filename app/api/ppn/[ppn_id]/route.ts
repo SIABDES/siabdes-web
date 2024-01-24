@@ -47,7 +47,7 @@ export async function PUT(
 
   try {
     const res = await AxiosAuthed(session.backendTokens.accessToken).put(
-      `/ppn/${ppn_id}`,
+      `/units/${session.user.unitId}/ppn/${ppn_id}`,
       formData
     );
 
