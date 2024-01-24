@@ -1,62 +1,31 @@
 "use client";
 
-import React from "react";
+import { formatNumber } from "@/common/helpers/number-format";
 import Layout from "@/components/layout/layout";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import ClikableTable from "@/components/table/clickable-table";
 import DropdownMenuButtonPPh21 from "@/components/pages/pph21/button-pph21/dropdown-menu-button-pph21";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command";
-import { CalendarDateRangePicker } from "@/components/date-range-picker";
-import { DateRange } from "react-day-picker";
+import Pph21OverviewCard from "@/components/pages/pph21/overview-card";
+import TableView from "@/components/patan-ui/table/table-view";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import TableView from "@/components/patan-ui/table/table-view";
 import { TableCell } from "@/components/ui/table";
 import useGetPph21 from "@/hooks/pph21/useGetPph21";
-import { formatNumber } from "@/common/helpers/number-format";
 import { EmployeesType } from "@/types/employees/employees";
 import { Pph21EmployeeTaxOverview } from "@/types/pph21/pph21";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { SearchIcon } from "lucide-react";
 import { CaretSortIcon } from "@radix-ui/react-icons";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import MultiSelect from "@/components/patan-ui/form/multi-seelct";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Card, CardContent } from "@/components/ui/card";
-import Pph21OverviewCard from "@/components/pages/pph21/overview-card";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { DateRange } from "react-day-picker";
 
 export default function PPH21() {
   const router = useRouter();
@@ -251,7 +220,7 @@ export default function PPH21() {
 
             <div>
               <Dialog>
-                <DialogTrigger>
+                <DialogTrigger asChild>
                   <Button variant="outline">
                     Filter data pegawai...
                     <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
