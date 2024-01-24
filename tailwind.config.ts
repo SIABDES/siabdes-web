@@ -117,11 +117,31 @@ const config = {
           width: "var(--radix-popover-trigger-width)",
           "max-height": "var(--radix-popover-content-available-height)",
         },
+
+        ".popover-content-min-width-same-as-trigger": {
+          "min-width": "var(--radix-popover-trigger-width)",
+          "max-height": "var(--radix-popover-content-available-height)",
+        },
       };
 
-      addUtilities(popoverWidthBalancerUtils, {
-        respectImportant: true,
-      });
+      const dropdownMenuWidthBalancerUtils = {
+        ".dropdown-menu-content-same-width-as-trigger": {
+          width: "var(--radix-dropdown-menu-trigger-width)",
+          "max-height": "var(--radix-dropdown-menu-content-available-height)",
+        },
+
+        ".dropdown-menu-content-min-width-same-as-trigger": {
+          "min-width": "var(--radix-dropdown-menu-trigger-width)",
+          "max-height": "var(--radix-dropdown-menu-content-available-height)",
+        },
+      };
+
+      addUtilities(
+        [popoverWidthBalancerUtils, dropdownMenuWidthBalancerUtils],
+        {
+          respectImportant: true,
+        }
+      );
     }),
   ],
 } satisfies Config;

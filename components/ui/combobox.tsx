@@ -74,7 +74,7 @@ export function ComboBox({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className={cn("p-0 popover-content-same-width-as-trigger")}
+        className={cn("p-0 popover-content-min-width-same-as-trigger")}
       >
         <Command>
           <CommandInput
