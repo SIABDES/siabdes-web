@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import Layout from '@/components/layout/layout';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -50,6 +50,8 @@ import useGetEmployeeDetails from '@/hooks/employee/useGetEmployeeDetails';
 import { useEditJournal } from '@/hooks/journals/useEditJournal';
 import useEditEmployee from '@/hooks/employee/useEditEmployee';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
+import { AxiosClientSide } from '@/common/api';
+import { GetEmployeeDetailsResponse } from '@/types/employees/response';
 
 interface EditEmployeeFormProps {
   params: { employee_id: string };
@@ -59,11 +61,7 @@ interface EditEmployeeFormProps {
 export default function Edit({ params }: { params: { employee_id: string } }) {
   const { toast } = useToast();
   const router = useRouter();
-  const [existenceNPWP, setExistenceNPWP] = useState<string | undefined>('ada');
-
-  const form = useForm<UpdateEmployeeFormData>({
-    resolver: zodResolver(UpdateEmployeeRequest),
-  });
+  // const [existenceNPWP, setExistenceNPWP] = useState<string | undefined>('ada');
 
   const {
     data: details,
@@ -71,29 +69,64 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
     refetch: refetchDetails,
   } = useGetEmployeeDetails({ params });
 
+  console.log('details', details);
+
+  const form = useForm<EmployeeFormDataType>({
+    resolver: zodResolver(UpdateEmployeeRequest),
+    defaultValues: {
+      name: details?.name || '',
+      nik: details?.nik || '',
+      npwp: details?.npwp || '',
+      employee_status: details?.employee_status || undefined,
+      // start_working_at: details?.start_working_at || undefined,
+      start_working_at: details?.start_working_at || undefined,
+      gender: details?.gender || undefined,
+      marriage_status: details?.marriage_status || undefined,
+      npwp_status: details?.npwp_status || undefined,
+      children_amount: details?.children_amount || undefined,
+      employee_type: details?.employee_type || undefined,
+    },
+  });
+
+  useEffect(() => {
+    console.log(form.watch());
+  }, [form]);
+
   const { mutateAsync: mutateEditEmployee, isPending: isPendingEditEmployee } =
     useEditEmployee({ employee_id: params.employee_id });
 
-  const onSubmit = async (data: EmployeeFormDataType) => {
-    const employeeData = {
-      ...data,
-      npwp: existenceNPWP === 'tidak' ? '' : data.npwp,
-    };
-    // try {
-    //   await mutateEditEmployee(employeeData);
-    //   toast.success('Berhasil mengubah data tenaga kerja');
-    //   router.push(
-    //     `/unit/data-master/employees/${params.employee_id}/details`
-    //   );
-    // } catch (error) {
-    //   const err = error as AxiosError;
-    //   if (err.response?.status === 422) {
-    //     toast.error('Data yang dimasukkan tidak valid');
-    //   } else {
-    //     toast.error('Terjadi kesalahan');
-    //   }
-    // }
-    const validatedData = await form.trigger();
+  const onSubmit = async (data: UpdateEmployeeFormData) => {
+    try {
+      const formData = new FormData();
+
+      const startDate = new Date(data.start_working_at);
+      formData.append('name', data.name);
+      formData.append('nik', data.nik || '');
+      formData.append('npwp', data.npwp || '');
+      formData.append('employee_status', data.employee_status);
+      formData.append('start_working_at', startDate);
+      formData.append('gender', data.gender);
+      formData.append('marriage_status', data.marriage_status);
+      formData.append('npwp_status', data.npwp_status || '');
+      formData.append('children_amount', data.children_amount);
+      formData.append('employee_type', data.employee_type);
+
+      await mutateEditEmployee(formData);
+
+      toast({
+        title: 'Berhasil mengubah data tenaga kerja',
+        description: `Data tenaga kerja '${data.name}' telah diubah...`,
+        duration: 5000,
+      });
+
+      router.push(`/unit/data-master/employees/${params.employee_id}/details`);
+    } catch (err) {
+      toast({
+        title: 'Gagal mengubah data tenaga kerja',
+        description: `Data tenaga kerja '${data.name}' gagal diubah...`,
+        duration: 5000,
+      });
+    }
   };
 
   return (
@@ -170,24 +203,24 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                         <Input
                           className="border border-gray-400"
                           {...field}
-                          placeholder={
-                            existenceNPWP === 'ada'
-                              ? '_ _ . _ _ _ . _ _ _ - _ . _ _ _ . _ _ _'
-                              : '00.000.000-0.000.000'
-                          }
+                          // placeholder={
+                          //   existenceNPWP === 'ada'
+                          //     ? '_ _ . _ _ _ . _ _ _ - _ . _ _ _ . _ _ _'
+                          //     : '00.000.000-0.000.000'
+                          // }
                           // value={
                           //   existenceNPWP === 'tidak'
                           //     ? undefined
                           //     : formatNPWP(String(field.value))
                           // }
-                          value={
-                            existenceNPWP === 'tidak' ? '' : form.watch('npwp')
-                          }
-                          disabled={existenceNPWP === 'tidak'}
+                          // value={
+                          //   existenceNPWP === 'tidak' ? '' : form.watch('npwp')
+                          // }
+                          // disabled={existenceNPWP === 'tidak'}
                         />
                       </FormControl>
                       <div></div>
-                      <div>
+                      {/* <div>
                         <RadioGroup
                           className="grid grid-cols-2 mb-3"
                           defaultValue={existenceNPWP}
@@ -207,7 +240,7 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                             <Label htmlFor="tidak">Tidak Ada NPWP</Label>
                           </div>
                         </RadioGroup>
-                      </div>
+                      </div> */}
                       <FormMessage />
                     </FormItem>
                   )}
@@ -492,18 +525,18 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                 />
               </CardContent>
             </Card>
-            {/* <div className="flex justify-end mt-10 mb-10">
+            <div className="flex justify-end mt-10 mb-10">
               <Button
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 // onClick={form.handleSubmit(onSubmit)}
-                // disabled={isPendingNewEmployee}
+                disabled={isPendingEditEmployee}
               >
-                {isPendingNewEmployee
-                  ? 'Menambahkan Karyawan...'
-                  : 'Tambah Karyawan'}
+                {isPendingEditEmployee
+                  ? 'Mungubah Data Karyawan...'
+                  : 'Ubah Data Karyawan'}
               </Button>
-            </div> */}
+            </div>
           </form>
         </Form>
       </section>

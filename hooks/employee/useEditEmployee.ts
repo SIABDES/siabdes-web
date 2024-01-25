@@ -15,6 +15,7 @@ export default function useEditEmployee({
         `/employees/${employee_id}`,
         formData
       );
+      console.log('useedit', res.data);
       return res.data;
     },
     onSuccess: async () => {

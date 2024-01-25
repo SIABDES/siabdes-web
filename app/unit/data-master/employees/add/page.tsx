@@ -111,7 +111,6 @@ export default function Add() {
         description: 'Mohon periksa kembali inputan anda..',
         variant: 'destructive',
       });
-      console.log('Selamat pagi dunia - ini error', validatedData.error);
     }
 
     await mutateNewEmployee(data, {
