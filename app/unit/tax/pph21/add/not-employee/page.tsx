@@ -1,8 +1,13 @@
 'use client';
 
 import Layout from '@/components/layout/layout';
+import EmployeeData12Months from '@/components/pages/pph21/general/employee-data-12-months';
 import LaborData from '@/components/pages/pph21/general/labor-data';
 import Results from '@/components/pages/pph21/general/results';
+import NotEmployeeGrossIncome from '@/components/pages/pph21/not-employee/gross-income';
+import NotEmployeePPh21Calculation from '@/components/pages/pph21/not-employee/pph21-calculation';
+import NotEmployeeResults from '@/components/pages/pph21/not-employee/result';
+import GrossIncome from '@/components/pages/pph21/permanent-employee/January-November/gross_income';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
@@ -14,21 +19,41 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import useGetEmployees from '@/hooks/employee/useGetEmployees';
+import { Employee } from '@/types/employees/employees';
+import { Pph21TaxPeriodMonth } from '@/types/pph21/general';
 import {
-  PermanentEmployeeFormData,
-  PermanentEmployeeSchema,
-} from '@/types/pph21/permanent-employee/permanent-employee';
+  NotEmployeeFormData,
+  NotEmployeeScema,
+} from '@/types/pph21/not-employee/not-employee';
+import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function NotEmployee() {
-  const form = useForm<PermanentEmployeeFormData>({
-    resolver: zodResolver(PermanentEmployeeSchema),
+  const [periodMonth, setPeriodMonth] = useState<Pph21TaxPeriodMonth>();
+
+  const { data: getEmployees, isLoading: isGetEmployeesLoading } =
+    useGetEmployees();
+
+  const [selectedEmployee, setSelectedEmployee] = useState<
+    Employee | undefined
+  >(undefined);
+
+  const form = useForm<NotEmployeeFormData>({
+    resolver: zodResolver(NotEmployeeScema),
   });
 
-  const onSubmit = (data: PermanentEmployeeFormData) => {
+  // useEffect(() => {
+  //   if (selectedEmployee) {
+  //     form.setValue('employee_id', selectedEmployee.id);
+  //     form.setValue('constants.tariff_ter', selectedEmployee.ter?.percentage);
+  //   }
+  // }, [form, selectedEmployee]);
+
+  const onSubmit = (data: NotEmployeeFormData) => {
     console.log(data);
   };
   return (
@@ -51,456 +76,30 @@ export default function NotEmployee() {
           </h1>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}></form>
-            <LaborData form={form} />
+            {/* <LaborData form={form} /> */}
+            <EmployeeData12Months
+              selectedEmployee={selectedEmployee}
+              setSelectedEmployee={setSelectedEmployee}
+              getEmployees={getEmployees}
+              isGetEmployeesLoading={isGetEmployeesLoading}
+              setPeriod={setPeriodMonth}
+            />
             <Card className=" mt-9 mb-9 pt-6 pb-3 px-3">
               {/* <h1 className="text-center font-bold text-sm mb-3">
                 Perhitungan Pajak PPh 21
               </h1> */}
               <div className="grid grid-cols-2 gap-x-9">
-                <Card className="p-3 border border-gray-300 shadow-md">
-                  <h2 className="text-center font-medium text-sm py-2  rounded-md w-80 mx-auto">
-                    Penghasilan Bruto
-                  </h2>
-                  <div className="space-y-3 mt-3">
-                    <FormField
-                      control={form.control}
-                      name="ptkp"
-                      render={({ field }) => (
-                        <FormItem className="w-full grid grid-cols-2 items-center">
-                          <FormLabel htmlFor={field.name}>
-                            Penghasilan Bruto
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              className="border border-gray-400"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <h2 className="text-center font-medium text-sm py-2  rounded-md w-80 mx-auto mt-12">
-                    Penghasilan Kena Pajak
-                  </h2>
-                  <div className="grid grid-cols-9 mt-3">
-                    <FormField
-                      control={form.control}
-                      name="ptkp"
-                      render={({ field }) => (
-                        <FormItem className="w-full flex items-end">
-                          <FormControl>
-                            <Input
-                              className="border border-gray-400"
-                              {...field}
-                              disabled
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <div className="flex justify-center items-end col-span-1">
-                      <span className="text-lg mb-2">x</span>
-                    </div>
-                    <FormField
-                      control={form.control}
-                      name="ptkp"
-                      render={({ field }) => (
-                        <FormItem className="w-full col-span-3">
-                          <FormLabel htmlFor={field.name}>
-                            Penghasilan Bruto
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              className="border border-gray-400"
-                              {...field}
-                              disabled
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <div className="flex justify-center items-end col-span-1">
-                      <span className="text-lg mb-2">=</span>
-                    </div>
-                    <FormField
-                      control={form.control}
-                      name="ptkp"
-                      render={({ field }) => (
-                        <FormItem className="w-full col-span-3">
-                          <FormLabel htmlFor={field.name}>PKP</FormLabel>
-                          <FormControl>
-                            <Input
-                              className="border border-gray-400"
-                              {...field}
-                              disabled
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </Card>
-                <Card className="p-3 border border-gray-300 shadow-md">
-                  <h1 className="text-center font-bold text-sm mb-3">
-                    Perhitungan Pajak PPh 21
-                  </h1>
-                  <h2 className="text-center font-medium text-sm py-2 bg-blue-200 rounded-md w-80 mx-auto">
-                    Wajib Pajak Memiliki NPWP
-                  </h2>
-                  <p className="my-2">Tarif Pasal 17 ayat (1a) :</p>
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-9">
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex justify-center items-end col-span-1">
-                        <span className="text-lg mb-2">x</span>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full col-span-3">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex justify-center items-end col-span-1">
-                        <span className="text-lg mb-2">=</span>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full col-span-3">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="grid grid-cols-9">
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex justify-center items-end col-span-1">
-                        <span className="text-lg mb-2">x</span>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full col-span-3">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex justify-center items-end col-span-1">
-                        <span className="text-lg mb-2">=</span>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full col-span-3">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="grid grid-cols-9">
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex justify-center items-end col-span-1">
-                        <span className="text-lg mb-2">x</span>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full col-span-3">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex justify-center items-end col-span-1">
-                        <span className="text-lg mb-2">=</span>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full col-span-3">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="grid grid-cols-9">
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex justify-center items-end col-span-1">
-                        <span className="text-lg mb-2">x</span>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full col-span-3">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex justify-center items-end col-span-1">
-                        <span className="text-lg mb-2">=</span>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full col-span-3">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="grid grid-cols-9">
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex justify-center items-end col-span-1">
-                        <span className="text-lg mb-2">x</span>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full col-span-3">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex justify-center items-end col-span-1">
-                        <span className="text-lg mb-2">=</span>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full col-span-3">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-                  <h2 className="text-center font-medium text-sm py-2 bg-blue-200 rounded-md w-80 mx-auto mt-6">
-                    Wajib Pajak Tidak Memiliki NPWP
-                  </h2>
-                  <p className="my-2">Peraturan DJP Nomor: PER-16/PJ/2016 :</p>
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-9">
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex justify-center items-end col-span-1">
-                        <span className="text-lg mb-2">x</span>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full col-span-3">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex justify-center items-end col-span-1">
-                        <span className="text-lg mb-2">=</span>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="ptkp"
-                        render={({ field }) => (
-                          <FormItem className="w-full col-span-3">
-                            <FormControl>
-                              <Input
-                                className="border border-gray-400"
-                                {...field}
-                                disabled
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-                </Card>
+                <NotEmployeeGrossIncome form={form} />
+                <NotEmployeePPh21Calculation form={form} />
               </div>
             </Card>
-            <Results form={form} />
+            {/* <Results form={form} /> */}
+            <NotEmployeeResults
+              form={form}
+              total_salary="result.total_salary"
+              total_pph21="result.total_pph21"
+              net_receipts="result.net_receipts"
+            />
           </Form>
         </Card>
       </section>
