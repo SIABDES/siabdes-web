@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { TableCell } from "@/components/ui/table";
+import { TableCell, TableRow } from "@/components/ui/table";
 import useGetPph21 from "@/hooks/pph21/useGetPph21";
 import { EmployeesType } from "@/types/employees/employees";
 import { Pph21EmployeeTaxOverview } from "@/types/pph21/pph21";
@@ -280,6 +280,8 @@ export default function PPH21() {
         <ScrollArea classNameViewport="max-h-72">
           <TableView
             items={getPph21?.data.taxes ?? []}
+            isLoading={isGetPph21Loading}
+            loadingPlaceholderAmount={8}
             headers={[
               "Nama Lengkap",
               "NPWP",

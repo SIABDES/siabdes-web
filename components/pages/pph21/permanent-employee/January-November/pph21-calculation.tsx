@@ -16,7 +16,7 @@ interface PPh21CalculationProps {
 
 export default function PPh21Calculation({ form }: PPh21CalculationProps) {
   return (
-    <Card className="col-span-5 border border-gray-300 shadow-md">
+    <Card className="col-span-5 border border-gray-300">
       <h1 className="text-center font-bold text-sm pt-3">Perhitungan PPh 21</h1>
       <CardContent>
         <h2 className="text-center font-medium text-sm mt-9 mb-3 py-2 bg-blue-200 rounded-md w-80 mx-auto">

@@ -16,7 +16,7 @@ interface GrossIncomeProps {
 
 export default function GrossIncome({ form }: GrossIncomeProps) {
   return (
-    <Card className="col-span-4 border border-gray-300 shadow-md">
+    <Card className="col-span-4 border border-gray-300">
       <h1 className="text-center font-bold text-sm mb-3 pt-3">
         Penghasilan Bruto
       </h1>

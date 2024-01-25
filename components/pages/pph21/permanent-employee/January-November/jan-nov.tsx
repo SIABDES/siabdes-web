@@ -5,13 +5,16 @@ import {
   PermanentEmployeeBeforeDecemberSchema,
 } from "@/types/pph21/permanent-employee/permanent-employee";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { UseFormReturn, useForm } from "react-hook-form";
 import Results from "../../general/results";
 import GrossIncome from "./gross_income";
 import PPh21Calculation from "./pph21-calculation";
 import { Employee } from "@/types/employees/employees";
 import { useCallback, useEffect } from "react";
-import { Pph21TaxPeriodMonth } from "@/types/pph21/general";
+import {
+  PPh21EmployeeUnionFormData,
+  Pph21TaxPeriodMonth,
+} from "@/types/pph21/general";
 import { AxiosClientSide } from "@/common/api";
 import useAddPph21PermanentEmployee from "@/hooks/pph21/useAddPph21PermanentEmployee";
 import { AxiosError } from "axios";
@@ -92,6 +95,17 @@ export default function PermanentEmployeeJanNov({
 
   const onSubmit = async (data: PermanentEmployeeBeforeDecemberFormData) => {
     try {
+      if (!selectedEmployee) {
+        toast({
+          title: "Kesalahan Input",
+          description: "Mohon pilih pegawai terlebih dahulu",
+          variant: "destructive",
+          duration: 5000,
+        });
+
+        return;
+      }
+
       await mutatePph21(data);
 
       toast({
@@ -106,7 +120,7 @@ export default function PermanentEmployeeJanNov({
         toast({
           title: "Gagal",
           description: error.response?.data.message,
-          duration: 5000,
+          variant: "destructive",
         });
       }
     }
@@ -142,6 +156,16 @@ export default function PermanentEmployeeJanNov({
     form.setValue("result.net_receipts", totalNetReceipts);
   }, [grossSalaryJanNovWatcher, form]);
 
+  useEffect(() => {
+    if (form.formState.errors.root) {
+      toast({
+        title: "Kesalahan Input",
+        description: "Mohon periksa kembali data yang anda masukkan",
+        variant: "destructive",
+      });
+    }
+  }, [form.formState.errors]);
+
   return (
     <>
       <Form {...form}>
@@ -150,12 +174,8 @@ export default function PermanentEmployeeJanNov({
             <GrossIncome form={form} />
             <PPh21Calculation form={form} />
           </div>
-          <Results
-            form={form}
-            total_salary="result.total_salary"
-            total_pph21="result.total_pph21"
-            net_receipts="result.net_receipts"
-          />
+
+          <Results form={form as UseFormReturn<PPh21EmployeeUnionFormData>} />
 
           <div className="flex justify-center mt-10 mb-10 mr-8 gap-10">
             <Button type="submit" disabled={isMutatePph21Pending}>

@@ -1,19 +1,17 @@
-import React from 'react';
-
+import { Card, CardContent } from "@/components/ui/card";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
-import { useForm } from 'react-hook-form';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { PermanentEmployeeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { useForm } from "react-hook-form";
 
 interface PPh21CutInDecemberProps {
-  form: ReturnType<typeof useForm<PermanentEmployeeFormData>>;
+  form: ReturnType<typeof useForm<PermanentEmployeeDecemberFormData>>;
 }
 export default function PPh21CutInDecember({ form }: PPh21CutInDecemberProps) {
   return (
@@ -32,6 +30,7 @@ export default function PPh21CutInDecember({ form }: PPh21CutInDecemberProps) {
               </FormLabel>
               <FormControl>
                 <Input
+                  type="number"
                   placeholder="Rp"
                   className="border border-gray-400"
                   {...field}
@@ -52,6 +51,7 @@ export default function PPh21CutInDecember({ form }: PPh21CutInDecemberProps) {
               </FormLabel>
               <FormControl>
                 <Input
+                  type="number"
                   className="border border-gray-400"
                   {...field}
                   placeholder="Rp"
@@ -72,6 +72,7 @@ export default function PPh21CutInDecember({ form }: PPh21CutInDecemberProps) {
               </FormLabel>
               <FormControl>
                 <Input
+                  type="number"
                   className="border border-gray-400"
                   {...field}
                   placeholder="Rp"

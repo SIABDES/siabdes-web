@@ -1,19 +1,18 @@
-import React from 'react';
-
+import FormNumberInput from "@/components/patan-ui/form/form-number-input";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
-import { useForm } from 'react-hook-form';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { PermanentEmployeeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { useForm } from "react-hook-form";
 
 interface NetCalculationProps {
-  form: ReturnType<typeof useForm<PermanentEmployeeFormData>>;
+  form: ReturnType<typeof useForm<PermanentEmployeeDecemberFormData>>;
 }
 
 export default function NetCalculation({ form }: NetCalculationProps) {
@@ -23,83 +22,36 @@ export default function NetCalculation({ form }: NetCalculationProps) {
         Perhitungan Neto
       </h1>
       <CardContent>
-        <FormField
+        <FormNumberInput
+          label="Biaya Jabatan"
           control={form.control}
           name="net_calculations.position_allowance"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>Biaya Jabatan</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Rp. "
-                  className="border border-gray-400"
-                  {...field}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          variant="inline"
+          readonly
         />
-        <FormField
+
+        <FormNumberInput
+          label="Iuran Setahun Dibayar Pegawai"
           control={form.control}
           name="net_calculations.annual_fee"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>
-                Iuran Setahun Dibayar Pegawai
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  placeholder="Rp"
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          variant="inline"
+          readonly
         />
-        <FormField
+
+        <FormNumberInput
+          label="Premi Setahun Dibayar Pegawai"
           control={form.control}
           name="net_calculations.assurance"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>
-                Premi Setahun Dibayar Pegawai
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  placeholder="Rp"
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          variant="inline"
+          readonly
         />
-        <FormField
+
+        <FormNumberInput
+          label="Penghasilan Neto Setahun"
           control={form.control}
           name="net_calculations.net_income"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>
-                Penghasilan Neto Setahun
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  placeholder="Rp"
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          variant="inline"
+          readonly
         />
       </CardContent>
     </Card>

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PermanentEmployeeFormData } from "./permanent-employee/permanent-employee";
 
 export enum Pph21TaxPeriodMonth {
   JANUARY = 1,
@@ -29,3 +30,5 @@ export const PPh21EmployeeBaseSchema = z.object({
 });
 
 export type PPh21EmployeeBaseFormData = z.infer<typeof PPh21EmployeeBaseSchema>;
+
+export type PPh21EmployeeUnionFormData = PermanentEmployeeFormData;

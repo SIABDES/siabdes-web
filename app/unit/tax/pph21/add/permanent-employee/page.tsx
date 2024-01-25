@@ -2,6 +2,7 @@
 
 import Layout from "@/components/layout/layout";
 import Pph21EmployeeData from "@/components/pages/pph21/general/pph21-employee-data";
+import PermanentEmployeeDes from "@/components/pages/pph21/permanent-employee/December/des";
 import PermanentEmployeeJanNov from "@/components/pages/pph21/permanent-employee/January-November/jan-nov";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -68,8 +69,26 @@ export default function PermanentEmployee() {
             </Card>
           </TabsContent>
           <TabsContent value="desember">
-            {/* Yang desember w komen dulu, ntar w benerin (?) */}
-            {/* <PermanentEmployeeDes form={form} onSubmit={onSubmit} /> */}
+            <Card>
+              <CardContent>
+                <h1 className="mt-3 mb-4 text-center font-bold text-lg">
+                  Pegawai Tetap Bulanan Masa Pajak Januari - November
+                </h1>
+
+                <Pph21EmployeeData
+                  selectedEmployee={selectedEmployee}
+                  setSelectedEmployee={setSelectedEmployee}
+                  getEmployees={getEmployees}
+                  isGetEmployeesLoading={isGetEmployeesLoading}
+                  setPeriod={setPeriodMonth}
+                />
+
+                <PermanentEmployeeDes
+                  selectedEmployee={selectedEmployee}
+                  periodMonth={periodMonth}
+                />
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
 

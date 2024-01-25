@@ -40,37 +40,37 @@ export const PermanentEmployeeGrossIncomeJanNovSchema = z.object({
 });
 
 export const PermanentEmployeeGrossIncomeDecSchema = z.object({
-  salary_dec: z
+  salary: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().nonnegative())
     .or(z.number().nonnegative()),
-  allowance_dec: z
+  allowance: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().nonnegative())
     .or(z.number().nonnegative()),
-  thr_dec: z
+  thr: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().nonnegative())
     .or(z.number().nonnegative()),
-  bonus_dec: z
+  bonus: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().nonnegative())
     .or(z.number().nonnegative()),
-  overtime_salary_dec: z
+  overtime_salary: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().nonnegative())
     .or(z.number().nonnegative()),
-  assurance_dec: z
+  assurance: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().nonnegative())
     .or(z.number().nonnegative()),
-  gross_total: z
+  gross_total_before_december: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().nonnegative())

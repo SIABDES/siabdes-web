@@ -1,19 +1,17 @@
-import React from 'react';
-
+import { Card, CardContent } from "@/components/ui/card";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
-import { useForm } from 'react-hook-form';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { PermanentEmployeeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { useForm } from "react-hook-form";
 
 interface PKPCalculationProps {
-  form: ReturnType<typeof useForm<PermanentEmployeeFormData>>;
+  form: ReturnType<typeof useForm<PermanentEmployeeDecemberFormData>>;
 }
 
 export default function PKPCalculation({ form }: PKPCalculationProps) {
