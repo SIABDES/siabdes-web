@@ -51,7 +51,7 @@ export default function BumdesUnitProfileRoot({
 
       <Separator className="my-4" />
 
-      <div>{children}</div>
+      <main id="profile-layout-root">{children}</main>
     </>
   );
 }

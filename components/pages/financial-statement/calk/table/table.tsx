@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Table,
   TableBody,
@@ -6,7 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
 interface TableProps {
   data: Record<string, React.ReactNode>[];
@@ -43,7 +43,7 @@ export const TableStandart: React.FC<TableProps> = ({
                   type="text"
                   className="w-full text-center"
                   placeholder="Silahkan di isi"
-                  value={row[header]}
+                  value={row[header]?.toString()}
                   onChange={(e) => updateRow(index, header, e.target.value)}
                 />
               </TableCell>

@@ -28,8 +28,8 @@ export default function BumdesProfileForm({ profile }: BumdesProfileFormProps) {
       founded_at: profile.founded_at ? new Date(profile.founded_at) : undefined,
       npwp_number: profile.npwp_number ?? undefined,
       bank: profile.bank && {
-        name: profile.bank.name ?? undefined,
-        account_number: profile.bank.account_number ?? undefined,
+        name: profile.bank.name,
+        account_number: profile.bank.account_number,
       },
       socials: profile.socials && {
         website: profile.socials.website ?? undefined,

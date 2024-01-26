@@ -1,14 +1,15 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/route';
-import { NextResponse } from 'next/server';
-import { AxiosAuthed } from '@/common/api';
-import { GetEmployeesResponse } from '@/types/employees/response';
+import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
+import { AxiosAuthed } from "@/common/api";
+import { GetEmployeesResponse } from "@/types/employees/response";
+import { AxiosError } from "axios";
+import { authOptions } from "@/lib/next-auth-options";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.redirect('/auth/login');
+    return NextResponse.redirect("/auth/login");
   }
 
   try {
@@ -18,7 +19,7 @@ export async function GET() {
   } catch (error) {
     if (error instanceof AxiosError) {
       if (error.response?.status === 404) {
-        return NextResponse.redirect('/bumdes/profile');
+        return NextResponse.redirect("/bumdes/profile");
       }
     }
     throw error;

@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
 import { NextRequest, NextResponse } from "next/server";
 import { AxiosAuthed } from "@/common/api";
 import { GetEmployeesResponse } from "@/types/employees/response";
 import { AxiosError } from "axios";
+import { authOptions } from "@/lib/next-auth-options";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);

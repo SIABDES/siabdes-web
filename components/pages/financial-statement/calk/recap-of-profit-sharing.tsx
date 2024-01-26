@@ -1,5 +1,5 @@
-'use client';
-import React, { ChangeEvent, useState } from 'react';
+"use client";
+import React, { ChangeEvent, useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,9 +8,9 @@ import {
   TableHeader,
   TableRow,
   TableFooter,
-} from '@/components/ui/table';
-import { Input } from '@/components/ui/input';
-import { RecapOfProfitSharingFormData } from '@/types/financial-statement/calk/recap-of-profit-sharing';
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { RecapOfProfitSharingFormData } from "@/types/financial-statement/calk/recap-of-profit-sharing";
 
 interface RecapOfProfitSharingProps {
   data: RecapOfProfitSharingFormData;
@@ -21,74 +21,75 @@ export default function RecapOfProfitSharing({
   data,
   onChange,
 }: RecapOfProfitSharingProps) {
-  const [dataByYear, setDataByYear] = useState<{
-    [year: number]: RecapOfProfitSharingFormData;
-  }>({
-    2020: {
-      shuBumdes: '',
-      danaSHUPades: '',
-      danaSHUDireksi: '',
-      danaSHUKomisaris: '',
-      sahuDewanPengawas: '',
-      shuDanaSosialdll: '',
-    },
-    2021: {
-      shuBumdes: '',
-      danaSHUPades: '',
-      danaSHUDireksi: '',
-      danaSHUKomisaris: '',
-      sahuDewanPengawas: '',
-      shuDanaSosialdll: '',
-    },
-    2022: {
-      shuBumdes: '',
-      danaSHUPades: '',
-      danaSHUDireksi: '',
-      danaSHUKomisaris: '',
-      sahuDewanPengawas: '',
-      shuDanaSosialdll: '',
-    },
-  });
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    field: keyof RecapOfProfitSharingFormData,
-    year: number
-  ) => {
-    setDataByYear((prevData) => ({
-      ...prevData,
-      [year]: { ...prevData[year], [field]: e.target.value },
-    }));
-    const updatedData = {
-      ...data,
-      [year]: { ...data[year], [field]: e.target.value },
-    };
-    onChange(updatedData);
-  };
+  /* UNCOMMENT DIBAWAH - TEMPORARY ONLY */
+  // const [dataByYear, setDataByYear] = useState<{
+  //   [year: number]: RecapOfProfitSharingFormData;
+  // }>({
+  //   2020: {
+  //     shuBumdes: "",
+  //     danaSHUPades: "",
+  //     danaSHUDireksi: "",
+  //     danaSHUKomisaris: "",
+  //     sahuDewanPengawas: "",
+  //     shuDanaSosialdll: "",
+  //   },
+  //   2021: {
+  //     shuBumdes: "",
+  //     danaSHUPades: "",
+  //     danaSHUDireksi: "",
+  //     danaSHUKomisaris: "",
+  //     sahuDewanPengawas: "",
+  //     shuDanaSosialdll: "",
+  //   },
+  //   2022: {
+  //     shuBumdes: "",
+  //     danaSHUPades: "",
+  //     danaSHUDireksi: "",
+  //     danaSHUKomisaris: "",
+  //     sahuDewanPengawas: "",
+  //     shuDanaSosialdll: "",
+  //   },
+  // });
+  // const handleInputChange = (
+  //   e: ChangeEvent<HTMLInputElement>,
+  //   field: keyof RecapOfProfitSharingFormData,
+  //   year: number
+  // ) => {
+  //   setDataByYear((prevData) => ({
+  //     ...prevData,
+  //     [year]: { ...prevData[year], [field]: e.target.value },
+  //   }));
+  //   const updatedData = {
+  //     ...data,
+  //     [year]: { ...data, [field]: e.target.value },
+  //   };
+  //   onChange(updatedData);
+  // };
 
-  const calculateTotal = (
-    field: keyof RecapOfProfitSharingFormData,
-    year: number
-  ) => {
-    if (field === 'total') {
-      return Object.values(dataByYear[year]).reduce(
-        (acc, curr, index) =>
-          acc +
-          (index === Object.keys(dataByYear[year]).indexOf('total')
-            ? 0
-            : parseFloat(curr) || 0),
-        0
-      );
-    } else {
-      return years.reduce(
-        (acc, currYear) => acc + (parseFloat(dataByYear[currYear][field]) || 0),
-        0
-      );
-    }
-  };
+  // const calculateTotal = (
+  //   field: keyof RecapOfProfitSharingFormData,
+  //   year: number
+  // ) => {
+  //   if (field === "total") {
+  //     return Object.values(dataByYear[year]).reduce(
+  //       (acc, curr, index) =>
+  //         acc +
+  //         (index === Object.keys(dataByYear[year]).indexOf("total")
+  //           ? 0
+  //           : parseFloat(curr) || 0),
+  //       0
+  //     );
+  //   } else {
+  //     return years.reduce(
+  //       (acc, currYear) => acc + (parseFloat(dataByYear[currYear][field]) || 0),
+  //       0
+  //     );
+  //   }
+  // };
 
-  const calculateColumnTotal = (field: keyof RecapOfProfitSharingFormData) => {
-    return years.reduce((acc, year) => acc + calculateTotal(field, year), 0);
-  };
+  // const calculateColumnTotal = (field: keyof RecapOfProfitSharingFormData) => {
+  //   return years.reduce((acc, year) => acc + calculateTotal(field, year), 0);
+  // };
 
   const years = [2020, 2021, 2022];
 
@@ -133,7 +134,9 @@ export default function RecapOfProfitSharing({
         {years.map((year) => (
           <TableRow key={year}>
             {/* <TableCell className="text-center">{year}</TableCell> */}
-            {Object.keys(dataByYear[year]).map((key) => (
+
+            {/* UNCOMMENT DIBAWAH - TEMPORARY ONLY */}
+            {/* {Object.keys(dataByYear[year]).map((key) => (
               <TableCell className="border border-black text-center" key={key}>
                 <Input
                   type="text"
@@ -148,9 +151,10 @@ export default function RecapOfProfitSharing({
                   }
                 />
               </TableCell>
-            ))}
+            ))} */}
             <TableCell className="border border-black text-center">
-              {calculateTotal('total', year)}
+              {/* UNCOMMENT DIBAWAH - TEMPORARY ONLY */}
+              {/* {calculateTotal("total", year)} */}
             </TableCell>
           </TableRow>
         ))}

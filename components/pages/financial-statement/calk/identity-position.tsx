@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import InputField from '@/components/Input/input-field';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { PlusIcon, TrashIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { GetUnitProfileResponse } from '@/types/units/profile/response';
-import useGetUnitProfile from '@/hooks/units/profile/useGetUnitProfile';
+import { formatDateToString } from "@/common/helpers/date";
+import InputField from "@/components/Input/input-field";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import useGetUnitProfile from "@/hooks/units/profile/useGetUnitProfile";
+import { TrashIcon } from "lucide-react";
+import { useState } from "react";
 
 export default function IdentityPosition() {
   const { data } = useGetUnitProfile();
-  const unit = data;
+  const unit = data?.data;
 
-  console.log('data', data);
-  console.log('unit', unit);
+  console.log("data", data);
+  console.log("unit", unit);
 
   const [members, setMembers] = useState<string[]>([]);
   const [collabs, setCollabs] = useState<string[]>([]);
   const [formValues, setFormValues] = useState({
-    bidang_usaha: data?.business_type,
+    bidang_usaha: unit?.business_type,
     nama_usaha: unit?.name,
     alamat_usaha: unit?.address,
     nomor_telepon: unit?.phone,
@@ -32,7 +32,7 @@ export default function IdentityPosition() {
   const [formSaved, setFormSaved] = useState(false);
 
   const addMember = () => {
-    setMembers([...members, '']);
+    setMembers([...members, ""]);
   };
 
   const handleMemberChange = (index: number, value: string) => {
@@ -48,7 +48,7 @@ export default function IdentityPosition() {
   };
 
   const addCollab = () => {
-    setCollabs([...collabs, '']);
+    setCollabs([...collabs, ""]);
   };
   const handleCollabChange = (index: number, value: string) => {
     const updatedCollabs = [...collabs];
@@ -88,7 +88,7 @@ export default function IdentityPosition() {
           name="bidang_usaha"
           type="text"
           value={formValues.bidang_usaha}
-          onChange={(e) => handleInputChange('bidang_usaha', e.target.value)}
+          onChange={(e) => handleInputChange("bidang_usaha", e.target.value)}
           disabled={true}
         />
         <InputField
@@ -97,7 +97,7 @@ export default function IdentityPosition() {
           name="nama_usaha"
           type="text"
           value={formValues.nama_usaha}
-          onChange={(e) => handleInputChange('nama_usaha', e.target.value)}
+          onChange={(e) => handleInputChange("nama_usaha", e.target.value)}
         />
         <InputField
           label="Alamat Usaha"
@@ -105,7 +105,7 @@ export default function IdentityPosition() {
           name="alamat_usaha"
           type="text"
           value={formValues.alamat_usaha}
-          onChange={(e) => handleInputChange('alamat_usaha', e.target.value)}
+          onChange={(e) => handleInputChange("alamat_usaha", e.target.value)}
         />
         <InputField
           label="Nomor Telepon"
@@ -113,7 +113,7 @@ export default function IdentityPosition() {
           name="nomor_telepon"
           type="number"
           value={formValues.nomor_telepon}
-          onChange={(e) => handleInputChange('nomor_telepon', e.target.value)}
+          onChange={(e) => handleInputChange("nomor_telepon", e.target.value)}
         />
         <div className="flex">
           <label
@@ -166,7 +166,7 @@ export default function IdentityPosition() {
             className={`p-2 w-full border rounded-md ml h-28`}
             value={formValues.deskripsi_kegiatan_usaha}
             onChange={(e) =>
-              handleInputChange('deskripsi_kegiatan_usaha', e.target.value)
+              handleInputChange("deskripsi_kegiatan_usaha", e.target.value)
             }
           />
         </div>
@@ -186,7 +186,7 @@ export default function IdentityPosition() {
           labelClassName="pl-10 text-start"
           value={formValues.kepala_unit_usaha}
           onChange={(e) =>
-            handleInputChange('kepala_unit_usaha', e.target.value)
+            handleInputChange("kepala_unit_usaha", e.target.value)
           }
         />
         {members.map((member, index) => (
@@ -227,8 +227,8 @@ export default function IdentityPosition() {
           placeholder="Masukkan Tahun Berdiri"
           name="tahun_berdiri"
           type="number"
-          value={formValues.tahun_berdiri}
-          onChange={(e) => handleInputChange('tahun_berdiri', e.target.value)}
+          value={formValues.tahun_berdiri?.toISOString()}
+          onChange={(e) => handleInputChange("tahun_berdiri", e.target.value)}
         />
         <div className="flex justify-end pt-10 mb-10">
           <Button
@@ -333,7 +333,8 @@ export default function IdentityPosition() {
               </Label>
               <h1 className="p-2 text-sm font-medium text-black">:</h1>
               <p className="p-2 text-sm font-medium text-black">
-                {formValues.tahun_berdiri}
+                {formValues.tahun_berdiri &&
+                  formatDateToString(formValues.tahun_berdiri)}
               </p>
             </div>
           </div>

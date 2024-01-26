@@ -1,40 +1,28 @@
-'use client';
+"use client";
 
-import Layout from '@/components/layout/layout';
-import LaborData from '@/components/pages/pph21/general/labor-data';
-import Results from '@/components/pages/pph21/general/results';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import useGetEmployees from '@/hooks/employee/useGetEmployees';
-import { Employee } from '@/types/employees/employees';
-import { Pph21TaxPeriodMonth } from '@/types/pph21/general';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
+import Layout from "@/components/layout/layout";
+import EmployeeData12Months from "@/components/pages/pph21/general/employee-data-12-months";
+import SeverencePayPeriodicPPh21Calculation from "@/components/pages/pph21/severance-pay/periodic/pph21-calculation";
+import SeverencePayPeriodicResults from "@/components/pages/pph21/severance-pay/periodic/result";
+import SeverencePayPeriodicSalary from "@/components/pages/pph21/severance-pay/periodic/salary";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import { toast } from "@/components/ui/use-toast";
+import useGetEmployees from "@/hooks/employee/useGetEmployees";
+import useAddPph21PermanentEmployee from "@/hooks/pph21/useAddPph21PermanentEmployee";
+import { Employee } from "@/types/employees/employees";
+import { Pph21TaxPeriodMonth } from "@/types/pph21/general";
 import {
   SeverencePayPeriodicFormData,
   SeverencePayPeriodicScema,
-} from '@/types/pph21/severance-pay/severence-pay';
-import EmployeeData12Months from '@/components/pages/pph21/general/employee-data-12-months';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import SeverencePayPeriodicSalary from '@/components/pages/pph21/severance-pay/periodic/salary';
-import SeverencePayOneTimeResults from '@/components/pages/pph21/severance-pay/one-time/result';
-import SeverencePayPeriodicResults from '@/components/pages/pph21/severance-pay/periodic/result';
-import SeverencePayPeriodicPPh21Calculation from '@/components/pages/pph21/severance-pay/periodic/pph21-calculation';
-import useAddPph21PermanentEmployee from '@/hooks/pph21/useAddPph21PermanentEmployee';
-import { toast } from '@/components/ui/use-toast';
-import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
+} from "@/types/pph21/severance-pay/severence-pay";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function Periodic() {
   const [periodMonth, setPeriodMonth] = useState<Pph21TaxPeriodMonth>();
@@ -51,7 +39,7 @@ export default function Periodic() {
   const form = useForm<SeverencePayPeriodicFormData>({
     resolver: zodResolver(SeverencePayPeriodicScema),
     defaultValues: {
-      employee_id: '',
+      employee_id: "",
       period: {
         month: new Date().getMonth() as Pph21TaxPeriodMonth,
         years: new Date().getFullYear(),
@@ -96,16 +84,16 @@ export default function Periodic() {
       // await mutatePph21(data);
 
       toast({
-        title: 'Berhasil',
-        description: 'Data PPh21 berhasil disimpan',
+        title: "Berhasil",
+        description: "Data PPh21 berhasil disimpan",
         duration: 5000,
       });
 
-      router.push('/unit/tax/pph21');
+      router.push("/unit/tax/pph21");
     } catch (error) {
       if (error instanceof AxiosError) {
         toast({
-          title: 'Gagal',
+          title: "Gagal",
           description: error.response?.data.message,
           duration: 5000,
         });
@@ -121,7 +109,7 @@ export default function Periodic() {
           </h1>
           <div className="flex space-x-6">
             <Button>Lampiran</Button>
-            <Link href={'/unit/tax/pph21'}>
+            <Link href={"/unit/tax/pph21"}>
               <Button>Kembali</Button>
             </Link>
           </div>

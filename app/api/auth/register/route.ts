@@ -1,10 +1,10 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../[...nextauth]/route";
 import { RegisterFormData, RegisterSchema } from "@/types/auth";
 import { AxiosNoAuth } from "@/common/api";
 import { AxiosError } from "axios";
 import { AuthRegisterResponse } from "@/types/auth/response";
+import { authOptions } from "@/lib/next-auth-options";
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);

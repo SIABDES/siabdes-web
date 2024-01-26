@@ -1,36 +1,24 @@
-'use client';
+"use client";
 
-import Layout from '@/components/layout/layout';
-import EmployeeData12Months from '@/components/pages/pph21/general/employee-data-12-months';
-import LaborData from '@/components/pages/pph21/general/labor-data';
-import Results from '@/components/pages/pph21/general/results';
-import NotEmployeeGrossIncome from '@/components/pages/pph21/not-employee/gross-income';
-import NotEmployeePPh21Calculation from '@/components/pages/pph21/not-employee/pph21-calculation';
-import NotEmployeeResults from '@/components/pages/pph21/not-employee/result';
-import GrossIncome from '@/components/pages/pph21/permanent-employee/January-November/gross_income';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import useGetEmployees from '@/hooks/employee/useGetEmployees';
-import { Employee } from '@/types/employees/employees';
-import { Pph21TaxPeriodMonth } from '@/types/pph21/general';
+import Layout from "@/components/layout/layout";
+import EmployeeData12Months from "@/components/pages/pph21/general/employee-data-12-months";
+import NotEmployeeGrossIncome from "@/components/pages/pph21/not-employee/gross-income";
+import NotEmployeePPh21Calculation from "@/components/pages/pph21/not-employee/pph21-calculation";
+import NotEmployeeResults from "@/components/pages/pph21/not-employee/result";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import useGetEmployees from "@/hooks/employee/useGetEmployees";
+import { Employee } from "@/types/employees/employees";
+import { Pph21TaxPeriodMonth } from "@/types/pph21/general";
 import {
   NotEmployeeFormData,
   NotEmployeeScema,
-} from '@/types/pph21/not-employee/not-employee';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+} from "@/types/pph21/not-employee/not-employee";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function NotEmployee() {
   const [periodMonth, setPeriodMonth] = useState<Pph21TaxPeriodMonth>();
@@ -65,7 +53,7 @@ export default function NotEmployee() {
           </h1>
           <div className="flex space-x-6">
             <Button>Lampiran</Button>
-            <Link href={'/unit/tax/pph21'}>
+            <Link href={"/unit/tax/pph21"}>
               <Button>Kembali</Button>
             </Link>
           </div>

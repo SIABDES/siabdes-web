@@ -1,35 +1,24 @@
-'use client';
+"use client";
 
-import Layout from '@/components/layout/layout';
-import LaborData from '@/components/pages/pph21/general/labor-data';
-import Salary from '@/components/pages/pph21/temporary-employee/not-paid-monthly/salary';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import useGetEmployees from '@/hooks/employee/useGetEmployees';
-import { Employee } from '@/types/employees/employees';
-import EmployeeData12Months from '@/components/pages/pph21/general/employee-data-12-months';
-import { Pph21TaxPeriodMonth } from '@/types/pph21/general';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
+import Layout from "@/components/layout/layout";
+import EmployeeData12Months from "@/components/pages/pph21/general/employee-data-12-months";
+import TemporaryEmployeeNotMonthlyPPh21Calculation from "@/components/pages/pph21/temporary-employee/not-paid-monthly/pph21-calculation";
+import TemporaryEmployeeNotMonthlyResults from "@/components/pages/pph21/temporary-employee/not-paid-monthly/result";
+import TemporaryEmployeeNotMonthlySalary from "@/components/pages/pph21/temporary-employee/not-paid-monthly/salary";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import useGetEmployees from "@/hooks/employee/useGetEmployees";
+import { Employee } from "@/types/employees/employees";
+import { Pph21TaxPeriodMonth } from "@/types/pph21/general";
 import {
   NonPermanentEmployeeNotMonthlyFormData,
   NonPermanentEmployeeNotMonthlyScema,
-} from '@/types/pph21/temporary-employee/temporary-employee';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import TemporaryEmployeeNotMonthlySalary from '@/components/pages/pph21/temporary-employee/not-paid-monthly/salary';
-import TemporaryEmployeeNotMonthlyPPh21Calculation from '@/components/pages/pph21/temporary-employee/not-paid-monthly/pph21-calculation';
-import TemporaryEmployeeNotMonthlyResults from '@/components/pages/pph21/temporary-employee/not-paid-monthly/result';
+} from "@/types/pph21/temporary-employee/temporary-employee";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function NotPaidMonthly() {
   const [periodMonth, setPeriodMonth] = useState<Pph21TaxPeriodMonth>();
@@ -48,8 +37,8 @@ export default function NotPaidMonthly() {
 
   useEffect(() => {
     if (selectedEmployee) {
-      form.setValue('employee_id', selectedEmployee.id);
-      form.setValue('constants.tariff_ter', selectedEmployee.ter?.percentage);
+      form.setValue("employee_id", selectedEmployee.id);
+      form.setValue("constants.tariff_ter", selectedEmployee.ter?.percentage);
     }
   }, [form, selectedEmployee]);
 
@@ -65,7 +54,7 @@ export default function NotPaidMonthly() {
           </h1>
           <div className="flex space-x-6">
             <Button>Lampiran</Button>
-            <Link href={'/unit/tax/pph21'}>
+            <Link href={"/unit/tax/pph21"}>
               <Button>Kembali</Button>
             </Link>
           </div>

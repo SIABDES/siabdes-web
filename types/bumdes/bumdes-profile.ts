@@ -8,8 +8,8 @@ export const UpdateBumdesProfileRequest = z.object({
 
   bank: z
     .object({
-      name: z.string().min(1),
-      account_number: z.string().min(1), // 1111-2222-3333-4444
+      name: z.string().min(1).nullable(),
+      account_number: z.string().min(1).nullable(), // 1111-2222-3333-4444
     })
     .optional(),
 

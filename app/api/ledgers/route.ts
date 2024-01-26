@@ -1,9 +1,7 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { AxiosAuthed } from "@/common/api";
-import { LEDGERS } from "@/common/api/urls";
-import axios, { AxiosError } from "axios";
+import { authOptions } from "@/lib/next-auth-options";
+import { AxiosError } from "axios";
 import { getServerSession } from "next-auth";
-import { getSession } from "next-auth/react";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

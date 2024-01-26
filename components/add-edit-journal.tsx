@@ -28,7 +28,7 @@ export default function AddEditJournal() {
   // };
 
   const accountsQuery = useGetAccounts();
-  const accounts = accountsQuery.data as Record<string, React.ReactNode>[];
+  const accounts = accountsQuery.data ?? [];
   return (
     <div className="mb-4">
       <h1 className="mb-2 font-semibold">Tambahkan Akun</h1>
@@ -43,7 +43,7 @@ export default function AddEditJournal() {
             </SelectTrigger>
             <SelectContent>
               {accounts?.map((account) => (
-                <SelectItem key={account.id} value={account.id}>
+                <SelectItem key={account.id} value={account.id.toString()}>
                   {account.name}
                 </SelectItem>
               ))}
@@ -80,7 +80,7 @@ export default function AddEditJournal() {
             </SelectTrigger>
             <SelectContent>
               {accounts?.map((account) => (
-                <SelectItem key={account.id} value={account.id}>
+                <SelectItem key={account.id} value={account.id.toString()}>
                   {account.name}
                 </SelectItem>
               ))}

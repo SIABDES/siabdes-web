@@ -15,11 +15,13 @@ export default function LandingNavbar() {
       <div className="max-w-6xl mx-auto flex flex-row justify-between items-center">
         <div className="flex flex-row gap-x-16">
           <div className="relative h-11 w-32">
-            <Image
-              alt="SIABDes TAXion"
-              src={"/Logo-black-horizontal.png"}
-              fill
-            />
+            <Link href={"/"}>
+              <Image
+                alt="SIABDes TAXion"
+                src={"/Logo-black-horizontal.png"}
+                fill
+              />
+            </Link>
           </div>
 
           <div className="flex flex-row gap-x-8 items-center">

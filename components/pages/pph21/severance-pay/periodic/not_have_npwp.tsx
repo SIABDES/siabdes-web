@@ -1,14 +1,14 @@
-import { Card } from '@/components/ui/card';
+import { Card } from "@/components/ui/card";
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { SeverencePayPeriodicFormData } from '@/types/pph21/severance-pay/severence-pay';
-import React from 'react';
-import { useForm } from 'react-hook-form';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { SeverencePayPeriodicFormData } from "@/types/pph21/severance-pay/severence-pay";
+import React from "react";
+import { useForm } from "react-hook-form";
 
 interface NotHaveNPWPProps {
   form: ReturnType<typeof useForm<SeverencePayPeriodicFormData>>;
@@ -63,7 +63,7 @@ export default function NotHaveNPWP({ form }: NotHaveNPWPProps) {
           </div>
           <FormField
             control={form.control}
-            name="results.pph21_non_npwp"
+            name="result.total_salary"
             render={({ field }) => (
               <FormItem className="w-full col-span-3">
                 <FormControl>
