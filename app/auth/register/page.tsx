@@ -216,7 +216,7 @@ export default function RegisterPage() {
                   <FormField
                     control={form.control}
                     name="address.province"
-                    render={({ field }) => (
+                    render={() => (
                       <ComboboxForm
                         form={form}
                         name="address.province"
