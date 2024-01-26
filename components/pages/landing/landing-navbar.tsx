@@ -5,6 +5,7 @@ import { Session } from "inspector";
 import { ArrowRight, LogOutIcon } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function LandingNavbar() {
   const { data: session, status: authStatus } = useSession();
@@ -12,19 +13,30 @@ export default function LandingNavbar() {
   return (
     <nav className="w-full border-b border-b-border py-4">
       <div className="max-w-6xl mx-auto flex flex-row justify-between items-center">
-        <div className="flex flex-row gap-x-8 items-center">
-          <Link href="/" className="font-medium text-sm">
-            Tentang Kami
-          </Link>
+        <div className="flex flex-row gap-x-16">
+          <div className="relative h-11 w-32">
+            <Image
+              alt="SIABDes TAXion"
+              src={"/Logo-black-horizontal.png"}
+              fill
+            />
+          </div>
 
-          <Link href="/" className="font-medium text-sm">
-            Kelebihan Aplikasi
-          </Link>
+          <div className="flex flex-row gap-x-8 items-center">
+            <Link href="/" className="font-medium text-sm">
+              Tentang Kami
+            </Link>
 
-          <Link href="/" className="font-medium text-sm">
-            Panduan
-          </Link>
+            <Link href="/" className="font-medium text-sm">
+              Kelebihan Aplikasi
+            </Link>
+
+            <Link href="/" className="font-medium text-sm">
+              Panduan
+            </Link>
+          </div>
         </div>
+
         <div className="inline-flex gap-x-4">
           {authStatus === "authenticated" ? (
             <>

@@ -58,3 +58,9 @@
     --ring: 224.3 76.3% 48%;
   }
 }
+
+@layer components {
+  .text-link {
+    @apply text-sm font-medium hover:underline hover:underline-offset-4;
+  }
+}
