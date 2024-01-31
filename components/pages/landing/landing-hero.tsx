@@ -6,14 +6,14 @@ import Link from "next/link";
 
 export default function LandingHero() {
   return (
-    <section id="hero" className="pt-24 pb-24 pl-32 text-slate-50">
+    <section id="about-us" className="pt-24 pb-24 pl-32 text-slate-50">
       <div className="mx-auto grid grid-cols-2 gap-x-24">
         <div className="mt-16">
           <h2 className="text-5xl font-bold">
             Sederhanakan Proses Akuntansi Bisnis Anda
           </h2>
 
-          <p className="mt-6">
+          <p className="mt-6 text-slate-300">
             Memudahkan BUMDes dan EMKM dalam menyajikan laporan keuangan sesuai
             dengan Standar EMKM. SIABDes TAXion menyediakan fasilitas berupa
             jurnal, buku besar, dan neraca neraca lajur. Laporan Keuangan telah
@@ -27,16 +27,22 @@ export default function LandingHero() {
               <Link href={"/auth/register"}>Coba Sekarang</Link>
             </Button>
 
-            <Button variant={"ghost"} size={"lg"}>
-              Pelajari Lebih Lanjut
-            </Button>
+            <Link href={"#features"}>
+              <Button variant={"ghost"} size={"lg"}>
+                Pelajari Lebih Lanjut
+              </Button>
+            </Link>
           </div>
         </div>
 
         <div>
           <section id="hero-sneakpeek-dashboard" className="pb-4 rounded-lg">
-            <div className="relative top-0">
-              <AspectRatio ratio={2800 / 2100}>
+            <div>
+              <AspectRatio
+                id="aspect-ratio"
+                ratio={2800 / 2100}
+                className="overflow-hidden"
+              >
                 <div
                   id="img-overlay"
                   className="bg-black z-10 absolute top-0 left-0 w-full h-full opacity-40"
@@ -45,6 +51,8 @@ export default function LandingHero() {
                 <Image
                   alt="Dashboard Unit"
                   src={"/landing/images/hero-display.png"}
+                  className="object-cover"
+                  sizes={"(max-width: 768px) 100vw, 50vw"}
                   fill
                 />
               </AspectRatio>

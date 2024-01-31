@@ -1,40 +1,36 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Session } from "inspector";
 import { ArrowRight, LogOutIcon } from "lucide-react";
-import { signIn, signOut, useSession } from "next-auth/react";
-import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LandingNavbar() {
   const { data: session, status: authStatus } = useSession();
 
   return (
-    <nav className="w-full py-4 text-slate-50">
+    <nav className="w-full py-4 text-slate-50 bg-slate-800">
       <div className="px-32 flex flex-row justify-between items-center">
-        <div className="flex flex-row gap-x-16">
-          <div className="relative h-11 w-32">
-            <Link href={"/"}>
+        <div className="flex flex-row gap-x-12">
+          <Link href={"/"}>
+            <div className="relative h-11 w-32">
               <Image
                 alt="SIABDes TAXion"
                 src={"/Logo-white-horizontal.svg"}
+                className="object-cover"
                 fill
               />
-            </Link>
-          </div>
+            </div>
+          </Link>
 
-          <div className="flex flex-row gap-x-8 items-center">
-            <Link href="/" className="font-medium text-sm">
-              Tentang Kami
-            </Link>
-
-            <Link href="/" className="font-medium text-sm">
-              Kelebihan Aplikasi
+          <div className="flex flex-row gap-x-4 items-center">
+            <Link href="#about-us">
+              <Button variant={"ghost"}>Tentang Kami</Button>
             </Link>
 
-            <Link href="/" className="font-medium text-sm">
-              Panduan
+            <Link href="#features">
+              <Button variant={"ghost"}>Kelebihan Aplikasi</Button>
             </Link>
           </div>
         </div>

@@ -9,7 +9,7 @@ import Link from "next/link";
 export default function LandingPage() {
   return (
     <>
-      <main className="bg-slate-800">
+      <main className="bg-slate-800 scroll-smooth">
         <LandingNavbar />
 
         <LandingHero />

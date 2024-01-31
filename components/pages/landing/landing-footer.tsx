@@ -4,7 +4,7 @@ import {
   TwitterLogoIcon,
   LinkedInLogoIcon,
 } from "@radix-ui/react-icons";
-import { PhoneIcon } from "lucide-react";
+import { ContactIcon, PhoneIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -82,21 +82,26 @@ export default function LandingFooter() {
             </div>
 
             <div className="flex flex-row gap-x-2 items-center mt-2">
-              <Button variant={"ghost"} size={"icon"}>
-                <InstagramLogoIcon className="h-6 w-6" />
-              </Button>
+              <Link href={"https://linktr.ee/siabdes.official"} target="_blank">
+                <Button variant={"ghost"} size={"icon"}>
+                  <ContactIcon className="h-6 w-6" />
+                </Button>
+              </Link>
 
-              <Button variant={"ghost"} size={"icon"}>
-                <TwitterLogoIcon className="h-6 w-6" />
-              </Button>
+              <Link
+                href={"https://www.instagram.com/siabdes.official"}
+                target="_blank"
+              >
+                <Button variant={"ghost"} size={"icon"}>
+                  <InstagramLogoIcon className="h-6 w-6" />
+                </Button>
+              </Link>
 
-              <Button variant={"ghost"} size={"icon"}>
-                <LinkedInLogoIcon className="h-6 w-6" />
-              </Button>
-
-              <Button variant={"ghost"} size={"icon"}>
-                <PhoneIcon className="h-6 w-6" />
-              </Button>
+              <Link href={"https://wa.me/+6289630610828"} target="_blank">
+                <Button variant={"ghost"} size={"icon"}>
+                  <PhoneIcon className="h-6 w-6" />
+                </Button>
+              </Link>
             </div>
           </section>
         </div>

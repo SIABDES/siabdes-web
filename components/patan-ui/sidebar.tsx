@@ -31,8 +31,9 @@ export function SidebarLink({ icon, label, href, ...props }: SidebarLinkProps) {
       <div
         id="sidebar-nav-link"
         className={cn(
-          "w-full py-2.5 px-3 inline-grid grid-cols-10 items-center rounded-md cursor-pointer group hover:bg-blue-50",
-          isActive && "text-blue-500 bg-blue-100"
+          "w-full py-2.5 px-3 inline-grid grid-cols-10 items-center rounded-md cursor-pointer group text-slate-50",
+          isActive && "bg-blue-600 text-slate-50",
+          !isActive && "hover:bg-blue-50/20"
         )}
       >
         <span className="flex flex-row items-center col-span-9">
@@ -65,7 +66,7 @@ export function SidebarNavs({
     <div id={`sidebar-navs-${id}`}>
       <div
         className={cn(
-          "w-full py-2.5 px-3 inline-grid grid-cols-10 items-center rounded-md cursor-pointer group hover:bg-blue-50"
+          "w-full py-2.5 px-3 inline-grid grid-cols-10 items-center rounded-md cursor-pointer group text-slate-50 hover:bg-blue-50/20"
         )}
         onClick={() => setNavsActive(id)}
       >
@@ -141,14 +142,14 @@ export function Sidebar({ items, ...props }: SidebarProps) {
       {...props}
       id="sidebar"
       className={cn(
-        "border-r border-r-border px-2 py-4 grid grid-rows-10 sticky top-0 left-0 h-screen z-10 bg-background",
+        "border-r border-r-border px-2 py-4 grid grid-rows-10 sticky top-0 left-0 h-screen z-10 bg-slate-900",
         open ? "w-sidebar" : "w-sidebar-collapsed"
       )}
     >
       <div id="sidebar-header" className="flex items-center justify-center">
         <Link href={"/"}>
           <Image
-            src={"/Logo-black.png"}
+            src={"/Logo-white.svg"}
             alt="SIABDes TAXion"
             width={40}
             height={40}

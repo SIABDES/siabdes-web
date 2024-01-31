@@ -52,10 +52,16 @@ export default function LandingFeature({
 
         <Card
           id="feature-image"
-          className="shadow-md min-w-[64rem] max-w-full h-full"
+          className="shadow-md min-w-[52rem] max-w-full h-full"
         >
           <AspectRatio ratio={16 / 9}>
-            <Image alt={title} src={imageUrl} fill />
+            <Image
+              alt={title}
+              src={imageUrl}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw, 33vw"
+            />
           </AspectRatio>
         </Card>
       </div>

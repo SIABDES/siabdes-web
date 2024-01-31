@@ -9,6 +9,7 @@ import {
   CalculatorIcon,
   ClipboardCheckIcon,
   ClipboardListIcon,
+  ClipboardPenLine,
   DollarSignIcon,
   HomeIcon,
 } from "lucide-react";
@@ -22,6 +23,11 @@ export default function Layout({ children }: PropsWithChildren) {
             href: "/unit/dashboard",
             label: "Dashboard",
             icon: HomeIcon,
+          },
+          "jurnal-umum": {
+            href: "/unit/general-journal",
+            label: "Jurnal Umum",
+            icon: ClipboardPenLine,
           },
           "buku-besar": {
             href: "/unit/ledger",
