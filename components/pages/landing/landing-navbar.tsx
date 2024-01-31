@@ -11,14 +11,14 @@ export default function LandingNavbar() {
   const { data: session, status: authStatus } = useSession();
 
   return (
-    <nav className="w-full border-b border-b-border py-4">
-      <div className="max-w-6xl mx-auto flex flex-row justify-between items-center">
+    <nav className="w-full py-4 text-slate-50">
+      <div className="px-32 flex flex-row justify-between items-center">
         <div className="flex flex-row gap-x-16">
           <div className="relative h-11 w-32">
             <Link href={"/"}>
               <Image
                 alt="SIABDes TAXion"
-                src={"/Logo-black-horizontal.png"}
+                src={"/Logo-white-horizontal.svg"}
                 fill
               />
             </Link>
@@ -39,7 +39,8 @@ export default function LandingNavbar() {
           </div>
         </div>
 
-        <div className="inline-flex gap-x-4">
+        {/* Sementara disembuyikan */}
+        <div className="inline-flex gap-x-4 invisible">
           {authStatus === "authenticated" ? (
             <>
               {session.user.role === "BUMDES" && (

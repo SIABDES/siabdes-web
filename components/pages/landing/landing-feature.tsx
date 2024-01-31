@@ -1,4 +1,6 @@
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { BoxIcon, LucideIcon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -9,6 +11,7 @@ interface LandingFeatureProps {
   description: string;
   icon: LucideIcon;
   direction?: "left" | "right";
+  highlightCard?: boolean;
 }
 
 export default function LandingFeature({
@@ -17,52 +20,23 @@ export default function LandingFeature({
   imageUrl,
   title,
   direction = "left",
+  highlightCard = false,
 }: LandingFeatureProps) {
-  if (direction === "left")
-    return (
-      <section id="feature" className="my-48 bg-background">
-        <div className="flex flex-row justify-between">
-          <div>
-            <Card className="max-w-md pl-16 h-fit">
-              <CardHeader>
-                <h3 className="text-xl font-semibold inline-flex flex-row items-center">
-                  {React.createElement(icon, { className: "h-5 w-5 mr-4" })}
-
-                  {title}
-                </h3>
-              </CardHeader>
-              <CardContent>
-                <p>{description}</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          <Card
-            id="feature-image"
-            className="w-[56rem] h-[32rem] relative shadow-md"
-          >
-            <CardContent>
-              <Image alt={title} src={imageUrl} fill />
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-    );
-
   return (
-    <section id="feature" className="my-48 bg-background">
-      <div className="flex flex-row justify-between">
-        <Card
-          id="feature-image"
-          className="w-[56rem] h-[32rem] relative shadow-md"
-        >
-          <CardContent>
-            <Image alt={title} src={imageUrl} fill />
-          </CardContent>
-        </Card>
-
+    <section id="feature">
+      <div
+        className={cn(
+          "flex flex-row justify-between",
+          direction === "right" && "flex-row-reverse"
+        )}
+      >
         <div>
-          <Card className="max-w-md pr-16 h-fit">
+          <Card
+            className={cn(
+              "max-w-md h-fit",
+              direction === "left" ? "pl-8" : "pr-8"
+            )}
+          >
             <CardHeader>
               <h3 className="text-xl font-semibold inline-flex flex-row items-center">
                 {React.createElement(icon, { className: "h-5 w-5 mr-4" })}
@@ -75,6 +49,15 @@ export default function LandingFeature({
             </CardContent>
           </Card>
         </div>
+
+        <Card
+          id="feature-image"
+          className="shadow-md min-w-[64rem] max-w-full h-full"
+        >
+          <AspectRatio ratio={16 / 9}>
+            <Image alt={title} src={imageUrl} fill />
+          </AspectRatio>
+        </Card>
       </div>
     </section>
   );

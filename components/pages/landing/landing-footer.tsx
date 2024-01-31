@@ -7,10 +7,11 @@ import {
 import { PhoneIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export default function LandingFooter() {
   return (
-    <footer className="py-24">
+    <footer className="py-24 text-slate-50">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-12 gap-x-12">
           <section
@@ -25,24 +26,27 @@ export default function LandingFooter() {
             </p>
           </section>
 
-          <section id="footer-partners" className="col-span-2">
+          <section
+            id="footer-partners"
+            className="col-span-2 flex flex-col gap-y-4"
+          >
             <p className="font-semibold">Partner Kami</p>
 
-            <div className="relative h-16 my-4">
+            <AspectRatio ratio={16 / 5}>
               <Image
                 alt="Telkom University"
-                src={"/landing/images/telu.png"}
+                src={"/landing/images/telu-white.png"}
                 fill
               />
-            </div>
+            </AspectRatio>
 
-            <div className="relative h-12">
+            <AspectRatio ratio={220 / 72}>
               <Image
                 alt="Bandung Techno Park"
-                src={"/landing/images/btp.png"}
+                src={"/landing/images/btp-white.png"}
                 fill
               />
-            </div>
+            </AspectRatio>
           </section>
 
           <div id="footer-offset"></div>
@@ -99,7 +103,7 @@ export default function LandingFooter() {
 
         <section id="footer-copyright" className="mt-24">
           <p className="text-sm font-medium">
-            © 2024 SIABDes TAXIon. All rights reserved.
+            © 2024 SIABDes TAXion. All rights reserved.
           </p>
         </section>
       </div>
