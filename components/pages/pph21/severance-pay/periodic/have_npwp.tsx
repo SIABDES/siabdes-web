@@ -1,3 +1,4 @@
+import { formatRupiah } from '@/common/helpers/number-format';
 import { Card } from '@/components/ui/card';
 import {
   FormControl,
@@ -7,6 +8,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { SeverencePayPeriodicFormData } from '@/types/pph21/severance-pay/severence-pay';
+import { format } from 'path';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -32,7 +34,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={field.value + '%'}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -51,7 +54,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(field.value)}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -70,7 +74,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(field.value)}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -88,7 +93,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={field.value + '%'}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -107,7 +113,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(field.value)}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -126,7 +133,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(field.value)}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -144,7 +152,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={field.value + '%'}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -163,7 +172,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(field.value)}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -182,7 +192,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(field.value)}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -200,7 +211,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={field.value + '%'}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -219,7 +231,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(field.value)}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -238,7 +251,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(field.value)}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -256,7 +270,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={field.value + '%'}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -275,7 +290,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(field.value)}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -294,7 +310,8 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(field.value)}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />

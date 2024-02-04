@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { NonPermanentEmployeeMonthlyFormData } from '@/types/pph21/temporary-employee/temporary-employee';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { formatRupiah } from '@/common/helpers/number-format';
 
 interface TemporaryEmployeePPh21CalculationProps {
   form: ReturnType<typeof useForm<NonPermanentEmployeeMonthlyFormData>>;
@@ -36,6 +37,7 @@ export default function TemporaryEmployeeMonthlyPPh21Calculation({
                   <Input
                     className="border border-gray-400"
                     {...field}
+                    value={form.getValues('constants.tariff_ter') + '%'}
                     readOnly
                   />
                 </FormControl>
@@ -56,6 +58,9 @@ export default function TemporaryEmployeeMonthlyPPh21Calculation({
                   <Input
                     className="border border-gray-400"
                     {...field}
+                    value={formatRupiah(
+                      form.getValues('gross_salary.monthly_salary')
+                    )}
                     readOnly
                   />
                 </FormControl>
@@ -76,6 +81,9 @@ export default function TemporaryEmployeeMonthlyPPh21Calculation({
                   <Input
                     className="border border-gray-400"
                     {...field}
+                    value={formatRupiah(
+                      form.getValues('calculations.pph21_has_npwp')
+                    )}
                     readOnly
                   />
                 </FormControl>
@@ -98,6 +106,9 @@ export default function TemporaryEmployeeMonthlyPPh21Calculation({
                   <Input
                     className="border border-gray-400"
                     {...field}
+                    value={
+                      form.getValues('constants.tariff_tax_non_npwp') + '%'
+                    }
                     readOnly
                   />
                 </FormControl>
@@ -110,13 +121,16 @@ export default function TemporaryEmployeeMonthlyPPh21Calculation({
           </div>
           <FormField
             control={form.control}
-            name="calculations.pph21_has_npwp"
+            name="calculations.pph21_non_npwp"
             render={({ field }) => (
               <FormItem className="w-full col-span-3">
                 <FormControl>
                   <Input
                     className="border border-gray-400"
                     {...field}
+                    value={formatRupiah(
+                      form.getValues('calculations.pph21_non_npwp')
+                    )}
                     readOnly
                   />
                 </FormControl>
@@ -129,13 +143,16 @@ export default function TemporaryEmployeeMonthlyPPh21Calculation({
           </div>
           <FormField
             control={form.control}
-            name="calculations.pph21_non_npwp"
+            name="calculations.total_pph21_non_npwp"
             render={({ field }) => (
               <FormItem className="w-full col-span-3">
                 <FormControl>
                   <Input
                     className="border border-gray-400"
                     {...field}
+                    value={formatRupiah(
+                      form.getValues('calculations.total_pph21_non_npwp')
+                    )}
                     readOnly
                   />
                 </FormControl>

@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { NonPermanentEmployeeNotMonthlyFormData } from '@/types/pph21/temporary-employee/temporary-employee';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { formatRupiah } from '@/common/helpers/number-format';
 
 interface TaxNonNPWPProps {
   form: ReturnType<typeof useForm<NonPermanentEmployeeNotMonthlyFormData>>;
@@ -30,12 +31,13 @@ export default function TaxNonNPWP({ form }: TaxNonNPWPProps) {
             control={form.control}
             name="constants.tariff_tax_non_npwp"
             render={({ field }) => (
-              <FormItem className="w-full col-span-2">
+              <FormItem className="w-full">
                 <FormControl>
                   <Input
-                    className="border border-gray-400"
+                    className="border border-gray-400 "
                     {...field}
-                    disabled
+                    value={`${120}%`}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -47,14 +49,17 @@ export default function TaxNonNPWP({ form }: TaxNonNPWPProps) {
           </div>
           <FormField
             control={form.control}
-            name="gross_salary.salary"
+            name="calculations.pph21_non_npwp"
             render={({ field }) => (
-              <FormItem className="w-full col-span-2">
+              <FormItem className="w-full col-span-3">
                 <FormControl>
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(
+                      form.getValues('calculations.pph21_non_npwp')
+                    )}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -66,14 +71,17 @@ export default function TaxNonNPWP({ form }: TaxNonNPWPProps) {
           </div>
           <FormField
             control={form.control}
-            name="calculations.pph21_non_npwp"
+            name="calculations.total_pph21_non_npwp"
             render={({ field }) => (
               <FormItem className="w-full col-span-2">
                 <FormControl>
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(
+                      form.getValues('calculations.total_pph21_non_npwp')
+                    )}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />

@@ -45,7 +45,7 @@ export default function DashboardChard03() {
         </div>
         <div className="flex items-start">
           <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mr-2">
-            Rp. 20.000.000
+            Rp. 50.000.000
           </div>
           <div className="text-sm font-semibold text-white px-1.5 bg-emerald-500 rounded-full">
             +19%

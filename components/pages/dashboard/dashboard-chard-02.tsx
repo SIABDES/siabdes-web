@@ -38,14 +38,14 @@ export default function DashboardChard02() {
         </EditMenu> */}
         </header>
         <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2">
-          Total Pengeluaran
+          Total Beban
         </h2>
         <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">
           31 Desember 2023
         </div>
         <div className="flex items-start">
           <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mr-2">
-            Rp. 10.000.000
+            Rp. 110.000.000
           </div>
           <div className="text-sm font-semibold text-white px-1.5 bg-emerald-500 rounded-full">
             +39%

@@ -1,3 +1,8 @@
+import {
+  formatRupiah,
+  reverseFormat,
+  reverseFormatNumber,
+} from '@/common/helpers/number-format';
 import { Card } from '@/components/ui/card';
 import {
   FormControl,
@@ -39,7 +44,7 @@ export default function SeverencePayPeriodicResults({
                 <Input
                   className="border border-gray-400 bg-[#E5F5FC]"
                   {...field}
-                  placeholder="Rp"
+                  value={formatRupiah(field.value)}
                   readOnly
                 />
               </FormControl>
@@ -59,7 +64,7 @@ export default function SeverencePayPeriodicResults({
                 <Input
                   className="border border-gray-400 bg-[#E5F5FC]"
                   {...field}
-                  placeholder="Rp"
+                  value={formatRupiah(field.value)}
                   readOnly
                 />
               </FormControl>
@@ -79,7 +84,7 @@ export default function SeverencePayPeriodicResults({
                 <Input
                   className="border border-gray-400 bg-[#E5F5FC]"
                   {...field}
-                  placeholder="Rp"
+                  value={formatRupiah(field.value)}
                   readOnly
                 />
               </FormControl>

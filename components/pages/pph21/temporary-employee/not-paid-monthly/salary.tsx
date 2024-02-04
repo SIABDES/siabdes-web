@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { NonPermanentEmployeeNotMonthlyFormData } from '@/types/pph21/temporary-employee/temporary-employee';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { formatRupiah, reverseFormat } from '@/common/helpers/number-format';
 
 interface SalaryProps {
   form: ReturnType<typeof useForm<NonPermanentEmployeeNotMonthlyFormData>>;
@@ -18,7 +19,7 @@ export default function TemporaryEmployeeNotMonthlySalary({
   form,
 }: SalaryProps) {
   return (
-    <Card className="w-1/3 mb-9 mt-12">
+    <Card className="w-1/2 mb-9 mt-12">
       <FormField
         control={form.control}
         name="gross_salary.salary"
@@ -29,6 +30,11 @@ export default function TemporaryEmployeeNotMonthlySalary({
               <Input
                 className="border border-gray-400 bg-[#E5F5FC]"
                 {...field}
+                value={formatRupiah(form.getValues('gross_salary.salary'))}
+                onChange={(e) => {
+                  const value = reverseFormat(e.target.value);
+                  form.setValue('gross_salary.salary', parseFloat(value));
+                }}
               />
             </FormControl>
             <FormMessage />

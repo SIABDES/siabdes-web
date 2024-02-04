@@ -33,7 +33,6 @@ export default function ListAccount() {
           <Button>Tambah Akun</Button>
         </Link>
       </header>
-      {/* <h1 className="text-2xl font-bold mb-4 text-center ">Daftar Akun</h1> */}
       <Tabs defaultValue="rill_account">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="rill_account">Akun Rill</TabsTrigger>

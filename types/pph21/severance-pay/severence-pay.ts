@@ -188,6 +188,11 @@ export const SeverencePayPeriodicScema = SeverencePayBaseScema.extend({
       .transform((val) => Number(val))
       .pipe(z.number().nonnegative())
       .or(z.number().nonnegative()),
+    total_pph21_non_npwp: z
+      .string()
+      .transform((val) => Number(val))
+      .pipe(z.number().nonnegative())
+      .or(z.number().nonnegative()),
   }),
 });
 

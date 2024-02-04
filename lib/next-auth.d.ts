@@ -1,7 +1,7 @@
-import { BussinessType } from "@/types/accounts";
-import NextAuth, { DefaultSession, User } from "next-auth";
+import { BussinessType } from '@/types/accounts';
+import NextAuth, { DefaultSession, User } from 'next-auth';
 
-export type UserRole = "BUMDES" | "UNIT";
+export type UserRole = 'BUMDES' | 'UNIT' | 'KECAMATAN' | 'KABUPATEN';
 export type BackendTokensStruct = {
   accessToken: string;
   refreshToken: string;
@@ -16,7 +16,7 @@ export type UserStruct = {
   businessType?: BussinessType;
 };
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface User {
     user: UserStruct;
     backendTokens: BackendTokensStruct;
@@ -28,9 +28,9 @@ declare module "next-auth" {
   }
 }
 
-import { JWT } from "next-auth/jwt";
+import { JWT } from 'next-auth/jwt';
 
-declare module "next-auth/jwt" {
+declare module 'next-auth/jwt' {
   interface JWT {
     user: UserStruct;
 

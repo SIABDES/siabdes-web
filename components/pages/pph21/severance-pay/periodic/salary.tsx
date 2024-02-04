@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { SeverencePayPeriodicFormData } from '@/types/pph21/severance-pay/severence-pay';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { formatRupiah, reverseFormat } from '@/common/helpers/number-format';
 
 interface SalaryProps {
   form: ReturnType<typeof useForm<SeverencePayPeriodicFormData>>;
@@ -28,6 +29,11 @@ export default function SeverencePayPeriodicSalary({ form }: SalaryProps) {
               <Input
                 className="border border-gray-400 bg-[#E5F5FC]"
                 {...field}
+                value={formatRupiah(field.value)}
+                onChange={(e) => {
+                  const value = reverseFormat(e.target.value);
+                  field.onChange(value);
+                }}
               />
             </FormControl>
             <FormMessage />

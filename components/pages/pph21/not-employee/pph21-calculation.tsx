@@ -11,6 +11,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { NotEmployeeFormData } from '@/types/pph21/not-employee/not-employee';
+import { formatRupiah } from '@/common/helpers/number-format';
 
 export default function NotEmployeePPh21Calculation({
   form,
@@ -38,7 +39,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={field.value + '%'}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -57,7 +59,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -76,7 +79,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -94,7 +98,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={field.value + '%'}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -113,7 +118,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -132,7 +138,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -150,7 +157,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={field.value + '%'}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -169,7 +177,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -188,7 +197,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -206,7 +216,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={field.value + '%'}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -225,7 +236,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -244,7 +256,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -262,7 +275,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={field.value + '%'}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -281,7 +295,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -300,7 +315,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -324,7 +340,8 @@ export default function NotEmployeePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={field.value + '%'}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -336,14 +353,16 @@ export default function NotEmployeePPh21Calculation({
             </div>
             <FormField
               control={form.control}
-              name="calculations.total_pph21_chapter_17_30_percent"
+              // name="calculations.total_pph21_chapter_17_30_percent"
+              name="calculations.pph21_non_npwp"
               render={({ field }) => (
                 <FormItem className="w-full col-span-3">
                   <FormControl>
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -355,14 +374,16 @@ export default function NotEmployeePPh21Calculation({
             </div>
             <FormField
               control={form.control}
-              name="calculations.pph21_non_npwp"
+              // name="calculations.pph21_non_npwp"
+              name="calculations.total_pph21_non_npwp"
               render={({ field }) => (
                 <FormItem className="w-full col-span-3">
                   <FormControl>
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />

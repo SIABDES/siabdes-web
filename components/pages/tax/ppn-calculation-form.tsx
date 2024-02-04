@@ -46,8 +46,8 @@ export default function PPNCalculationForm({
 
   const [ppnRate, setPpnRate] = useState<number>(
     form.watch('tax_object') === PpnTaxObjectType.KENA_PAJAK_DALAM_NEGERI
-      ? 10
-      : 5
+      ? 11
+      : 0
   );
 
   const ppn = dpp * (ppnRate / 100);
@@ -58,8 +58,8 @@ export default function PPNCalculationForm({
 
     setPpnRate(
       form.watch('tax_object') === PpnTaxObjectType.KENA_PAJAK_DALAM_NEGERI
-        ? 10
-        : 5
+        ? 11
+        : 0
     );
 
     form.setValue(`${basePath}.total_price`, total);
@@ -214,8 +214,8 @@ export default function PPNCalculationForm({
               value={
                 form.watch('tax_object') ===
                 PpnTaxObjectType.KENA_PAJAK_DALAM_NEGERI
-                  ? 10
-                  : 5
+                  ? 11
+                  : 0
               }
             />
           </div>
