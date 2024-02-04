@@ -1,9 +1,8 @@
-import { WTB } from "@/common/api/urls";
+import { AxiosAuthed } from "@/common/api";
+import { authOptions } from "@/lib/next-auth-options";
+import { WtbResponse } from "@/types/wtb/response";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/route";
-import { AxiosAuthed } from "@/common/api";
-import { GetWtbResponse, WtbResponse } from "@/types/wtb/response";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);

@@ -1,10 +1,10 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { AxiosAuthed } from "@/common/api";
-import { authOptions } from "../../auth/[...nextauth]/route";
 import { ADJUSTMENT_JOURNALS, JOURNALS } from "@/common/api/urls";
 import { JournalCategory } from "@/types/journals";
 import { AxiosError } from "axios";
+import { authOptions } from "@/lib/next-auth-options";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);

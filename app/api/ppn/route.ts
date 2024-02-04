@@ -1,24 +1,23 @@
-import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '../auth/[...nextauth]/route';
-import { AxiosAuthed } from '@/common/api';
-import { AxiosError } from 'axios';
-import { GetPPNResponse } from '@/types/ppn/response';
-import { CreatePPNSchema } from '@/types/ppn/dto';
+import { AxiosAuthed } from "@/common/api";
+import { authOptions } from "@/lib/next-auth-options";
+import { GetPPNResponse } from "@/types/ppn/response";
+import { AxiosError } from "axios";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  const loginUrl = new URL('/auth/login', request.url);
+  const loginUrl = new URL("/auth/login", request.url);
 
   if (!session) {
     return NextResponse.redirect(loginUrl);
   }
 
   try {
-    const limit = request.nextUrl.searchParams.get('limit') || 20;
+    const limit = request.nextUrl.searchParams.get("limit") || 20;
     const transactionType =
-      request.nextUrl.searchParams.get('transaction_type');
+      request.nextUrl.searchParams.get("transaction_type");
 
     const res = await AxiosAuthed(
       session.backendTokens.accessToken
@@ -42,7 +41,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  const loginUrl = new URL('/auth/login', request.url);
+  const loginUrl = new URL("/auth/login", request.url);
 
   if (!session) {
     return NextResponse.redirect(loginUrl);
@@ -50,10 +49,10 @@ export async function POST(request: NextRequest) {
 
   const body = await request.formData();
 
-  if (!body.get('transaction_evidence')) {
+  if (!body.get("transaction_evidence")) {
     return NextResponse.json(
       {
-        message: 'Transaction Evidence cannot be empty',
+        message: "Transaction Evidence cannot be empty",
       },
       { status: 400 }
     );

@@ -3,6 +3,7 @@ import LoginForm from "@/components/pages/login/login-form";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import LoginImage from "@/public/undraw_login_re_4vu2.svg";
 import Image from "next/image";
+import { Suspense } from "react";
 
 export default function Login() {
   return (
@@ -16,7 +17,9 @@ export default function Login() {
           <CardHeader>
             <h4 className="text-lg text-center font-medium mb-2">Masuk</h4>
 
-            <ErrorMessage className="text-center" variant="alert" />
+            <Suspense>
+              <ErrorMessage className="text-center" variant="alert" />
+            </Suspense>
           </CardHeader>
 
           <CardContent>

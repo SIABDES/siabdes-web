@@ -102,10 +102,33 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+
+        "sidebar-open": {
+          from: { width: "var(--sidebar-width-collapsed)" },
+          to: { width: "var(--sidebar-width)" },
+        },
+        "sidebar-close": {
+          from: { width: "var(--sidebar-width)" },
+          to: { width: "var(--sidebar-width-collapsed)" },
+        },
+
+        "sidebar-navs-open": {
+          from: { height: "0" },
+          to: { height: "100%" },
+        },
+
+        "sidebar-navs-close": {
+          from: { height: "100%" },
+          to: { height: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "sidebar-open": "sidebar-open 0.2s ease-out",
+        "sidebar-close": "sidebar-close 0.2s ease-out",
+        "sidebar-navs-open": "sidebar-navs-open 0.2s ease-out",
+        "sidebar-navs-close": "sidebar-navs-close 0.2s ease-out",
       },
     },
   },

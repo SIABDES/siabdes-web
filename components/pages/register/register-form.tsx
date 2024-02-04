@@ -2,8 +2,8 @@
 import React, { useState, useRef } from "react";
 import CustomInput from "./custome-input";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
-import { Backend_URL } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
+import { AxiosClientSide } from "@/common/api";
 
 type FormInputs = {
   namaBumdes: string;
@@ -48,34 +48,27 @@ const RegisterForm = () => {
   const register = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log({ data: data.current });
-    const res = await fetch(Backend_URL + "/auth/register", {
-      method: "POST",
-      body: JSON.stringify({
-        identifier: data.current.email,
-        password: data.current.kataSandi,
-        bumdes: {
-          name: data.current.namaBumdes,
-          phone: data.current.nomorTelepon,
-          address: {
-            province: data.current.provinsi,
-            regency: data.current.kabupaten,
-            district: data.current.kecamatan,
-            village: data.current.desa,
-            postal_code: data.current.kodePos,
-          },
+    const res = await AxiosClientSide.post("/auth/register", {
+      identifier: data.current.email,
+      password: data.current.kataSandi,
+      bumdes: {
+        name: data.current.namaBumdes,
+        phone: data.current.nomorTelepon,
+        address: {
+          province: data.current.provinsi,
+          regency: data.current.kabupaten,
+          district: data.current.kecamatan,
+          village: data.current.desa,
+          postal_code: data.current.kodePos,
         },
-      }),
-      headers: {
-        "Content-Type": "application/json",
       },
     });
-    if (!res.ok) {
+    if (res.status !== 200) {
       alert(res.statusText);
       return;
     }
-    const response = await res.json();
-    alert("User Registered!");
-    console.log({ response });
+
+    console.log({ res });
   };
 
   return (

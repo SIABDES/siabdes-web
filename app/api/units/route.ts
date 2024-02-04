@@ -1,9 +1,9 @@
+import { AxiosAuthed } from "@/common/api";
+import { authOptions } from "@/lib/next-auth-options";
+import { NewUnitSchema } from "@/types/units";
+import { AxiosError } from "axios";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/route";
-import { AxiosAuthed } from "@/common/api";
-import { NewUnitRequest, NewUnitSchema } from "@/types/units";
-import { AxiosError } from "axios";
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);

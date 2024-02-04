@@ -1,5 +1,6 @@
 "use client";
 
+import BumdesFundingForm from "@/components/pages/bumdes/profile/bumdes-funding-form";
 import useGetBumdesProfile from "@/hooks/bumdes/useGetBumdesProfile";
 
 export default function BumdesProfileFunding() {
@@ -7,9 +8,9 @@ export default function BumdesProfileFunding() {
 
   return (
     <>
-      <div className="max-w-3xl">
+      <div>
         {isLoading && <p>Loading...</p>}
-        {isSuccess && profile && <></>}
+        {isSuccess && profile && <BumdesFundingForm />}
       </div>
     </>
   );

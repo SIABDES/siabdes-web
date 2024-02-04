@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import Layout from '@/components/layout/layout';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Button } from '@/components/ui/button';
+import React, { ChangeEvent, useEffect, useState } from "react";
+import Layout from "@/components/layout/layout";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Button } from "@/components/ui/button";
 
 import {
   Select,
@@ -13,8 +13,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Card, CardContent } from '@/components/ui/card';
+} from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -22,14 +22,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
 import {
   EmployeeFormDataType,
   UpdateEmployeeFormData,
   UpdateEmployeeRequest,
-} from '@/types/employees/dto';
-import { zodResolver } from '@hookform/resolvers/zod';
+} from "@/types/employees/dto";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   EmployeesChildrenAmount,
   EmployeesExistenceNPWP as ada,
@@ -38,20 +38,20 @@ import {
   EmployeesNPWPStatus,
   EmployeesStatus,
   EmployeesType,
-} from '@/types/employees/employees';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useToast } from '@/components/ui/use-toast';
-import { DatePicker } from '@/components/ui/date-picker';
-import { string } from 'zod';
-import { Value } from '@radix-ui/react-select';
-import { UndoIcon } from 'lucide-react';
-import useGetEmployeeDetails from '@/hooks/employee/useGetEmployeeDetails';
-import { useEditJournal } from '@/hooks/journals/useEditJournal';
-import useEditEmployee from '@/hooks/employee/useEditEmployee';
-import { ChevronLeftIcon } from '@radix-ui/react-icons';
-import { AxiosClientSide } from '@/common/api';
-import { GetEmployeeDetailsResponse } from '@/types/employees/response';
+} from "@/types/employees/employees";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import { DatePicker } from "@/components/ui/date-picker";
+import { string } from "zod";
+import { Value } from "@radix-ui/react-select";
+import { UndoIcon } from "lucide-react";
+import useGetEmployeeDetails from "@/hooks/employee/useGetEmployeeDetails";
+import { useEditJournal } from "@/hooks/journals/useEditJournal";
+import useEditEmployee from "@/hooks/employee/useEditEmployee";
+import { ChevronLeftIcon } from "@radix-ui/react-icons";
+import { AxiosClientSide } from "@/common/api";
+import { GetEmployeeDetailsResponse } from "@/types/employees/response";
 
 interface EditEmployeeFormProps {
   params: { employee_id: string };
@@ -69,17 +69,17 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
     refetch: refetchDetails,
   } = useGetEmployeeDetails({ params });
 
-  console.log('details', details);
-
   const form = useForm<EmployeeFormDataType>({
     resolver: zodResolver(UpdateEmployeeRequest),
     defaultValues: {
-      name: details?.name || '',
-      nik: details?.nik || '',
-      npwp: details?.npwp || '',
+      name: details?.name || "",
+      nik: details?.nik || "",
+      npwp: details?.npwp || "",
       employee_status: details?.employee_status || undefined,
       // start_working_at: details?.start_working_at || undefined,
-      start_working_at: details?.start_working_at || undefined,
+      start_working_at: details?.start_working_at
+        ? new Date(details?.start_working_at)
+        : undefined,
       gender: details?.gender || undefined,
       marriage_status: details?.marriage_status || undefined,
       npwp_status: details?.npwp_status || undefined,
@@ -100,21 +100,21 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
       const formData = new FormData();
 
       const startDate = new Date(data.start_working_at);
-      formData.append('name', data.name);
-      formData.append('nik', data.nik || '');
-      formData.append('npwp', data.npwp || '');
-      formData.append('employee_status', data.employee_status);
-      formData.append('start_working_at', startDate);
-      formData.append('gender', data.gender);
-      formData.append('marriage_status', data.marriage_status);
-      formData.append('npwp_status', data.npwp_status || '');
-      formData.append('children_amount', data.children_amount);
-      formData.append('employee_type', data.employee_type);
+      formData.append("name", data.name);
+      formData.append("nik", data.nik || "");
+      formData.append("npwp", data.npwp || "");
+      formData.append("employee_status", data.employee_status);
+      formData.append("start_working_at", startDate.toISOString());
+      formData.append("gender", data.gender);
+      formData.append("marriage_status", data.marriage_status);
+      formData.append("npwp_status", data.npwp_status || "");
+      formData.append("children_amount", data.children_amount);
+      formData.append("employee_type", data.employee_type);
 
       await mutateEditEmployee(formData);
 
       toast({
-        title: 'Berhasil mengubah data tenaga kerja',
+        title: "Berhasil mengubah data tenaga kerja",
         description: `Data tenaga kerja '${data.name}' telah diubah...`,
         duration: 5000,
       });
@@ -122,7 +122,7 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
       router.push(`/unit/data-master/employees/${params.employee_id}/details`);
     } catch (err) {
       toast({
-        title: 'Gagal mengubah data tenaga kerja',
+        title: "Gagal mengubah data tenaga kerja",
         description: `Data tenaga kerja '${data.name}' gagal diubah...`,
         duration: 5000,
       });
@@ -137,7 +137,7 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
             href={`/unit/data-master/employees/${params.employee_id}/details`}
             className="w-fit"
           >
-            <Button variant={'ghost'}>
+            <Button variant={"ghost"}>
               <ChevronLeftIcon className="w-4 h-4 mr-2" />
               Kembali
             </Button>
@@ -388,9 +388,9 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                           disabled={
-                            form.watch('gender') === EmployeesGender.PRIA ||
-                            (form.watch('gender') === EmployeesGender.WANITA &&
-                              form.watch('marriage_status') ===
+                            form.watch("gender") === EmployeesGender.PRIA ||
+                            (form.watch("gender") === EmployeesGender.WANITA &&
+                              form.watch("marriage_status") ===
                                 EmployeesMarriageStatus.BELUM_KAWIN)
                           }
                           // value={
@@ -406,9 +406,9 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                             <SelectTrigger>
                               <SelectValue
                                 placeholder={
-                                  form.watch('gender') === EmployeesGender.PRIA
-                                    ? '_ _ _ _ _ _ _ _ _'
-                                    : 'Pilih status NPWP'
+                                  form.watch("gender") === EmployeesGender.PRIA
+                                    ? "_ _ _ _ _ _ _ _ _"
+                                    : "Pilih status NPWP"
                                 }
                               />
                             </SelectTrigger>
@@ -533,8 +533,8 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                 disabled={isPendingEditEmployee}
               >
                 {isPendingEditEmployee
-                  ? 'Mungubah Data Karyawan...'
-                  : 'Ubah Data Karyawan'}
+                  ? "Mungubah Data Karyawan..."
+                  : "Ubah Data Karyawan"}
               </Button>
             </div>
           </form>

@@ -1,19 +1,18 @@
-import { GeneralJournalType } from '@/types/journals';
-import { GeneralJournalResponse } from '@/types/journals/response';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { AddGeneralJournalResponse } from "@/types/journals/response";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export function usePostGeneralJournal() {
   type BackendResponseSchema = {
     data: {
       statusCode: number;
       message: string;
-      data: GeneralJournalResponse;
+      data: AddGeneralJournalResponse;
     };
   };
 
   const postGeneralJournal = useQuery({
-    queryKey: ['general-journal'],
+    queryKey: ["general-journal"],
     queryFn: async () => {
       const response = await axios.post<BackendResponseSchema>(
         `/api/journals/add-general-journal`

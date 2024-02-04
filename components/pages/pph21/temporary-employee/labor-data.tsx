@@ -1,9 +1,9 @@
-import React from 'react';
-import InputField from '@/components/Input/input-field';
-import { LaborDataType } from '@/types/pph21/labor-data';
+import React from "react";
+import InputField from "@/components/Input/input-field";
+import { Employee } from "@/types/employees/employees";
 
 interface LaborDataProps {
-  data?: LaborDataType;
+  data?: Employee;
 }
 
 export default function LaborData({ data }: LaborDataProps) {
@@ -22,42 +22,42 @@ export default function LaborData({ data }: LaborDataProps) {
               placeholder="Masukkan NIK"
               name="nik"
               type="number"
-              value={data?.nik || ''}
+              value={data?.nik || ""}
             />
             <InputField
               label="Nama Lengkap"
               placeholder="Masukkan Nama Lengkap"
               name="nama_lengkap"
               type="text"
-              value={data?.nama_lengkap || ''}
+              value={data?.name || ""}
             />
             <InputField
               label="NPWP"
               placeholder="Masukkan NPWP"
               name="npwp"
               type="number"
-              value={data?.npwp || ''}
+              value={data?.npwp || ""}
             />
             <InputField
               label="Status PTKP"
               placeholder="Masukkan Status PTKP"
               name="status_ptkp"
               type="text"
-              value={data?.status_ptkp || ''}
+              value={data?.ptkp.status || ""}
             />
             <InputField
               label="Jenis Kelamin"
               placeholder="Masukkan Jenis Kelamin"
               name="jenis_kelamin"
               type="text"
-              value={data?.jenis_kelamin || ''}
+              value={data?.gender || ""}
             />
             <InputField
               label="Penghasilan Tidak Kena Pajak"
               placeholder="Masukkan Penghasilan Tidak Kena Pajak"
               name="penghasilan_tidak_kena_pajak"
               type="number"
-              value={data?.penghasilan_tidak_kena_pajak || ''}
+              value={data?.ptkp.boundary_salary || ""}
             />
           </div>
         </section>

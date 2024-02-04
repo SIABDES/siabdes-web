@@ -1,9 +1,8 @@
-import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
-import { AxiosAuthed } from '@/common/api';
-import { GetEmployeesResponse } from '@/types/employees/response';
-import { AxiosError } from 'axios';
-import { authOptions } from '../../auth/[...nextauth]/route';
+import { AxiosAuthed } from "@/common/api";
+import { authOptions } from "@/lib/next-auth-options";
+import { AxiosError } from "axios";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   request: NextRequest,
@@ -13,7 +12,7 @@ export async function GET(
 
   const session = await getServerSession(authOptions);
   if (!session) {
-    return NextResponse.redirect('/auth/login');
+    return NextResponse.redirect("/auth/login");
   }
   try {
     const { accessToken } = session.backendTokens;
@@ -25,7 +24,7 @@ export async function GET(
   } catch (error) {
     if (error instanceof AxiosError) {
       if (error.response?.status === 404) {
-        return NextResponse.redirect('/auth/login');
+        return NextResponse.redirect("/auth/login");
       }
     }
     throw error;
@@ -37,7 +36,7 @@ export async function DELETE(
   { params }: { params: { employee_id: string } }
 ) {
   const { employee_id } = params;
-  const loginUrl = new URL('/auth/login', request.url);
+  const loginUrl = new URL("/auth/login", request.url);
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -66,7 +65,7 @@ export async function PUT(
   { params }: { params: { employee_id: string } }
 ) {
   const { employee_id } = params;
-  const loginUrl = new URL('/auth/login', request.url);
+  const loginUrl = new URL("/auth/login", request.url);
   const formData = await request.formData();
   const session = await getServerSession(authOptions);
 

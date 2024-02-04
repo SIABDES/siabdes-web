@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import InputField from '@/components/Input/input-field';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { BumdesIdentityFormData } from '@/types/financial-statement/calk/bumdes-identity';
+import React, { useState } from "react";
+import InputField from "@/components/Input/input-field";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { BumdesIdentityFormData } from "@/types/financial-statement/calk/bumdes-identity";
 
 interface IdentitasBUMDesProps {
   onUpdateFormData: (data: BumdesIdentityFormData) => void;
@@ -14,30 +14,30 @@ const BumdesIdentity: React.FC<IdentitasBUMDesProps> = ({
   onUpdateFormData,
 }) => {
   const [formData, setFormData] = useState<BumdesIdentityFormData>({
-    nama_bumdes: '',
-    tanggal_pendirian_bumdes: '',
-    nomor_peraturan_desa: '',
-    nomor_sk_pengurus_bumdes: '',
-    tanggal_sk_pengurus_bumdes: '',
-    nomor_sk_ad_art_bumdes: '',
-    tanggal_sk_ad_art_bumdes: '',
-    nama_bank_buku_rek_bumdes: '',
-    nomor_rekening_bumdes: '',
-    npwp_bumdes: '',
-    alamat_kantor_bumdes: '',
-    telepon_kantor_fax_bumdes: '',
-    email_bumdes: '',
-    website_bumdes: '',
-    facebook_bumdes: '',
-    instagram_bumdes: '',
-    twitter_bumdes: '',
-    sosial_media_lainnya: '',
-    penyertaan_modal_awal: '',
-    penambahan_penyertaan_modal: '',
+    nama_bumdes: "",
+    tanggal_pendirian_bumdes: "",
+    nomor_peraturan_desa: "",
+    nomor_sk_pengurus_bumdes: "",
+    tanggal_sk_pengurus_bumdes: "",
+    nomor_sk_ad_art_bumdes: "",
+    tanggal_sk_ad_art_bumdes: "",
+    nama_bank_buku_rek_bumdes: "",
+    nomor_rekening_bumdes: "",
+    npwp_bumdes: "",
+    alamat_kantor_bumdes: "",
+    telepon_kantor_fax_bumdes: "",
+    email_bumdes: "",
+    website_bumdes: "",
+    facebook_bumdes: "",
+    instagram_bumdes: "",
+    twitter_bumdes: "",
+    sosial_media_lainnya: "",
+    penyertaan_modal_awal: "",
+    penambahan_penyertaan_modal: "",
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     fieldName?: keyof BumdesIdentityFormData
   ) => {
     if (!fieldName) {

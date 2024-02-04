@@ -75,7 +75,7 @@ export function ComboboxForm<T extends object>({
       render={({ field }) => (
         <FormItem id="combobox-form" className={cn(className)}>
           <FormLabel>{label}</FormLabel>
-          <Popover open={open}>
+          <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button

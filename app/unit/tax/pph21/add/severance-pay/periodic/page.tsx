@@ -1,23 +1,18 @@
 'use client';
 
 import Layout from '@/components/layout/layout';
-import LaborData from '@/components/pages/pph21/general/labor-data';
-import Results from '@/components/pages/pph21/general/results';
+import EmployeeData12Months from '@/components/pages/pph21/general/employee-data-12-months';
+import SeverencePayPeriodicPPh21Calculation from '@/components/pages/pph21/severance-pay/periodic/pph21-calculation';
+import SeverencePayPeriodicResults from '@/components/pages/pph21/severance-pay/periodic/result';
+import SeverencePayPeriodicSalary from '@/components/pages/pph21/severance-pay/periodic/salary';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
+import { toast } from '@/components/ui/use-toast';
 import useGetEmployees from '@/hooks/employee/useGetEmployees';
+import useAddPph21PermanentEmployee from '@/hooks/pph21/useAddPph21PermanentEmployee';
 import { Employee } from '@/types/employees/employees';
 import { Pph21TaxPeriodMonth } from '@/types/pph21/general';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
 import {
   SeverencePayPeriodicFormData,
   SeverencePayPeriodicScema,

@@ -1,9 +1,8 @@
 "use client";
 
+import { ComboboxForm } from "@/components/patan-ui/form/combobox-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ComboBox } from "@/components/ui/combobox";
-import { ComboboxForm } from "@/components/patan-ui/form/combobox-form";
 import {
   Form,
   FormControl,
@@ -57,8 +56,6 @@ export default function RegisterPage() {
 
   const { data: getProvinsi, isLoading: isGetProvinsiLoading } =
     useGetManyProvinsi();
-
-  console.log(form.getValues());
 
   const {
     mutateAsync: mutateRegisterBumdes,
@@ -219,7 +216,7 @@ export default function RegisterPage() {
                   <FormField
                     control={form.control}
                     name="address.province"
-                    render={({ field }) => (
+                    render={() => (
                       <ComboboxForm
                         form={form}
                         name="address.province"

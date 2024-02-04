@@ -1,39 +1,24 @@
-'use client';
+"use client";
 
-import Layout from '@/components/layout/layout';
-import EmployeeData12Months from '@/components/pages/pph21/general/employee-data-12-months';
-import LaborData from '@/components/pages/pph21/general/labor-data';
-import Results from '@/components/pages/pph21/general/results';
-import SeverencePayOneTimePPh21Calculation from '@/components/pages/pph21/severance-pay/one-time/pph21-calculation';
-import SeverencePayOneTimeResults from '@/components/pages/pph21/severance-pay/one-time/result';
-import SeverencePayOneTimeSalary from '@/components/pages/pph21/severance-pay/one-time/salary';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import useGetEmployees from '@/hooks/employee/useGetEmployees';
-import { Employee } from '@/types/employees/employees';
-import { Pph21TaxPeriodMonth } from '@/types/pph21/general';
-import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/permanent-employee';
+import Layout from "@/components/layout/layout";
+import EmployeeData12Months from "@/components/pages/pph21/general/employee-data-12-months";
+import SeverencePayOneTimePPh21Calculation from "@/components/pages/pph21/severance-pay/one-time/pph21-calculation";
+import SeverencePayOneTimeResults from "@/components/pages/pph21/severance-pay/one-time/result";
+import SeverencePayOneTimeSalary from "@/components/pages/pph21/severance-pay/one-time/salary";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import useGetEmployees from "@/hooks/employee/useGetEmployees";
+import { Employee } from "@/types/employees/employees";
+import { Pph21TaxPeriodMonth } from "@/types/pph21/general";
 import {
   SeverencePayOneTimeFormData,
   SeverencePayOneTimeScema,
-} from '@/types/pph21/severance-pay/severence-pay';
-import {
-  NonPermanentEmployeeMonthlyFormData,
-  NonPermanentEmployeeMonthlyScema,
-} from '@/types/pph21/temporary-employee/temporary-employee';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+} from "@/types/pph21/severance-pay/severence-pay";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function OneTime() {
   const [periodMonth, setPeriodMonth] = useState<Pph21TaxPeriodMonth>();
@@ -62,7 +47,7 @@ export default function OneTime() {
           </h1>
           <div className="flex space-x-6">
             <Button>Lampiran</Button>
-            <Link href={'/unit/tax/pph21'}>
+            <Link href={"/unit/tax/pph21"}>
               <Button>Kembali</Button>
             </Link>
           </div>
