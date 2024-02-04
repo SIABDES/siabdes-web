@@ -40,7 +40,6 @@
     "clsx": "^2.1.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
-    "faker": "^6.6.6",
     "framer-motion": "^10.16.9",
     "jose": "^5.2.0",
     "jsonwebtoken": "^9.0.2",

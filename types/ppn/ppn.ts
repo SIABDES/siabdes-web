@@ -13,9 +13,9 @@ export type PpnTransactionFormDataType = {
 };
 
 export enum PpnTaxObjectType {
-  TIDAK_KENA_PAJAK = 'NO_TAXES',
-  KENA_PAJAK_DALAM_NEGERI = 'DOMESTIC_TAXES',
-  KENA_PAJAK_LUAR_NEGERI = 'INTERNATIONAL_TAXES',
+  TIDAK_KENA_PAJAK = "NO_TAXES",
+  KENA_PAJAK_DALAM_NEGERI = "DOMESTIC_TAXES",
+  KENA_PAJAK_LUAR_NEGERI = "INTERNATIONAL_TAXES",
 }
 
 export const PpnTariffPercentageMap: Record<PpnTaxObjectType, number> = {
@@ -25,13 +25,13 @@ export const PpnTariffPercentageMap: Record<PpnTaxObjectType, number> = {
 };
 
 export enum PpnItemType {
-  BARANG = 'GOODS',
-  JASA = 'SERVICE',
+  BARANG = "GOODS",
+  JASA = "SERVICE",
 }
 
 export enum PpnTransactionType {
-  PEMBELIAN = 'PURCHASE',
-  PENJUALAN = 'SALES',
+  PEMBELIAN = "PURCHASE",
+  PENJUALAN = "SALES",
 }
 
 export type PpnTransaction = {
@@ -42,6 +42,8 @@ export type PpnTransaction = {
   transaction_date: string;
   transaction_number: string;
   tax_object: PpnTaxObjectType;
+  total_ppn: number;
+  total_dpp: number;
 };
 
 export type PpnObjectItem = {

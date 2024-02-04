@@ -1,26 +1,25 @@
-'use client';
+"use client";
 
-import { addArrayObjectToFormData } from '@/common/helpers/multipart-form';
-import Layout from '@/components/layout/layout';
-import AdjustmentJournalEssentialsForm from '@/components/pages/journals/form/adjustment-journal-essentials-form';
-import GeneralJournalEssentialsForm from '@/components/pages/journals/form/general-journal-essentials-form';
-import JournalTransactionsContainerForm from '@/components/pages/journals/form/journal-transactions-container-form';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useToast } from '@/components/ui/use-toast';
-import { useGetAccounts } from '@/hooks/account/useGetAccounts';
-import { useEditJournal } from '@/hooks/journals/useEditJournal';
-import { useGetJournalDetails } from '@/hooks/journals/useGetJournalDetails';
+import { addArrayObjectToFormData } from "@/common/helpers/multipart-form";
+import Layout from "@/components/layout/layout";
+import AdjustmentJournalEssentialsForm from "@/components/pages/journals/form/adjustment-journal-essentials-form";
+import JournalTransactionsContainerForm from "@/components/pages/journals/form/journal-transactions-container-form";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/components/ui/use-toast";
+import { useGetAccounts } from "@/hooks/account/useGetAccounts";
+import { useEditJournal } from "@/hooks/journals/useEditJournal";
+import { useGetJournalDetails } from "@/hooks/journals/useGetJournalDetails";
 import {
   JournalInputItem,
   JournalInputItemSchema,
   JournalTransactionFormDataType,
-} from '@/types/journals';
-import { ChevronDownIcon, ChevronLeftIcon } from '@radix-ui/react-icons';
-import { nanoid } from 'nanoid';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+} from "@/types/journals";
+import { ChevronLeftIcon } from "@radix-ui/react-icons";
+import { nanoid } from "nanoid";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export default function EditAdjustmentJournalPage({
   params,
@@ -47,16 +46,8 @@ export default function EditAdjustmentJournalPage({
 
   const { data: accounts } = useGetAccounts();
 
-  useEffect(() => {
-    if (details?.data_transactions && !isDetailsLoading) {
-      initializeTransactions();
-    }
-  }, [details?.data_transactions]);
-
-  const initializeTransactions = () => {
-    if (!details?.data_transactions) {
-      return;
-    }
+  const initializeTransactions = useCallback(() => {
+    if (!details?.data_transactions) return;
 
     const transactions: JournalTransactionFormDataType[] =
       details.data_transactions.map((transaction) => {
@@ -71,7 +62,13 @@ export default function EditAdjustmentJournalPage({
     setTransactions(transactions);
     setOccurredAt(new Date(details.occured_at));
     setDescription(details.description);
-  };
+  }, [details?.data_transactions, details?.description, details?.occured_at]);
+
+  useEffect(() => {
+    if (details?.data_transactions && !isDetailsLoading) {
+      initializeTransactions();
+    }
+  }, [details?.data_transactions, initializeTransactions, isDetailsLoading]);
 
   const isTransactionsBalance = useMemo(() => {
     const totalDebit = transactions.reduce((acc, curr) => {
@@ -108,18 +105,18 @@ export default function EditAdjustmentJournalPage({
         })
     );
 
-    formData.append('description', description ?? '');
-    formData.append('occurred_at', occurred_at?.toISOString() ?? '');
+    formData.append("description", description ?? "");
+    formData.append("occurred_at", occurred_at?.toISOString() ?? "");
     if (evidence) {
-      formData.append('evidence', evidence);
+      formData.append("evidence", evidence);
     }
-    addArrayObjectToFormData(formData, data_transactions, 'data_transactions');
+    addArrayObjectToFormData(formData, data_transactions, "data_transactions");
 
     void mutateEditJournal(formData, {
       onSuccess: () => {
         toast({
-          title: 'Status Edit Jurnal Penyesuaian',
-          description: 'Jurnal penyesuaian berhasil ditambahkan',
+          title: "Status Edit Jurnal Penyesuaian",
+          description: "Jurnal penyesuaian berhasil ditambahkan",
           duration: 5000,
         });
 
@@ -129,9 +126,9 @@ export default function EditAdjustmentJournalPage({
       },
       onError: (err) => {
         toast({
-          title: 'Gagal mengedit data jurnal penyesuaian',
+          title: "Gagal mengedit data jurnal penyesuaian",
           description: err.message,
-          variant: 'destructive',
+          variant: "destructive",
           duration: 5000,
         });
       },
@@ -144,7 +141,7 @@ export default function EditAdjustmentJournalPage({
         href={`/unit/working-trial-balance/adjustment-journal/${params.journal_id}/details`}
         className="w-fit"
       >
-        <Button variant={'ghost'}>
+        <Button variant={"ghost"}>
           <ChevronLeftIcon className="w-4 h-4 mr-2" />
           Kembali
         </Button>
@@ -182,7 +179,7 @@ export default function EditAdjustmentJournalPage({
         </Button>
 
         <Button
-          variant={'outline'}
+          variant={"outline"}
           onClick={() => {
             initializeTransactions();
           }}
