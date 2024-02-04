@@ -25,17 +25,21 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "../../ui/scroll-area";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 
-type ComboboxItem = { label: string; value: string };
+type ComboboxItem = { key: string; label: string; value: string };
 
-interface ComboboxFormProps<T extends object> {
-  form: ReturnType<typeof useForm<T>>;
-  name: Path<T>;
+interface ComboboxFormProps<
+  TForm extends Record<string, any>,
+  TData extends Record<string, any>
+> {
+  form: ReturnType<typeof useForm<TForm>>;
+  name: Path<TForm>;
   disabled?: boolean;
   placeholder?: string;
   notFoundText?: string;
-  items: ComboboxItem[];
+  data: TData[];
+  itemBuilder: (item: TData) => ComboboxItem;
   className?: string;
   classNameTrigger?: React.HTMLAttributes<HTMLButtonElement>["className"];
   label: string;
@@ -43,29 +47,48 @@ interface ComboboxFormProps<T extends object> {
   isLoading?: boolean;
   loadingText?: string;
   height?: "short" | "medium" | "tall";
-  onSelectCallback?: () => void;
   closeOnSelect?: boolean;
+  onSelect?: (item: ComboboxItem) => void | Promise<void>;
+  onValueChange?: (
+    newValue: PathValue<TForm, Path<TForm>>
+  ) => void | Promise<void>;
 }
 
-export function ComboboxForm<T extends object>({
+export function ComboboxForm<
+  TForm extends Record<string, any>,
+  TData extends Record<string, any>
+>({
   form,
   name,
   disabled,
   notFoundText = "Item tidak ditemukan.",
   placeholder = "Cari item",
-  items,
-  className,
-  classNameTrigger = "w-[200px]",
+  data,
+  itemBuilder,
+  className = "w-full",
+  classNameTrigger = "w-full",
   label,
   triggerPlaceholder = "Pilih item",
   isLoading,
   loadingText = "Memuat...",
   height = "medium",
   closeOnSelect = true,
-}: ComboboxFormProps<T>) {
+  onSelect = (item) =>
+    form.setValue(name, item.value as PathValue<TForm, Path<TForm>>),
+  onValueChange,
+}: ComboboxFormProps<TForm, TData>) {
+  const items = useMemo(() => data.map(itemBuilder), [data, itemBuilder]);
   const triggerPlaceholderText = isLoading ? loadingText : triggerPlaceholder;
 
   const [open, setOpen] = React.useState(false);
+
+  const valueWatcher = form.watch(name);
+
+  useEffect(() => {
+    if (onValueChange) {
+      onValueChange(valueWatcher);
+    }
+  }, [onValueChange, valueWatcher]);
 
   return (
     <FormField
@@ -73,8 +96,9 @@ export function ComboboxForm<T extends object>({
       name={name}
       disabled={disabled}
       render={({ field }) => (
-        <FormItem id="combobox-form" className={cn(className)}>
-          <FormLabel>{label}</FormLabel>
+        <FormItem id="combobox-form" className={cn("flex flex-col", className)}>
+          {label && <FormLabel htmlFor={field.name}>{label}</FormLabel>}
+
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <FormControl>
@@ -99,37 +123,38 @@ export function ComboboxForm<T extends object>({
               <Command>
                 <CommandInput placeholder={placeholder} className="h-9" />
                 <ScrollArea
-                  className={cn(
-                    height === "short" && "h-32",
-                    height === "medium" && "h-48",
-                    height === "tall" && "h-64"
+                  classNameViewport={cn(
+                    height === "short" && "max-h-32",
+                    height === "medium" && "max-h-48",
+                    height === "tall" && "max-h-64"
                   )}
                 >
                   <CommandEmpty>{notFoundText}</CommandEmpty>
                   <CommandGroup>
-                    {items.map((item) => (
-                      <CommandItem
-                        key={item.label}
-                        value={item.value}
-                        onSelect={() => {
-                          form.setValue(
-                            name,
-                            item.value as PathValue<T, Path<T>>
-                          );
-                          if (closeOnSelect) setOpen(false);
-                        }}
-                      >
-                        {item.label}
-                        <CheckIcon
-                          className={cn(
-                            "ml-auto h-4 w-4",
-                            item.value === field.value
-                              ? "opacity-100"
-                              : "opacity-0"
-                          )}
-                        />
-                      </CommandItem>
-                    ))}
+                    {isLoading && (
+                      <CommandItem disabled>{loadingText}</CommandItem>
+                    )}
+                    {!isLoading &&
+                      items.map((item) => (
+                        <CommandItem
+                          key={item.key}
+                          value={item.value}
+                          onSelect={() => {
+                            onSelect(item);
+                            if (closeOnSelect) setOpen(false);
+                          }}
+                        >
+                          {item.label}
+                          <CheckIcon
+                            className={cn(
+                              "ml-auto h-4 w-4",
+                              item.value === field.value
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
                   </CommandGroup>
                 </ScrollArea>
               </Command>

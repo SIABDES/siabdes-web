@@ -1,3 +1,4 @@
+import FormNumberInput from "@/components/patan-ui/form/form-number-input";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   FormControl,
@@ -21,130 +22,68 @@ export default function GrossIncome({ form }: GrossIncomeProps) {
         Penghasilan Bruto
       </h1>
       <CardContent>
-        <FormField
+        <FormNumberInput
           control={form.control}
           name="gross_salary.salary"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>Gaji</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  className="border border-gray-400"
-                  {...field}
-                  placeholder="Rp"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Gaji"
+          variant="inline"
+          defaultValue={0}
+          placeholder="Gaji"
         />
-        <FormField
+
+        <FormNumberInput
           control={form.control}
           name="gross_salary.allowance"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>Tunjangan</FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  placeholder="Rp"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Tunjangan"
+          variant="inline"
+          defaultValue={0}
+          placeholder="Tunjangan"
         />
-        <FormField
+
+        <FormNumberInput
           control={form.control}
           name="gross_salary.thr"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>
-                Tunjangan Hari raya (THR)
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  placeholder="Rp"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Tunjangan Hari raya (THR)"
+          variant="inline"
+          defaultValue={0}
+          placeholder="Tunjangan Hari Raya"
         />
-        <FormField
+
+        <FormNumberInput
           control={form.control}
           name="gross_salary.bonus"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>Bonus</FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  placeholder="Rp"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Bonus"
+          variant="inline"
+          defaultValue={0}
+          placeholder="Bonus"
         />
-        <FormField
+
+        <FormNumberInput
           control={form.control}
           name="gross_salary.overtime_salary"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>Lembur</FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  placeholder="Rp"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Lembur"
+          variant="inline"
+          defaultValue={0}
+          placeholder="Lembur"
         />
-        <FormField
+
+        <FormNumberInput
           control={form.control}
           name="gross_salary.assurance"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>
-                Premi Dibayar Pemberi Kerja
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  placeholder="Rp"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Premi Dibayar Pemberi Kerja"
+          variant="inline"
+          defaultValue={0}
+          placeholder="Premi Dibayar Pemberi Kerja"
         />
-        <FormField
+
+        <FormNumberInput
           control={form.control}
           name="result.total_salary"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>Penghasilan Bruto</FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  placeholder="Rp"
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Penghasilan Bruto"
+          variant="inline"
+          defaultValue={0}
+          placeholder="Penghasilan Bruto"
+          readonly
         />
       </CardContent>
     </Card>

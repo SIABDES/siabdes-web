@@ -159,8 +159,19 @@ const config = {
         },
       };
 
+      const selectWidthBalancerUtils = {
+        ".select-content-same-width-as-trigger": {
+          width: "var(--radix-select-trigger-width)",
+          "max-height": "var(--radix-select-content-available-height)",
+        },
+      };
+
       addUtilities(
-        [popoverWidthBalancerUtils, dropdownMenuWidthBalancerUtils],
+        [
+          popoverWidthBalancerUtils,
+          dropdownMenuWidthBalancerUtils,
+          selectWidthBalancerUtils,
+        ],
         {
           respectImportant: true,
         }

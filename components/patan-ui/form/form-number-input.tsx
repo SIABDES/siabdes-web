@@ -1,4 +1,8 @@
-import { formatNumber } from "@/common/helpers/number-format";
+import {
+  formatNumber,
+  reverseFormat,
+  reverseFormatNumber,
+} from "@/common/helpers/number-format";
 import {
   FormControl,
   FormField,
@@ -36,9 +40,14 @@ export default function FormNumberInput<TFormType extends Record<string, any>>({
   variant = "horizontal",
   border = true,
   transform = {
-    input: (value) => (isNaN(value) ? "" : formatNumber(value)),
+    input: (value) => {
+      return isNaN(value) ? "" : formatNumber(value);
+    },
     output: (event) => {
-      const output = parseInt(event.target.value, 10);
+      const unformattedValue = reverseFormat(event.target.value);
+
+      const output = parseInt(unformattedValue);
+
       return isNaN(output) ? 0 : output;
     },
   },
@@ -68,11 +77,14 @@ export default function FormNumberInput<TFormType extends Record<string, any>>({
               <FormControl>
                 <Input
                   placeholder={placeholder}
-                  type="number"
+                  type="text"
                   onChange={(e) => onChange(transform.output(e))}
                   value={transform.input(value)}
                   readOnly={readonly}
-                  className={cn(border && "border border-gray-400")}
+                  className={cn(
+                    border && "border border-gray-400",
+                    label === undefined && "col-span-2"
+                  )}
                   {...fieldProps}
                 />
               </FormControl>

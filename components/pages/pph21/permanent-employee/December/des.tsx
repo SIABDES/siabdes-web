@@ -19,6 +19,7 @@ import PPh21Calculation from "./pph21-calculation";
 import PPh21CutInDecember from "./pph21-cut-in-december";
 import { useEffect } from "react";
 import { toast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
 
 interface PermanentEmployeeDesProps {
   selectedEmployee: Employee | undefined;
@@ -62,8 +63,22 @@ export default function PermanentEmployeeDes({
         pph21_deducted_until_november: 0,
         pph21_payable: 0,
       },
+      pkp_calculations: {
+        non_taxable_income: 0,
+        taxable_income: 0,
+      },
     },
   });
+
+  useEffect(() => {
+    if (selectedEmployee) {
+      form.setValue("employee_id", selectedEmployee.id);
+      form.setValue(
+        "pkp_calculations.non_taxable_income",
+        selectedEmployee.ptkp.boundary_salary
+      );
+    }
+  }, [form, selectedEmployee]);
 
   useEffect(() => {
     if (form.formState.errors.root) {
@@ -74,6 +89,48 @@ export default function PermanentEmployeeDes({
       });
     }
   }, [form.formState.errors]);
+
+  const grossSalaryWatcher = form.watch([
+    "gross_salary.gross_total_before_december",
+    "gross_salary.salary",
+    "gross_salary.allowance",
+    "gross_salary.thr",
+    "gross_salary.bonus",
+    "gross_salary.overtime_salary",
+    "gross_salary.assurance",
+  ]);
+
+  const netCalculationWatcher = form.watch([
+    "net_calculations.annual_fee",
+    "net_calculations.assurance",
+    "net_calculations.position_allowance",
+  ]);
+
+  useEffect(() => {
+    const totalGrossDecember = Object.values(grossSalaryWatcher).reduce(
+      (acc, curr) => acc + curr,
+      0
+    );
+
+    form.setValue("result.total_salary", totalGrossDecember);
+  }, [form, grossSalaryWatcher]);
+
+  useEffect(() => {
+    const totalGrossDecember = Object.values(grossSalaryWatcher).reduce(
+      (acc, curr) => acc + curr,
+      0
+    );
+
+    const totalNetCalculation = Object.values(netCalculationWatcher).reduce(
+      (acc, curr) => acc + curr,
+      0
+    );
+
+    form.setValue(
+      "net_calculations.net_income",
+      totalGrossDecember - totalNetCalculation
+    );
+  }, [form, grossSalaryWatcher, netCalculationWatcher]);
 
   const onSubmit = async (data: PermanentEmployeeDecemberFormData) => {
     if (!data.employee_id) {
@@ -98,6 +155,8 @@ export default function PermanentEmployeeDes({
         <PPh21CutInDecember form={form} />
 
         <Results form={form as UseFormReturn<PPh21EmployeeUnionFormData>} />
+
+        <Button type="submit">Simpan</Button>
       </form>
     </Form>
   );

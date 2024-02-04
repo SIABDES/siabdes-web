@@ -1,13 +1,5 @@
 import FormNumberInput from "@/components/patan-ui/form/form-number-input";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { PermanentEmployeeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
 import { useForm } from "react-hook-form";
 
@@ -15,8 +7,6 @@ interface PermanentEmployeeDesProps {
   form: ReturnType<typeof useForm<PermanentEmployeeDecemberFormData>>;
 }
 export default function GrossIncomeDes({ form }: PermanentEmployeeDesProps) {
-  const totalGrossSalaryWatcher = form.watch();
-
   return (
     <Card className="border border-gray-300 shadow-md">
       <h1 className="text-center font-bold text-sm mb-3 pt-3">

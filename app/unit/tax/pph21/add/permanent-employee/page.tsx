@@ -39,7 +39,17 @@ export default function PermanentEmployee() {
             </Link>
           </div>
         </div>
-        <Tabs defaultValue="januariNovember">
+
+        <Tabs
+          defaultValue="januariNovember"
+          onValueChange={(value) => {
+            if (value === "januariNovember") {
+              setPeriodMonth(Pph21TaxPeriodMonth.JANUARY);
+            } else if (value === "desember") {
+              setPeriodMonth(Pph21TaxPeriodMonth.DECEMBER);
+            }
+          }}
+        >
           <TabsList className="grid w-96 grid-cols-2">
             <TabsTrigger value="januariNovember">
               Januari - November
@@ -58,7 +68,10 @@ export default function PermanentEmployee() {
                   setSelectedEmployee={setSelectedEmployee}
                   getEmployees={getEmployees}
                   isGetEmployeesLoading={isGetEmployeesLoading}
-                  setPeriod={setPeriodMonth}
+                  setPeriodMonth={setPeriodMonth}
+                  periodMonth={periodMonth}
+                  defaultPeriodMonth={Pph21TaxPeriodMonth.JANUARY}
+                  blacklistPeriodMonths={[Pph21TaxPeriodMonth.DECEMBER]}
                 />
 
                 <PermanentEmployeeJanNov
@@ -80,7 +93,23 @@ export default function PermanentEmployee() {
                   setSelectedEmployee={setSelectedEmployee}
                   getEmployees={getEmployees}
                   isGetEmployeesLoading={isGetEmployeesLoading}
-                  setPeriod={setPeriodMonth}
+                  setPeriodMonth={setPeriodMonth}
+                  periodMonth={periodMonth}
+                  defaultPeriodMonth={Pph21TaxPeriodMonth.DECEMBER}
+                  blacklistPeriodMonths={[
+                    Pph21TaxPeriodMonth.JANUARY,
+                    Pph21TaxPeriodMonth.FEBRUARY,
+                    Pph21TaxPeriodMonth.MARCH,
+                    Pph21TaxPeriodMonth.APRIL,
+                    Pph21TaxPeriodMonth.MAY,
+                    Pph21TaxPeriodMonth.JUNE,
+                    Pph21TaxPeriodMonth.JULY,
+                    Pph21TaxPeriodMonth.AUGUST,
+                    Pph21TaxPeriodMonth.SEPTEMBER,
+                    Pph21TaxPeriodMonth.OCTOBER,
+                    Pph21TaxPeriodMonth.NOVEMBER,
+                  ]}
+                  periodMonthDisabled
                 />
 
                 <PermanentEmployeeDes
@@ -91,18 +120,6 @@ export default function PermanentEmployee() {
             </Card>
           </TabsContent>
         </Tabs>
-
-        {/* <section className="grid grid-cols-2 gap-4">
-          <div>
-            <LaborData data={laborData} />
-            <Premi data={premi} />
-            <Dues data={dues} />
-          </div>
-          <div>
-            <PPh21Calculation data={pph21Calculation} />
-            <PPh21RateAYear />
-          </div>
-        </section> */}
       </section>
     </Layout>
   );

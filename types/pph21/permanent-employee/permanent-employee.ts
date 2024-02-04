@@ -40,41 +40,13 @@ export const PermanentEmployeeGrossIncomeJanNovSchema = z.object({
 });
 
 export const PermanentEmployeeGrossIncomeDecSchema = z.object({
-  salary: z
-    .string()
-    .transform((val) => Number(val))
-    .pipe(z.number().nonnegative())
-    .or(z.number().nonnegative()),
-  allowance: z
-    .string()
-    .transform((val) => Number(val))
-    .pipe(z.number().nonnegative())
-    .or(z.number().nonnegative()),
-  thr: z
-    .string()
-    .transform((val) => Number(val))
-    .pipe(z.number().nonnegative())
-    .or(z.number().nonnegative()),
-  bonus: z
-    .string()
-    .transform((val) => Number(val))
-    .pipe(z.number().nonnegative())
-    .or(z.number().nonnegative()),
-  overtime_salary: z
-    .string()
-    .transform((val) => Number(val))
-    .pipe(z.number().nonnegative())
-    .or(z.number().nonnegative()),
-  assurance: z
-    .string()
-    .transform((val) => Number(val))
-    .pipe(z.number().nonnegative())
-    .or(z.number().nonnegative()),
-  gross_total_before_december: z
-    .string()
-    .transform((val) => Number(val))
-    .pipe(z.number().nonnegative())
-    .or(z.number().nonnegative()),
+  salary: z.number().positive(),
+  allowance: z.number().nonnegative(),
+  thr: z.number().nonnegative(),
+  bonus: z.number().nonnegative(),
+  overtime_salary: z.number().nonnegative(),
+  assurance: z.number().nonnegative(),
+  gross_total_before_december: z.number().nonnegative(),
 });
 
 export const PermanentEmployeeGrossIncomeSchema = z.union([
@@ -197,6 +169,24 @@ export const PermanentEmployeeDecemberSchema =
     period: z.object({
       month: z.literal(Pph21TaxPeriodMonth.DECEMBER),
       years: z.number().int().positive(),
+    }),
+    pph21_calculations: z.object({
+      has_npwp: z.object({
+        percentage_5: z.number().nonnegative().optional(),
+        percentage_5_result: z.number().nonnegative().optional(),
+        percentage_15: z.number().nonnegative().optional(),
+        percentage_15_result: z.number().nonnegative().optional(),
+        percentage_25: z.number().nonnegative().optional(),
+        percentage_25_result: z.number().nonnegative().optional(),
+        percentage_30: z.number().nonnegative().optional(),
+        percentage_30_result: z.number().nonnegative().optional(),
+        percentage_35: z.number().nonnegative().optional(),
+        percentage_35_result: z.number().nonnegative().optional(),
+      }),
+      no_npwp: z.object({
+        percentage_20: z.number().nonnegative().optional(),
+        percentage_20_result: z.number().nonnegative().optional(),
+      }),
     }),
   });
 

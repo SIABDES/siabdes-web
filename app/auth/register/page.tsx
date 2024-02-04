@@ -1,31 +1,17 @@
 "use client";
 
-import { ComboboxForm } from "@/components/patan-ui/form/combobox-form";
+import RegisterCredentialsForm from "@/components/pages/register/register-credentials-form";
+import RegisterOrganizationForm from "@/components/pages/register/register-organization-form";
+import RegisterProfileForm from "@/components/pages/register/register-profile-form";
+import RegisterWilayahForm from "@/components/pages/register/register-wilayah-form";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+import { Form } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
 import useRegisterBumdes from "@/hooks/auth/useRegisterBumdes";
-import useGetManyProvinsi from "@/hooks/wilayah/useGetManyProvinsi";
 import { RegisterFormData, RegisterSchema } from "@/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function RegisterPage() {
@@ -50,12 +36,13 @@ export default function RegisterPage() {
       address: {
         postalCode: "",
         completeAddress: "",
+        province: "",
+        regency: "",
+        district: "",
+        village: "",
       },
     },
   });
-
-  const { data: getProvinsi, isLoading: isGetProvinsiLoading } =
-    useGetManyProvinsi();
 
   const {
     mutateAsync: mutateRegisterBumdes,
@@ -97,344 +84,18 @@ export default function RegisterPage() {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-y-4"
           >
-            <Card>
-              <CardContent>
-                <h6 className="text-lg font-medium mt-4 mt">Profil Bumdes</h6>
+            <RegisterProfileForm form={form} />
 
-                <Separator className="my-2" />
+            <RegisterOrganizationForm form={form} />
 
-                <div className="flex flex-row gap-x-6">
-                  <FormField
-                    control={form.control}
-                    name="profile.name"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>Nama Bumdes</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Tulis nama bumdes." {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+            <RegisterWilayahForm form={form} />
 
-                  <FormField
-                    control={form.control}
-                    name="profile.phone"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>
-                          Nomor Telepon Bumdes
-                        </FormLabel>
-                        <FormControl>
-                          <Input placeholder="Tulis nama bumdes." {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent>
-                <h6 className="text-lg font-medium mt-4">
-                  Struktur Organisasi
-                </h6>
-
-                <Separator className="my-2" />
-
-                <div>
-                  <FormField
-                    control={form.control}
-                    name="organization.leader"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>Nama Ketua</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Tulis nama ketua bumdes."
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="flex flex-row gap-x-6 mt-4">
-                  <FormField
-                    control={form.control}
-                    name="organization.treasurer"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>
-                          Nama Bendahara
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Tulis nama bendahara bumdes."
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="organization.secretary"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>
-                          Nama Sekeretaris
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Tulis nama sekertaris bumdes."
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent>
-                <h6 className="text-lg font-medium mt-4">Alamat Bumdes</h6>
-
-                <Separator className="my-2" />
-
-                <div className="flex flex-row gap-x-6">
-                  <FormField
-                    control={form.control}
-                    name="address.province"
-                    render={() => (
-                      <ComboboxForm
-                        form={form}
-                        name="address.province"
-                        label="Provinsi"
-                        triggerPlaceholder="Pilih provinsi"
-                        isLoading={isGetProvinsiLoading}
-                        loadingText="Memuat provinsi..."
-                        items={
-                          getProvinsi?.data.map((p) => ({
-                            label: p.nama,
-                            value: p.kode,
-                          })) ?? []
-                        }
-                      />
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="address.regency"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>Kabupaten</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Pilih kabupaten" />
-                              </SelectTrigger>
-                            </FormControl>
-
-                            <SelectContent>
-                              <SelectItem value={"COMMERCE"}>Dagang</SelectItem>
-                              <SelectItem value={"SERVICES"}>Jasa</SelectItem>
-                              <SelectItem value={"INDUSTRY"}>
-                                Industri
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="address.district"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>Kecamatan</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Pilih kecamatan" />
-                              </SelectTrigger>
-                            </FormControl>
-
-                            <SelectContent>
-                              <SelectItem value={"COMMERCE"}>Dagang</SelectItem>
-                              <SelectItem value={"SERVICES"}>Jasa</SelectItem>
-                              <SelectItem value={"INDUSTRY"}>
-                                Industri
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="address.village"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>Desa</FormLabel>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Pilih desa" />
-                              </SelectTrigger>
-                            </FormControl>
-
-                            <SelectContent>
-                              <SelectItem value={"COMMERCE"}>Dagang</SelectItem>
-                              <SelectItem value={"SERVICES"}>Jasa</SelectItem>
-                              <SelectItem value={"INDUSTRY"}>
-                                Industri
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="flex flex-row gap-x-4 mt-4">
-                  <FormField
-                    control={form.control}
-                    name="address.completeAddress"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>
-                          Alamat Lengkap
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Tulis alamat lengkap."
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="address.postalCode"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>Kode Pos</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Tulis kode pos." {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent>
-                <h6 className="text-lg font-medium mt-4">Kredensial Akun</h6>
-
-                <Separator className="my-2" />
-
-                <FormField
-                  control={form.control}
-                  name="credentials.email"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel htmlFor={field.name}>Email Bumdes</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          placeholder="Tulis email bumdes."
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="flex flex-row gap-x-6 mt-4">
-                  <FormField
-                    control={form.control}
-                    name="credentials.password"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>Password</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="Tulis password."
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="credentials.passwordConfirmation"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor={field.name}>
-                          Konfirmasi Password
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="Tulis konfirmasi password."
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </CardContent>
-            </Card>
+            <RegisterCredentialsForm form={form} />
 
             <Button
               type="submit"
               className="w-fit mt-4"
-              disabled={isMutateRegisterPending}
+              disabled={!form.formState.isValid || isMutateRegisterPending}
             >
               {isMutateRegisterPending
                 ? "Mendaftarkan Bumdes..."

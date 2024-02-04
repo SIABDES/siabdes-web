@@ -1,13 +1,7 @@
+import FormNumberInput from "@/components/patan-ui/form/form-number-input";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { PermanentEmployeeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface PKPCalculationProps {
@@ -15,51 +9,51 @@ interface PKPCalculationProps {
 }
 
 export default function PKPCalculation({ form }: PKPCalculationProps) {
+  // const grossSalaryWatcher = form.watch([
+  //   "gross_salary.gross_total_before_december",
+  //   "gross_salary.salary",
+  //   "gross_salary.allowance",
+  //   "gross_salary.thr",
+  //   "gross_salary.bonus",
+  //   "gross_salary.overtime_salary",
+  //   "gross_salary.assurance",
+  // ]);
+
+  // useEffect(() => {
+  //   const totalGrossSalary = Object.values(grossSalaryWatcher).reduce(
+  //     (acc, curr) => acc + curr,
+  //     0
+  //   );
+
+  //   const taxableIncome =
+  //     totalGrossSalary - form.getValues("pkp_calculations.non_taxable_income");
+
+  //   form.setValue(
+  //     "pkp_calculations.taxable_income",
+  //     Math.max(0, taxableIncome)
+  //   );
+  // }, [form, grossSalaryWatcher]);
+
   return (
     <Card className="border border-gray-300 shadow-md">
       <h1 className="text-center font-bold text-sm mb-3 pt-3">
         Perhitungan Pajak Kena Pajak (PKP)
       </h1>
       <CardContent>
-        <FormField
+        <FormNumberInput
+          label="Penghasilan Tidak Kena Pajak"
           control={form.control}
           name="pkp_calculations.non_taxable_income"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>
-                Penghasilan Tidak Kena Pajak
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Rp. "
-                  className="border border-gray-400"
-                  {...field}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          variant="inline"
+          readonly
         />
-        <FormField
+
+        <FormNumberInput
+          label="Penghasilan Kena Pajak Setahun"
           control={form.control}
           name="pkp_calculations.taxable_income"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>
-                Penghasilan Kena Pajak Setahun
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  placeholder="Rp"
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          variant="inline"
+          readonly
         />
       </CardContent>
     </Card>

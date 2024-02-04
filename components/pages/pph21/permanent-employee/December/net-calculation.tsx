@@ -1,13 +1,5 @@
 import FormNumberInput from "@/components/patan-ui/form/form-number-input";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { PermanentEmployeeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
 import { useForm } from "react-hook-form";
 
@@ -35,7 +27,6 @@ export default function NetCalculation({ form }: NetCalculationProps) {
           control={form.control}
           name="net_calculations.annual_fee"
           variant="inline"
-          readonly
         />
 
         <FormNumberInput
@@ -43,7 +34,6 @@ export default function NetCalculation({ form }: NetCalculationProps) {
           control={form.control}
           name="net_calculations.assurance"
           variant="inline"
-          readonly
         />
 
         <FormNumberInput

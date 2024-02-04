@@ -32,8 +32,12 @@ interface Pph21EmployeeDataProps {
   >;
   getEmployees: GetEmployeesResponse | undefined;
   isGetEmployeesLoading: boolean;
-  setPeriod: (periodMonth: Pph21TaxPeriodMonth) => void;
+  periodMonth: Pph21TaxPeriodMonth;
+  setPeriodMonth: (periodMonth: Pph21TaxPeriodMonth) => void;
   onEmployeeSelected?: (employee: Employee) => void;
+  defaultPeriodMonth: Pph21TaxPeriodMonth;
+  periodMonthDisabled?: boolean;
+  blacklistPeriodMonths?: Pph21TaxPeriodMonth[];
 }
 
 export default function Pph21EmployeeData({
@@ -41,11 +45,13 @@ export default function Pph21EmployeeData({
   setSelectedEmployee,
   getEmployees,
   isGetEmployeesLoading,
-  setPeriod,
+  periodMonth,
+  setPeriodMonth,
   onEmployeeSelected,
+  defaultPeriodMonth,
+  periodMonthDisabled,
+  blacklistPeriodMonths,
 }: Pph21EmployeeDataProps) {
-  const [periodMonth, setPeriodMonth] = React.useState<string | undefined>();
-
   useEffect(() => {
     if (selectedEmployee) {
       onEmployeeSelected?.(selectedEmployee);
@@ -57,16 +63,6 @@ export default function Pph21EmployeeData({
       });
     }
   }, [onEmployeeSelected, selectedEmployee]);
-
-  useEffect(() => {
-    if (periodMonth) {
-      const month = parseInt(periodMonth);
-
-      if (month >= 1 && month <= 12) {
-        setPeriod(month);
-      }
-    }
-  }, [periodMonth, setPeriod]);
 
   const handleSelectEmployee = async (employeeId: string) => {
     try {
@@ -100,6 +96,17 @@ export default function Pph21EmployeeData({
     }
   };
 
+  const handleBlacklistPeriodMonths = useCallback(
+    (periodMonth: Pph21TaxPeriodMonth) => {
+      if (blacklistPeriodMonths) {
+        return blacklistPeriodMonths.includes(periodMonth);
+      }
+
+      return false;
+    },
+    [blacklistPeriodMonths]
+  );
+
   return (
     <Card>
       <CardContent className="py-4">
@@ -127,9 +134,16 @@ export default function Pph21EmployeeData({
           <div className="w-full flex gap-y-4 flex-col">
             <Label>Masa Pajak</Label>
             <Select
-              value={periodMonth?.toString() ?? undefined}
-              onValueChange={setPeriodMonth}
+              value={periodMonth?.toString() ?? defaultPeriodMonth}
+              onValueChange={(value) => {
+                const month = parseInt(value);
+
+                if (month >= 1 && month <= 12) {
+                  setPeriodMonth(month);
+                }
+              }}
               defaultValue={Pph21TaxPeriodMonth.JANUARY.toString()}
+              disabled={periodMonthDisabled}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih bulan masa pajak..." />
@@ -137,17 +151,102 @@ export default function Pph21EmployeeData({
               <SelectContent>
                 <ScrollArea className="h-48">
                   <SelectGroup>
-                    <SelectItem value="1">Januari</SelectItem>
-                    <SelectItem value="2">Februari</SelectItem>
-                    <SelectItem value="3">Maret</SelectItem>
-                    <SelectItem value="4">April</SelectItem>
-                    <SelectItem value="5">Mei</SelectItem>
-                    <SelectItem value="6">Juni</SelectItem>
-                    <SelectItem value="7">Juli</SelectItem>
-                    <SelectItem value="8">Agustus</SelectItem>
-                    <SelectItem value="9">September</SelectItem>
-                    <SelectItem value="10">Oktober</SelectItem>
-                    <SelectItem value="11">November</SelectItem>
+                    <SelectItem
+                      value="1"
+                      disabled={handleBlacklistPeriodMonths(
+                        Pph21TaxPeriodMonth.JANUARY
+                      )}
+                    >
+                      Januari
+                    </SelectItem>
+                    <SelectItem
+                      value="2"
+                      disabled={handleBlacklistPeriodMonths(
+                        Pph21TaxPeriodMonth.FEBRUARY
+                      )}
+                    >
+                      Februari
+                    </SelectItem>
+                    <SelectItem
+                      value="3"
+                      disabled={handleBlacklistPeriodMonths(
+                        Pph21TaxPeriodMonth.MARCH
+                      )}
+                    >
+                      Maret
+                    </SelectItem>
+                    <SelectItem
+                      value="4"
+                      disabled={handleBlacklistPeriodMonths(
+                        Pph21TaxPeriodMonth.APRIL
+                      )}
+                    >
+                      April
+                    </SelectItem>
+                    <SelectItem
+                      value="5"
+                      disabled={handleBlacklistPeriodMonths(
+                        Pph21TaxPeriodMonth.MAY
+                      )}
+                    >
+                      Mei
+                    </SelectItem>
+                    <SelectItem
+                      value="6"
+                      disabled={handleBlacklistPeriodMonths(
+                        Pph21TaxPeriodMonth.JUNE
+                      )}
+                    >
+                      Juni
+                    </SelectItem>
+                    <SelectItem
+                      value="7"
+                      disabled={handleBlacklistPeriodMonths(
+                        Pph21TaxPeriodMonth.JULY
+                      )}
+                    >
+                      Juli
+                    </SelectItem>
+                    <SelectItem
+                      value="8"
+                      disabled={handleBlacklistPeriodMonths(
+                        Pph21TaxPeriodMonth.AUGUST
+                      )}
+                    >
+                      Agustus
+                    </SelectItem>
+                    <SelectItem
+                      value="9"
+                      disabled={handleBlacklistPeriodMonths(
+                        Pph21TaxPeriodMonth.SEPTEMBER
+                      )}
+                    >
+                      September
+                    </SelectItem>
+                    <SelectItem
+                      value="10"
+                      disabled={handleBlacklistPeriodMonths(
+                        Pph21TaxPeriodMonth.OCTOBER
+                      )}
+                    >
+                      Oktober
+                    </SelectItem>
+                    <SelectItem
+                      value="11"
+                      disabled={handleBlacklistPeriodMonths(
+                        Pph21TaxPeriodMonth.NOVEMBER
+                      )}
+                    >
+                      November
+                    </SelectItem>
+                    <SelectItem
+                      value="12"
+                      disabled={handleBlacklistPeriodMonths(
+                        Pph21TaxPeriodMonth.DECEMBER
+                      )}
+                    >
+                      Desember
+                    </SelectItem>
                   </SelectGroup>
                 </ScrollArea>
               </SelectContent>
