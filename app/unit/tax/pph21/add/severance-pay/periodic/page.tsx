@@ -17,17 +17,11 @@ import {
   SeverencePayPeriodicFormData,
   SeverencePayPeriodicScema,
 } from '@/types/pph21/severance-pay/severence-pay';
-import EmployeeData12Months from '@/components/pages/pph21/general/employee-data-12-months';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import SeverencePayPeriodicSalary from '@/components/pages/pph21/severance-pay/periodic/salary';
 import SeverencePayOneTimeResults from '@/components/pages/pph21/severance-pay/one-time/result';
-import SeverencePayPeriodicResults from '@/components/pages/pph21/severance-pay/periodic/result';
-import SeverencePayPeriodicPPh21Calculation from '@/components/pages/pph21/severance-pay/periodic/pph21-calculation';
-import useAddPph21PermanentEmployee from '@/hooks/pph21/useAddPph21PermanentEmployee';
-import { toast } from '@/components/ui/use-toast';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import useAddPph21SeverancePayPeriodic from '@/hooks/pph21/useAddPph21SeverancePayPeriodic';

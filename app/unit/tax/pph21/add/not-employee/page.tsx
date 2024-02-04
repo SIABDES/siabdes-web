@@ -2,7 +2,6 @@
 
 import Layout from '@/components/layout/layout';
 import EmployeeData12Months from '@/components/pages/pph21/general/employee-data-12-months';
-import LaborData from '@/components/pages/pph21/general/labor-data';
 import Results from '@/components/pages/pph21/general/results';
 import NotEmployeeGrossIncome from '@/components/pages/pph21/not-employee/gross-income';
 import NotEmployeePPh21Calculation from '@/components/pages/pph21/not-employee/pph21-calculation';
