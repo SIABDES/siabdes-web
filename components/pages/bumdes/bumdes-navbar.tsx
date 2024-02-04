@@ -1,4 +1,4 @@
-import BumdesAvatar from "./bumdes-avatar";
+import BumdesAvatar from './bumdes-avatar';
 
 export default function BumdesNavbar() {
   return (

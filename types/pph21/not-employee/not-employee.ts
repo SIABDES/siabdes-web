@@ -72,6 +72,11 @@ export const NotEmployeeScema = NotEmployeeBaseScema.extend({
       .transform((val) => Number(val))
       .pipe(z.number().nonnegative())
       .or(z.number().nonnegative()),
+    total_pph21_non_npwp: z
+      .string()
+      .transform((val) => Number(val))
+      .pipe(z.number().nonnegative())
+      .or(z.number().nonnegative()),
     pph21_chapter_17_5_percent: z
       .string()
       .transform((val) => Number(val))

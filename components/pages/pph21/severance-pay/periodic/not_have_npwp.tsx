@@ -9,6 +9,8 @@ import { Input } from '@/components/ui/input';
 import { SeverencePayPeriodicFormData } from '@/types/pph21/severance-pay/severence-pay';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { formatRupiah } from '@/common/helpers/number-format';
+import { fi } from 'date-fns/locale';
 
 interface NotHaveNPWPProps {
   form: ReturnType<typeof useForm<SeverencePayPeriodicFormData>>;
@@ -32,7 +34,8 @@ export default function NotHaveNPWP({ form }: NotHaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={field.value + '%'}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -51,7 +54,8 @@ export default function NotHaveNPWP({ form }: NotHaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(field.value)}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />
@@ -63,14 +67,15 @@ export default function NotHaveNPWP({ form }: NotHaveNPWPProps) {
           </div>
           <FormField
             control={form.control}
-            name="results.pph21_non_npwp"
+            name="calculations.total_pph21_non_npwp"
             render={({ field }) => (
               <FormItem className="w-full col-span-3">
                 <FormControl>
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    disabled
+                    value={formatRupiah(field.value)}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage />

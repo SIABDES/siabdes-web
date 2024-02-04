@@ -19,7 +19,7 @@ export default function UnitAvatar() {
       <DropdownMenuTrigger>
         <div className="inline-flex gap-x-4 items-center">
           <p className="text-sm font-medium">
-            Unit {session.data?.user.unitName}
+            Bumdes {session.data?.user.bumdesName}
           </p>
 
           <Avatar>

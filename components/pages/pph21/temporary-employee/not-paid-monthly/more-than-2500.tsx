@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { NonPermanentEmployeeNotMonthlyFormData } from '@/types/pph21/temporary-employee/temporary-employee';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { formatRupiah } from '@/common/helpers/number-format';
 
 interface MoreThan2500Props {
   form: ReturnType<typeof useForm<NonPermanentEmployeeNotMonthlyFormData>>;
@@ -35,7 +36,8 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      readOnly
+                      value={`${50}%`}
                     />
                   </FormControl>
                   <FormMessage />
@@ -47,7 +49,7 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
             </div>
             <FormField
               control={form.control}
-              name="gross_salary.salary"
+              name="calculations.salary_more_2500"
               render={({ field }) => (
                 <FormItem className="w-full col-span-3">
                   <FormLabel htmlFor={field.name}>Penghasilan Bruto</FormLabel>
@@ -55,7 +57,10 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(
+                        form.getValues('calculations.salary_more_2500')
+                      )}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -69,13 +74,18 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
               control={form.control}
               name="calculations.pph21_has_npwp_more_then_2500"
               render={({ field }) => (
-                <FormItem className="w-full col-span-3">
-                  <FormLabel htmlFor={field.name}>PPh 21</FormLabel>
+                <FormItem className="w-full col-span-3 text-center">
+                  <FormLabel htmlFor={field.name}>PKP</FormLabel>
                   <FormControl>
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(
+                        form.getValues(
+                          'calculations.pph21_has_npwp_more_then_2500'
+                        )
+                      )}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -95,7 +105,8 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={`${5}%`}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -114,7 +125,12 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={formatRupiah(
+                          form.getValues(
+                            'calculations.pph21_chapter_17_5_percent'
+                          )
+                        )}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -133,7 +149,12 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={formatRupiah(
+                          form.getValues(
+                            'calculations.total_pph21_chapter_17_5_percent'
+                          )
+                        )}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -151,7 +172,8 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={`${15}%`}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -170,7 +192,12 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={formatRupiah(
+                          form.getValues(
+                            'calculations.pph21_chapter_17_15_percent'
+                          )
+                        )}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -189,7 +216,12 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={formatRupiah(
+                          form.getValues(
+                            'calculations.total_pph21_chapter_17_15_percent'
+                          )
+                        )}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -207,7 +239,8 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={`${25}%`}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -226,7 +259,12 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={formatRupiah(
+                          form.getValues(
+                            'calculations.pph21_chapter_17_25_percent'
+                          )
+                        )}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -245,7 +283,12 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={formatRupiah(
+                          form.getValues(
+                            'calculations.total_pph21_chapter_17_25_percent'
+                          )
+                        )}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -263,7 +306,8 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={`${30}%`}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -282,7 +326,12 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={formatRupiah(
+                          form.getValues(
+                            'calculations.pph21_chapter_17_30_percent'
+                          )
+                        )}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -301,7 +350,12 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={formatRupiah(
+                          form.getValues(
+                            'calculations.total_pph21_chapter_17_30_percent'
+                          )
+                        )}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -319,7 +373,8 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={`${35}%`}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -331,14 +386,19 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
               </div>
               <FormField
                 control={form.control}
-                name="calculations.pph21_chapter_17_30_percent"
+                name="calculations.pph21_chapter_17_35_percent"
                 render={({ field }) => (
                   <FormItem className="w-full col-span-3">
                     <FormControl>
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={formatRupiah(
+                          form.getValues(
+                            'calculations.pph21_chapter_17_35_percent'
+                          )
+                        )}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />
@@ -357,7 +417,12 @@ export default function MoreThan2500({ form }: MoreThan2500Props) {
                       <Input
                         className="border border-gray-400"
                         {...field}
-                        disabled
+                        value={formatRupiah(
+                          form.getValues(
+                            'calculations.total_pph21_chapter_17_35_percent'
+                          )
+                        )}
+                        readOnly
                       />
                     </FormControl>
                     <FormMessage />

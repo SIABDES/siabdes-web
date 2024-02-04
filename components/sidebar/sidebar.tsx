@@ -139,7 +139,7 @@ export default function Sidebar() {
               !open && 'scale-0'
             }`}
           >
-            SIABDes TAXIon
+            SIABDes TAXion
           </h1>
         </div>
         <ul className="pt-20">

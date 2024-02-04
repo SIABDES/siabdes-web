@@ -11,6 +11,7 @@ import { NotEmployeeFormData } from '@/types/pph21/not-employee/not-employee';
 import { PermanentEmployeeBeforeDecemberFormData } from '@/types/pph21/permanent-employee/permanent-employee';
 import { NonPermanentEmployeeMonthlyFormData } from '@/types/pph21/temporary-employee/temporary-employee';
 import { useForm } from 'react-hook-form';
+import { formatRupiah } from '@/common/helpers/number-format';
 
 interface ResultsProps {
   form: ReturnType<typeof useForm<NotEmployeeFormData>>;
@@ -38,7 +39,7 @@ export default function NotEmployeeResults({
                 <Input
                   className="border border-gray-400 bg-[#E5F5FC]"
                   {...field}
-                  placeholder="Rp"
+                  value={formatRupiah(field.value)}
                   readOnly
                 />
               </FormControl>
@@ -58,7 +59,7 @@ export default function NotEmployeeResults({
                 <Input
                   className="border border-gray-400 bg-[#E5F5FC]"
                   {...field}
-                  placeholder="Rp"
+                  value={formatRupiah(field.value)}
                   readOnly
                 />
               </FormControl>
@@ -78,7 +79,7 @@ export default function NotEmployeeResults({
                 <Input
                   className="border border-gray-400 bg-[#E5F5FC]"
                   {...field}
-                  placeholder="Rp"
+                  value={formatRupiah(field.value)}
                   readOnly
                 />
               </FormControl>

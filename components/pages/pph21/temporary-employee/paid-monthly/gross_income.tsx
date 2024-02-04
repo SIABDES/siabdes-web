@@ -10,6 +10,11 @@ import { Input } from '@/components/ui/input';
 import { NonPermanentEmployeeMonthlyFormData } from '@/types/pph21/temporary-employee/temporary-employee';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import {
+  formatNumber,
+  formatRupiah,
+  reverseFormat,
+} from '@/common/helpers/number-format';
 
 interface TemporaryEmployeeGrossIncomeProps {
   form: ReturnType<typeof useForm<NonPermanentEmployeeMonthlyFormData>>;
@@ -30,7 +35,20 @@ export default function TemporaryEmployeeMonthlyGrossIncome({
             <FormItem className="w-full grid grid-cols-2 items-center">
               <FormLabel htmlFor={field.name}>Penghasilan Sehari</FormLabel>
               <FormControl>
-                <Input className="border border-gray-400" {...field} />
+                <Input
+                  className="border border-gray-400"
+                  {...field}
+                  value={formatRupiah(
+                    form.getValues('gross_salary.daily_salary')
+                  )}
+                  onChange={(e) => {
+                    const value = reverseFormat(e.target.value);
+                    form.setValue(
+                      'gross_salary.daily_salary',
+                      parseFloat(value)
+                    );
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -45,7 +63,20 @@ export default function TemporaryEmployeeMonthlyGrossIncome({
                 Jumlah Hari Kerja Sebulan
               </FormLabel>
               <FormControl>
-                <Input className="border border-gray-400" {...field} />
+                <Input
+                  className="border border-gray-400"
+                  {...field}
+                  value={formatNumber(
+                    form.getValues('gross_salary.working_days')
+                  )}
+                  onChange={(e) => {
+                    const value = reverseFormat(e.target.value);
+                    form.setValue(
+                      'gross_salary.working_days',
+                      parseFloat(value)
+                    );
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -58,7 +89,14 @@ export default function TemporaryEmployeeMonthlyGrossIncome({
             <FormItem className="w-full grid grid-cols-2 items-center">
               <FormLabel htmlFor={field.name}>Penghasilan Sebulan</FormLabel>
               <FormControl>
-                <Input className="border border-gray-400" {...field} />
+                <Input
+                  className="border border-gray-400"
+                  {...field}
+                  value={formatRupiah(
+                    form.getValues('gross_salary.monthly_salary')
+                  )}
+                  readOnly
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

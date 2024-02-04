@@ -11,6 +11,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { NotEmployeeFormData } from '@/types/pph21/not-employee/not-employee';
+import { formatRupiah, reverseFormat } from '@/common/helpers/number-format';
 
 interface NotEmployeeGrossIncomeProps {
   form: ReturnType<typeof useForm<NotEmployeeFormData>>;
@@ -31,7 +32,15 @@ export default function NotEmployeeGrossIncome({
             <FormItem className="w-full grid grid-cols-2 items-center">
               <FormLabel htmlFor={field.name}>Penghasilan Bruto</FormLabel>
               <FormControl>
-                <Input className="border border-gray-400" {...field} />
+                <Input
+                  className="border border-gray-400"
+                  {...field}
+                  value={formatRupiah(field.value)}
+                  onChange={(e) => {
+                    const value = reverseFormat(e.target.value);
+                    field.onChange(value);
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -48,7 +57,12 @@ export default function NotEmployeeGrossIncome({
           render={({ field }) => (
             <FormItem className="w-full flex items-end">
               <FormControl>
-                <Input className="border border-gray-400" {...field} disabled />
+                <Input
+                  className="border border-gray-400"
+                  {...field}
+                  value={field.value + '%'}
+                  readOnly
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -64,7 +78,12 @@ export default function NotEmployeeGrossIncome({
             <FormItem className="w-full col-span-3">
               <FormLabel htmlFor={field.name}>Penghasilan Bruto</FormLabel>
               <FormControl>
-                <Input className="border border-gray-400" {...field} disabled />
+                <Input
+                  className="border border-gray-400"
+                  {...field}
+                  value={formatRupiah(field.value)}
+                  readOnly
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -75,12 +94,17 @@ export default function NotEmployeeGrossIncome({
         </div>
         <FormField
           control={form.control}
-          name="calculations.pph21_pkp"
+          name="gross_salary.pkp"
           render={({ field }) => (
             <FormItem className="w-full col-span-3">
               <FormLabel htmlFor={field.name}>PKP</FormLabel>
               <FormControl>
-                <Input className="border border-gray-400" {...field} disabled />
+                <Input
+                  className="border border-gray-400"
+                  {...field}
+                  value={formatRupiah(field.value)}
+                  readOnly
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

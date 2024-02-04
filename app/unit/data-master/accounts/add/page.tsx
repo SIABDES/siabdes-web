@@ -1,7 +1,7 @@
-import InputField from "@/components/Input/input-field";
-import Layout from "@/components/layout/layout";
-import FormAddAccount from "@/components/pages/data-master/accounts/form-add-account";
-import React from "react";
+import InputField from '@/components/Input/input-field';
+import Layout from '@/components/layout/layout';
+import FormAddAccount from '@/components/pages/data-master/accounts/form-add-account';
+import React from 'react';
 
 export default function addAccount() {
   return (
@@ -10,7 +10,6 @@ export default function addAccount() {
       <section className="pt-10">
         <div className="px-24">
           <FormAddAccount />
-          {/* <InputField label="Nama Akun" /> */}
         </div>
       </section>
     </Layout>

@@ -66,6 +66,11 @@ export const NonPermanentEmployeeMonthlyScema =
         .transform((val) => Number(val))
         .pipe(z.number().nonnegative())
         .or(z.number().nonnegative()),
+      total_pph21_non_npwp: z
+        .string()
+        .transform((val) => Number(val))
+        .pipe(z.number().nonnegative())
+        .or(z.number().nonnegative()),
     }),
   });
 
@@ -111,6 +116,21 @@ export const NonPermanentEmployeeNotMonthlyScema =
     }),
 
     calculations: z.object({
+      salary_less_450: z
+        .string()
+        .transform((val) => Number(val))
+        .pipe(z.number().nonnegative())
+        .or(z.number().nonnegative()),
+      salary_more_450: z
+        .string()
+        .transform((val) => Number(val))
+        .pipe(z.number().nonnegative())
+        .or(z.number().nonnegative()),
+      salary_more_2500: z
+        .string()
+        .transform((val) => Number(val))
+        .pipe(z.number().nonnegative())
+        .or(z.number().nonnegative()),
       pph21_has_npwp_less_then_450: z
         .string()
         .transform((val) => Number(val))
@@ -177,6 +197,11 @@ export const NonPermanentEmployeeNotMonthlyScema =
         .pipe(z.number().nonnegative())
         .or(z.number().nonnegative()),
       pph21_non_npwp: z
+        .string()
+        .transform((val) => Number(val))
+        .pipe(z.number().nonnegative())
+        .or(z.number().nonnegative()),
+      total_pph21_non_npwp: z
         .string()
         .transform((val) => Number(val))
         .pipe(z.number().nonnegative())
