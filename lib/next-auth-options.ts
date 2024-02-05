@@ -39,8 +39,6 @@ export const authOptions: NextAuthOptions = {
             backendTokens,
           };
         } catch (error) {
-          console.log("error");
-
           if (error instanceof AxiosError) {
             if (error.response?.status === 403)
               throw new Error("Kredensial atau password salah");
@@ -69,6 +67,12 @@ export const authOptions: NextAuthOptions = {
       session.backendTokens = token.backendTokens;
 
       return session;
+    },
+
+    async redirect({ baseUrl, url }) {
+      console.log({ baseUrl, url });
+
+      return url;
     },
   },
 
