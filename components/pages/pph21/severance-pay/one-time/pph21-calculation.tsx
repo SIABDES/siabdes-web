@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { formatRupiah } from '@/common/helpers/number-format';
 
 interface PPh21CalculationProps {
   form: ReturnType<typeof useForm<SeverencePayOneTimeFormData>>;
@@ -36,7 +37,8 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={field.value + '%'}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -55,7 +57,8 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -74,7 +77,8 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -92,7 +96,8 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={field.value + '%'}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -104,14 +109,15 @@ export default function SeverencePayOneTimePPh21Calculation({
             </div>
             <FormField
               control={form.control}
-              name="calculations.total_pph21_5_percent"
+              name="calculations.pph21_5_percent"
               render={({ field }) => (
                 <FormItem className="w-full col-span-3">
                   <FormControl>
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -130,7 +136,8 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -148,7 +155,8 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={field.value + '%'}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -167,7 +175,8 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -186,7 +195,8 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -204,7 +214,8 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={field.value + '%'}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -223,7 +234,8 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />
@@ -242,7 +254,8 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      disabled
+                      value={formatRupiah(field.value)}
+                      readOnly
                     />
                   </FormControl>
                   <FormMessage />

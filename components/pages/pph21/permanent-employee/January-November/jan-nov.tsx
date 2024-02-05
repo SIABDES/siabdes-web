@@ -93,6 +93,7 @@ export default function PermanentEmployeeJanNov({
   const { mutateAsync: mutatePph21, isPending: isMutatePph21Pending } =
     useAddPph21PermanentEmployee();
 
+  console.log(form.getValues());
   const onSubmit = async (data: PermanentEmployeeBeforeDecemberFormData) => {
     try {
       if (!selectedEmployee) {

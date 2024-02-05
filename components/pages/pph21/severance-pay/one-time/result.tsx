@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   FormControl,
   FormField,
@@ -9,6 +9,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { SeverencePayOneTimeFormData } from '@/types/pph21/severance-pay/severence-pay';
 import { useForm } from 'react-hook-form';
+import { formatRupiah } from '@/common/helpers/number-format';
+import FormNumberInput from '@/components/patan-ui/form/form-number-input';
 
 interface ResultsProps {
   form: ReturnType<typeof useForm<SeverencePayOneTimeFormData>>;
@@ -26,6 +28,41 @@ export default function SeverencePayOneTimeResults({
   return (
     <div className="grid grid-cols-3 gap-x-9 mt-9">
       <Card>
+        <CardContent>
+          <FormNumberInput
+            control={form.control}
+            name="result.total_salary"
+            label="Jumlah Penghasilan"
+            className="mt-4"
+            readonly
+          />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent>
+          <FormNumberInput
+            control={form.control}
+            name="result.total_pph21"
+            label="Jumlah Pph 21"
+            className="mt-4"
+            readonly
+          />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent>
+          <FormNumberInput
+            control={form.control}
+            name="result.net_receipts"
+            label="Penerimaan Bersih"
+            className="mt-4"
+            readonly
+          />
+        </CardContent>
+      </Card>
+      {/* <Card>
         <FormField
           control={form.control}
           name={total_salary as any}
@@ -36,7 +73,8 @@ export default function SeverencePayOneTimeResults({
                 <Input
                   className="border border-gray-400 bg-[#E5F5FC]"
                   {...field}
-                  placeholder="Rp"
+                  value={formatRupiah(field.value)}
+                  // ubah nilai string menjadi
                   readOnly
                 />
               </FormControl>
@@ -56,7 +94,7 @@ export default function SeverencePayOneTimeResults({
                 <Input
                   className="border border-gray-400 bg-[#E5F5FC]"
                   {...field}
-                  placeholder="Rp"
+                  value={formatRupiah(field.value)}
                   readOnly
                 />
               </FormControl>
@@ -76,7 +114,7 @@ export default function SeverencePayOneTimeResults({
                 <Input
                   className="border border-gray-400 bg-[#E5F5FC]"
                   {...field}
-                  placeholder="Rp"
+                  value={formatRupiah(field.value)}
                   readOnly
                 />
               </FormControl>
@@ -84,7 +122,7 @@ export default function SeverencePayOneTimeResults({
             </FormItem>
           )}
         />
-      </Card>
+      </Card> */}
     </div>
   );
 }

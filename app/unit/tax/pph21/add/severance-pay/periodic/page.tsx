@@ -92,435 +92,435 @@ export default function Periodic() {
   const limit25 = 250000000;
   const limit30 = 5000000000;
 
-  // useEffect(() => {
-  //   const salary = grossSalaryWatcher;
-  //   const pkp = pkpWatcher;
-
-  //   // perhitungan tarif pasal 17
-  //   // tarif 5%
-  //   const handleTariff5Percent = (pkp: number, salary: number) => {
-  //     // tarifnya 5%
-  //     form.setValue('constants.tariff_chapter_17_5_percent', 5);
-
-  //     // range
-  //     const rangeValue = pkp;
-  //     form.setValue('calculations.pph21_chapter_17_5_percent', rangeValue);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_5_percent',
-  //       tariff5 * rangeValue
-  //     );
-  //     const totalPPh21 = form.getValues(
-  //       'calculations.total_pph21_chapter_17_5_percent'
-  //     );
-
-  //     form.setValue('result.total_salary', salary);
-  //     form.setValue('result.total_pph21', totalPPh21);
-  //     form.setValue('result.net_receipts', salary - totalPPh21);
-
-  //     if (!selectedEmployee?.npwp) {
-  //       // tarif
-  //       const tarif = 1.2;
-  //       form.setValue('constants.tariff_tax_non_npwp', 120);
-
-  //       // pph21 nya
-  //       form.setValue('calculations.pph21_non_npwp', totalPPh21);
-
-  //       // total pph21
-  //       form.setValue('calculations.total_pph21_non_npwp', tarif * totalPPh21);
-  //       const totalPPh21NonNPWP = form.getValues(
-  //         'calculations.total_pph21_non_npwp'
-  //       );
-
-  //       // total pph21
-  //       form.setValue('result.total_salary', salary);
-  //       form.setValue('result.total_pph21', totalPPh21NonNPWP);
-  //       form.setValue('result.net_receipts', salary - totalPPh21);
-  //     }
-  //   };
-
-  //   // tarif 15%
-  //   const handleTariff15Percent = (pkp: number, salary: number) => {
-  //     // untuk tarif 5%
-  //     form.setValue('constants.tariff_chapter_17_5_percent', 5);
-
-  //     // range
-  //     form.setValue('calculations.pph21_chapter_17_5_percent', limit5);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_5_percent',
-  //       tariff5 * limit5
-  //     );
-
-  //     // untuk tarif 15%
-  //     form.setValue('constants.tariff_chapter_17_15_percent', 15);
-
-  //     // range
-  //     const rangeValue = pkp - limit5;
-  //     form.setValue('calculations.pph21_chapter_17_15_percent', rangeValue);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_15_percent',
-  //       tariff15 * rangeValue
-  //     );
-
-  //     const totalPPh5Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_5_percent'
-  //     );
-
-  //     const totalPPh15Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_15_percent'
-  //     );
-
-  //     const totalPPh21 = totalPPh5Percent + totalPPh15Percent;
-
-  //     // footer
-  //     form.setValue('result.total_salary', salary);
-  //     form.setValue('result.total_pph21', totalPPh21);
-  //     form.setValue('result.net_receipts', salary - totalPPh21);
-
-  //     if (!selectedEmployee?.npwp) {
-  //       // tarif
-  //       const tarif = 1.2;
-  //       form.setValue('constants.tariff_tax_non_npwp', 120);
-
-  //       // pph21 nya
-  //       form.setValue('calculations.pph21_non_npwp', totalPPh21);
-
-  //       // total pph21
-  //       form.setValue('calculations.total_pph21_non_npwp', tarif * totalPPh21);
-  //       const totalPPh21NonNPWP = form.getValues(
-  //         'calculations.total_pph21_non_npwp'
-  //       );
-
-  //       // total pph21
-  //       form.setValue('result.total_salary', salary);
-  //       form.setValue('result.total_pph21', totalPPh21NonNPWP);
-  //       form.setValue('result.net_receipts', salary - totalPPh21NonNPWP);
-  //     }
-  //   };
-
-  //   // tarif 25%
-  //   const handleTariff25Percent = (pkp: number, salary: number) => {
-  //     // untuk tarif 5%
-  //     form.setValue('constants.tariff_chapter_17_5_percent', 5);
-
-  //     // range
-  //     form.setValue('calculations.pph21_chapter_17_5_percent', limit5);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_5_percent',
-  //       tariff5 * limit5
-  //     );
-
-  //     // untuk tarif 15%
-  //     form.setValue('constants.tariff_chapter_17_15_percent', 15);
-
-  //     // range
-  //     form.setValue('calculations.pph21_chapter_17_15_percent', limit15);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_15_percent',
-  //       tariff15 * limit15
-  //     );
-
-  //     // untuk tarif 25%
-  //     form.setValue('constants.tariff_chapter_17_25_percent', 25);
-
-  //     // range
-  //     const rangeValue = pkp - limit15 - limit5;
-  //     form.setValue('calculations.pph21_chapter_17_25_percent', rangeValue);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_25_percent',
-  //       tariff25 * rangeValue
-  //     );
-
-  //     const totalPPh5Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_5_percent'
-  //     );
-  //     const totalPPh15Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_15_percent'
-  //     );
-  //     const totalPPh25Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_25_percent'
-  //     );
-  //     const totalPPh21 =
-  //       totalPPh5Percent + totalPPh15Percent + totalPPh25Percent;
-
-  //     // footer
-  //     form.setValue('result.total_salary', salary);
-  //     form.setValue('result.total_pph21', totalPPh21);
-  //     form.setValue('result.net_receipts', salary - totalPPh21);
-
-  //     if (!selectedEmployee?.npwp) {
-  //       // tarif
-  //       const tarif = 1.2;
-  //       form.setValue('constants.tariff_tax_non_npwp', 120);
-
-  //       // pph21 nya
-  //       form.setValue('calculations.pph21_non_npwp', totalPPh21);
-
-  //       // total pph21
-  //       form.setValue('calculations.total_pph21_non_npwp', tarif * totalPPh21);
-  //       const totalPPh21NonNPWP = form.getValues(
-  //         'calculations.total_pph21_non_npwp'
-  //       );
-
-  //       // total pph21
-  //       form.setValue('result.total_salary', salary);
-  //       form.setValue('result.total_pph21', totalPPh21NonNPWP);
-  //       form.setValue('result.net_receipts', salary - totalPPh21NonNPWP);
-  //     }
-  //   };
-
-  //   // tarif 30%
-  //   const handleTariff30Percent = (pkp: number, salary: number) => {
-  //     // untuk tarif 5%
-  //     form.setValue('constants.tariff_chapter_17_5_percent', 5);
-
-  //     // range
-  //     form.setValue('calculations.pph21_chapter_17_5_percent', limit5);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_5_percent',
-  //       tariff5 * limit5
-  //     );
-
-  //     // untuk tarif 15%
-  //     form.setValue('constants.tariff_chapter_17_15_percent', 15);
-
-  //     // range
-  //     form.setValue('calculations.pph21_chapter_17_15_percent', limit15);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_15_percent',
-  //       tariff15 * limit15
-  //     );
-
-  //     // untuk tarif 25%
-  //     form.setValue('constants.tariff_chapter_17_25_percent', 25);
-
-  //     // range
-  //     form.setValue('calculations.pph21_chapter_17_25_percent', limit25);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_25_percent',
-  //       tariff25 * limit25
-  //     );
-
-  //     // untuk tarif 30%
-  //     form.setValue('constants.tariff_chapter_17_30_percent', 30);
-
-  //     // range
-  //     const rangeValue = pkp - limit25 - limit15 - limit5;
-  //     form.setValue('calculations.pph21_chapter_17_30_percent', rangeValue);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_30_percent',
-  //       tariff30 * rangeValue
-  //     );
-
-  //     const totalPPh5Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_5_percent'
-  //     );
-  //     const totalPPh15Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_15_percent'
-  //     );
-  //     const totalPPh25Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_25_percent'
-  //     );
-  //     const totalPPh30Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_30_percent'
-  //     );
-  //     const totalPPh21 =
-  //       totalPPh5Percent +
-  //       totalPPh15Percent +
-  //       totalPPh25Percent +
-  //       totalPPh30Percent;
-
-  //     // footer
-  //     form.setValue('result.total_salary', salary);
-  //     form.setValue('result.total_pph21', totalPPh21);
-  //     form.setValue('result.net_receipts', salary - totalPPh21);
-
-  //     if (!selectedEmployee?.npwp) {
-  //       // tarif
-  //       const tarif = 1.2;
-  //       form.setValue('constants.tariff_tax_non_npwp', 120);
-
-  //       // pph21 nya
-  //       form.setValue('calculations.pph21_non_npwp', totalPPh21);
-
-  //       // total pph21
-  //       form.setValue('calculations.total_pph21_non_npwp', tarif * totalPPh21);
-  //       const totalPPh21NonNPWP = form.getValues(
-  //         'calculations.total_pph21_non_npwp'
-  //       );
-
-  //       // total pph21
-  //       form.setValue('result.total_salary', salary);
-  //       form.setValue('result.total_pph21', totalPPh21NonNPWP);
-  //       form.setValue('result.net_receipts', salary - totalPPh21NonNPWP);
-  //     }
-  //   };
-
-  //   // tarif 35%
-  //   const handleTariff35Percent = (pkp: number, salary: number) => {
-  //     // untuk tarif 5%
-  //     form.setValue('constants.tariff_chapter_17_5_percent', 5);
-
-  //     // range
-  //     form.setValue('calculations.pph21_chapter_17_5_percent', limit5);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_5_percent',
-  //       tariff5 * limit5
-  //     );
-
-  //     // untuk tarif 15%
-  //     form.setValue('constants.tariff_chapter_17_15_percent', 15);
-
-  //     // range
-  //     form.setValue('calculations.pph21_chapter_17_15_percent', limit15);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_15_percent',
-  //       tariff15 * limit15
-  //     );
-
-  //     // untuk tarif 25%
-  //     form.setValue('constants.tariff_chapter_17_25_percent', 25);
-
-  //     // range
-  //     form.setValue('calculations.pph21_chapter_17_25_percent', limit25);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_25_percent',
-  //       tariff25 * limit25
-  //     );
-
-  //     // untuk tarif 30%
-  //     form.setValue('constants.tariff_chapter_17_30_percent', 30);
-
-  //     // range
-  //     form.setValue('calculations.pph21_chapter_17_30_percent', limit30);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_30_percent',
-  //       tariff30 * limit30
-  //     );
-
-  //     // untuk tarif 35%
-  //     form.setValue('constants.tariff_chapter_17_35_percent', 35);
-
-  //     // range
-  //     const rangeValue = pkp - limit30 - limit25 - limit15 - limit5;
-  //     form.setValue('calculations.pph21_chapter_17_35_percent', rangeValue);
-
-  //     // total pph21
-  //     form.setValue(
-  //       'calculations.total_pph21_chapter_17_35_percent',
-  //       tariff35 * rangeValue
-  //     );
-
-  //     const totalPPh5Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_5_percent'
-  //     );
-  //     const totalPPh15Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_15_percent'
-  //     );
-  //     const totalPPh25Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_25_percent'
-  //     );
-  //     const totalPPh30Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_30_percent'
-  //     );
-  //     const totalPPh35Percent = form.getValues(
-  //       'calculations.total_pph21_chapter_17_35_percent'
-  //     );
-  //     const totalPPh21 =
-  //       totalPPh5Percent +
-  //       totalPPh15Percent +
-  //       totalPPh25Percent +
-  //       totalPPh30Percent +
-  //       totalPPh35Percent;
-
-  //     // footer
-  //     form.setValue('result.total_salary', salary);
-  //     form.setValue('result.total_pph21', totalPPh21);
-  //     form.setValue('result.net_receipts', salary - totalPPh21);
-
-  //     if (!selectedEmployee?.npwp) {
-  //       // tarif
-  //       const tarif = 1.2;
-  //       form.setValue('constants.tariff_tax_non_npwp', 120);
-
-  //       // pph21 nya
-  //       form.setValue('calculations.pph21_non_npwp', totalPPh21);
-
-  //       // total pph21
-  //       form.setValue('calculations.total_pph21_non_npwp', tarif * totalPPh21);
-  //       const totalPPh21NonNPWP = form.getValues(
-  //         'calculations.total_pph21_non_npwp'
-  //       );
-
-  //       // total pph21
-  //       form.setValue('result.total_salary', salary);
-  //       form.setValue('result.total_pph21', totalPPh21NonNPWP);
-  //       form.setValue('result.net_receipts', salary - totalPPh21NonNPWP);
-  //     }
-  //   };
-
-  //   const tes = form.getValues('result.total_salary');
-  //   console.log('result', tes);
-  //   // perhitungan tarif pasal 17
-  //   if (pkp <= 60000000) {
-  //     handleTariff5Percent(pkp, salary);
-  //     form.setValue('calculations.pph21_chapter_17_15_percent', 0);
-  //     form.setValue('calculations.pph21_chapter_17_25_percent', 0);
-  //     form.setValue('calculations.pph21_chapter_17_30_percent', 0);
-  //     form.setValue('calculations.pph21_chapter_17_35_percent', 0);
-  //     form.setValue('calculations.total_pph21_chapter_17_15_percent', 0);
-  //     form.setValue('calculations.total_pph21_chapter_17_25_percent', 0);
-  //     form.setValue('calculations.total_pph21_chapter_17_30_percent', 0);
-  //     form.setValue('calculations.total_pph21_chapter_17_35_percent', 0);
-  //   } else if (pkp > 60000000 && pkp <= 250000000) {
-  //     handleTariff15Percent(pkp, salary);
-  //     form.setValue('calculations.pph21_chapter_17_25_percent', 0);
-  //     form.setValue('calculations.pph21_chapter_17_30_percent', 0);
-  //     form.setValue('calculations.pph21_chapter_17_35_percent', 0);
-  //     form.setValue('calculations.total_pph21_chapter_17_25_percent', 0);
-  //     form.setValue('calculations.total_pph21_chapter_17_30_percent', 0);
-  //     form.setValue('calculations.total_pph21_chapter_17_35_percent', 0);
-  //   } else if (pkp > 250000000 && pkp <= 500000000) {
-  //     handleTariff25Percent(pkp, salary);
-  //     form.setValue('calculations.pph21_chapter_17_30_percent', 0);
-  //     form.setValue('calculations.pph21_chapter_17_35_percent', 0);
-  //     form.setValue('calculations.total_pph21_chapter_17_30_percent', 0);
-  //     form.setValue('calculations.total_pph21_chapter_17_35_percent', 0);
-  //   } else if (pkp > 500000000 && pkp <= 5000000000) {
-  //     handleTariff30Percent(pkp, salary);
-  //     form.setValue('calculations.pph21_chapter_17_35_percent', 0);
-  //     form.setValue('calculations.total_pph21_chapter_17_35_percent', 0);
-  //   } else {
-  //     handleTariff35Percent(pkp, salary);
-  //   }
-  // }, [pkpWatcher, grossSalaryWatcher, form, selectedEmployee]);
+  useEffect(() => {
+    const salary = grossSalaryWatcher;
+    const pkp = pkpWatcher;
+
+    // perhitungan tarif pasal 17
+    // tarif 5%
+    const handleTariff5Percent = (pkp: number, salary: number) => {
+      // tarifnya 5%
+      form.setValue('constants.tariff_chapter_17_5_percent', 5);
+
+      // range
+      const rangeValue = pkp;
+      form.setValue('calculations.pph21_chapter_17_5_percent', rangeValue);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_5_percent',
+        tariff5 * rangeValue
+      );
+      const totalPPh21 = form.getValues(
+        'calculations.total_pph21_chapter_17_5_percent'
+      );
+
+      form.setValue('result.total_salary', salary);
+      form.setValue('result.total_pph21', totalPPh21);
+      form.setValue('result.net_receipts', salary - totalPPh21);
+
+      if (!selectedEmployee?.npwp) {
+        // tarif
+        const tarif = 1.2;
+        form.setValue('constants.tariff_tax_non_npwp', 120);
+
+        // pph21 nya
+        form.setValue('calculations.pph21_non_npwp', totalPPh21);
+
+        // total pph21
+        form.setValue('calculations.total_pph21_non_npwp', tarif * totalPPh21);
+        const totalPPh21NonNPWP = form.getValues(
+          'calculations.total_pph21_non_npwp'
+        );
+
+        // total pph21
+        form.setValue('result.total_salary', salary);
+        form.setValue('result.total_pph21', totalPPh21NonNPWP);
+        form.setValue('result.net_receipts', salary - totalPPh21);
+      }
+    };
+
+    // tarif 15%
+    const handleTariff15Percent = (pkp: number, salary: number) => {
+      // untuk tarif 5%
+      form.setValue('constants.tariff_chapter_17_5_percent', 5);
+
+      // range
+      form.setValue('calculations.pph21_chapter_17_5_percent', limit5);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_5_percent',
+        tariff5 * limit5
+      );
+
+      // untuk tarif 15%
+      form.setValue('constants.tariff_chapter_17_15_percent', 15);
+
+      // range
+      const rangeValue = pkp - limit5;
+      form.setValue('calculations.pph21_chapter_17_15_percent', rangeValue);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_15_percent',
+        tariff15 * rangeValue
+      );
+
+      const totalPPh5Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_5_percent'
+      );
+
+      const totalPPh15Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_15_percent'
+      );
+
+      const totalPPh21 = totalPPh5Percent + totalPPh15Percent;
+
+      // footer
+      form.setValue('result.total_salary', salary);
+      form.setValue('result.total_pph21', totalPPh21);
+      form.setValue('result.net_receipts', salary - totalPPh21);
+
+      if (!selectedEmployee?.npwp) {
+        // tarif
+        const tarif = 1.2;
+        form.setValue('constants.tariff_tax_non_npwp', 120);
+
+        // pph21 nya
+        form.setValue('calculations.pph21_non_npwp', totalPPh21);
+
+        // total pph21
+        form.setValue('calculations.total_pph21_non_npwp', tarif * totalPPh21);
+        const totalPPh21NonNPWP = form.getValues(
+          'calculations.total_pph21_non_npwp'
+        );
+
+        // total pph21
+        form.setValue('result.total_salary', salary);
+        form.setValue('result.total_pph21', totalPPh21NonNPWP);
+        form.setValue('result.net_receipts', salary - totalPPh21NonNPWP);
+      }
+    };
+
+    // tarif 25%
+    const handleTariff25Percent = (pkp: number, salary: number) => {
+      // untuk tarif 5%
+      form.setValue('constants.tariff_chapter_17_5_percent', 5);
+
+      // range
+      form.setValue('calculations.pph21_chapter_17_5_percent', limit5);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_5_percent',
+        tariff5 * limit5
+      );
+
+      // untuk tarif 15%
+      form.setValue('constants.tariff_chapter_17_15_percent', 15);
+
+      // range
+      form.setValue('calculations.pph21_chapter_17_15_percent', limit15);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_15_percent',
+        tariff15 * limit15
+      );
+
+      // untuk tarif 25%
+      form.setValue('constants.tariff_chapter_17_25_percent', 25);
+
+      // range
+      const rangeValue = pkp - limit15 - limit5;
+      form.setValue('calculations.pph21_chapter_17_25_percent', rangeValue);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_25_percent',
+        tariff25 * rangeValue
+      );
+
+      const totalPPh5Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_5_percent'
+      );
+      const totalPPh15Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_15_percent'
+      );
+      const totalPPh25Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_25_percent'
+      );
+      const totalPPh21 =
+        totalPPh5Percent + totalPPh15Percent + totalPPh25Percent;
+
+      // footer
+      form.setValue('result.total_salary', salary);
+      form.setValue('result.total_pph21', totalPPh21);
+      form.setValue('result.net_receipts', salary - totalPPh21);
+
+      if (!selectedEmployee?.npwp) {
+        // tarif
+        const tarif = 1.2;
+        form.setValue('constants.tariff_tax_non_npwp', 120);
+
+        // pph21 nya
+        form.setValue('calculations.pph21_non_npwp', totalPPh21);
+
+        // total pph21
+        form.setValue('calculations.total_pph21_non_npwp', tarif * totalPPh21);
+        const totalPPh21NonNPWP = form.getValues(
+          'calculations.total_pph21_non_npwp'
+        );
+
+        // total pph21
+        form.setValue('result.total_salary', salary);
+        form.setValue('result.total_pph21', totalPPh21NonNPWP);
+        form.setValue('result.net_receipts', salary - totalPPh21NonNPWP);
+      }
+    };
+
+    // tarif 30%
+    const handleTariff30Percent = (pkp: number, salary: number) => {
+      // untuk tarif 5%
+      form.setValue('constants.tariff_chapter_17_5_percent', 5);
+
+      // range
+      form.setValue('calculations.pph21_chapter_17_5_percent', limit5);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_5_percent',
+        tariff5 * limit5
+      );
+
+      // untuk tarif 15%
+      form.setValue('constants.tariff_chapter_17_15_percent', 15);
+
+      // range
+      form.setValue('calculations.pph21_chapter_17_15_percent', limit15);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_15_percent',
+        tariff15 * limit15
+      );
+
+      // untuk tarif 25%
+      form.setValue('constants.tariff_chapter_17_25_percent', 25);
+
+      // range
+      form.setValue('calculations.pph21_chapter_17_25_percent', limit25);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_25_percent',
+        tariff25 * limit25
+      );
+
+      // untuk tarif 30%
+      form.setValue('constants.tariff_chapter_17_30_percent', 30);
+
+      // range
+      const rangeValue = pkp - limit25 - limit15 - limit5;
+      form.setValue('calculations.pph21_chapter_17_30_percent', rangeValue);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_30_percent',
+        tariff30 * rangeValue
+      );
+
+      const totalPPh5Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_5_percent'
+      );
+      const totalPPh15Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_15_percent'
+      );
+      const totalPPh25Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_25_percent'
+      );
+      const totalPPh30Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_30_percent'
+      );
+      const totalPPh21 =
+        totalPPh5Percent +
+        totalPPh15Percent +
+        totalPPh25Percent +
+        totalPPh30Percent;
+
+      // footer
+      form.setValue('result.total_salary', salary);
+      form.setValue('result.total_pph21', totalPPh21);
+      form.setValue('result.net_receipts', salary - totalPPh21);
+
+      if (!selectedEmployee?.npwp) {
+        // tarif
+        const tarif = 1.2;
+        form.setValue('constants.tariff_tax_non_npwp', 120);
+
+        // pph21 nya
+        form.setValue('calculations.pph21_non_npwp', totalPPh21);
+
+        // total pph21
+        form.setValue('calculations.total_pph21_non_npwp', tarif * totalPPh21);
+        const totalPPh21NonNPWP = form.getValues(
+          'calculations.total_pph21_non_npwp'
+        );
+
+        // total pph21
+        form.setValue('result.total_salary', salary);
+        form.setValue('result.total_pph21', totalPPh21NonNPWP);
+        form.setValue('result.net_receipts', salary - totalPPh21NonNPWP);
+      }
+    };
+
+    // tarif 35%
+    const handleTariff35Percent = (pkp: number, salary: number) => {
+      // untuk tarif 5%
+      form.setValue('constants.tariff_chapter_17_5_percent', 5);
+
+      // range
+      form.setValue('calculations.pph21_chapter_17_5_percent', limit5);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_5_percent',
+        tariff5 * limit5
+      );
+
+      // untuk tarif 15%
+      form.setValue('constants.tariff_chapter_17_15_percent', 15);
+
+      // range
+      form.setValue('calculations.pph21_chapter_17_15_percent', limit15);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_15_percent',
+        tariff15 * limit15
+      );
+
+      // untuk tarif 25%
+      form.setValue('constants.tariff_chapter_17_25_percent', 25);
+
+      // range
+      form.setValue('calculations.pph21_chapter_17_25_percent', limit25);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_25_percent',
+        tariff25 * limit25
+      );
+
+      // untuk tarif 30%
+      form.setValue('constants.tariff_chapter_17_30_percent', 30);
+
+      // range
+      form.setValue('calculations.pph21_chapter_17_30_percent', limit30);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_30_percent',
+        tariff30 * limit30
+      );
+
+      // untuk tarif 35%
+      form.setValue('constants.tariff_chapter_17_35_percent', 35);
+
+      // range
+      const rangeValue = pkp - limit30 - limit25 - limit15 - limit5;
+      form.setValue('calculations.pph21_chapter_17_35_percent', rangeValue);
+
+      // total pph21
+      form.setValue(
+        'calculations.total_pph21_chapter_17_35_percent',
+        tariff35 * rangeValue
+      );
+
+      const totalPPh5Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_5_percent'
+      );
+      const totalPPh15Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_15_percent'
+      );
+      const totalPPh25Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_25_percent'
+      );
+      const totalPPh30Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_30_percent'
+      );
+      const totalPPh35Percent = form.getValues(
+        'calculations.total_pph21_chapter_17_35_percent'
+      );
+      const totalPPh21 =
+        totalPPh5Percent +
+        totalPPh15Percent +
+        totalPPh25Percent +
+        totalPPh30Percent +
+        totalPPh35Percent;
+
+      // footer
+      form.setValue('result.total_salary', salary);
+      form.setValue('result.total_pph21', totalPPh21);
+      form.setValue('result.net_receipts', salary - totalPPh21);
+
+      if (!selectedEmployee?.npwp) {
+        // tarif
+        const tarif = 1.2;
+        form.setValue('constants.tariff_tax_non_npwp', 120);
+
+        // pph21 nya
+        form.setValue('calculations.pph21_non_npwp', totalPPh21);
+
+        // total pph21
+        form.setValue('calculations.total_pph21_non_npwp', tarif * totalPPh21);
+        const totalPPh21NonNPWP = form.getValues(
+          'calculations.total_pph21_non_npwp'
+        );
+
+        // total pph21
+        form.setValue('result.total_salary', salary);
+        form.setValue('result.total_pph21', totalPPh21NonNPWP);
+        form.setValue('result.net_receipts', salary - totalPPh21NonNPWP);
+      }
+    };
+
+    const tes = form.getValues('result.total_salary');
+    console.log('result', tes);
+    // perhitungan tarif pasal 17
+    if (pkp <= 60000000) {
+      handleTariff5Percent(pkp, salary);
+      form.setValue('calculations.pph21_chapter_17_15_percent', 0);
+      form.setValue('calculations.pph21_chapter_17_25_percent', 0);
+      form.setValue('calculations.pph21_chapter_17_30_percent', 0);
+      form.setValue('calculations.pph21_chapter_17_35_percent', 0);
+      form.setValue('calculations.total_pph21_chapter_17_15_percent', 0);
+      form.setValue('calculations.total_pph21_chapter_17_25_percent', 0);
+      form.setValue('calculations.total_pph21_chapter_17_30_percent', 0);
+      form.setValue('calculations.total_pph21_chapter_17_35_percent', 0);
+    } else if (pkp > 60000000 && pkp <= 250000000) {
+      handleTariff15Percent(pkp, salary);
+      form.setValue('calculations.pph21_chapter_17_25_percent', 0);
+      form.setValue('calculations.pph21_chapter_17_30_percent', 0);
+      form.setValue('calculations.pph21_chapter_17_35_percent', 0);
+      form.setValue('calculations.total_pph21_chapter_17_25_percent', 0);
+      form.setValue('calculations.total_pph21_chapter_17_30_percent', 0);
+      form.setValue('calculations.total_pph21_chapter_17_35_percent', 0);
+    } else if (pkp > 250000000 && pkp <= 500000000) {
+      handleTariff25Percent(pkp, salary);
+      form.setValue('calculations.pph21_chapter_17_30_percent', 0);
+      form.setValue('calculations.pph21_chapter_17_35_percent', 0);
+      form.setValue('calculations.total_pph21_chapter_17_30_percent', 0);
+      form.setValue('calculations.total_pph21_chapter_17_35_percent', 0);
+    } else if (pkp > 500000000 && pkp <= 5000000000) {
+      handleTariff30Percent(pkp, salary);
+      form.setValue('calculations.pph21_chapter_17_35_percent', 0);
+      form.setValue('calculations.total_pph21_chapter_17_35_percent', 0);
+    } else {
+      handleTariff35Percent(pkp, salary);
+    }
+  }, [pkpWatcher, grossSalaryWatcher, form, selectedEmployee]);
 
   useEffect(() => {
     if (periodMonth) {
@@ -534,8 +534,6 @@ export default function Periodic() {
     if (selectedEmployee) {
       form.setValue('employee_id', selectedEmployee.id);
       // form.setValue('constants.tariff_ter', selectedEmployee.ter?.percentage);
-
-      console.log(selectedEmployee);
     }
   }, [form, selectedEmployee]);
 

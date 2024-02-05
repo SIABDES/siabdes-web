@@ -31,6 +31,14 @@ import {
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { EditIcon, TrashIcon } from 'lucide-react';
+import {
+  formatEmployeeChildrenAmount,
+  formatEmployeeGender,
+  formatEmployeeMarriageStatus,
+  formatEmployeeNPWPStatus,
+  formatEmployeeStatus,
+  formatEmployeeType,
+} from '@/common/helpers/employee-format';
 
 export default function DetailEmployees({
   params,
@@ -127,119 +135,124 @@ export default function DetailEmployees({
 
       <div>
         {isFetched && details && (
-          <div className="inline-flex justify-between items-center w-full pb-8 pt-4">
-            <table>
-              <tbody>
-                <tr>
-                  <td className="text-sm font-medium min-w-[12rem]">
-                    Nama Karyawan:
-                  </td>
-                  <td className="text-sm">{details.name}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div>
+            <div className="inline-flex justify-between items-center w-full pb-8 pt-4">
+              <table>
+                <tbody>
+                  <tr>
+                    <td className="text-sm font-medium min-w-[12rem]">
+                      Nama Karyawan:
+                    </td>
+                    <td className="text-sm">{details.name}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="flex flex-col h-screen">
+              <div className="flex-grow overflow-auto">
+                <Table className="relative w-full">
+                  <TableHeader className="border border-black">
+                    <TableRow className="border border-black">
+                      <TableCell className="sticky top-0 px-6 py-3 font-bold text-center border border-black">
+                        Informasi
+                      </TableCell>
+                      <TableCell className="sticky top-0 px-6 py-3 font-bold text-center border border-black">
+                        Data
+                      </TableCell>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody className="divide-y border border-black">
+                    <TableRow className="border border-black">
+                      <TableCell className="px-6 py-4 border border-black">
+                        Nama Lengkap
+                      </TableCell>
+                      <TableCell className="px-6 py-4 border border-black">
+                        {details?.name}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="border border-black">
+                      <TableCell className="px-6 py-4 border border-black">
+                        Nomor Induk Kependudukan (NIK)
+                      </TableCell>
+                      <TableCell className="px-6 py-4 border border-black">
+                        {details?.nik}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="border border-black">
+                      <TableCell className="px-6 py-4 border border-black">
+                        Nomor Pokok Wajib Pajak (NPWP)
+                      </TableCell>
+                      <TableCell className="px-6 py-4 border border-black">
+                        {details?.npwp}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="border border-black">
+                      <TableCell className="px-6 py-4 border border-black">
+                        Status Tenaga Kerja
+                      </TableCell>
+                      <TableCell className="px-6 py-4 border border-black">
+                        {/* {details?.employee_status === 'NEW'
+                          ? 'Karyawan Baru'
+                          : 'Karyawan Lama'} */}
+                        {formatEmployeeStatus(details?.employee_status)}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="border border-black">
+                      <TableCell className="px-6 py-4 border border-black">
+                        Bulan Mulai Bekerja
+                      </TableCell>
+                      <TableCell className="px-6 py-4 border border-black">
+                        {formatDateToString(details?.start_working_at)}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="border border-black">
+                      <TableCell className="px-6 py-4 border border-black">
+                        Jenis Kelamin
+                      </TableCell>
+                      <TableCell className="px-6 py-4 border border-black">
+                        {formatEmployeeGender(details?.gender)}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="border border-black">
+                      <TableCell className="px-6 py-4 border border-black">
+                        Status Perkawinan
+                      </TableCell>
+                      <TableCell className="px-6 py-4 border border-black">
+                        {formatEmployeeMarriageStatus(details.marriage_status)}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="border border-black">
+                      <TableCell className="px-6 py-4 border border-black">
+                        Status Nomor Pokok Wajib Pajak (NPWP)
+                      </TableCell>
+                      <TableCell className="px-6 py-4 border border-black">
+                        {formatEmployeeNPWPStatus(details?.npwp_status)}
+                        ini masih belum ada di database
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="border border-black">
+                      <TableCell className="px-6 py-4 border border-black">
+                        Jumlah Tanggungan
+                      </TableCell>
+                      <TableCell className="px-6 py-4 border border-black">
+                        {formatEmployeeChildrenAmount(details?.children_amount)}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="border border-black">
+                      <TableCell className="px-6 py-4 border border-black">
+                        Jenis Tenaga Kerja
+                      </TableCell>
+                      <TableCell className="px-6 py-4 border border-black">
+                        {formatEmployeeType(details?.employee_type)}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
           </div>
         )}
-
-        <div className="flex flex-col h-screen">
-          <div className="flex-grow overflow-auto">
-            <Table className="relative w-full">
-              <TableHeader className="border border-black">
-                <TableRow className="border border-black">
-                  <TableCell className="sticky top-0 px-6 py-3 font-bold text-center border border-black">
-                    Informasi
-                  </TableCell>
-                  <TableCell className="sticky top-0 px-6 py-3 font-bold text-center border border-black">
-                    Data
-                  </TableCell>
-                </TableRow>
-              </TableHeader>
-              <TableBody className="divide-y border border-black">
-                <TableRow className="border border-black">
-                  <TableCell className="px-6 py-4 border border-black">
-                    Nama Lengkap
-                  </TableCell>
-                  <TableCell className="px-6 py-4 border border-black">
-                    {details?.name}
-                  </TableCell>
-                </TableRow>
-                <TableRow className="border border-black">
-                  <TableCell className="px-6 py-4 border border-black">
-                    Jenis Kelamin
-                  </TableCell>
-                  <TableCell className="px-6 py-4 border border-black">
-                    {details?.gender}
-                  </TableCell>
-                </TableRow>
-                <TableRow className="border border-black">
-                  <TableCell className="px-6 py-4 border border-black">
-                    Nomor Induk Kependudukan (NIK)
-                  </TableCell>
-                  <TableCell className="px-6 py-4 border border-black">
-                    {details?.nik}
-                  </TableCell>
-                </TableRow>
-                <TableRow className="border border-black">
-                  <TableCell className="px-6 py-4 border border-black">
-                    Nomor Pokok Wajib Pajak (NPWP)
-                  </TableCell>
-                  <TableCell className="px-6 py-4 border border-black">
-                    {details?.npwp}
-                  </TableCell>
-                </TableRow>
-                <TableRow className="border border-black">
-                  <TableCell className="px-6 py-4 border border-black">
-                    Status Nomor Pokok Wajib Pajak (NPWP)
-                  </TableCell>
-                  <TableCell className="px-6 py-4 border border-black">
-                    {details?.npwp_status}
-                  </TableCell>
-                </TableRow>
-                <TableRow className="border border-black">
-                  <TableCell className="px-6 py-4 border border-black">
-                    Status Perkawinan
-                  </TableCell>
-                  <TableCell className="px-6 py-4 border border-black">
-                    {details?.marriage_status}
-                  </TableCell>
-                </TableRow>
-                <TableRow className="border border-black">
-                  <TableCell className="px-6 py-4 border border-black">
-                    Jumlah Tanggungan
-                  </TableCell>
-                  <TableCell className="px-6 py-4 border border-black">
-                    {details?.children_amount}
-                  </TableCell>
-                </TableRow>
-                <TableRow className="border border-black">
-                  <TableCell className="px-6 py-4 border border-black">
-                    Status Tenaga Kerja
-                  </TableCell>
-                  <TableCell className="px-6 py-4 border border-black">
-                    {details?.employee_status}
-                  </TableCell>
-                </TableRow>
-                <TableRow className="border border-black">
-                  <TableCell className="px-6 py-4 border border-black">
-                    Jenis Tenaga Kerja
-                  </TableCell>
-                  <TableCell className="px-6 py-4 border border-black">
-                    {details?.employee_type}
-                  </TableCell>
-                </TableRow>
-                <TableRow className="border border-black">
-                  <TableCell className="px-6 py-4 border border-black">
-                    Bulan Mulai Bekerja
-                  </TableCell>
-                  <TableCell className="px-6 py-4 border border-black">
-                    {/* {formatDateToString(details?.start_working_at)} */}
-                    {details?.start_working_at}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
-        </div>
       </div>
     </Layout>
   );

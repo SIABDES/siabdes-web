@@ -2,17 +2,17 @@ import {
   formatNumber,
   reverseFormat,
   reverseFormatNumber,
-} from "@/common/helpers/number-format";
+} from '@/common/helpers/number-format';
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { ComponentProps } from "react";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { ComponentProps } from 'react';
 
 type TransformType = {
   input: (value: any) => string;
@@ -20,15 +20,15 @@ type TransformType = {
 };
 
 interface FormNumberInputProps<TFormType extends Record<string, any>>
-  extends Omit<ComponentProps<typeof FormField<TFormType>>, "render"> {
+  extends Omit<ComponentProps<typeof FormField<TFormType>>, 'render'> {
   label?: string;
   className?: string;
   placeholder?: string;
   transform?: TransformType;
-  render?: ComponentProps<typeof FormField<TFormType>>["render"];
+  render?: ComponentProps<typeof FormField<TFormType>>['render'];
   readonly?: boolean;
   border?: boolean;
-  variant?: "inline" | "horizontal";
+  variant?: 'inline' | 'horizontal';
 }
 
 export default function FormNumberInput<TFormType extends Record<string, any>>({
@@ -37,11 +37,11 @@ export default function FormNumberInput<TFormType extends Record<string, any>>({
   label,
   placeholder,
   readonly,
-  variant = "horizontal",
+  variant = 'horizontal',
   border = true,
   transform = {
     input: (value) => {
-      return isNaN(value) ? "" : formatNumber(value);
+      return isNaN(value) ? '' : formatNumber(value);
     },
     output: (event) => {
       const unformattedValue = reverseFormat(event.target.value);
@@ -64,7 +64,7 @@ export default function FormNumberInput<TFormType extends Record<string, any>>({
           return (
             <FormItem
               className={cn(
-                variant === "inline" && "grid grid-cols-2 items-center gap-x-2",
+                variant === 'inline' && 'grid grid-cols-2 items-center gap-x-2',
                 className
               )}
             >
@@ -82,8 +82,8 @@ export default function FormNumberInput<TFormType extends Record<string, any>>({
                   value={transform.input(value)}
                   readOnly={readonly}
                   className={cn(
-                    border && "border border-gray-400",
-                    label === undefined && "col-span-2"
+                    border && 'border border-gray-400',
+                    label === undefined && 'col-span-2'
                   )}
                   {...fieldProps}
                 />

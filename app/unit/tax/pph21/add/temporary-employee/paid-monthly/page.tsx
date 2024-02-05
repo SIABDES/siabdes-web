@@ -2,7 +2,7 @@
 
 import Layout from '@/components/layout/layout';
 import EmployeeData12Months from '@/components/pages/pph21/general/employee-data-12-months';
-import LaborData from '@/components/pages/pph21/general/labor-data';
+import Pph21EmployeeData from '@/components/pages/pph21/general/pph21-employee-data';
 import TemporaryEmployeeMonthlyGrossIncome from '@/components/pages/pph21/temporary-employee/paid-monthly/gross_income';
 import TemporaryEmployeeGrossIncome from '@/components/pages/pph21/temporary-employee/paid-monthly/gross_income';
 import TemporaryEmployeeMonthlyPPh21Calculation from '@/components/pages/pph21/temporary-employee/paid-monthly/pph21-calculation';
@@ -39,7 +39,9 @@ import React, { use, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function PaidMonthly() {
-  const [periodMonth, setPeriodMonth] = useState<Pph21TaxPeriodMonth>();
+  const [periodMonth, setPeriodMonth] = useState<Pph21TaxPeriodMonth>(
+    Pph21TaxPeriodMonth.JANUARY
+  );
 
   const { data: getEmployees, isLoading: isGetEmployeesLoading } =
     useGetEmployees();
@@ -127,7 +129,7 @@ export default function PaidMonthly() {
       form.setValue('result.total_pph21', totalPph21NonNpwp);
       form.setValue('result.net_receipts', grossSalary - totalPph21NonNpwp);
     }
-  }, [dailySalaryWatcher, workingDaysWatcher, form]);
+  }, [dailySalaryWatcher, workingDaysWatcher, form, selectedEmployee]);
 
   useEffect(() => {
     if (periodMonth) {
@@ -214,13 +216,22 @@ export default function PaidMonthly() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               {/* <LaborData form={form} /> */}
-              <EmployeeData12Months
+              <Pph21EmployeeData
+                selectedEmployee={selectedEmployee}
+                setSelectedEmployee={setSelectedEmployee}
+                getEmployees={getEmployees}
+                isGetEmployeesLoading={isGetEmployeesLoading}
+                setPeriodMonth={setPeriodMonth}
+                periodMonth={periodMonth}
+                defaultPeriodMonth={Pph21TaxPeriodMonth.JANUARY}
+              />
+              {/* <EmployeeData12Months
                 selectedEmployee={selectedEmployee}
                 setSelectedEmployee={setSelectedEmployee}
                 getEmployees={getEmployees}
                 isGetEmployeesLoading={isGetEmployeesLoading}
                 setPeriod={setPeriodMonth}
-              />
+              /> */}
               <div className="grid grid-cols-9 gap-x-12 gap-y-8 mt-9">
                 <TemporaryEmployeeMonthlyGrossIncome form={form} />
                 <TemporaryEmployeeMonthlyPPh21Calculation form={form} />

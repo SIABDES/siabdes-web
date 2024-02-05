@@ -51,11 +51,12 @@ import { format } from 'path';
 import { useRouter } from 'next/navigation';
 import useAddEmployee from '@/hooks/employee/useAddEmployee';
 import { toast } from '@/components/ui/use-toast';
-import { AxiosError } from 'axios';
 import { DatePicker } from '@/components/ui/date-picker';
+import { AxiosError } from 'axios';
 import { string } from 'zod';
 import { Value } from '@radix-ui/react-select';
 import { UndoIcon } from 'lucide-react';
+import { maxHeaderSize } from 'http';
 
 export default function Add() {
   const router = useRouter();
@@ -183,6 +184,7 @@ export default function Add() {
                           className="border border-gray-400"
                           placeholder="Masukkan NIK"
                           {...field}
+                          maxLength={16}
                         />
                       </FormControl>
                       <FormMessage />
@@ -207,14 +209,15 @@ export default function Add() {
                               : '00.000.000-0.000.000'
                           }
                           // value={
-                          //   existenceNPWP === 'tidak'
-                          //     ? undefined
-                          //     : formatNPWP(String(field.value))
+                          //   existenceNPWP === 'tidak' ? '' : form.watch('npwp')
                           // }
                           value={
-                            existenceNPWP === 'tidak' ? '' : form.watch('npwp')
+                            existenceNPWP === 'tidak'
+                              ? ''
+                              : formatNPWP(String(field.value))
                           }
                           disabled={existenceNPWP === 'tidak'}
+                          maxLength={20}
                         />
                       </FormControl>
                       <div></div>
@@ -302,6 +305,10 @@ export default function Add() {
                           placeholder="Pilih bulan mulai bekerja"
                           date={field.value}
                           setDate={field.onChange}
+                          disablePreviousYears={
+                            form.watch('employee_status') ===
+                            EmployeesStatus.KARYAWAN_BARU
+                          }
                         />
                       </FormControl>
                       <FormMessage />

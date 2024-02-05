@@ -17,6 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { formatEmployeeType } from '@/common/helpers/employee-format';
 
 export default function Employees() {
   const router = useRouter();
@@ -135,7 +136,7 @@ export default function Employees() {
                   <TableCell className="px-6 py-4">{employee.name}</TableCell>
                   <TableCell className="px-6 py-4">{employee.nik}</TableCell>
                   <TableCell className="px-6 py-4">
-                    {employee.employee_type}
+                    {formatEmployeeType(employee.employee_type)}
                   </TableCell>
                 </TableRow>
               ))}
