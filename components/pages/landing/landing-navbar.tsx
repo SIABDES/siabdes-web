@@ -35,8 +35,7 @@ export default function LandingNavbar() {
           </div>
         </div>
 
-        {/* Sementara disembuyikan */}
-        <div className="inline-flex gap-x-4 invisible">
+        <div className="inline-flex gap-x-4">
           {authStatus === "authenticated" ? (
             <>
               {session.user.role === "BUMDES" && (
