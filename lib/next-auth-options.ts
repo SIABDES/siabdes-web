@@ -39,8 +39,6 @@ export const authOptions: NextAuthOptions = {
             backendTokens,
           };
         } catch (error) {
-          console.log("error");
-
           if (error instanceof AxiosError) {
             if (error.response?.status === 403)
               throw new Error("Kredensial atau password salah");

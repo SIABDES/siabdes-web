@@ -1,24 +1,15 @@
-'use client';
+"use client";
 
-import Layout from '@/components/layout/layout';
-import React, { useMemo, useState } from 'react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import ClikableTable from '@/components/table/clickable-table';
-import TablePPN from '@/components/pages/tax/ppn/tabe-ppn';
-import { set } from 'date-fns';
-import { formatNumber, formatRupiah } from '@/common/helpers/number-format';
-import { useRouter } from 'next/navigation';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  Command,
-  CommandEmpty,
-  CommandInput,
-  CommandList,
-} from '@/components/ui/command';
-import { CalendarDateRangePicker } from '@/components/date-range-picker';
-import { DateRange } from 'react-day-picker';
-import useGetPPN from '@/hooks/ppn/useGetPPN';
+import { formatDateToString } from "@/common/helpers/date";
+import { formatRupiah } from "@/common/helpers/number-format";
+import { formatPPNtaxObject } from "@/common/helpers/ppn-format";
+import { CalendarDateRangePicker } from "@/components/date-range-picker";
+import Layout from "@/components/layout/layout";
+import PPNOverviewCard from "@/components/pages/tax/ppn/overview-card";
+import { Button } from "@/components/ui/button";
+import { Command, CommandInput, CommandList } from "@/components/ui/command";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -26,14 +17,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableFooter,
-} from '@/components/ui/table';
-import { Skeleton } from '@/components/ui/skeleton';
-import { formatDateToString } from '@/common/helpers/date';
-import { formatPPNtaxObject } from '@/common/helpers/ppn-format';
-import useGetPPNDetails from '@/hooks/ppn/useGetPPNDetails';
-import Details from './[ppn_id]/details/page';
-import PPNOverviewCard from '@/components/pages/tax/ppn/overview-card';
+} from "@/components/ui/table";
+import useGetPPN from "@/hooks/ppn/useGetPPN";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useMemo } from "react";
+import { DateRange } from "react-day-picker";
 
 export default function PPN() {
   const { data, isLoading } = useGetPPN();
@@ -57,7 +46,7 @@ export default function PPN() {
   const sumIncome = useMemo(() => {
     return (
       ppn
-        ?.filter((ppn) => ppn.transaction_type === 'PURCHASE')
+        ?.filter((ppn) => ppn.transaction_type === "PURCHASE")
         .reduce((sum, ppn) => sum + ppn.total_ppn, 0) || 0
     );
   }, [ppn]);
@@ -65,7 +54,7 @@ export default function PPN() {
   const sumOutcome = useMemo(() => {
     return (
       ppn
-        ?.filter((ppn) => ppn.transaction_type === 'SALES')
+        ?.filter((ppn) => ppn.transaction_type === "SALES")
         .reduce((sum, ppn) => sum + ppn.total_ppn, 0) || 0
     );
   }, [ppn]);
@@ -93,7 +82,7 @@ export default function PPN() {
         />
         <PPNOverviewCard
           title={`Total PPN (${
-            totalPPN >= 0 ? 'Kurang Bayar' : 'Lebih Bayar'
+            totalPPN >= 0 ? "Kurang Bayar" : "Lebih Bayar"
           })`}
           mainText={formatRupiah(totalPPN)}
         />
@@ -114,7 +103,7 @@ export default function PPN() {
             <Button>Tambah PPN</Button>
           </Link>
           <Link href="/unit/tax/report/ppn">
-            <Button variant={'outline'}>Cetak Keseluruhan</Button>
+            <Button variant={"outline"}>Cetak Keseluruhan</Button>
           </Link>
         </div>
       </div>
@@ -176,7 +165,7 @@ export default function PPN() {
                     )}
 
                     {ppn
-                      ?.filter((ppn) => ppn.transaction_type === 'PURCHASE')
+                      ?.filter((ppn) => ppn.transaction_type === "PURCHASE")
                       .map((ppn, index) => (
                         <TableRow
                           key={ppn.id}
@@ -273,7 +262,7 @@ export default function PPN() {
                     )}
 
                     {ppn
-                      ?.filter((ppn) => ppn.transaction_type === 'SALES')
+                      ?.filter((ppn) => ppn.transaction_type === "SALES")
                       .map((ppn, index) => (
                         <TableRow
                           key={ppn.id}

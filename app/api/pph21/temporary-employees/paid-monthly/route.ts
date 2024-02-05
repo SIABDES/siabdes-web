@@ -1,20 +1,20 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { AxiosAuthed } from '@/common/api';
-import { EMPLOYEES_PPH21 } from '@/common/api/urls';
-import { EmployeesType } from '@/types/employees/employees';
-import { PPh21PostPayloadRequest } from '@/types/pph21/request';
+import { AxiosAuthed } from "@/common/api";
+import { EMPLOYEES_PPH21 } from "@/common/api/urls";
+import { authOptions } from "@/lib/next-auth-options";
+import { EmployeesType } from "@/types/employees/employees";
+import { PPh21PostPayloadRequest } from "@/types/pph21/request";
 import {
   NonPermanentEmployeeFormData,
   NonPermanentEmployeeGrossSalaryUnionFormData,
-} from '@/types/pph21/temporary-employee/temporary-employee';
-import { AxiosError } from 'axios';
-import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
+} from "@/types/pph21/temporary-employee/temporary-employee";
+import { AxiosError } from "axios";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  const loginUrl = new URL('/auth/login', req.url);
+  const loginUrl = new URL("/auth/login", req.url);
 
   if (!session) {
     return NextResponse.redirect(loginUrl);
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
   if (!session.user.unitId) {
     return NextResponse.json(
       {
-        message: 'User does not have unitId',
+        message: "User does not have unitId",
       },
       { status: 401 }
     );

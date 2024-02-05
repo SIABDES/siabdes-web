@@ -29,13 +29,12 @@ import { PermanentEmployeeFormData } from '@/types/pph21/permanent-employee/perm
 import {
   NonPermanentEmployeeMonthlyFormData,
   NonPermanentEmployeeMonthlyScema,
-  NonPermanentEmployeeNotMonthlyFormData,
 } from '@/types/pph21/temporary-employee/temporary-employee';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function PaidMonthly() {

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -H 0.0.0.0 -p 3000",
     "lint": "next lint"
   },
   "dependencies": {
@@ -40,7 +40,6 @@
     "clsx": "^2.1.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
-    "faker": "^6.6.6",
     "framer-motion": "^10.16.9",
     "jose": "^5.2.0",
     "jsonwebtoken": "^9.0.2",
@@ -64,6 +63,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.0",
+    "@hookform/devtools": "^4.3.1",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^5.17.20",
     "@types/node": "^20",

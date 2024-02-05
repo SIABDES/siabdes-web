@@ -1,7 +1,8 @@
+import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { toast } from "@/components/ui/use-toast";
 import { Employee } from "@/types/employees/employees";
 import {
-  PPh21EmployeeBaseFormData,
   PPh21EmployeeUnionFormData,
   Pph21TaxPeriodMonth,
 } from "@/types/pph21/general";
@@ -10,6 +11,7 @@ import {
   PermanentEmployeeDecemberSchema,
 } from "@/types/pph21/permanent-employee/permanent-employee";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useMemo, useState } from "react";
 import { UseFormReturn, useForm } from "react-hook-form";
 import Results from "../../general/results";
 import GrossIncomeDes from "./gross-income";
@@ -17,9 +19,6 @@ import NetCalculation from "./net-calculation";
 import PKPCalculation from "./pkp-calculation";
 import PPh21Calculation from "./pph21-calculation";
 import PPh21CutInDecember from "./pph21-cut-in-december";
-import { useEffect } from "react";
-import { toast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
 
 interface PermanentEmployeeDesProps {
   selectedEmployee: Employee | undefined;
@@ -30,8 +29,10 @@ export default function PermanentEmployeeDes({
   selectedEmployee,
   periodMonth,
 }: PermanentEmployeeDesProps) {
+  const [formDisabled, setFormDisabled] = useState(true);
   const form = useForm<PermanentEmployeeDecemberFormData>({
     resolver: zodResolver(PermanentEmployeeDecemberSchema),
+    disabled: formDisabled,
     defaultValues: {
       employee_id: "",
       result: {
@@ -69,28 +70,31 @@ export default function PermanentEmployeeDes({
       },
     },
   });
+  const { setValue, formState, reset, watch } = form;
 
   useEffect(() => {
     if (selectedEmployee) {
-      form.setValue("employee_id", selectedEmployee.id);
-      form.setValue(
+      reset();
+      setValue("employee_id", selectedEmployee.id);
+      setValue(
         "pkp_calculations.non_taxable_income",
         selectedEmployee.ptkp.boundary_salary
       );
+      setFormDisabled(false);
     }
-  }, [form, selectedEmployee]);
+  }, [reset, selectedEmployee, setValue]);
 
   useEffect(() => {
-    if (form.formState.errors.root) {
+    if (formState.errors.root) {
       toast({
         title: "Kesalahan Input",
         description: "Mohon periksa kembali data yang anda masukkan",
         variant: "destructive",
       });
     }
-  }, [form.formState.errors]);
+  }, [formState.errors]);
 
-  const grossSalaryWatcher = form.watch([
+  const grossSalaryWatcher = watch([
     "gross_salary.gross_total_before_december",
     "gross_salary.salary",
     "gross_salary.allowance",
@@ -100,37 +104,36 @@ export default function PermanentEmployeeDes({
     "gross_salary.assurance",
   ]);
 
-  const netCalculationWatcher = form.watch([
+  const netCalculationWatcher = watch([
     "net_calculations.annual_fee",
     "net_calculations.assurance",
     "net_calculations.position_allowance",
   ]);
 
+  const totalGrossDecember = useMemo(() => {
+    return Object.values(grossSalaryWatcher).reduce(
+      (acc, curr) => acc + curr,
+      0
+    );
+  }, [grossSalaryWatcher]);
+
+  const totalNetCalculation = useMemo(() => {
+    return Object.values(netCalculationWatcher).reduce(
+      (acc, curr) => acc + curr,
+      0
+    );
+  }, [netCalculationWatcher]);
+
   useEffect(() => {
-    const totalGrossDecember = Object.values(grossSalaryWatcher).reduce(
-      (acc, curr) => acc + curr,
-      0
-    );
-
-    form.setValue("result.total_salary", totalGrossDecember);
-  }, [form, grossSalaryWatcher]);
+    setValue("result.total_salary", totalGrossDecember);
+  }, [setValue, totalGrossDecember]);
 
   useEffect(() => {
-    const totalGrossDecember = Object.values(grossSalaryWatcher).reduce(
-      (acc, curr) => acc + curr,
-      0
-    );
-
-    const totalNetCalculation = Object.values(netCalculationWatcher).reduce(
-      (acc, curr) => acc + curr,
-      0
-    );
-
-    form.setValue(
+    setValue(
       "net_calculations.net_income",
       totalGrossDecember - totalNetCalculation
     );
-  }, [form, grossSalaryWatcher, netCalculationWatcher]);
+  }, [setValue, totalGrossDecember, totalNetCalculation]);
 
   const onSubmit = async (data: PermanentEmployeeDecemberFormData) => {
     if (!data.employee_id) {
@@ -139,25 +142,32 @@ export default function PermanentEmployeeDes({
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-2 gap-x-9 mt-8">
-          <GrossIncomeDes form={form} />
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="grid grid-cols-2 gap-x-9 mt-8">
+            <GrossIncomeDes form={form} />
 
-          <div className="space-y-9">
-            <NetCalculation form={form} />
-            <PKPCalculation form={form} />
+            <div className="space-y-9">
+              <NetCalculation form={form} />
+              <PKPCalculation form={form} />
+            </div>
           </div>
-        </div>
 
-        <PPh21Calculation form={form} />
+          <PPh21Calculation form={form} />
 
-        <PPh21CutInDecember form={form} />
+          <PPh21CutInDecember form={form} />
 
-        <Results form={form as UseFormReturn<PPh21EmployeeUnionFormData>} />
+          <Results form={form as UseFormReturn<PPh21EmployeeUnionFormData>} />
 
-        <Button type="submit">Simpan</Button>
-      </form>
-    </Form>
+          <Button
+            type="submit"
+            disabled={!formState.isValid || form.formState.isSubmitting}
+          >
+            Simpan
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }
