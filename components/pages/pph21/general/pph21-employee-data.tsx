@@ -2,6 +2,7 @@
 
 import { AxiosClientSide } from "@/common/api";
 import { formatNumber } from "@/common/helpers/number-format";
+import PatanCombobox from "@/components/patan-ui/form/patan-combobox";
 import { Card, CardContent } from "@/components/ui/card";
 import { ComboBox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
@@ -59,7 +60,6 @@ export default function Pph21EmployeeData({
       toast({
         title: "Berhasil mengambil data pegawai",
         description: `Pegawai '${selectedEmployee.name}' telah dipilih...`,
-        duration: 5000,
       });
     }
   }, [onEmployeeSelected, selectedEmployee]);
@@ -78,9 +78,8 @@ export default function Pph21EmployeeData({
       if (error instanceof AxiosError) {
         if (error.response?.status === 404) {
           toast({
-            title: "Data pegawai tidak ditemukan...",
+            title: "Gagal mengambil data pegawai",
             description: "Data pegawai tidak ditemukan...",
-            duration: 5000,
             variant: "destructive",
           });
         }
@@ -88,9 +87,8 @@ export default function Pph21EmployeeData({
       }
 
       toast({
-        title: "Gagal mengambil data pegawai...",
+        title: "Gagal mengambil data pegawai",
         description: "Terjadi kesalahan saat mengambil data pegawai...",
-        duration: 5000,
         variant: "destructive",
       });
     }
@@ -115,19 +113,24 @@ export default function Pph21EmployeeData({
         <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-6">
           <div className="w-full flex gap-y-4 flex-col">
             <Label>Nomor Induk Kependudukan (NIK)</Label>
-            <ComboBox
+            <PatanCombobox
+              data={getEmployees?.data.employees ?? []}
               isLoading={isGetEmployeesLoading}
-              items={
-                getEmployees?.data.employees.map((employee) => ({
-                  label: `${employee.name} (${employee.nik})`,
-                  value: employee.id,
-                })) ?? []
-              }
-              setValue={handleSelectEmployee}
+              itemBuilder={(employee) => ({
+                key: employee.id,
+                label: `${employee.name} (${employee.nik})`,
+                value: employee.id,
+              })}
               value={selectedEmployee?.id}
+              onSelect={(employee) => {
+                handleSelectEmployee(employee.value);
+              }}
+              disabled={isGetEmployeesLoading}
+              closeOnSelect
+              placeholder="Pilih pegawai..."
+              triggerPlaceholderText="Pilih pegawai..."
+              loadingText="Mengambil data pegawai..."
               notFoundText="Data pegawai tidak ditemukan..."
-              className="w-full"
-              height="medium"
             />
           </div>
 
@@ -143,7 +146,7 @@ export default function Pph21EmployeeData({
                 }
               }}
               defaultValue={Pph21TaxPeriodMonth.JANUARY.toString()}
-              disabled={periodMonthDisabled}
+              disabled={isGetEmployeesLoading || periodMonthDisabled}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih bulan masa pajak..." />

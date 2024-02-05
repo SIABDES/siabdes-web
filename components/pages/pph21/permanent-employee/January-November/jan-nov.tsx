@@ -1,25 +1,24 @@
-import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
-import {
-  PermanentEmployeeBeforeDecemberFormData,
-  PermanentEmployeeBeforeDecemberSchema,
-} from '@/types/pph21/permanent-employee/permanent-employee';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { UseFormReturn, useForm } from 'react-hook-form';
-import Results from '../../general/results';
-import GrossIncome from './gross_income';
-import PPh21Calculation from './pph21-calculation';
-import { Employee } from '@/types/employees/employees';
-import { useCallback, useEffect } from 'react';
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import { toast } from "@/components/ui/use-toast";
+import useAddPph21PermanentEmployee from "@/hooks/pph21/useAddPph21PermanentEmployee";
+import { Employee } from "@/types/employees/employees";
 import {
   PPh21EmployeeUnionFormData,
   Pph21TaxPeriodMonth,
-} from '@/types/pph21/general';
-import { AxiosClientSide } from '@/common/api';
-import useAddPph21PermanentEmployee from '@/hooks/pph21/useAddPph21PermanentEmployee';
-import { AxiosError } from 'axios';
-import { toast } from '@/components/ui/use-toast';
-import { useRouter } from 'next/navigation';
+} from "@/types/pph21/general";
+import {
+  PermanentEmployeeBeforeDecemberFormData,
+  PermanentEmployeeBeforeDecemberSchema,
+} from "@/types/pph21/permanent-employee/permanent-employee";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { UseFormReturn, useForm } from "react-hook-form";
+import Results from "../../general/results";
+import GrossIncome from "./gross_income";
+import PPh21Calculation from "./pph21-calculation";
 
 interface PermanentEmployeeJanNovProps {
   selectedEmployee: Employee | undefined;
@@ -32,10 +31,12 @@ export default function PermanentEmployeeJanNov({
 }: PermanentEmployeeJanNovProps) {
   const router = useRouter();
 
+  const [formDisabled, setFormDisabled] = useState(true);
   const form = useForm<PermanentEmployeeBeforeDecemberFormData>({
     resolver: zodResolver(PermanentEmployeeBeforeDecemberSchema),
+    disabled: formDisabled,
     defaultValues: {
-      employee_id: '',
+      employee_id: "",
       period: {
         month: Pph21TaxPeriodMonth.JANUARY,
         years: new Date().getFullYear(),
@@ -79,14 +80,15 @@ export default function PermanentEmployeeJanNov({
     if (periodMonth) {
       if (periodMonth === Pph21TaxPeriodMonth.DECEMBER) return;
 
-      form.setValue('period.month', periodMonth);
+      form.setValue("period.month", periodMonth);
     }
   }, [form, periodMonth]);
 
   useEffect(() => {
     if (selectedEmployee) {
-      form.setValue('employee_id', selectedEmployee.id);
-      form.setValue('constants.tariff_ter', selectedEmployee.ter?.percentage);
+      form.setValue("employee_id", selectedEmployee.id);
+      form.setValue("constants.tariff_ter", selectedEmployee.ter?.percentage);
+      setFormDisabled(false);
     }
   }, [form, selectedEmployee]);
 
@@ -97,9 +99,9 @@ export default function PermanentEmployeeJanNov({
     try {
       if (!selectedEmployee) {
         toast({
-          title: 'Kesalahan Input',
-          description: 'Mohon pilih pegawai terlebih dahulu',
-          variant: 'destructive',
+          title: "Kesalahan Input",
+          description: "Mohon pilih pegawai terlebih dahulu",
+          variant: "destructive",
           duration: 5000,
         });
 
@@ -109,31 +111,31 @@ export default function PermanentEmployeeJanNov({
       await mutatePph21(data);
 
       toast({
-        title: 'Berhasil',
-        description: 'Data PPh21 berhasil disimpan',
+        title: "Berhasil",
+        description: "Data PPh21 berhasil disimpan",
         duration: 5000,
       });
 
-      router.push('/unit/tax/pph21');
+      router.push("/unit/tax/pph21");
     } catch (error) {
       if (error instanceof AxiosError) {
         toast({
-          title: 'Gagal',
+          title: "Gagal",
           description: error.response?.data.message,
-          variant: 'destructive',
+          variant: "destructive",
         });
       }
     }
   };
 
   const grossSalaryJanNovWatcher = form.watch([
-    'gross_salary.salary',
-    'gross_salary.allowance',
-    'gross_salary.bonus',
-    'gross_salary.gross_income',
-    'gross_salary.thr',
-    'gross_salary.overtime_salary',
-    'gross_salary.assurance',
+    "gross_salary.salary",
+    "gross_salary.allowance",
+    "gross_salary.bonus",
+    "gross_salary.gross_income",
+    "gross_salary.thr",
+    "gross_salary.overtime_salary",
+    "gross_salary.assurance",
   ]);
 
   useEffect(() => {
@@ -142,26 +144,26 @@ export default function PermanentEmployeeJanNov({
       (acc, curr) => Number(acc) + Number(curr)
     );
     const totalPPh21HasNPWP =
-      totalJanNov * form.getValues('constants.tariff_ter');
+      totalJanNov * form.getValues("constants.tariff_ter");
 
     const totalPPh21NonNPWP =
-      totalPPh21HasNPWP * form.getValues('constants.tariff_tax_non_npwp');
+      totalPPh21HasNPWP * form.getValues("constants.tariff_tax_non_npwp");
 
     const totalNetReceipts = totalJanNov - totalPPh21NonNPWP;
 
-    form.setValue('result.total_salary', totalJanNov);
-    form.setValue('calculations.pph21_has_npwp', totalPPh21HasNPWP);
-    form.setValue('calculations.pph21_non_npwp', totalPPh21NonNPWP);
-    form.setValue('result.total_pph21', totalPPh21NonNPWP);
-    form.setValue('result.net_receipts', totalNetReceipts);
+    form.setValue("result.total_salary", totalJanNov);
+    form.setValue("calculations.pph21_has_npwp", totalPPh21HasNPWP);
+    form.setValue("calculations.pph21_non_npwp", totalPPh21NonNPWP);
+    form.setValue("result.total_pph21", totalPPh21NonNPWP);
+    form.setValue("result.net_receipts", totalNetReceipts);
   }, [grossSalaryJanNovWatcher, form]);
 
   useEffect(() => {
     if (form.formState.errors.root) {
       toast({
-        title: 'Kesalahan Input',
-        description: 'Mohon periksa kembali data yang anda masukkan',
-        variant: 'destructive',
+        title: "Kesalahan Input",
+        description: "Mohon periksa kembali data yang anda masukkan",
+        variant: "destructive",
       });
     }
   }, [form.formState.errors]);
@@ -178,10 +180,13 @@ export default function PermanentEmployeeJanNov({
           <Results form={form as UseFormReturn<PPh21EmployeeUnionFormData>} />
 
           <div className="flex justify-center mt-10 mb-10 mr-8 gap-10">
-            <Button type="submit" disabled={isMutatePph21Pending}>
+            <Button
+              type="submit"
+              disabled={!form.formState.isValid || isMutatePph21Pending}
+            >
               {isMutatePph21Pending
-                ? 'Menyimpan...'
-                : 'Simpan Data Perpajakan Pegawai'}
+                ? "Menyimpan..."
+                : "Simpan Data Perpajakan Pegawai"}
             </Button>
           </div>
         </form>
