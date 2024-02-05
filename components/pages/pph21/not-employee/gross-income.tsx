@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   FormControl,
@@ -6,12 +6,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
-import { NotEmployeeFormData } from '@/types/pph21/not-employee/not-employee';
-import { formatRupiah, reverseFormat } from '@/common/helpers/number-format';
+} from "@/components/ui/form";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { NotEmployeeFormData } from "@/types/pph21/not-employee/not-employee";
+import {
+  formatRupiah,
+  reverseFormat,
+  reverseFormatRupiah,
+} from "@/common/helpers/number-format";
+import FormNumberInput from "@/components/patan-ui/form/form-number-input";
 
 interface NotEmployeeGrossIncomeProps {
   form: ReturnType<typeof useForm<NotEmployeeFormData>>;
@@ -25,7 +30,7 @@ export default function NotEmployeeGrossIncome({
         Penghasilan Bruto
       </h2>
       <div className="space-y-3 mt-3">
-        <FormField
+        {/* <FormField
           control={form.control}
           name="gross_salary.salary"
           render={({ field }) => (
@@ -45,6 +50,26 @@ export default function NotEmployeeGrossIncome({
               <FormMessage />
             </FormItem>
           )}
+        /> */}
+
+        <FormNumberInput
+          control={form.control}
+          name="gross_salary.salary"
+          label="Penghasilan Bruto"
+          transform={{
+            input: (value) => {
+              return isNaN(value) ? "" : formatRupiah(value);
+            },
+            output: (event) => {
+              const unformatted = event.target.value;
+
+              const value = reverseFormatRupiah(unformatted);
+
+              const output = Number(value);
+
+              return isNaN(output) ? 0 : output;
+            },
+          }}
         />
       </div>
       <h2 className="text-center font-medium text-sm py-2  rounded-md w-80 mx-auto mt-12">
@@ -60,7 +85,7 @@ export default function NotEmployeeGrossIncome({
                 <Input
                   className="border border-gray-400"
                   {...field}
-                  value={field.value + '%'}
+                  value={field.value + "%"}
                   readOnly
                 />
               </FormControl>

@@ -17,71 +17,76 @@ export function formatRupiah(num: number | bigint): string {
   return `Rp ${formatNumber(num)}`;
 }
 
+export function reverseFormatRupiah(num: string): string {
+  // remove Rp and dot
+  return num.trim().replace(/Rp|\./g, "");
+}
+
 export function numberToWordsID(num: number): string {
   const ones = [
-    '',
-    'Satu ',
-    'Dua ',
-    'Tiga ',
-    'Empat ',
-    'Lima ',
-    'Enam ',
-    'Tujuh ',
-    'Delapan ',
-    'Sembilan ',
+    "",
+    "Satu ",
+    "Dua ",
+    "Tiga ",
+    "Empat ",
+    "Lima ",
+    "Enam ",
+    "Tujuh ",
+    "Delapan ",
+    "Sembilan ",
   ];
   const tens = [
-    '',
-    'Sepuluh ',
-    'Dua Puluh ',
-    'Tiga Puluh ',
-    'Empat Puluh ',
-    'Lima Puluh ',
-    'Enam Puluh ',
-    'Tujuh Puluh ',
-    'Delapan Puluh ',
-    'Sembilan Puluh ',
+    "",
+    "Sepuluh ",
+    "Dua Puluh ",
+    "Tiga Puluh ",
+    "Empat Puluh ",
+    "Lima Puluh ",
+    "Enam Puluh ",
+    "Tujuh Puluh ",
+    "Delapan Puluh ",
+    "Sembilan Puluh ",
   ];
   const teens = [
-    'Sepuluh ',
-    'Sebelas ',
-    'Dua Belas ',
-    'Tiga Belas ',
-    'Empat Belas ',
-    'Lima Belas ',
-    'Enam Belas ',
-    'Tujuh Belas ',
-    'Delapan Belas ',
-    'Sembilan Belas ',
+    "Sepuluh ",
+    "Sebelas ",
+    "Dua Belas ",
+    "Tiga Belas ",
+    "Empat Belas ",
+    "Lima Belas ",
+    "Enam Belas ",
+    "Tujuh Belas ",
+    "Delapan Belas ",
+    "Sembilan Belas ",
   ];
-  const thousands = ['', 'Ribu ', 'Juta ', 'Miliar ', 'Triliun '];
+  const thousands = ["", "Ribu ", "Juta ", "Miliar ", "Triliun "];
 
   // Split the number into integer and decimal parts
   let [integerPart, decimalPart] = Math.abs(num)
     .toString()
-    .split('.')
+    .split(".")
     .map((part) => parseInt(part, 10));
 
-  let words = '';
+  let words = "";
 
   // Check for negative number
   // if (num < 0) {
   //   words += 'Minus ';
   // }
-  if (num < 0) return 'Minus ' + numberToWordsID(-num);
+  if (num < 0) return "Minus " + numberToWordsID(-num);
 
   let i = 0;
   while (integerPart > 0) {
     let remainder = integerPart % 1000;
     if (remainder !== 0) {
-      let tempWords = '';
+      let tempWords = "";
       const hundred = Math.floor(remainder / 100);
       remainder = remainder % 100;
       const ten = Math.floor(remainder / 10);
       const one = remainder % 10;
 
       if (hundred > 0) {
-        tempWords += hundred === 1 ? 'Seratus ' : ones[hundred] + 'Ratus ';
+        tempWords += hundred === 1 ? "Seratus " : ones[hundred] + "Ratus ";
       }
       if (remainder >= 10 && remainder < 20) {
         tempWords += teens[remainder - 10];
@@ -98,7 +103,7 @@ export function numberToWordsID(num: number): string {
     i++;
   }
 
-  let decimalWords = '';
+  let decimalWords = "";
   if (decimalPart !== undefined && decimalPart > 0) {
     if (decimalPart < 10) {
       decimalWords = ones[decimalPart];
@@ -109,9 +114,9 @@ export function numberToWordsID(num: number): string {
       const one = decimalPart % 10;
       decimalWords = tens[ten] + ones[one];
     }
-    words += ' Koma ' + decimalWords.trim() + ' Rupiah';
+    words += " Koma " + decimalWords.trim() + " Rupiah";
   } else {
-    words += 'Rupiah';
+    words += "Rupiah";
   }
 
   return words.trim();

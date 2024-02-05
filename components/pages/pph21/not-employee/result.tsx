@@ -1,17 +1,18 @@
-import { Card } from '@/components/ui/card';
+import { Card } from "@/components/ui/card";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { NotEmployeeFormData } from '@/types/pph21/not-employee/not-employee';
-import { PermanentEmployeeBeforeDecemberFormData } from '@/types/pph21/permanent-employee/permanent-employee';
-import { NonPermanentEmployeeMonthlyFormData } from '@/types/pph21/temporary-employee/temporary-employee';
-import { useForm } from 'react-hook-form';
-import { formatRupiah } from '@/common/helpers/number-format';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { NotEmployeeFormData } from "@/types/pph21/not-employee/not-employee";
+import { PermanentEmployeeBeforeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { NonPermanentEmployeeMonthlyFormData } from "@/types/pph21/temporary-employee/temporary-employee";
+import { useForm } from "react-hook-form";
+import { formatRupiah } from "@/common/helpers/number-format";
+import FormNumberInput from "@/components/patan-ui/form/form-number-input";
 
 interface ResultsProps {
   form: ReturnType<typeof useForm<NotEmployeeFormData>>;
@@ -47,6 +48,24 @@ export default function NotEmployeeResults({
             </FormItem>
           )}
         />
+        {/* <FormNumberInput
+          control={form.control}
+          name="result.total_salary"
+          label="Jumlah Penghasilan"
+          readonly
+          transform={{
+            input: (value) => {
+              return isNaN(value) ? "" : formatRupiah(value);
+            },
+            output: (event) => {
+              const unformattedValue = event.target.value;
+
+              const output = parseInt(unformattedValue);
+
+              return isNaN(output) ? 0 : output;
+            },
+          }}
+        /> */}
       </Card>
       <Card>
         <FormField
