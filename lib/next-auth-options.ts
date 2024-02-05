@@ -68,12 +68,6 @@ export const authOptions: NextAuthOptions = {
 
       return session;
     },
-
-    async redirect({ baseUrl, url }) {
-      console.log({ baseUrl, url });
-
-      return url;
-    },
   },
 
   pages: {
