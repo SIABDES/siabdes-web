@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { PPh21EmployeeBaseSchema } from '../general';
 
 export const PPh21OtherActivityParticipantGrossSalarySchema = z.object({
-  gross_salary: z
+  salary: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().positive())
@@ -10,7 +10,7 @@ export const PPh21OtherActivityParticipantGrossSalarySchema = z.object({
 });
 
 export const PPh21OtherNonEmployeeSupervisorGrossSalarySchema = z.object({
-  gross_salary: z
+  salary: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().positive())

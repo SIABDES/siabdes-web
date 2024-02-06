@@ -208,9 +208,6 @@ export default function Add() {
                               ? '_ _ . _ _ _ . _ _ _ - _ . _ _ _ . _ _ _'
                               : '00.000.000-0.000.000'
                           }
-                          // value={
-                          //   existenceNPWP === 'tidak' ? '' : form.watch('npwp')
-                          // }
                           value={
                             existenceNPWP === 'tidak'
                               ? ''
@@ -285,7 +282,7 @@ export default function Add() {
                   render={({ field }) => (
                     <FormItem className="w-full grid grid-cols-2 items-center">
                       <FormLabel htmlFor={field.name}>
-                        Bulan Mulai Bekerja
+                        Tanggal Mulai Bekerja
                       </FormLabel>
                       <FormControl>
                         {/* <Input
@@ -387,7 +384,9 @@ export default function Add() {
                   name="npwp_status"
                   render={({ field }) => (
                     <FormItem className="w-full grid grid-cols-2 items-center">
-                      <FormLabel htmlFor={field.name}>Status NPWP</FormLabel>
+                      <FormLabel htmlFor={field.name}>
+                        Kepemilikan NPWP
+                      </FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
