@@ -106,9 +106,10 @@ export default function TemporaryEmployeeMonthlyPPh21Calculation({
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    value={
-                      form.getValues('constants.tariff_tax_non_npwp') + '%'
-                    }
+                    value={120 + '%'}
+                    // value={
+                    //   form.getValues('constants.tariff_tax_non_npwp') + '%'
+                    // }
                     readOnly
                   />
                 </FormControl>

@@ -1,4 +1,5 @@
 import { AxiosClientSide } from '@/common/api';
+import { UpdatePPNFormData } from '@/types/ppn/dto';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export function useEditPPN({ ppn_id }: { ppn_id: string }) {
@@ -6,8 +7,8 @@ export function useEditPPN({ ppn_id }: { ppn_id: string }) {
 
   const getPPN = useMutation({
     mutationKey: ['ppn/edit', ppn_id],
-    mutationFn: async (formData: FormData) => {
-      const res = await AxiosClientSide.put(`/ppn/${ppn_id}`, formData);
+    mutationFn: async (data: UpdatePPNFormData) => {
+      const res = await AxiosClientSide.put(`/ppn/${ppn_id}`, data);
 
       return res.data;
     },

@@ -102,7 +102,7 @@ export default function ActivityParticipant() {
   const limit5 = 60000000;
   const limit15 = 190000000;
   const limit25 = 250000000;
-  const limit30 = 5000000000;
+  const limit30 = 4500000000;
 
   useEffect(() => {
     const salary = grossSalaryWatcher;
@@ -594,7 +594,6 @@ export default function ActivityParticipant() {
             Kalkulator Pajak Penghasilan Pasal 21
           </h1>
           <div className="flex space-x-6">
-            <Button>Lampiran</Button>
             <Link href={'/unit/tax/pph21'}>
               <Button>Kembali</Button>
             </Link>

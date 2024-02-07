@@ -98,7 +98,7 @@ export default function NonEmployeeSupervisor() {
   const limit5 = 60000000;
   const limit15 = 190000000;
   const limit25 = 250000000;
-  const limit30 = 5000000000;
+  const limit30 = 4500000000;
 
   useEffect(() => {
     const salary = grossSalaryWatcher;

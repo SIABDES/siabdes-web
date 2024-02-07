@@ -19,6 +19,7 @@ export type GetPPNDetailsResponse = BackendResponseType<{
   transaction_type: PpnTransactionType;
   transaction_date: string;
   transaction_number: string;
+  transaction_evidence: string;
   tax_object: PpnTaxObjectType;
   objects: PpnObjectItem[];
 }>;

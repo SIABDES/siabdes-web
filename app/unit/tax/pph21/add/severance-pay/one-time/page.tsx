@@ -316,7 +316,7 @@ export default function OneTime() {
         </div>
         <Card className="bg-white border border-gray-300 p-3 rounded-xl mt-5 pb-5">
           <h1 className="mt-3 mb-4 text-center font-bold text-lg">
-            Pesangon - Dibayar Sekaligus
+            Pesangon - Dibayar Sekaligus ({'>'} 2 tahun)
           </h1>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>

@@ -26,7 +26,7 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
       <h2 className="text-center font-medium text-sm py-2 bg-blue-200 rounded-md w-80 mx-auto">
         Wajib Pajak Memiliki NPWP
       </h2>
-      <p className="my-2">Tarif Pasal 17 ayat (1a) :</p>
+      <p className="my-2 text-red-500">Tarif Pasal 17 ayat (1a) :</p>
       <div className="space-y-3">
         <div className="grid grid-cols-9">
           <FormField
@@ -38,7 +38,7 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    value={field.value + '%'}
+                    value={5 + '%'}
                     readOnly
                   />
                 </FormControl>
@@ -97,7 +97,7 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    value={field.value + '%'}
+                    value={15 + '%'}
                     readOnly
                   />
                 </FormControl>
@@ -156,7 +156,7 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    value={field.value + '%'}
+                    value={25 + '%'}
                     readOnly
                   />
                 </FormControl>
@@ -215,7 +215,7 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    value={field.value + '%'}
+                    value={30 + '%'}
                     readOnly
                   />
                 </FormControl>
@@ -274,7 +274,7 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
                   <Input
                     className="border border-gray-400"
                     {...field}
-                    value={field.value + '%'}
+                    value={35 + '%'}
                     readOnly
                   />
                 </FormControl>

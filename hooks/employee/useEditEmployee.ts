@@ -13,7 +13,6 @@ export default function useEditEmployee({
     mutationKey: ['employee/edit', employee_id],
     mutationFn: async (data: UpdateEmployeeFormData) => {
       const res = await AxiosClientSide.put(`/employees/${employee_id}`, data);
-      console.log('useedit', res.data);
       return res.data;
     },
     onSuccess: async () => {

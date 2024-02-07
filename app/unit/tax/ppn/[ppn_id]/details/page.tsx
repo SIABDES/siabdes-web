@@ -240,7 +240,7 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
                             Bukti Transaksi
                           </TableCell>
                           <TableCell className="px-6 py-4 border border-black">
-                            {/* {details.} */}
+                            {details.transaction_evidence}
                           </TableCell>
                         </TableRow>
                         <TableRow className="border border-black">

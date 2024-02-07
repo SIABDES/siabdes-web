@@ -23,7 +23,7 @@ export default function NotHaveNPWP({ form }: NotHaveNPWPProps) {
       <h2 className="text-center font-medium text-sm py-2 bg-blue-200 rounded-md w-80 mx-auto">
         Wajib Pajak Tidak Memiliki NPWP
       </h2>
-      <p className="my-2">Peraturan DJP Nomor: PER-16/PJ/2016 :</p>
+      <p className="my-2 text-red-500">Peraturan DJP Nomor: PER-16/PJ/2016 :</p>
       <div className="space-y-3">
         <div className="grid grid-cols-9">
           <FormField

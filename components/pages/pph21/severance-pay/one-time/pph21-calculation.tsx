@@ -25,7 +25,9 @@ export default function SeverencePayOneTimePPh21Calculation({
         Perhitungan Pajak PPh 21
       </h1>
       <CardContent>
-        <p className="my-2">Peraturan Pemerintah No 68 Tahun 2009</p>
+        <p className="my-2 text-red-500">
+          Peraturan Pemerintah No 68 Tahun 2009
+        </p>
         <div className="space-y-3">
           <div className="grid grid-cols-9">
             <FormField
@@ -37,7 +39,7 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      value={field.value + '%'}
+                      value={0 + '%'}
                       readOnly
                     />
                   </FormControl>
@@ -96,7 +98,7 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      value={field.value + '%'}
+                      value={5 + '%'}
                       readOnly
                     />
                   </FormControl>
@@ -155,7 +157,7 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      value={field.value + '%'}
+                      value={15 + '%'}
                       readOnly
                     />
                   </FormControl>
@@ -214,7 +216,7 @@ export default function SeverencePayOneTimePPh21Calculation({
                     <Input
                       className="border border-gray-400"
                       {...field}
-                      value={field.value + '%'}
+                      value={25 + '%'}
                       readOnly
                     />
                   </FormControl>
