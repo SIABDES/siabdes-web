@@ -1,3 +1,4 @@
+import FormNumberInput from "@/components/patan-ui/form/form-number-input";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   FormControl,
@@ -7,7 +8,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { PermanentEmployeeBeforeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 interface PPh21CalculationProps {
@@ -15,6 +18,15 @@ interface PPh21CalculationProps {
 }
 
 export default function PPh21Calculation({ form }: PPh21CalculationProps) {
+  const noNpwpTariff = form.watch("constants.tariff_tax_non_npwp");
+  const npwpTariff = form.watch("constants.tariff_ter");
+
+  const displayNoNpwpTariff = useMemo(
+    () => noNpwpTariff * 100 + "%",
+    [noNpwpTariff]
+  );
+  const displayNpwpTariff = useMemo(() => npwpTariff * 100 + "%", [npwpTariff]);
+
   return (
     <Card className="col-span-5 border border-gray-300">
       <h1 className="text-center font-bold text-sm pt-3">Perhitungan PPh 21</h1>
@@ -24,130 +36,72 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
         </h2>
         <p className="text-red-500">Peraturan Pemerintah No 58 Tahun 2023</p>
         <div className="grid grid-cols-9">
-          <FormField
-            control={form.control}
-            name="constants.tariff_ter"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel htmlFor={field.name}>Tarif TER (%)</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    className="border border-gray-400"
-                    {...field}
-                    value={field.value}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="space-y-2">
+            <Label>Tarif TER</Label>
+            <Input
+              value={displayNpwpTariff}
+              className="border border-gray-400"
+              readOnly
+            />
+          </div>
+
           <div className="flex justify-center items-end col-span-1">
             <span className="text-lg mb-2">x</span>
           </div>
-          <FormField
+
+          <FormNumberInput
             control={form.control}
+            label="Penghasilan Bruto"
             name="result.total_salary"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormLabel htmlFor={field.name}>Penghasilan Bruto</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    className="border border-gray-400"
-                    {...field}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            className="col-span-3"
+            readonly
           />
+
           <div className="flex justify-center items-end col-span-1">
             <span className="text-lg mb-2">=</span>
           </div>
-          <FormField
+
+          <FormNumberInput
             control={form.control}
-            name="calculations.pph21_has_npwp"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormLabel htmlFor={field.name}>PPh 21</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    className="border border-gray-400"
-                    {...field}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="PPh 21"
+            name="calculations.pph21_non_npwp"
+            className="col-span-3"
+            readonly
           />
         </div>
+
         <h2 className="text-center font-medium text-sm mt-9 mb-3 py-2 bg-blue-200 rounded-md w-80 mx-auto">
           Wajib Pajak Tidak Memiliki NPWP
         </h2>
         <p className="text-red-500 mb-3">Peraturan DJP Nomor: PER-16/PJ/2016</p>
+
         <div className="grid grid-cols-9">
-          <FormField
-            control={form.control}
-            name="constants.tariff_tax_non_npwp"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
-                  <Input
-                    type="number"
-                    className="border border-gray-400"
-                    {...field}
-                    value={field.value}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+          <Input
+            value={displayNoNpwpTariff}
+            className="border border-gray-400"
+            readOnly
           />
+
           <div className="flex justify-center items-end col-span-1">
             <span className="text-lg mb-2">x</span>
           </div>
-          <FormField
+
+          <FormNumberInput
             control={form.control}
-            name="calculations.pph21_has_npwp"
-            render={({ field }) => (
-              <FormItem id={field.name} className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    type="number"
-                    className="border border-gray-400"
-                    {...field}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="result.total_salary"
+            className="col-span-3"
+            readonly
           />
+
           <div className="flex justify-center items-end col-span-1">
             <span className="text-lg mb-2">=</span>
           </div>
-          <FormField
+
+          <FormNumberInput
             control={form.control}
             name="calculations.pph21_non_npwp"
-            render={({ field }) => (
-              <FormItem id={field.name} className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    type="number"
-                    className="border border-gray-400"
-                    {...field}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            className="col-span-3"
+            readonly
           />
         </div>
       </CardContent>
