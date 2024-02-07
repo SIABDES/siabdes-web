@@ -120,7 +120,7 @@ export default function PaidMonthly() {
       // const totalPph21NonNpwp = (tariffTaxNonNpwp / 100) * pph21NonNpwp;
 
       form.setValue('constants.tariff_tax_non_npwp', 20);
-      const totalPph21NonNpwp = (20 / 100) * pph21NonNpwp;
+      const totalPph21NonNpwp = (120 / 100) * pph21NonNpwp;
       form.setValue('calculations.total_pph21_non_npwp', totalPph21NonNpwp);
 
       // result

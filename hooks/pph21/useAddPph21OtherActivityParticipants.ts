@@ -11,7 +11,7 @@ export default function useAddPph21OtherActivityParticipants() {
         '/pph21/pph21-other/activity-participant',
         data
       );
-
+      console.log(data);
       return res.data;
     },
   });

@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { formatDateToString } from "@/common/helpers/date";
-import { formatRupiah } from "@/common/helpers/number-format";
-import { formatPPNtaxObject } from "@/common/helpers/ppn-format";
-import { CalendarDateRangePicker } from "@/components/date-range-picker";
-import Layout from "@/components/layout/layout";
-import PPNOverviewCard from "@/components/pages/tax/ppn/overview-card";
-import { Button } from "@/components/ui/button";
-import { Command, CommandInput, CommandList } from "@/components/ui/command";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Skeleton } from "@/components/ui/skeleton";
+import { formatDateToString } from '@/common/helpers/date';
+import { formatRupiah } from '@/common/helpers/number-format';
+import { formatPPNtaxObject } from '@/common/helpers/ppn-format';
+import { CalendarDateRangePicker } from '@/components/date-range-picker';
+import Layout from '@/components/layout/layout';
+import PPNOverviewCard from '@/components/pages/tax/ppn/overview-card';
+import { Button } from '@/components/ui/button';
+import { Command, CommandInput, CommandList } from '@/components/ui/command';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -17,12 +17,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import useGetPPN from "@/hooks/ppn/useGetPPN";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useMemo } from "react";
-import { DateRange } from "react-day-picker";
+} from '@/components/ui/table';
+import useGetPPN from '@/hooks/ppn/useGetPPN';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useMemo } from 'react';
+import { DateRange } from 'react-day-picker';
 
 export default function PPN() {
   const { data, isLoading } = useGetPPN();
@@ -46,7 +46,7 @@ export default function PPN() {
   const sumIncome = useMemo(() => {
     return (
       ppn
-        ?.filter((ppn) => ppn.transaction_type === "PURCHASE")
+        ?.filter((ppn) => ppn.transaction_type === 'PURCHASE')
         .reduce((sum, ppn) => sum + ppn.total_ppn, 0) || 0
     );
   }, [ppn]);
@@ -54,7 +54,7 @@ export default function PPN() {
   const sumOutcome = useMemo(() => {
     return (
       ppn
-        ?.filter((ppn) => ppn.transaction_type === "SALES")
+        ?.filter((ppn) => ppn.transaction_type === 'SALES')
         .reduce((sum, ppn) => sum + ppn.total_ppn, 0) || 0
     );
   }, [ppn]);
@@ -82,15 +82,15 @@ export default function PPN() {
         />
         <PPNOverviewCard
           title={`Total PPN (${
-            totalPPN >= 0 ? "Kurang Bayar" : "Lebih Bayar"
+            totalPPN >= 0 ? 'Kurang Bayar' : 'Lebih Bayar'
           })`}
-          mainText={formatRupiah(totalPPN)}
+          mainText={formatRupiah(Math.abs(totalPPN))}
         />
       </div>
       <div className="flex justify-between items-center mt-8">
         <div className="grid grid-cols-2 gap-x-6">
           <Command className="rounded-lg border shadow-md w-72">
-            <CommandInput placeholder="Type a command or search..." />
+            <CommandInput placeholder="Pilih pengusaha kena pajak..." />
             <CommandList>
               {/* <CommandEmpty>No results found.</CommandEmpty> */}
             </CommandList>
@@ -103,7 +103,7 @@ export default function PPN() {
             <Button>Tambah PPN</Button>
           </Link>
           <Link href="/unit/tax/report/ppn">
-            <Button variant={"outline"}>Cetak Keseluruhan</Button>
+            <Button variant={'outline'}>Cetak Keseluruhan</Button>
           </Link>
         </div>
       </div>
@@ -133,6 +133,9 @@ export default function PPN() {
                       </TableHead>
                       <TableHead className="sticky top-0 px-6 py-3 font-bold">
                         PPN
+                      </TableHead>
+                      <TableHead className="sticky top-0 px-6 py-3 font-bold">
+                        Nama Barang/Jasa
                       </TableHead>
                     </TableRow>
                   </TableHeader>
@@ -165,7 +168,7 @@ export default function PPN() {
                     )}
 
                     {ppn
-                      ?.filter((ppn) => ppn.transaction_type === "PURCHASE")
+                      ?.filter((ppn) => ppn.transaction_type === 'PURCHASE')
                       .map((ppn, index) => (
                         <TableRow
                           key={ppn.id}
@@ -262,7 +265,7 @@ export default function PPN() {
                     )}
 
                     {ppn
-                      ?.filter((ppn) => ppn.transaction_type === "SALES")
+                      ?.filter((ppn) => ppn.transaction_type === 'SALES')
                       .map((ppn, index) => (
                         <TableRow
                           key={ppn.id}

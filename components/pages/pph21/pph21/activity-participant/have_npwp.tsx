@@ -7,13 +7,14 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { PPh21OtherActivityParticipantFormData } from '@/types/pph21/pph21/other-pph21';
 import { SeverencePayPeriodicFormData } from '@/types/pph21/severance-pay/severence-pay';
 import { format } from 'path';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 interface HaveNPWPProps {
-  form: ReturnType<typeof useForm<SeverencePayPeriodicFormData>>;
+  form: ReturnType<typeof useForm<PPh21OtherActivityParticipantFormData>>;
 }
 
 export default function HaveNPWP({ form }: HaveNPWPProps) {

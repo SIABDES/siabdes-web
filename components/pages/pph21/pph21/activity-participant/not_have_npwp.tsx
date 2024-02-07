@@ -11,9 +11,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { formatRupiah } from '@/common/helpers/number-format';
 import { fi } from 'date-fns/locale';
+import { PPh21OtherActivityParticipantFormData } from '@/types/pph21/pph21/other-pph21';
 
 interface NotHaveNPWPProps {
-  form: ReturnType<typeof useForm<SeverencePayPeriodicFormData>>;
+  form: ReturnType<typeof useForm<PPh21OtherActivityParticipantFormData>>;
 }
 
 export default function NotHaveNPWP({ form }: NotHaveNPWPProps) {

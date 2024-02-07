@@ -8,7 +8,7 @@ export default function useAddPph21OtherNonEmployeeSupervisor() {
     mutationKey: ['add-pph21-other-non-employee-supervisor'],
     mutationFn: async (data: PPh21OtherNonEmployeeSupervisorFormData) => {
       const res = await AxiosClientSide.post<AddPph21Response>(
-        '/pph21/severance-pay/non-employee-supervisor',
+        '/pph21/pph21-other/non-employee-supervisor',
         data
       );
 

@@ -1,4 +1,5 @@
 import { AxiosClientSide } from '@/common/api';
+import { UpdateEmployeeFormData } from '@/types/employees/dto';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export default function useEditEmployee({
@@ -10,12 +11,8 @@ export default function useEditEmployee({
 
   const getEmployee = useMutation({
     mutationKey: ['employee/edit', employee_id],
-    mutationFn: async (formData: FormData) => {
-      const res = await AxiosClientSide.put(
-        `/employees/${employee_id}`,
-        formData
-      );
-      console.log('useedit', res.data);
+    mutationFn: async (data: UpdateEmployeeFormData) => {
+      const res = await AxiosClientSide.put(`/employees/${employee_id}`, data);
       return res.data;
     },
     onSuccess: async () => {

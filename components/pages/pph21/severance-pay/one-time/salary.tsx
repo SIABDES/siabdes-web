@@ -22,11 +22,11 @@ export default function SeverencePayOneTimeSalary({ form }: SalaryProps) {
         control={form.control}
         name="gross_salary.gross_salary"
         render={({ field }) => (
-          <FormItem className="w-full grid grid-cols-2 items-center bg-blue-300 px-6 py-2 rounded-lg">
-            <FormLabel htmlFor={field.name}>Upah harian</FormLabel>
+          <FormItem className="w-full grid grid-cols-2 items-center px-6 py-2 rounded-lg">
+            <FormLabel htmlFor={field.name}>Jumlah Pesangon</FormLabel>
             <FormControl>
               <Input
-                className="border border-gray-400 bg-[#E5F5FC]"
+                className="border border-gray-400"
                 {...field}
                 value={formatRupiah(field.value)}
                 onChange={(e) => {

@@ -90,7 +90,7 @@ export default function Periodic() {
   const limit5 = 60000000;
   const limit15 = 190000000;
   const limit25 = 250000000;
-  const limit30 = 5000000000;
+  const limit30 = 4500000000;
 
   useEffect(() => {
     const salary = grossSalaryWatcher;
@@ -600,7 +600,7 @@ export default function Periodic() {
         </div>
         <Card className="bg-white border border-gray-300 p-3 rounded-xl mt-5 pb-5">
           <h1 className="mt-3 mb-4 text-center font-bold text-lg">
-            Pesangon - Dibayar Berkala
+            Pesangon - Dibayar Berkala (&lt; 2 tahun)
           </h1>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>

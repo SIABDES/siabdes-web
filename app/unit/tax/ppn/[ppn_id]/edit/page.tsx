@@ -36,29 +36,20 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
     refetch: refetchDetails,
   } = useGetPPNDetails({ params });
 
-  const { mutateAsync: mutateEditPPN, isPending: isMutateEditPPNPending } =
-    useEditPPN({ ppn_id: params.ppn_id });
+  console.log('details', details);
 
   const form = useForm<CreatePPNFormData>({
     resolver: zodResolver(CreatePPNSchema),
     defaultValues: {
-      object_items: [
-        {
-          name: '',
-          discount: 0,
-          dpp: 0,
-          ppn: 0,
-          price: 0,
-          quantity: 0,
-          total_price: 0,
-        },
-      ],
-      given_to: '',
-      item_type: undefined,
-      tax_object: undefined,
-      transaction_date: undefined,
-      transaction_number: '',
-      transaction_type: undefined,
+      // object_items: details?.object_items,
+      given_to: details?.given_to,
+      item_type: details?.item_type,
+      tax_object: details?.tax_object,
+      transaction_date: details?.transaction_date
+        ? new Date(details?.transaction_date)
+        : undefined,
+      transaction_number: details?.transaction_number,
+      transaction_type: details?.transaction_type,
     },
   });
 
@@ -100,7 +91,28 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
   //     });
   //   };
 
-  const onSubmit = async (data: CreatePPNFormData) => {};
+  const { mutateAsync: mutateEditPPN, isPending: isMutateEditPPNPending } =
+    useEditPPN({ ppn_id: params.ppn_id });
+
+  const onSubmit = async (data: UpdatePPNFormData) => {
+    try {
+      await mutateEditPPN(data);
+
+      toast({
+        title: 'Berhasil mengubah data PPN',
+        description: `Data telah diubah...`,
+        duration: 5000,
+      });
+
+      router.push(`/unit/tax/ppn/${params.ppn_id}/details`);
+    } catch (error) {
+      toast({
+        title: 'Gagal mengubah data PPN',
+        description: `Data gagal diubah...`,
+        duration: 5000,
+      });
+    }
+  };
   return (
     <Layout>
       <Link href={`/unit/tax/ppn/${params.ppn_id}/details`} className="w-fit">

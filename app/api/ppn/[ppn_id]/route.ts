@@ -1,8 +1,8 @@
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
-import { AxiosAuthed } from "@/common/api";
-import { AxiosError } from "axios";
-import { authOptions } from "@/lib/next-auth-options";
+import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
+import { AxiosAuthed } from '@/common/api';
+import { AxiosError } from 'axios';
+import { authOptions } from '@/lib/next-auth-options';
 
 export async function GET(
   request: NextRequest,
@@ -10,7 +10,7 @@ export async function GET(
 ) {
   const { ppn_id } = params;
 
-  const loginUrl = new URL("/auth/login", request.url);
+  const loginUrl = new URL('/auth/login', request.url);
   const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.redirect(loginUrl);
@@ -37,8 +37,8 @@ export async function PUT(
   { params }: { params: { ppn_id: string } }
 ) {
   const { ppn_id } = params;
-  const loginUrl = new URL("/auth/login", request.url);
-  const formData = await request.formData();
+  const loginUrl = new URL('/auth/login', request.url);
+  const data = await request.json();
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -48,7 +48,7 @@ export async function PUT(
   try {
     const res = await AxiosAuthed(session.backendTokens.accessToken).put(
       `/units/${session.user.unitId}/ppn/${ppn_id}`,
-      formData
+      data
     );
 
     return NextResponse.json(res.data);
@@ -71,7 +71,7 @@ export async function DELETE(
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.redirect("/login");
+    return NextResponse.redirect('/login');
   }
 
   try {

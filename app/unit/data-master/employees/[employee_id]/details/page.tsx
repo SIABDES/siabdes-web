@@ -94,7 +94,7 @@ export default function DetailEmployees({
               className="flex items-center"
             >
               <EditIcon size={16} className="mr-2" />
-              Edit PPN
+              Edit Data
             </Link>
           </Button>
 
@@ -102,7 +102,7 @@ export default function DetailEmployees({
             <AlertDialogTrigger asChild>
               <Button variant={'destructive'} disabled={isMutateDeletePending}>
                 <TrashIcon size={16} className="mr-2" />
-                {isMutateDeletePending ? 'Menghapus...' : 'Hapus Jurnal'}
+                {isMutateDeletePending ? 'Menghapus...' : 'Hapus Data'}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -123,7 +123,7 @@ export default function DetailEmployees({
                     className="w-fit"
                     onClick={handleDeleteEmployee}
                   >
-                    Hapus Jurnal
+                    Hapus Data
                   </Button>
                 </AlertDialogAction>
                 <AlertDialogCancel>Batalkan</AlertDialogCancel>
@@ -140,10 +140,10 @@ export default function DetailEmployees({
               <table>
                 <tbody>
                   <tr>
-                    <td className="text-sm font-medium min-w-[12rem]">
+                    <td className="text-base font-medium min-w-[12rem]">
                       Nama Karyawan:
                     </td>
-                    <td className="text-sm">{details.name}</td>
+                    <td className="text-base">{details.name}</td>
                   </tr>
                 </tbody>
               </table>
@@ -184,7 +184,9 @@ export default function DetailEmployees({
                         Nomor Pokok Wajib Pajak (NPWP)
                       </TableCell>
                       <TableCell className="px-6 py-4 border border-black">
-                        {details?.npwp}
+                        {/* {details?.npwp} */}
+                        {/* gimana caranya jika null maka tidak akan di tmapilkan */}
+                        {details?.npwp ? details?.npwp : '-'}
                       </TableCell>
                     </TableRow>
                     <TableRow className="border border-black">
@@ -192,15 +194,12 @@ export default function DetailEmployees({
                         Status Tenaga Kerja
                       </TableCell>
                       <TableCell className="px-6 py-4 border border-black">
-                        {/* {details?.employee_status === 'NEW'
-                          ? 'Karyawan Baru'
-                          : 'Karyawan Lama'} */}
                         {formatEmployeeStatus(details?.employee_status)}
                       </TableCell>
                     </TableRow>
                     <TableRow className="border border-black">
                       <TableCell className="px-6 py-4 border border-black">
-                        Bulan Mulai Bekerja
+                        Tanggal Mulai Bekerja
                       </TableCell>
                       <TableCell className="px-6 py-4 border border-black">
                         {formatDateToString(details?.start_working_at)}
@@ -224,11 +223,12 @@ export default function DetailEmployees({
                     </TableRow>
                     <TableRow className="border border-black">
                       <TableCell className="px-6 py-4 border border-black">
-                        Status Nomor Pokok Wajib Pajak (NPWP)
+                        Kepemilikan Nomor Pokok Wajib Pajak (NPWP)
                       </TableCell>
                       <TableCell className="px-6 py-4 border border-black">
-                        {formatEmployeeNPWPStatus(details?.npwp_status)}
-                        ini masih belum ada di database
+                        {formatEmployeeNPWPStatus(
+                          details?.npwp_status ? details?.npwp_status : '-'
+                        )}
                       </TableCell>
                     </TableRow>
                     <TableRow className="border border-black">

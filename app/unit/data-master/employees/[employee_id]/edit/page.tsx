@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { ChangeEvent, useEffect, useState } from "react";
-import Layout from "@/components/layout/layout";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Button } from "@/components/ui/button";
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import Layout from '@/components/layout/layout';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Button } from '@/components/ui/button';
 
 import {
   Select,
@@ -13,8 +13,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
+} from '@/components/ui/select';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -22,14 +22,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+} from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
 import {
   EmployeeFormDataType,
   UpdateEmployeeFormData,
   UpdateEmployeeRequest,
-} from "@/types/employees/dto";
-import { zodResolver } from "@hookform/resolvers/zod";
+} from '@/types/employees/dto';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   EmployeesChildrenAmount,
   EmployeesExistenceNPWP as ada,
@@ -38,20 +38,20 @@ import {
   EmployeesNPWPStatus,
   EmployeesStatus,
   EmployeesType,
-} from "@/types/employees/employees";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
-import { DatePicker } from "@/components/ui/date-picker";
-import { string } from "zod";
-import { Value } from "@radix-ui/react-select";
-import { UndoIcon } from "lucide-react";
-import useGetEmployeeDetails from "@/hooks/employee/useGetEmployeeDetails";
-import { useEditJournal } from "@/hooks/journals/useEditJournal";
-import useEditEmployee from "@/hooks/employee/useEditEmployee";
-import { ChevronLeftIcon } from "@radix-ui/react-icons";
-import { AxiosClientSide } from "@/common/api";
-import { GetEmployeeDetailsResponse } from "@/types/employees/response";
+} from '@/types/employees/employees';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/use-toast';
+import { DatePicker } from '@/components/ui/date-picker';
+import { string } from 'zod';
+import { Value } from '@radix-ui/react-select';
+import { UndoIcon } from 'lucide-react';
+import useGetEmployeeDetails from '@/hooks/employee/useGetEmployeeDetails';
+import { useEditJournal } from '@/hooks/journals/useEditJournal';
+import useEditEmployee from '@/hooks/employee/useEditEmployee';
+import { ChevronLeftIcon } from '@radix-ui/react-icons';
+import { AxiosClientSide } from '@/common/api';
+import { GetEmployeeDetailsResponse } from '@/types/employees/response';
 
 interface EditEmployeeFormProps {
   params: { employee_id: string };
@@ -72,9 +72,9 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
   const form = useForm<EmployeeFormDataType>({
     resolver: zodResolver(UpdateEmployeeRequest),
     defaultValues: {
-      name: details?.name || "",
-      nik: details?.nik || "",
-      npwp: details?.npwp || "",
+      name: details?.name || '',
+      nik: details?.nik || '',
+      npwp: details?.npwp || '',
       employee_status: details?.employee_status || undefined,
       // start_working_at: details?.start_working_at || undefined,
       start_working_at: details?.start_working_at
@@ -88,6 +88,25 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
     },
   });
 
+  const [existenceNPWP, setExistenceNPWP] = useState<string | undefined>('ada');
+
+  const formatNPWP = (value: string) => {
+    const cleanedValue = value.replace(/\D/g, '');
+
+    let formatted = '';
+    for (let i = 0; i < cleanedValue.length && formatted.length < 20; i++) {
+      if (i === 2 || i === 5 || i === 8 || i === 12) {
+        formatted += '.';
+      }
+      if (i === 9) {
+        formatted += '-';
+      }
+      formatted += cleanedValue[i];
+    }
+
+    return formatted;
+  };
+
   useEffect(() => {
     console.log(form.watch());
   }, [form]);
@@ -96,25 +115,12 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
     useEditEmployee({ employee_id: params.employee_id });
 
   const onSubmit = async (data: UpdateEmployeeFormData) => {
+    console.log(data);
     try {
-      const formData = new FormData();
-
-      const startDate = new Date(data.start_working_at);
-      formData.append("name", data.name);
-      formData.append("nik", data.nik || "");
-      formData.append("npwp", data.npwp || "");
-      formData.append("employee_status", data.employee_status);
-      formData.append("start_working_at", startDate.toISOString());
-      formData.append("gender", data.gender);
-      formData.append("marriage_status", data.marriage_status);
-      formData.append("npwp_status", data.npwp_status || "");
-      formData.append("children_amount", data.children_amount);
-      formData.append("employee_type", data.employee_type);
-
-      await mutateEditEmployee(formData);
+      await mutateEditEmployee(data);
 
       toast({
-        title: "Berhasil mengubah data tenaga kerja",
+        title: 'Berhasil mengubah data tenaga kerja',
         description: `Data tenaga kerja '${data.name}' telah diubah...`,
         duration: 5000,
       });
@@ -122,7 +128,7 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
       router.push(`/unit/data-master/employees/${params.employee_id}/details`);
     } catch (err) {
       toast({
-        title: "Gagal mengubah data tenaga kerja",
+        title: 'Gagal mengubah data tenaga kerja',
         description: `Data tenaga kerja '${data.name}' gagal diubah...`,
         duration: 5000,
       });
@@ -137,7 +143,7 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
             href={`/unit/data-master/employees/${params.employee_id}/details`}
             className="w-fit"
           >
-            <Button variant={"ghost"}>
+            <Button variant={'ghost'}>
               <ChevronLeftIcon className="w-4 h-4 mr-2" />
               Kembali
             </Button>
@@ -185,6 +191,7 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                           className="border border-gray-400"
                           placeholder="Masukkan NIK"
                           {...field}
+                          maxLength={16}
                         />
                       </FormControl>
                       <FormMessage />
@@ -208,19 +215,17 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                           //     ? '_ _ . _ _ _ . _ _ _ - _ . _ _ _ . _ _ _'
                           //     : '00.000.000-0.000.000'
                           // }
-                          // value={
-                          //   existenceNPWP === 'tidak'
-                          //     ? undefined
-                          //     : formatNPWP(String(field.value))
-                          // }
-                          // value={
-                          //   existenceNPWP === 'tidak' ? '' : form.watch('npwp')
-                          // }
-                          // disabled={existenceNPWP === 'tidak'}
+                          value={
+                            existenceNPWP === 'tidak'
+                              ? ''
+                              : formatNPWP(String(field.value))
+                          }
+                          disabled={existenceNPWP === 'tidak'}
+                          maxLength={20}
                         />
                       </FormControl>
                       <div></div>
-                      {/* <div>
+                      <div>
                         <RadioGroup
                           className="grid grid-cols-2 mb-3"
                           defaultValue={existenceNPWP}
@@ -240,7 +245,7 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                             <Label htmlFor="tidak">Tidak Ada NPWP</Label>
                           </div>
                         </RadioGroup>
-                      </div> */}
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -284,7 +289,7 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                   render={({ field }) => (
                     <FormItem className="w-full grid grid-cols-2 items-center">
                       <FormLabel htmlFor={field.name}>
-                        Bulan Mulai Bekerja
+                        Tanggal Mulai Bekerja
                       </FormLabel>
                       <FormControl>
                         {/* <Input
@@ -304,6 +309,10 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                           placeholder="Pilih bulan mulai bekerja"
                           date={field.value}
                           setDate={field.onChange}
+                          disablePreviousYears={
+                            form.watch('employee_status') ===
+                            EmployeesStatus.KARYAWAN_BARU
+                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -382,15 +391,17 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                   name="npwp_status"
                   render={({ field }) => (
                     <FormItem className="w-full grid grid-cols-2 items-center">
-                      <FormLabel htmlFor={field.name}>Status NPWP</FormLabel>
+                      <FormLabel htmlFor={field.name}>
+                        Kepemilikan NPWP
+                      </FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                           disabled={
-                            form.watch("gender") === EmployeesGender.PRIA ||
-                            (form.watch("gender") === EmployeesGender.WANITA &&
-                              form.watch("marriage_status") ===
+                            form.watch('gender') === EmployeesGender.PRIA ||
+                            (form.watch('gender') === EmployeesGender.WANITA &&
+                              form.watch('marriage_status') ===
                                 EmployeesMarriageStatus.BELUM_KAWIN)
                           }
                           // value={
@@ -406,9 +417,9 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                             <SelectTrigger>
                               <SelectValue
                                 placeholder={
-                                  form.watch("gender") === EmployeesGender.PRIA
-                                    ? "_ _ _ _ _ _ _ _ _"
-                                    : "Pilih status NPWP"
+                                  form.watch('gender') === EmployeesGender.PRIA
+                                    ? '_ _ _ _ _ _ _ _ _'
+                                    : 'Pilih status NPWP'
                                 }
                               />
                             </SelectTrigger>
@@ -533,8 +544,8 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
                 disabled={isPendingEditEmployee}
               >
                 {isPendingEditEmployee
-                  ? "Mungubah Data Karyawan..."
-                  : "Ubah Data Karyawan"}
+                  ? 'Mungubah Data Karyawan...'
+                  : 'Ubah Data Karyawan'}
               </Button>
             </div>
           </form>

@@ -66,6 +66,7 @@ export default function TemporaryEmployeeMonthlyGrossIncome({
                 <Input
                   className="border border-gray-400"
                   {...field}
+                  // tambaili string hari di belakanng value
                   value={formatNumber(
                     form.getValues('gross_salary.working_days')
                   )}

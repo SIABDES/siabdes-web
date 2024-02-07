@@ -1,14 +1,15 @@
-"use client";
+'use client';
 
-import { formatNumber } from "@/common/helpers/number-format";
-import Layout from "@/components/layout/layout";
-import DropdownMenuButtonPPh21 from "@/components/pages/pph21/button-pph21/dropdown-menu-button-pph21";
-import Pph21OverviewCard from "@/components/pages/pph21/overview-card";
-import TableView from "@/components/patan-ui/table/table-view";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { formatEmployeeStatus } from '@/common/helpers/employee-format';
+import { formatNumber } from '@/common/helpers/number-format';
+import Layout from '@/components/layout/layout';
+import DropdownMenuButtonPPh21 from '@/components/pages/pph21/button-pph21/dropdown-menu-button-pph21';
+import Pph21OverviewCard from '@/components/pages/pph21/overview-card';
+import TableView from '@/components/patan-ui/table/table-view';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Select,
   SelectContent,
@@ -16,16 +17,16 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { TableCell, TableRow } from "@/components/ui/table";
-import useGetPph21 from "@/hooks/pph21/useGetPph21";
-import { EmployeesType } from "@/types/employees/employees";
-import { Pph21EmployeeTaxOverview } from "@/types/pph21/pph21";
-import { CaretSortIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React from "react";
-import { DateRange } from "react-day-picker";
+} from '@/components/ui/select';
+import { TableCell, TableRow } from '@/components/ui/table';
+import useGetPph21 from '@/hooks/pph21/useGetPph21';
+import { EmployeesType } from '@/types/employees/employees';
+import { Pph21EmployeeTaxOverview } from '@/types/pph21/pph21';
+import { CaretSortIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import { DateRange } from 'react-day-picker';
 
 export default function PPH21() {
   const router = useRouter();
@@ -34,48 +35,48 @@ export default function PPH21() {
 
   const tableData = [
     {
-      No: "1",
-      "Nama Lengkap": "Rizky Wijaya",
-      NPWP: "1234567890",
-      NIK: "1234567890",
-      "Jenis Pegawai": "PNS",
-      "Masa Pajak": "Januari",
-      "Gaji Bruto": "Rp. 10.000.000",
-      "PPh 21": "Rp. 1.000.000",
-      Status: "Lunas",
+      No: '1',
+      'Nama Lengkap': 'Rizky Wijaya',
+      NPWP: '1234567890',
+      NIK: '1234567890',
+      'Jenis Pegawai': 'PNS',
+      'Masa Pajak': 'Januari',
+      'Gaji Bruto': 'Rp. 10.000.000',
+      'PPh 21': 'Rp. 1.000.000',
+      Status: 'Lunas',
     },
     {
-      No: "2",
-      "Nama Lengkap": "Antony Wijaya",
-      NPWP: "1234567890",
-      NIK: "1234567890",
-      "Jenis Pegawai": "Penerima Pesangon",
-      "Masa Pajak": "Januari",
-      "Gaji Bruto": "Rp. 10.000.000",
-      "PPh 21": "Rp. 1.000.000",
-      Status: "Lunas",
+      No: '2',
+      'Nama Lengkap': 'Antony Wijaya',
+      NPWP: '1234567890',
+      NIK: '1234567890',
+      'Jenis Pegawai': 'Penerima Pesangon',
+      'Masa Pajak': 'Januari',
+      'Gaji Bruto': 'Rp. 10.000.000',
+      'PPh 21': 'Rp. 1.000.000',
+      Status: 'Lunas',
     },
     {
-      No: "3",
-      "Nama Lengkap": "Antony Wijaya",
-      NPWP: "1234567890",
-      NIK: "1234567890",
-      "Jenis Pegawai": "Penerima Pesangon",
-      "Masa Pajak": "Januari",
-      "Gaji Bruto": "Rp. 10.000.000",
-      "PPh 21": "Rp. 1.000.000",
-      Status: "Lunas",
+      No: '3',
+      'Nama Lengkap': 'Antony Wijaya',
+      NPWP: '1234567890',
+      NIK: '1234567890',
+      'Jenis Pegawai': 'Penerima Pesangon',
+      'Masa Pajak': 'Januari',
+      'Gaji Bruto': 'Rp. 10.000.000',
+      'PPh 21': 'Rp. 1.000.000',
+      Status: 'Lunas',
     },
     {
-      No: "4",
-      "Nama Lengkap": "Rizky Wijaya",
-      NPWP: "1234567890",
-      NIK: "1234567890",
-      "Jenis Pegawai": "PNS",
-      "Masa Pajak": "Januari",
-      "Gaji Bruto": "Rp. 10.000.000",
-      "PPh 21": "Rp. 1.000.000",
-      Status: "Lunas",
+      No: '4',
+      'Nama Lengkap': 'Rizky Wijaya',
+      NPWP: '1234567890',
+      NIK: '1234567890',
+      'Jenis Pegawai': 'PNS',
+      'Masa Pajak': 'Januari',
+      'Gaji Bruto': 'Rp. 10.000.000',
+      'PPh 21': 'Rp. 1.000.000',
+      Status: 'Lunas',
     },
   ];
 
@@ -85,34 +86,34 @@ export default function PPH21() {
 
   const rows = [
     {
-      titleLeft: "Pegawai Upah Mingguan",
+      titleLeft: 'Pegawai Upah Mingguan',
       peopleCount: 2,
-      total: "Jumlah PPh",
-      currency: "Rp",
-      amount: "132.500",
-      status: "Pegawai Tetap",
+      total: 'Jumlah PPh',
+      currency: 'Rp',
+      amount: '132.500',
+      status: 'Pegawai Tetap',
       statusPeopleCount: 1,
-      taxAmount: "7.866",
+      taxAmount: '7.866',
     },
     {
-      titleLeft: "Pegawai Upah Satuan",
+      titleLeft: 'Pegawai Upah Satuan',
       peopleCount: 1,
-      total: "Jumlah PPh",
-      currency: "Rp",
-      amount: "0",
-      status: "Penerima Pesangon",
+      total: 'Jumlah PPh',
+      currency: 'Rp',
+      amount: '0',
+      status: 'Penerima Pesangon',
       statusPeopleCount: 2,
-      taxAmount: "23.522.500",
+      taxAmount: '23.522.500',
     },
     {
-      titleLeft: "Pegawai Upah Borongan",
+      titleLeft: 'Pegawai Upah Borongan',
       peopleCount: 1,
-      total: "Jumlah PPh",
-      currency: "Rp",
-      amount: "145.250",
-      status: "PPH 21 Lainnya",
+      total: 'Jumlah PPh',
+      currency: 'Rp',
+      amount: '145.250',
+      status: 'PPH 21 Lainnya',
       statusPeopleCount: 2,
-      taxAmount: "0",
+      taxAmount: '0',
     },
     // Add more rows as needed
   ];
@@ -121,52 +122,52 @@ export default function PPH21() {
   const mapPeriodMonthToName = (month: number) => {
     switch (month) {
       case 1:
-        return "Januari";
+        return 'Januari';
       case 2:
-        return "Februari";
+        return 'Februari';
       case 3:
-        return "Maret";
+        return 'Maret';
       case 4:
-        return "April";
+        return 'April';
       case 5:
-        return "Mei";
+        return 'Mei';
       case 6:
-        return "Juni";
+        return 'Juni';
       case 7:
-        return "Juli";
+        return 'Juli';
       case 8:
-        return "Agustus";
+        return 'Agustus';
       case 9:
-        return "September";
+        return 'September';
       case 10:
-        return "Oktober";
+        return 'Oktober';
       case 11:
-        return "November";
+        return 'November';
       default:
-        return "Tidak Diketahui";
+        return 'Tidak Diketahui';
     }
   };
 
   const mapEmployeeTypeToName = (employeeType: EmployeesType) => {
     switch (employeeType) {
       case EmployeesType.PEGAWAI_TETAP:
-        return "Pegawai Tetap";
+        return 'Pegawai Tetap';
       case EmployeesType.BUKAN_PEGAWAI:
-        return "Bukan Pegawai";
+        return 'Bukan Pegawai';
       case EmployeesType.DIBAYAR_BERKALA:
-        return "Dibayar Berkala";
+        return 'Dibayar Berkala';
       case EmployeesType.DIBAYAR_BULANAN:
-        return "Dibayar Bulanan";
+        return 'Dibayar Bulanan';
       case EmployeesType.DIBAYAR_HARIAN:
-        return "Dibayar Harian";
+        return 'Dibayar Harian';
       case EmployeesType.DIBAYAR_SEKALIGUS:
-        return "Dibayar Sekaligus";
+        return 'Dibayar Sekaligus';
       case EmployeesType.PENGAWAS_NON_PEGAWAI:
-        return "Pengawas Non Pegawai";
+        return 'Pengawas Non Pegawai';
       case EmployeesType.PESERTA_KEGIATAN:
-        return "Peserta Kegiatan";
+        return 'Peserta Kegiatan';
       default:
-        return "Tidak Diketahui";
+        return 'Tidak Diketahui';
     }
   };
 
@@ -262,8 +263,8 @@ export default function PPH21() {
           <div className="flex flex-row gap-x-6">
             <DropdownMenuButtonPPh21 />
 
-            <Button variant={"outline"} asChild>
-              <Link href={"/unit/tax/report/pph"}>Cetak Keseluruhan</Link>
+            <Button variant={'outline'} asChild>
+              <Link href={'/unit/tax/report/pph'}>Cetak Keseluruhan</Link>
             </Button>
           </div>
         </div>
@@ -283,31 +284,31 @@ export default function PPH21() {
             isLoading={isGetPph21Loading}
             loadingPlaceholderAmount={8}
             headers={[
-              "Nama Lengkap",
-              "NPWP",
-              "NIK",
-              "Jenis Pegawai",
-              "Masa Pajak",
-              "Gaji Bruto",
-              "PPh 21",
-              "Status",
+              'Nama Lengkap',
+              'NPWP',
+              'NIK',
+              'Jenis Pegawai',
+              'Masa Pajak',
+              'Gaji Bruto',
+              'PPh 21',
+              'Status',
             ]}
             renderRow={(item) => (
               <>
                 <TableCell>{item.name}</TableCell>
-                <TableCell>{item.npwp ?? "Tidak ada NPWP"}</TableCell>
+                <TableCell>{item.npwp ?? 'Tidak ada NPWP'}</TableCell>
                 <TableCell>{item.nik}</TableCell>
                 <TableCell>
                   {mapEmployeeTypeToName(item.employee_type)}
                 </TableCell>
                 <TableCell>
                   {mapPeriodMonthToName(item.period.month) +
-                    " " +
+                    ' ' +
                     item.period.years}
                 </TableCell>
                 <TableCell>Rp. {formatNumber(item.gross_salary)}</TableCell>
                 <TableCell>Rp. {formatNumber(item.pph21)}</TableCell>
-                <TableCell>{item.status}</TableCell>
+                <TableCell>{formatEmployeeStatus(item.status)}</TableCell>
               </>
             )}
             onRowClick={handleRowClick}
