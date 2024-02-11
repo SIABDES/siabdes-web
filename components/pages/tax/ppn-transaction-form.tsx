@@ -1,29 +1,29 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { DatePicker } from '@/components/ui/date-picker';
+import { Card, CardContent } from "@/components/ui/card";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { CreatePPNFormData, UpdatePPNFormData } from '@/types/ppn/dto';
+} from "@/components/ui/select";
+import { CreatePPNFormData, UpdatePPNFormData } from "@/types/ppn/dto";
 import {
   PpnItemType,
   PpnTaxObjectType,
   PpnTransactionType,
-} from '@/types/ppn/ppn';
-import React, { use, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+} from "@/types/ppn/ppn";
+import React, { use, useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 interface PPNTransactionFormProps {
   form: ReturnType<typeof useForm<UpdatePPNFormData>>;
@@ -42,27 +42,22 @@ export default function PPNTransactionForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel htmlFor={field.name}>Transaksi</FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger className="border border-gray-400">
-                      <SelectValue placeholder="Pilih Transaksi" />
-                    </SelectTrigger>
-                  </FormControl>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger className="border border-gray-400">
+                    <SelectValue placeholder="Pilih Transaksi" />
+                  </SelectTrigger>
+                </FormControl>
 
-                  <SelectContent>
-                    <SelectItem value={PpnTransactionType.PEMBELIAN}>
-                      Pembelian
-                    </SelectItem>
-                    <SelectItem value={PpnTransactionType.PENJUALAN}>
-                      Penjualan
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
+                <SelectContent>
+                  <SelectItem value={PpnTransactionType.PEMBELIAN}>
+                    Pembelian
+                  </SelectItem>
+                  <SelectItem value={PpnTransactionType.PENJUALAN}>
+                    Penjualan
+                  </SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -94,23 +89,20 @@ export default function PPNTransactionForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel htmlFor={field.name}>Jenis Objek</FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger className="border border-gray-400">
-                      <SelectValue placeholder="Pilih Jenis Objek" />
-                    </SelectTrigger>
-                  </FormControl>
 
-                  <SelectContent>
-                    <SelectItem value={PpnItemType.BARANG}>Barang</SelectItem>
-                    <SelectItem value={PpnItemType.JASA}>Jasa</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger className="border border-gray-400">
+                    <SelectValue placeholder="Pilih Jenis Objek" />
+                  </SelectTrigger>
+                </FormControl>
+
+                <SelectContent>
+                  <SelectItem value={PpnItemType.BARANG}>Barang</SelectItem>
+                  <SelectItem value={PpnItemType.JASA}>Jasa</SelectItem>
+                </SelectContent>
+              </Select>
+
               <FormMessage />
             </FormItem>
           )}
@@ -138,32 +130,26 @@ export default function PPNTransactionForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel htmlFor={field.name}>Objek Pajak</FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger className="border border-gray-400">
-                      <SelectValue placeholder="Pilih Objek Pajak" />
-                    </SelectTrigger>
-                  </FormControl>
 
-                  <SelectContent>
-                    <SelectItem
-                      value={PpnTaxObjectType.KENA_PAJAK_DALAM_NEGERI}
-                    >
-                      Kena Pajak - Dalam Negeri
-                    </SelectItem>
-                    <SelectItem value={PpnTaxObjectType.KENA_PAJAK_LUAR_NEGERI}>
-                      Kena Pajak - Luar Negeri
-                    </SelectItem>
-                    <SelectItem value={PpnTaxObjectType.TIDAK_KENA_PAJAK}>
-                      Tidak Kena Pajak
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger className="border border-gray-400">
+                    <SelectValue placeholder="Pilih Objek Pajak" />
+                  </SelectTrigger>
+                </FormControl>
+
+                <SelectContent>
+                  <SelectItem value={PpnTaxObjectType.KENA_PAJAK_DALAM_NEGERI}>
+                    Kena Pajak - Dalam Negeri
+                  </SelectItem>
+                  <SelectItem value={PpnTaxObjectType.KENA_PAJAK_LUAR_NEGERI}>
+                    Kena Pajak - Luar Negeri
+                  </SelectItem>
+                  <SelectItem value={PpnTaxObjectType.TIDAK_KENA_PAJAK}>
+                    Tidak Kena Pajak
+                  </SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

@@ -1,32 +1,32 @@
-'use client';
+"use client";
 
-import Layout from '@/components/layout/layout';
-import PPNCalculationForm from '@/components/pages/tax/ppn-calculation-form';
-import PpnTransactionsForm from '@/components/pages/tax/ppn-transaction-form';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Form } from '@/components/ui/form';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { toast, useToast } from '@/components/ui/use-toast';
-import { useEditPPN } from '@/hooks/ppn/useEditPPN';
-import useGetPPNDetails from '@/hooks/ppn/useGetPPNDetails';
+import Layout from "@/components/layout/layout";
+import PPNCalculationForm from "@/components/pages/tax/ppn-calculation-form";
+import PpnTransactionsForm from "@/components/pages/tax/ppn-transaction-form";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { toast, useToast } from "@/components/ui/use-toast";
+import { useEditPPN } from "@/hooks/ppn/useEditPPN";
+import useGetPPNDetails from "@/hooks/ppn/useGetPPNDetails";
 import {
   CreatePPNFormData,
   CreatePPNSchema,
   PpnObjectItemSchema,
   UpdatePPNFormData,
   UpdatePPNSchema,
-} from '@/types/ppn/dto';
-import { PpnTransactionType } from '@/types/ppn/ppn';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ChevronLeftIcon } from '@radix-ui/react-icons';
-import { da } from 'date-fns/locale';
-import { PlusCircleIcon } from 'lucide-react';
-import { Update } from 'next/dist/build/swc';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { use, useEffect, useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+} from "@/types/ppn/dto";
+import { PpnTransactionType } from "@/types/ppn/ppn";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ChevronLeftIcon } from "@radix-ui/react-icons";
+import { da } from "date-fns/locale";
+import { PlusCircleIcon } from "lucide-react";
+import { Update } from "next/dist/build/swc";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { use, useEffect, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 
 export default function EditPPN({ params }: { params: { ppn_id: string } }) {
   const [evidence, setEvidence] = useState<File | null>(null);
@@ -41,11 +41,11 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
   const form = useForm<UpdatePPNFormData>({
     resolver: zodResolver(UpdatePPNSchema),
     defaultValues: {
-      given_to: '',
+      given_to: "",
       item_type: undefined,
       transaction_date: undefined,
       transaction_type: undefined,
-      transaction_number: '',
+      transaction_number: "",
       tax_object: undefined,
       object_items: [],
     },
@@ -57,9 +57,9 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
   //   form.setValue('transaction_type', TransactionType);
   // }, [form]);
 
-  const transactionTypeWatch = form.watch('transaction_type');
+  const transactionTypeWatch = form.watch("transaction_type");
   useEffect(() => {
-    console.log('transactionTypeWatch', transactionTypeWatch);
+    console.log("transactionTypeWatch", transactionTypeWatch);
   }, [transactionTypeWatch]);
 
   useEffect(() => {
@@ -82,7 +82,6 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
       //     total_price: item.total_price,
       //   }))
       // );
-
       form.reset({
         transaction_number: details.transaction_number,
         transaction_date: new Date(details.transaction_date),
@@ -105,7 +104,7 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
 
   const objectItemArray = useFieldArray({
     control: form.control,
-    name: 'object_items',
+    name: "object_items",
     rules: {
       minLength: 1,
     },
@@ -117,7 +116,7 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
 
   const handleAddItem = () => {
     objectItemArray.append({
-      name: '',
+      name: "",
       discount: 0,
       dpp: 0,
       ppn: 0,
@@ -134,13 +133,13 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
     try {
       const validatedData = UpdatePPNSchema.safeParse(data);
 
-      console.log('data', data);
+      console.log("data", data);
 
       if (!validatedData.success) {
         toast({
-          title: 'Terjadi kesalahan',
-          description: 'Mohon periksa kembali inputan anda..',
-          variant: 'destructive',
+          title: "Terjadi kesalahan",
+          description: "Mohon periksa kembali inputan anda..",
+          variant: "destructive",
         });
         return;
       }
@@ -150,19 +149,19 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
         {
           onSettled: () => {
             toast({
-              title: 'Mengubah data PPN',
+              title: "Mengubah data PPN",
               description: `Data Sedang diubah...`,
             });
           },
           onSuccess: () => {
             toast({
-              title: 'Berhasil mengubah data PPN',
+              title: "Berhasil mengubah data PPN",
               description: `Data berhasil diubah...`,
             });
           },
           onError: () => {
             toast({
-              title: 'Gagal mengubah data PPN',
+              title: "Gagal mengubah data PPN",
               description: `Data gagal diubah...`,
             });
           },
@@ -172,7 +171,7 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
       router.push(`/unit/tax/ppn/${params.ppn_id}/details`);
     } catch (error) {
       toast({
-        title: 'Gagal mengubah data PPN',
+        title: "Gagal mengubah data PPN",
         description: `Data gagal diubah...`,
         duration: 5000,
       });
@@ -181,7 +180,7 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
   return (
     <Layout>
       <Link href={`/unit/tax/ppn/${params.ppn_id}/details`} className="w-fit">
-        <Button variant={'ghost'}>
+        <Button variant={"ghost"}>
           <ChevronLeftIcon className="w-4 h-4 mr-2" />
           Kembali
         </Button>
@@ -200,7 +199,7 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
               <h2 className="p-3">Perhitungan Nilai Objek</h2>
 
               <ScrollArea className="max-h-96 overflow-y-auto">
-                {form.getValues('object_items')?.map((_, index) => (
+                {form.getValues("object_items")?.map((_, index) => (
                   <PPNCalculationForm
                     key={index}
                     form={form}
