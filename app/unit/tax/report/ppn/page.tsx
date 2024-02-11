@@ -21,6 +21,8 @@ import { useReactToPrint } from 'react-to-print';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
+import TableReportPPN from '@/components/pages/tax/table-report-ppn';
+import { Session } from 'inspector';
 
 export default function PreviewPPN() {
   const { data, isLoading } = useGetPPN();
@@ -30,29 +32,61 @@ export default function PreviewPPN() {
     documentTitle: 'Laporan Pajak Pertambahan Nilai',
   });
   const ppn = data?.data.taxes;
-  const sumIncome = useMemo(() => {
+
+  // gunakan session
+
+  // const sumIncome = useMemo(() => {
+  //   return (
+  //     ppn
+  //       ?.filter((ppn) => ppn.transaction_type === 'PURCHASE')
+  //       .reduce((sum, ppn) => sum + ppn.total_ppn, 0) || 0
+  //   );
+  // }, [ppn]);
+
+  // const sumOutcome = useMemo(() => {
+  //   return (
+  //     ppn
+  //       ?.filter((ppn) => ppn.transaction_type === 'SALES')
+  //       .reduce((sum, ppn) => sum + ppn.total_ppn, 0) || 0
+  //   );
+  // }, [ppn]);
+
+  // const totalPPN = useMemo(
+  //   () => sumOutcome - sumIncome,
+  //   [sumOutcome, sumIncome]
+  // );
+
+  const totalDPPPurchase = useMemo(() => {
     return (
       ppn
         ?.filter((ppn) => ppn.transaction_type === 'PURCHASE')
-        .reduce((sum, ppn) => sum + ppn.total_ppn, 0) || 0
+        .reduce((sum, item) => sum + item.total_dpp, 0) ?? 0
     );
   }, [ppn]);
 
-  const sumOutcome = useMemo(() => {
+  const totalDPPSales = useMemo(() => {
     return (
       ppn
         ?.filter((ppn) => ppn.transaction_type === 'SALES')
-        .reduce((sum, ppn) => sum + ppn.total_ppn, 0) || 0
+        .reduce((sum, item) => sum + item.total_dpp, 0) ?? 0
     );
   }, [ppn]);
 
-  const totalPPN = useMemo(
-    () => sumOutcome - sumIncome,
-    [sumOutcome, sumIncome]
-  );
+  const totalPPNPurchase = useMemo(() => {
+    return (
+      ppn
+        ?.filter((ppn) => ppn.transaction_type === 'PURCHASE')
+        .reduce((sum, item) => sum + item.total_ppn, 0) ?? 0
+    );
+  }, [ppn]);
 
-  const dppMasukan: number = 289000000;
-  const dppKeluaran: number = 175000000;
+  const totalPPNSales = useMemo(() => {
+    return (
+      ppn
+        ?.filter((ppn) => ppn.transaction_type === 'SALES')
+        .reduce((sum, item) => sum + item.total_ppn, 0) ?? 0
+    );
+  }, [ppn]);
   return (
     <>
       <div id="print-controller" className="my-6">
@@ -67,7 +101,7 @@ export default function PreviewPPN() {
         <Separator />
       </div>
 
-      <section ref={contentRef}>
+      <section ref={contentRef} className="max-w-full mx-auto">
         <header>
           <div className="flex justify-center mt-10 space-x-6">
             <div>
@@ -91,14 +125,26 @@ export default function PreviewPPN() {
             </h1>
             <h2>Periode 1 Januari - 31 januari 2023</h2>
           </div>
+          {/* if (activeTransactionType == 'PEMBELIAN') {
+            
+          } */}
           <div>
             <h2 className="font-semibold mt-2 mb-2">PPN Masukan</h2>
+            {/* // percabangan disini
+            <ReportPPNPurchase data={ppn} isLoading={isLoading} />
+            <ReportPPNSales data={ppn} isLoading={isLoading} /> */}
             {/* <TablePPN
             headers={tableHeadersIncome}
             data={tableDataIncome}
             onSumCalculated={setSumIncome}
           /> */}
-            <div className="overflow-x-auto">
+
+            <TableReportPPN
+              data={ppn?.filter((ppn) => ppn.transaction_type === 'PURCHASE')}
+              isLoading={isLoading}
+            />
+
+            {/* < className="overflow-x-auto">
               <Table className="relative w-full">
                 <TableHeader className="">
                   <TableRow>
@@ -214,17 +260,36 @@ export default function PreviewPPN() {
                   </TableRow>
                 </TableFooter>
               </Table>
-            </div>
+          </div> */}
           </div>
-
+          <div className="border p-4 flex flex-col items-center border-black rounded-lg">
+            <div className="font-bold">
+              Dasar Pengenaan Pajak Masukan:{' '}
+              {`${formatRupiah(totalDPPPurchase)}`}
+            </div>
+            <p className="h-0.5 my-2 w-full bg-black border-0 rounded" />
+            <div>{`Terbilang: ${numberToWordsID(totalDPPPurchase)}`} </div>
+          </div>
+          <div className="border p-4 flex flex-col justify-center items-center border-black rounded-lg">
+            <div className="font-bold">
+              Pajak Pertambahan Nilai Masukan:{' '}
+              {`${formatRupiah(totalPPNPurchase)}`}
+            </div>
+            <p className="h-0.5 my-2 w-full bg-black border-0 rounded" />
+            <div>{`Terbilang: ${numberToWordsID(totalPPNPurchase)}`}</div>
+          </div>
           <div>
             <h2 className="font-semibold mt-2 mb-2">PPN Keluaran</h2>
+            <TableReportPPN
+              data={ppn?.filter((ppn) => ppn.transaction_type === 'SALES')}
+              isLoading={isLoading}
+            />
             {/* <TablePPN
             headers={tableHeadersOutcome}
             data={tableDataOutcome}
             onSumCalculated={setSumOutcome}
           /> */}
-            <div className="overflow-x-auto">
+            {/* <div className="overflow-x-auto">
               <Table className="relative w-full">
                 <TableHeader className="">
                   <TableRow>
@@ -319,8 +384,6 @@ export default function PreviewPPN() {
                         </TableCell>
                         <TableCell className="px-6 py-4 border border-black  bg-white">
                           {formatRupiah(ppn.total_ppn)}
-                          {/* {numberToWordsID(ppn.total_ppn)} =
-                        {ppn.total_ppn.toLocaleString()} */}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -342,17 +405,24 @@ export default function PreviewPPN() {
                   </TableRow>
                 </TableFooter>
               </Table>
-            </div>
+            </div> */}
           </div>
-
-          {/* <div className="flex space-x-4 justify-center">
-            <h2 className="font-semibold text-xl">
-              PPN ({totalPPN < 0 ? 'Lebih Bayar' : 'Kurang Bayar'}) :
-            </h2>
-            <p className="font-semibold text-xl">{totalPPN.toLocaleString()}</p>
-          </div> */}
-
-          <div className="flex justify-center space-x-12 mb-12">
+          <div className="border p-4 flex flex-col items-center border-black rounded-lg">
+            <div className="font-bold">
+              Dasar Pengenaan Pajak Masukan: {`${formatRupiah(totalDPPSales)}`}
+            </div>
+            <p className="h-0.5 my-2 w-full bg-black border-0 rounded" />
+            <div>{`Terbilang: ${numberToWordsID(totalDPPSales)}`} </div>
+          </div>
+          <div className="border p-4 flex flex-col justify-center items-center border-black rounded-lg">
+            <div className="font-bold">
+              Pajak Pertambahan Nilai Masukan:{' '}
+              {`${formatRupiah(totalPPNSales)}`}
+            </div>
+            <p className="h-0.5 my-2 w-full bg-black border-0 rounded" />
+            <div>{`Terbilang: ${numberToWordsID(totalPPNSales)}`}</div>
+          </div>
+          {/* <div className="flex justify-center space-x-12 mb-12">
             <div className="border p-4 flex flex-col justify-center items-center w-1/2 border-black rounded-lg">
               <div className="font-bold">
                 Dasar Pengenaan Pajak Masukan: Rp 2.890.000.000
@@ -396,7 +466,7 @@ export default function PreviewPPN() {
             </div>
             <p className="h-0.5 my-2 w-full bg-black border-0 rounded" />
             <div>{`Terbilang : ${numberToWordsID(totalPPN)}`}</div>
-          </div>
+          </div> */}
         </div>
       </section>
     </>

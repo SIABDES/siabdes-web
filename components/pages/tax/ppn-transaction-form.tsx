@@ -1,32 +1,32 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { DatePicker } from "@/components/ui/date-picker";
+import { Card, CardContent } from '@/components/ui/card';
+import { DatePicker } from '@/components/ui/date-picker';
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { CreatePPNFormData } from "@/types/ppn/dto";
+} from '@/components/ui/select';
+import { CreatePPNFormData, UpdatePPNFormData } from '@/types/ppn/dto';
 import {
   PpnItemType,
   PpnTaxObjectType,
   PpnTransactionType,
-} from "@/types/ppn/ppn";
-import React from "react";
-import { useForm } from "react-hook-form";
+} from '@/types/ppn/ppn';
+import React, { use, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface PPNTransactionFormProps {
-  form: ReturnType<typeof useForm<CreatePPNFormData>>;
+  form: ReturnType<typeof useForm<UpdatePPNFormData>>;
   setEvidence: React.Dispatch<React.SetStateAction<File | null>>;
 }
 export default function PPNTransactionForm({

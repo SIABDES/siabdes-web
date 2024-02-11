@@ -29,7 +29,8 @@ export type AddPPNDataResponse = BackendResponseType<{
   created_at: string;
 }>;
 
-export type UpdatePPNDataResponse = BackendResponseType<{
+export type UpdatePPNResponse = BackendResponseType<{
   id: string;
   updated_at: string;
+  is_evidence_updated: boolean;
 }>;

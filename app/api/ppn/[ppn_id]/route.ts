@@ -38,8 +38,8 @@ export async function PUT(
 ) {
   const { ppn_id } = params;
   const loginUrl = new URL('/auth/login', request.url);
-  const data = await request.json();
   const session = await getServerSession(authOptions);
+  const data = await request.formData();
 
   if (!session) {
     return NextResponse.redirect(loginUrl);

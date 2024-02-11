@@ -85,6 +85,7 @@ export default function AddPpn() {
   const onSubmit = async (data: CreatePPNFormData) => {
     const validatedData = CreatePPNSchema.safeParse(data);
 
+    console.log('data ppn', data);
     if (!evidence) {
       toast({
         title: 'Terjadi kesalahan',

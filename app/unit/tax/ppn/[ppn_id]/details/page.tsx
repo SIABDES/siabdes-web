@@ -239,8 +239,19 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
                           <TableCell className="px-6 py-4 border border-black">
                             Bukti Transaksi
                           </TableCell>
-                          <TableCell className="px-6 py-4 border border-black">
-                            {details.transaction_evidence}
+                          <TableCell className="border border-black">
+                            {/* {details.transaction_evidence} */}
+                            <Button
+                              variant="link"
+                              onClick={() =>
+                                window.open(
+                                  details.transaction_evidence,
+                                  '_blank'
+                                )
+                              }
+                            >
+                              Lihat Bukti Transaksi
+                            </Button>
                           </TableCell>
                         </TableRow>
                         <TableRow className="border border-black">

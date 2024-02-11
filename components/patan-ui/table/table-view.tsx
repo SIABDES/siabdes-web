@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -6,15 +6,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { cn } from "@/lib/utils";
-import React from "react";
+} from '@/components/ui/table';
+import { cn } from '@/lib/utils';
+import React from 'react';
 
 interface TableViewProps<T extends object>
   extends React.HTMLAttributes<HTMLTableElement> {
   headers: string[];
   items: T[];
-  renderRow: (item: T) => React.ReactNode;
+  renderRow: (item: T, index: number) => React.ReactNode;
   renderHeader?: (header: string) => React.ReactNode;
   onRowClick?: (item: T) => void;
   isLoading?: boolean;
@@ -58,9 +58,9 @@ export default function TableView<T extends object>({
             <TableRow
               key={index}
               onClick={() => onRowClick?.(item)}
-              className={cn(onRowClick && "cursor-pointer")}
+              className={cn(onRowClick && 'cursor-pointer')}
             >
-              {renderRow(item)}
+              {renderRow(item, index)}
             </TableRow>
           ))}
       </TableBody>

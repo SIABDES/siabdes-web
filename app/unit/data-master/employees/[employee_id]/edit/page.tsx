@@ -53,11 +53,6 @@ import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import { AxiosClientSide } from '@/common/api';
 import { GetEmployeeDetailsResponse } from '@/types/employees/response';
 
-interface EditEmployeeFormProps {
-  params: { employee_id: string };
-  existenceNPWP: string;
-}
-
 export default function Edit({ params }: { params: { employee_id: string } }) {
   const { toast } = useToast();
   const router = useRouter();
@@ -69,7 +64,7 @@ export default function Edit({ params }: { params: { employee_id: string } }) {
     refetch: refetchDetails,
   } = useGetEmployeeDetails({ params });
 
-  const form = useForm<EmployeeFormDataType>({
+  const form = useForm<UpdateEmployeeFormData>({
     resolver: zodResolver(UpdateEmployeeRequest),
     defaultValues: {
       name: details?.name || '',

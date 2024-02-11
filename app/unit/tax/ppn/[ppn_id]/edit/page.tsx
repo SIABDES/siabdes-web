@@ -15,15 +15,17 @@ import {
   CreatePPNSchema,
   PpnObjectItemSchema,
   UpdatePPNFormData,
-  UpdatePPNRequest,
+  UpdatePPNSchema,
 } from '@/types/ppn/dto';
+import { PpnTransactionType } from '@/types/ppn/ppn';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
+import { da } from 'date-fns/locale';
 import { PlusCircleIcon } from 'lucide-react';
 import { Update } from 'next/dist/build/swc';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 export default function EditPPN({ params }: { params: { ppn_id: string } }) {
@@ -36,22 +38,70 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
     refetch: refetchDetails,
   } = useGetPPNDetails({ params });
 
-  console.log('details', details);
-
-  const form = useForm<CreatePPNFormData>({
-    resolver: zodResolver(CreatePPNSchema),
+  const form = useForm<UpdatePPNFormData>({
+    resolver: zodResolver(UpdatePPNSchema),
     defaultValues: {
-      // object_items: details?.object_items,
-      given_to: details?.given_to,
-      item_type: details?.item_type,
-      tax_object: details?.tax_object,
-      transaction_date: details?.transaction_date
-        ? new Date(details?.transaction_date)
-        : undefined,
-      transaction_number: details?.transaction_number,
-      transaction_type: details?.transaction_type,
+      given_to: '',
+      item_type: undefined,
+      transaction_date: undefined,
+      transaction_type: undefined,
+      transaction_number: '',
+      tax_object: undefined,
+      object_items: [],
     },
   });
+
+  // useEffect(() => {
+  //   const transactionTypeWatch = form.watch('transaction_type');
+  //   const TransactionType = form.getValues(transactionTypeWatch);
+  //   form.setValue('transaction_type', TransactionType);
+  // }, [form]);
+
+  const transactionTypeWatch = form.watch('transaction_type');
+  useEffect(() => {
+    console.log('transactionTypeWatch', transactionTypeWatch);
+  }, [transactionTypeWatch]);
+
+  useEffect(() => {
+    if (details) {
+      // form.setValue('transaction_number', details.transaction_number);
+      // form.setValue('transaction_date', new Date(details.transaction_date));
+      // form.setValue('transaction_type', details.transaction_type);
+      // form.setValue('item_type', details.item_type);
+      // form.setValue('given_to', details.given_to);
+      // form.setValue('tax_object', details.tax_object);
+      // form.setValue(
+      //   'object_items',
+      //   details.objects.map((item) => ({
+      //     name: item.name,
+      //     discount: item?.discount,
+      //     dpp: item.dpp,
+      //     ppn: item.ppn,
+      //     price: item.price,
+      //     quantity: item.quantity,
+      //     total_price: item.total_price,
+      //   }))
+      // );
+
+      form.reset({
+        transaction_number: details.transaction_number,
+        transaction_date: new Date(details.transaction_date),
+        transaction_type: details.transaction_type,
+        item_type: details.item_type,
+        given_to: details.given_to,
+        tax_object: details.tax_object,
+        object_items: details.objects.map((item) => ({
+          name: item.name,
+          discount: item?.discount,
+          dpp: item.dpp,
+          ppn: item.ppn,
+          price: item.price,
+          quantity: item.quantity,
+          total_price: item.total_price,
+        })),
+      });
+    }
+  }, [form, details]);
 
   const objectItemArray = useFieldArray({
     control: form.control,
@@ -76,33 +126,48 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
       total_price: 0,
     });
   };
-  //   const handleMutation = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //     e.preventDefault();
-  //     const form = document.querySelector('form');
-  //     const formData = new FormData(form);
-  //     mutateEditPPN(formData, {
-  //       onSuccess: (data) => {
-  //         toast.success('Berhasil mengubah data PPN');
-  //         router.push(`/unit/tax/ppn/${params.ppn_id}/details`);
-  //       },
-  //       onError: (error) => {
-  //         toast.error('Gagal mengubah data PPN');
-  //       },
-  //     });
-  //   };
 
   const { mutateAsync: mutateEditPPN, isPending: isMutateEditPPNPending } =
     useEditPPN({ ppn_id: params.ppn_id });
 
   const onSubmit = async (data: UpdatePPNFormData) => {
     try {
-      await mutateEditPPN(data);
+      const validatedData = UpdatePPNSchema.safeParse(data);
 
-      toast({
-        title: 'Berhasil mengubah data PPN',
-        description: `Data telah diubah...`,
-        duration: 5000,
-      });
+      console.log('data', data);
+
+      if (!validatedData.success) {
+        toast({
+          title: 'Terjadi kesalahan',
+          description: 'Mohon periksa kembali inputan anda..',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      await mutateEditPPN(
+        { data, evidence },
+        {
+          onSettled: () => {
+            toast({
+              title: 'Mengubah data PPN',
+              description: `Data Sedang diubah...`,
+            });
+          },
+          onSuccess: () => {
+            toast({
+              title: 'Berhasil mengubah data PPN',
+              description: `Data berhasil diubah...`,
+            });
+          },
+          onError: () => {
+            toast({
+              title: 'Gagal mengubah data PPN',
+              description: `Data gagal diubah...`,
+            });
+          },
+        }
+      );
 
       router.push(`/unit/tax/ppn/${params.ppn_id}/details`);
     } catch (error) {
