@@ -30,11 +30,13 @@ interface JournalTransactionsFormProps {
   accounts: AccountType[];
 }
 
-export default function JournalTransactionsForm(
-  props: JournalTransactionsFormProps
-) {
+export default function JournalTransactionsForm({
+  transaction,
+  setTransactions,
+  ...props
+}: JournalTransactionsFormProps) {
   const [accountId, setAccountId] = useState<string | undefined>(
-    props.transaction.account_id?.toString()
+    transaction.account_id?.toString()
   );
 
   const hasAccount =
@@ -42,9 +44,9 @@ export default function JournalTransactionsForm(
 
   useEffect(() => {
     if (!accountId) {
-      props.setTransactions((prev) =>
+      setTransactions((prev) =>
         prev.map((transaction) => {
-          if (transaction.unique_id === props.transaction.unique_id) {
+          if (transaction.unique_id === transaction.unique_id) {
             return {
               ...transaction,
               account_id: undefined,
@@ -58,26 +60,26 @@ export default function JournalTransactionsForm(
       return;
     }
 
-    props.setTransactions((prev) =>
+    setTransactions((prev) =>
       prev.map((transaction) => {
-        if (transaction.unique_id === props.transaction.unique_id) {
+        if (transaction.unique_id === transaction.unique_id) {
           return { ...transaction, account_id: parseInt(accountId) };
         }
         return transaction;
       })
     );
-  }, [accountId]);
+  }, [accountId, setTransactions]);
 
   const handleChangeDebit = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = reverseFormatNumber(e.target.value);
 
-    if (newValue === "" || props.transaction.credit > 0) {
+    if (newValue === "" || transaction.credit > 0) {
       newValue = "0";
     }
 
-    props.setTransactions((prev) =>
+    setTransactions((prev) =>
       prev.map((transaction) => {
-        if (transaction.unique_id === props.transaction.unique_id) {
+        if (transaction.unique_id === transaction.unique_id) {
           return { ...transaction, debit: parseFloat(newValue) }; // Use newValue here
         }
         return transaction;
@@ -88,13 +90,13 @@ export default function JournalTransactionsForm(
   const handleChangeCredit = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = reverseFormatNumber(e.target.value);
 
-    if (newValue === "" || props.transaction.debit > 0) {
+    if (newValue === "" || transaction.debit > 0) {
       newValue = "0";
     }
 
-    props.setTransactions((prev) =>
+    setTransactions((prev) =>
       prev.map((transaction) => {
-        if (transaction.unique_id === props.transaction.unique_id) {
+        if (transaction.unique_id === transaction.unique_id) {
           return { ...transaction, credit: parseFloat(newValue) }; // Use newValue here
         }
         return transaction;
@@ -105,9 +107,9 @@ export default function JournalTransactionsForm(
   const handleDeleteTransaction = () => {
     if (!props.isAbleToDelete) return;
 
-    props.setTransactions((prev) =>
+    setTransactions((prev) =>
       prev.filter(
-        (transaction) => transaction.unique_id !== props.transaction.unique_id
+        (transaction) => transaction.unique_id !== transaction.unique_id
       )
     );
   };
@@ -134,9 +136,9 @@ export default function JournalTransactionsForm(
           label="Debit"
           name="debit"
           onChange={handleChangeDebit}
-          value={formatNumber(props.transaction.debit)}
+          value={formatNumber(transaction.debit)}
           type="text"
-          disabled={props.transaction.credit > 0 || !hasAccount}
+          disabled={transaction.credit > 0 || !hasAccount}
         />
       </div>
 
@@ -145,9 +147,9 @@ export default function JournalTransactionsForm(
           label="Kredit"
           name="kredit"
           onChange={handleChangeCredit}
-          value={formatNumber(props.transaction.credit)}
+          value={formatNumber(transaction.credit)}
           type="text"
-          disabled={props.transaction.debit > 0 || !hasAccount}
+          disabled={transaction.debit > 0 || !hasAccount}
         />
       </div>
 

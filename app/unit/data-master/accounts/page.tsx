@@ -1,21 +1,11 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Layout from '@/components/layout/layout';
-import { TableComponent } from '@/components/table/table';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useGetAccounts } from '@/hooks/account/useGetAccounts';
-import { TabContentAccounts } from '@/components/pages/data-master/accounts/tab-content-accounts';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import Layout from "@/components/layout/layout";
+import { TabContentAccounts } from "@/components/pages/data-master/accounts/tab-content-accounts";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useGetAccounts } from "@/hooks/account/useGetAccounts";
+import Link from "next/link";
 
 export default function ListAccount() {
   const data = useGetAccounts();

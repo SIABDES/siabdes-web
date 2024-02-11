@@ -1,29 +1,13 @@
-'use client';
+"use client";
 
-import useGetPPNDetails from '@/hooks/ppn/useGetPPNDetails';
-import React, { use, useEffect, useState } from 'react';
+import { formatDateToString } from "@/common/helpers/date";
+import { formatNumber, formatRupiah } from "@/common/helpers/number-format";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import Layout from '@/components/layout/layout';
-import {
-  formatNumber,
-  formatRupiah,
-  reverseFormat,
-  reverseFormatNumber,
-} from '@/common/helpers/number-format';
-import { reverse } from 'dns';
-import { useRouter } from 'next/navigation';
-import { useToast } from '@/components/ui/use-toast';
-import useDeletePPN from '@/hooks/ppn/useDeletePPN';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { EditIcon } from 'lucide-react';
+  formatPPNItemType,
+  formatPPNTransactionType,
+  formatPPNtaxObject,
+} from "@/common/helpers/ppn-format";
+import Layout from "@/components/layout/layout";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,16 +18,22 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { TrashIcon } from 'lucide-react';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import {
-  formatPPNItemType,
-  formatPPNTransactionType,
-  formatPPNtaxObject,
-} from '@/common/helpers/ppn-format';
-import { format } from 'path';
-import { formatDateToString } from '@/common/helpers/date';
-import { set } from 'date-fns';
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useToast } from "@/components/ui/use-toast";
+import useDeletePPN from "@/hooks/ppn/useDeletePPN";
+import useGetPPNDetails from "@/hooks/ppn/useGetPPNDetails";
+import { EditIcon, TrashIcon } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function Details({ params }: { params: { ppn_id: string } }) {
   const { data: details, isFetched } = useGetPPNDetails({ params });
@@ -62,15 +52,15 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
     void mutateDeletePPN(undefined, {
       onSuccess: () => {
         toast({
-          title: 'Hapus PPN',
-          description: 'Data PPN berhasil dihapus',
+          title: "Hapus PPN",
+          description: "Data PPN berhasil dihapus",
           duration: 5000,
         });
-        router.push('/unit/tax/ppn');
+        router.push("/unit/tax/ppn");
       },
       onError: (error) => {
         toast({
-          title: 'gagal Menghapus PPN',
+          title: "gagal Menghapus PPN",
           description: error.message,
           duration: 5000,
         });
@@ -88,24 +78,19 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
 
   const [totalPPN, setTotalPPN] = useState<number>(0);
 
-  console.log('total ppn', totalPPN);
   useEffect(() => {
     if (isFetched && details) {
       // Hitung total PPN dari semua objek perhitungan
       const calculatedTotalPPN = details.objects.reduce(
-        (accumulator, item) => accumulator + parseFloat(item.ppn || '0'),
+        (accumulator, item) => accumulator + item.ppn,
         0
       );
 
       setTotalPPN(calculatedTotalPPN);
     }
 
-    console.log('total ppn', totalPPN);
-  }, [isFetched, details]);
-
-  const getPPNValue = () => {
-    return totalPPN;
-  };
+    console.log("total ppn", totalPPN);
+  }, [isFetched, details, totalPPN]);
 
   return (
     <Layout>
@@ -113,7 +98,7 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
         <h5 className="text-lg font-semibold flex items-center">Detail PPN</h5>
 
         <div className="inline-flex gap-x-4 justify-end">
-          <Button variant={'outline'}>
+          <Button variant={"outline"}>
             <Link
               href={`/unit/tax/ppn/${params.ppn_id}/edit`}
               className="flex items-center"
@@ -125,9 +110,9 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant={'destructive'} disabled={isMutateDeletePending}>
+              <Button variant={"destructive"} disabled={isMutateDeletePending}>
                 <TrashIcon size={16} className="mr-2" />
-                {isMutateDeletePending ? 'Menghapus...' : 'Hapus Jurnal'}
+                {isMutateDeletePending ? "Menghapus..." : "Hapus Jurnal"}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -144,7 +129,7 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
                   className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                 >
                   <Button
-                    variant={'destructive'}
+                    variant={"destructive"}
                     className="w-fit"
                     onClick={handleDeletePPN}
                   >
@@ -246,7 +231,7 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
                               onClick={() =>
                                 window.open(
                                   details.transaction_evidence,
-                                  '_blank'
+                                  "_blank"
                                 )
                               }
                             >
@@ -275,7 +260,7 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
                             Harga Satuan
                           </TableCell>
                           <TableCell className="px-6 py-4 border border-black">
-                            {formatRupiah(parseFloat(item.price))}
+                            {formatRupiah(item.price)}
                           </TableCell>
                         </TableRow>
                         <TableRow className="border border-black">
@@ -283,7 +268,7 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
                             Kuantitas
                           </TableCell>
                           <TableCell className="px-6 py-4 border border-black">
-                            {formatNumber(parseFloat(item.quantity))}
+                            {formatNumber(item.quantity)}
                           </TableCell>
                         </TableRow>
                         <TableRow className="border border-black">
@@ -291,7 +276,7 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
                             Harga Total
                           </TableCell>
                           <TableCell className="px-6 py-4 border border-black">
-                            {formatRupiah(parseFloat(item.total_price))}
+                            {formatRupiah(item.total_price)}
                           </TableCell>
                         </TableRow>
                         <TableRow className="border border-black">
@@ -299,7 +284,7 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
                             Potongan Harga
                           </TableCell>
                           <TableCell className="px-6 py-4 border border-black">
-                            {formatRupiah(parseFloat(item.discount))}
+                            {formatRupiah(item.discount)}
                           </TableCell>
                         </TableRow>
                         <TableRow className="border border-black">
@@ -307,7 +292,7 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
                             Dasar Pengenaan Pajak (DPP)
                           </TableCell>
                           <TableCell className="px-6 py-4 border border-black">
-                            {formatRupiah(parseFloat(item.dpp))}
+                            {formatRupiah(item.dpp)}
                           </TableCell>
                         </TableRow>
 
@@ -316,7 +301,7 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
                             Pajak Pertambah Nilai (PPN)
                           </TableCell>
                           <TableCell className="px-6 py-4 border border-black">
-                            {formatRupiah(parseFloat(item.ppn))}
+                            {formatRupiah(item.ppn)}
                           </TableCell>
                         </TableRow>
                       </TableBody>

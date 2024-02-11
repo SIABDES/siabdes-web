@@ -1,12 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { Inter } from "next/font/google";
 import { PropsWithChildren, useState } from "react";
 import BumdesNavbar from "../pages/bumdes/bumdes-navbar";
 import { BumdesSidebar } from "../pages/bumdes/bumdes-sidebar";
 import { Separator } from "../ui/separator";
-import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +17,7 @@ export default function BumdesLayout(props: PropsWithChildren) {
   };
 
   return (
-    <motion.div className={cn(inter.className, "min-h-screen")}>
+    <div className={cn(inter.className, "min-h-screen")}>
       <BumdesSidebar
         isOpen={sidebarOpen ?? true}
         toggleSidebar={toggleSidebar}
@@ -31,6 +30,6 @@ export default function BumdesLayout(props: PropsWithChildren) {
 
         <main className="px-8 pb-16 mt-4 w-full">{props.children}</main>
       </div>
-    </motion.div>
+    </div>
   );
 }

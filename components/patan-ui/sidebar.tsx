@@ -1,18 +1,17 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
-import {
-  BoxIcon,
-  CalculatorIcon,
-  ChevronDownIcon,
-  HomeIcon,
-  LucideIcon,
-} from "lucide-react";
+import { ChevronDownIcon, LucideIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { ComponentProps, createElement, useCallback, useState } from "react";
+import { usePathname } from "next/navigation";
+import {
+  ComponentProps,
+  HTMLAttributes,
+  createElement,
+  useCallback,
+  useState,
+} from "react";
 import { useBoolean } from "usehooks-ts";
 
 interface SidebarLinkProps extends ComponentProps<typeof Link> {
@@ -99,7 +98,7 @@ type SidebarNavsRequiredProps = Omit<
 
 type SidebarLinkItem = SidebarLinkProps | SidebarNavsRequiredProps;
 
-interface SidebarProps extends ComponentProps<typeof motion.div> {
+interface SidebarProps extends HTMLAttributes<HTMLDivElement> {
   items: Record<string, SidebarLinkItem>;
 }
 
@@ -114,13 +113,13 @@ const isSidebarNavs = (
 };
 
 export function Sidebar({ items, ...props }: SidebarProps) {
-  const { toggle: toggleOpen, value: open } = useBoolean(true);
+  const { value: open } = useBoolean(true);
   const pathname = usePathname();
 
   const currentNavs = useCallback(() => {
     const navs = Object.entries(items).find(([key, item]) => {
       if (isSidebarNavs(item)) {
-        return item.childs.some((child) => child.href === pathname);
+        return item.childs.some((child) => child.href.startsWith(pathname));
       }
     });
 
@@ -138,7 +137,7 @@ export function Sidebar({ items, ...props }: SidebarProps) {
   };
 
   return (
-    <motion.div
+    <div
       {...props}
       id="sidebar"
       className={cn(
@@ -181,6 +180,6 @@ export function Sidebar({ items, ...props }: SidebarProps) {
       </div>
 
       <div id="sidebar-footer"></div>
-    </motion.div>
+    </div>
   );
 }

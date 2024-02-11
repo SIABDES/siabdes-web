@@ -1,3 +1,5 @@
+"use client";
+
 import Layout from "@/components/layout/layout";
 import LaborData from "@/components/pages/pph21/temporary-employee/labor-data";
 import PPh21Calculation from "@/components/pages/pph21/temporary-employee/pph21-calculation";

@@ -1,31 +1,23 @@
 "use client";
-import InputField from "@/components/Input/input-field";
+
 import FormInput from "@/components/patan-ui/form/form-input";
-import SelectItemGroup from "@/components/select/select-item-group";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Value } from "@radix-ui/react-select";
-import React from "react";
+import { useState } from "react";
 
 export default function FormAddAccount() {
-  const [name, setName] = React.useState<string | null>(null);
-  const [subGroup, setSubGroup] = React.useState<string | null>(null);
-  const [ref, setRef] = React.useState<string | null>(null);
-  const [saldoNormal, setSaldoNormal] = React.useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
+  const [subGroup, setSubGroup] = useState<string | null>(null);
+  const [ref, setRef] = useState<string | null>(null);
+  const [saldoNormal, setSaldoNormal] = useState<string | null>(null);
 
-  // const handleChangeSubGroup = (value: Value) => {
-  //   setRef(value as string);
-  // };
   return (
     <section>
       <div className="px-40">

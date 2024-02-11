@@ -1,5 +1,3 @@
-"use client";
-
 import Header from "@/components/header/header-dashboard";
 import { PropsWithChildren } from "react";
 import { Sidebar } from "../patan-ui/sidebar";
@@ -102,7 +100,6 @@ export default function Layout({ children }: PropsWithChildren) {
         <main className="flex-1 p-4 min-h-0 overflow-auto pt-28 px-8 pr-16">
           {children}
         </main>
-        S
       </div>
     </div>
   );

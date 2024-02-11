@@ -1,9 +1,10 @@
-import InputField from '@/components/Input/input-field';
-import Layout from '@/components/layout/layout';
-import FormAddAccount from '@/components/pages/data-master/accounts/form-add-account';
-import React from 'react';
+"use client";
 
-export default function addAccount() {
+import Layout from "@/components/layout/layout";
+import FormAddAccount from "@/components/pages/data-master/accounts/form-add-account";
+import React from "react";
+
+export default function AddAccountPage() {
   return (
     <Layout>
       <h1 className=" font-semibold align-baseline">Tambah Akun</h1>
