@@ -1,6 +1,5 @@
 "use client";
 
-import { ComboboxForm } from "@/components/patan-ui/form/combobox-form";
 import PatanCombobox from "@/components/patan-ui/form/patan-combobox";
 import { Label } from "@/components/ui/label";
 import { useMutateGetManyKecamatan } from "@/hooks/wilayah/useGetManyKecamatan";
@@ -8,7 +7,6 @@ import { useMutateGetManyKelurahan } from "@/hooks/wilayah/useGetManyKelurahan";
 import useMutateGetManyKota from "@/hooks/wilayah/useGetManyKota";
 import { useGetManyProvinsi } from "@/hooks/wilayah/useGetManyProvinsi";
 import { RegisterFormData } from "@/types/auth";
-import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 

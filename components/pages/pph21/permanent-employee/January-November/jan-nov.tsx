@@ -42,7 +42,7 @@ export default function PermanentEmployeeJanNov({
         years: new Date().getFullYear(),
       },
       constants: {
-        tariff_tax_non_npwp: 0,
+        tariff_tax_non_npwp: 1.2,
         tariff_ter: 0,
       },
       calculations: {
