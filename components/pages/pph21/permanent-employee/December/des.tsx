@@ -45,10 +45,10 @@ export default function PermanentEmployeeDes({
         years: new Date().getFullYear(),
       },
       net_calculations: {
-        annual_fee: 0,
-        assurance: 0,
-        net_income: 0,
-        position_allowance: 0,
+        annual_contribution: 0,
+        annual_assurance: 0,
+        result: 0,
+        position_deduction: 0,
       },
       gross_salary: {
         allowance: 0,

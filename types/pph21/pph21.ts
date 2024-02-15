@@ -10,8 +10,6 @@ export type Pph21EmployeeTaxOverview = {
   status: EmployeesStatus;
   gross_salary: number;
   pph21: number;
-  period: {
-    month: number;
-    years: number;
-  };
+  period_month: number;
+  period_years: number;
 };

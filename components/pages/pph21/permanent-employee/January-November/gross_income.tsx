@@ -1,21 +1,15 @@
 import FormNumberInput from "@/components/patan-ui/form/form-number-input";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { PermanentEmployeeBeforeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { PPh21PostPayloadRequest } from "@/types/pph21/request";
 import { useForm } from "react-hook-form";
 
 interface GrossIncomeProps {
-  form: ReturnType<typeof useForm<PermanentEmployeeBeforeDecemberFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 
 export default function GrossIncome({ form }: GrossIncomeProps) {
+  const { setValue, getValues, watch, control } = form;
+
   return (
     <Card className="col-span-4 border border-gray-300">
       <h1 className="text-center font-bold text-sm mb-3 pt-3">
@@ -23,7 +17,7 @@ export default function GrossIncome({ form }: GrossIncomeProps) {
       </h1>
       <CardContent>
         <FormNumberInput
-          control={form.control}
+          control={control}
           name="gross_salary.salary"
           label="Gaji"
           variant="inline"
@@ -32,7 +26,7 @@ export default function GrossIncome({ form }: GrossIncomeProps) {
         />
 
         <FormNumberInput
-          control={form.control}
+          control={control}
           name="gross_salary.allowance"
           label="Tunjangan"
           variant="inline"
@@ -41,7 +35,7 @@ export default function GrossIncome({ form }: GrossIncomeProps) {
         />
 
         <FormNumberInput
-          control={form.control}
+          control={control}
           name="gross_salary.thr"
           label="Tunjangan Hari raya (THR)"
           variant="inline"
@@ -50,7 +44,7 @@ export default function GrossIncome({ form }: GrossIncomeProps) {
         />
 
         <FormNumberInput
-          control={form.control}
+          control={control}
           name="gross_salary.bonus"
           label="Bonus"
           variant="inline"
@@ -59,7 +53,7 @@ export default function GrossIncome({ form }: GrossIncomeProps) {
         />
 
         <FormNumberInput
-          control={form.control}
+          control={control}
           name="gross_salary.overtime_salary"
           label="Lembur"
           variant="inline"
@@ -68,7 +62,7 @@ export default function GrossIncome({ form }: GrossIncomeProps) {
         />
 
         <FormNumberInput
-          control={form.control}
+          control={control}
           name="gross_salary.assurance"
           label="Premi Dibayar Pemberi Kerja"
           variant="inline"
@@ -77,7 +71,7 @@ export default function GrossIncome({ form }: GrossIncomeProps) {
         />
 
         <FormNumberInput
-          control={form.control}
+          control={control}
           name="result.total_salary"
           label="Penghasilan Bruto"
           variant="inline"

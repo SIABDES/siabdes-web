@@ -18,6 +18,7 @@ export enum Pph21TaxPeriodMonth {
 
 export const PPh21EmployeeBaseSchema = z.object({
   employee_id: z.string(),
+  has_npwp: z.boolean(),
   period: z.object({
     month: z.nativeEnum(Pph21TaxPeriodMonth),
     years: z.number().int().positive(),

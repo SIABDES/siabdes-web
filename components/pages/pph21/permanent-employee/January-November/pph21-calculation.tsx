@@ -10,16 +10,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PermanentEmployeeBeforeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { PPh21PostPayloadRequest } from "@/types/pph21/request";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 interface PPh21CalculationProps {
-  form: ReturnType<typeof useForm<PermanentEmployeeBeforeDecemberFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 
 export default function PPh21Calculation({ form }: PPh21CalculationProps) {
-  const noNpwpTariff = form.watch("constants.tariff_tax_non_npwp");
-  const npwpTariff = form.watch("constants.tariff_ter");
+  const noNpwpTariff = form.watch("pph21_calculations.1.tariff_percentage");
+  const npwpTariff = form.watch("pph21_calculations.0.tariff_percentage");
 
   const displayNoNpwpTariff = useMemo(
     () => noNpwpTariff * 100 + "%",
@@ -52,7 +53,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
           <FormNumberInput
             control={form.control}
             label="Penghasilan Bruto"
-            name="result.total_salary"
+            name="pph21_calculations.0.amount"
             className="col-span-3"
             readonly
           />
@@ -64,7 +65,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
           <FormNumberInput
             control={form.control}
             label="PPh 21"
-            name="calculations.pph21_non_npwp"
+            name="pph21_calculations.0.result"
             className="col-span-3"
             readonly
           />
@@ -88,7 +89,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
 
           <FormNumberInput
             control={form.control}
-            name="result.total_salary"
+            name="pph21_calculations.1.amount"
             className="col-span-3"
             readonly
           />
@@ -99,7 +100,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
 
           <FormNumberInput
             control={form.control}
-            name="calculations.pph21_non_npwp"
+            name="pph21_calculations.1.result"
             className="col-span-3"
             readonly
           />

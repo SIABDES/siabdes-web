@@ -36,7 +36,7 @@ interface Pph21EmployeeDataProps {
   periodMonth: Pph21TaxPeriodMonth;
   setPeriodMonth: (periodMonth: Pph21TaxPeriodMonth) => void;
   onEmployeeSelected?: (employee: Employee) => void;
-  defaultPeriodMonth: Pph21TaxPeriodMonth;
+  defaultPeriodMonth?: Pph21TaxPeriodMonth;
   periodMonthDisabled?: boolean;
   blacklistPeriodMonths?: Pph21TaxPeriodMonth[];
 }
@@ -145,7 +145,6 @@ export default function Pph21EmployeeData({
                   setPeriodMonth(month);
                 }
               }}
-              defaultValue={Pph21TaxPeriodMonth.JANUARY.toString()}
               disabled={isGetEmployeesLoading || periodMonthDisabled}
             >
               <SelectTrigger>
@@ -286,7 +285,7 @@ export default function Pph21EmployeeData({
           <div className="w-full flex gap-y-4 flex-col">
             <Label>Kategori Tarif Efektif Rata-rata (TER)</Label>
             <Input
-              value={selectedEmployee?.ter.type ?? ""}
+              value={selectedEmployee?.ter?.type ?? ""}
               placeholder="Tarif efektif rata-rata..."
               readOnly
             />

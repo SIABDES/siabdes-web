@@ -59,22 +59,22 @@ export type PermanentEmployeeGrossIncomeUnionFormData = z.infer<
 >;
 
 export const NetCalculationSchema = z.object({
-  position_allowance: z
+  position_deduction: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().nonnegative())
     .or(z.number().nonnegative()),
-  annual_fee: z
+  annual_contribution: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().nonnegative())
     .or(z.number().nonnegative()),
-  assurance: z
+  annual_assurance: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().nonnegative())
     .or(z.number().nonnegative()),
-  net_income: z
+  result: z
     .string()
     .transform((val) => Number(val))
     .pipe(z.number().nonnegative())
@@ -149,13 +149,13 @@ export const PermanentEmployeeBeforeDecemberSchema =
         .pipe(z.number().nonnegative())
         .or(z.number().nonnegative()),
     }),
-    calculations: z.object({
-      pph21_has_npwp: z
+    pph21_calculations: z.object({
+      has_npwp: z
         .string()
         .transform((val) => Number(val))
         .pipe(z.number().nonnegative())
         .or(z.number().nonnegative()),
-      pph21_non_npwp: z
+      no_npwp: z
         .string()
         .transform((val) => Number(val))
         .pipe(z.number().nonnegative())
@@ -184,8 +184,8 @@ export const PermanentEmployeeDecemberSchema =
         percentage_35_result: z.number().nonnegative().optional(),
       }),
       no_npwp: z.object({
-        percentage_20: z.number().nonnegative().optional(),
-        percentage_20_result: z.number().nonnegative().optional(),
+        percentage_120: z.number().nonnegative().optional(),
+        percentage_120_result: z.number().nonnegative().optional(),
       }),
     }),
   });

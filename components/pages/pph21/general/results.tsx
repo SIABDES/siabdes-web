@@ -1,18 +1,19 @@
-import FormNumberInput from '@/components/patan-ui/form/form-number-input';
-import { Card, CardContent } from '@/components/ui/card';
+import FormNumberInput from "@/components/patan-ui/form/form-number-input";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { PPh21EmployeeUnionFormData } from '@/types/pph21/general';
-import { UseFormReturn } from 'react-hook-form';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { PPh21EmployeeUnionFormData } from "@/types/pph21/general";
+import { PPh21PostPayloadRequest } from "@/types/pph21/request";
+import { UseFormReturn } from "react-hook-form";
 
 interface ResultsProps {
-  form: UseFormReturn<PPh21EmployeeUnionFormData>;
+  form: UseFormReturn<PPh21PostPayloadRequest>;
 }
 
 export default function Results({ form }: ResultsProps) {
