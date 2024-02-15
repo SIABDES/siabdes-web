@@ -22,6 +22,12 @@ export function reverseFormatRupiah(num: string): string {
   return num.trim().replace(/Rp|\./g, "");
 }
 
+export const leadingZeroTrimmer = new Intl.NumberFormat("en-US", {
+  style: "decimal",
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
+});
+
 export function numberToWordsID(num: number): string {
   const ones = [
     "",

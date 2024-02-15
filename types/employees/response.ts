@@ -1,5 +1,9 @@
 import { BackendResponseType } from "@/common/types";
-import { Employee, EmployeeOverview } from "./employees";
+import {
+  Employee,
+  EmployeeCurrentTerTariff,
+  EmployeeOverview,
+} from "./employees";
 
 export type EmployeesOverviewResponse = {
   _count: number;
@@ -20,3 +24,6 @@ export type UpdateEmployeeDataResponse = BackendResponseType<{
   id: string;
   updated_at: string;
 }>;
+
+export type GetEmployeeTerResponse =
+  BackendResponseType<EmployeeCurrentTerTariff>;

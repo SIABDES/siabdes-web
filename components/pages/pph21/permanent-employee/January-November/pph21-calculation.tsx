@@ -1,3 +1,4 @@
+import { leadingZeroTrimmer } from "@/common/helpers/number-format";
 import FormNumberInput from "@/components/patan-ui/form/form-number-input";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -11,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PermanentEmployeeBeforeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
 import { PPh21PostPayloadRequest } from "@/types/pph21/request";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 interface PPh21CalculationProps {
@@ -26,7 +27,10 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
     () => noNpwpTariff * 100 + "%",
     [noNpwpTariff]
   );
-  const displayNpwpTariff = useMemo(() => npwpTariff * 100 + "%", [npwpTariff]);
+  const displayNpwpTariff = useMemo(
+    () => leadingZeroTrimmer.format(npwpTariff * 100) + "%",
+    [npwpTariff]
+  );
 
   return (
     <Card className="col-span-5 border border-gray-300">

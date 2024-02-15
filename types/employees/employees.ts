@@ -69,3 +69,8 @@ export type EmployeeOverview = {
   nik: string;
   employee_type: EmployeesType;
 };
+
+export type EmployeeCurrentTerTariff = {
+  type: "A" | "B" | "C";
+  percentage: number;
+};

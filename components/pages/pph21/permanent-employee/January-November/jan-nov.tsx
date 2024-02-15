@@ -14,7 +14,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { UseFormReturn, useFieldArray, useForm } from "react-hook-form";
 import Results from "../../general/results";
 import GrossIncome from "./gross_income";
@@ -23,6 +23,8 @@ import {
   PPh21PostPayloadRequest,
   Pph21MutationSchema,
 } from "@/types/pph21/request";
+import { useDebounce } from "usehooks-ts";
+import useGetEmployeeTer from "@/hooks/employee/useGetEmployeeTer";
 
 interface PermanentEmployeeJanNovProps {
   selectedEmployee: Employee | undefined;
@@ -35,7 +37,7 @@ export default function PermanentEmployeeJanNov({
 }: PermanentEmployeeJanNovProps) {
   const router = useRouter();
 
-  const [formDisabled, setFormDisabled] = useState(false);
+  const [formDisabled, setFormDisabled] = useState(true);
   const form = useForm<PPh21PostPayloadRequest>({
     resolver: zodResolver(Pph21MutationSchema),
     disabled: formDisabled,
@@ -151,12 +153,31 @@ export default function PermanentEmployeeJanNov({
     );
   }, [grossSalaryWatcher]);
 
-  // Apply total gross salary result to form field
+  // Debounce total gross salary
+  const debounceTotalSalary = useDebounce(totalGrossSalary, 1000);
+
+  // Fetch TER data
+  const {
+    mutateAsync: fetchTer,
+    data: employeeTer,
+    isPending: isEmployeeTerLoading,
+  } = useGetEmployeeTer();
+
+  // Fetch TER data when total gross salary changes
   useEffect(() => {
     if (!selectedEmployee) return;
 
-    setFormValue("pph21_calculations.0.amount", totalGrossSalary);
-    setFormValue("pph21_calculations.1.amount", totalGrossSalary);
+    fetchTer({
+      employee_id: selectedEmployee.id,
+      gross_salary: debounceTotalSalary,
+      period_years: new Date().getFullYear(),
+      period_month: getFormValues("period_month"),
+    });
+  }, [debounceTotalSalary, fetchTer, getFormValues, selectedEmployee]);
+
+  // Callback for applying PPh21 calculations
+  const applyPph21Calculations = useCallback(() => {
+    if (!selectedEmployee) return;
 
     const npwpTariffPercentage = getFormValues(
       "pph21_calculations.0.tariff_percentage"
@@ -179,6 +200,32 @@ export default function PermanentEmployeeJanNov({
     setFormValue("result.total_pph21", totalPph21);
     setFormValue("result.net_receipts", totalGrossSalary - totalPph21);
   }, [getFormValues, selectedEmployee, setFormValue, totalGrossSalary]);
+
+  // Apply TER result to form field
+  useEffect(() => {
+    if (!employeeTer) return;
+
+    setFormValue(
+      "pph21_calculations.0.tariff_percentage",
+      employeeTer?.percentage
+    );
+    applyPph21Calculations();
+  }, [applyPph21Calculations, employeeTer, setFormValue]);
+
+  // Apply total gross salary result to form field
+  useEffect(() => {
+    if (!selectedEmployee) return;
+
+    setFormValue("pph21_calculations.0.amount", totalGrossSalary);
+    setFormValue("pph21_calculations.1.amount", totalGrossSalary);
+
+    applyPph21Calculations();
+  }, [
+    applyPph21Calculations,
+    selectedEmployee,
+    setFormValue,
+    totalGrossSalary,
+  ]);
 
   // Show validation error toast if form has error
   useEffect(() => {
@@ -207,7 +254,7 @@ export default function PermanentEmployeeJanNov({
           <Results form={form} />
 
           <div className="flex justify-center mt-10 mb-10 mr-8 gap-10">
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading || isEmployeeTerLoading}>
               {isLoading ? "Menyimpan..." : "Simpan Data Perpajakan Pegawai"}
             </Button>
           </div>
