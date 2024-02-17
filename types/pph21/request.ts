@@ -36,12 +36,20 @@ export const Pph21PkpCalculationsSchema = z
     amount: z.number().nonnegative("Jumlah tidak boleh kurang dari 0"),
     result: z.number().nonnegative("Hasil tidak boleh kurang dari 0"),
   })
-  .refine(
-    ({ ptkp, percentage }) => {
-      return ptkp !== undefined || percentage !== undefined;
-    },
-    { message: "PTKP atau persentase tidak boleh kosong" }
-  );
+  .refine(({ ptkp, percentage }) => {
+    if (ptkp !== undefined && percentage !== undefined) {
+      return false;
+    }
+
+    return true;
+  }, "PTKP dan persentase tarif tidak boleh diisi bersamaan")
+  .refine(({ ptkp, percentage }) => {
+    if (ptkp === undefined && percentage === undefined) {
+      return false;
+    }
+
+    return true;
+  }, "PTKP atau persentase tarif tidak boleh kosong");
 
 export const Pph21TariffSchema = z.object({
   tariff_percentage: z.number().nonnegative(),

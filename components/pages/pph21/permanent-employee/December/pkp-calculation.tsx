@@ -1,17 +1,17 @@
 import FormNumberInput from "@/components/patan-ui/form/form-number-input";
 import { Card, CardContent } from "@/components/ui/card";
 import { PermanentEmployeeDecemberFormData } from "@/types/pph21/permanent-employee/permanent-employee";
+import { PPh21PostPayloadRequest } from "@/types/pph21/request";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 interface PKPCalculationProps {
-  form: ReturnType<typeof useForm<PermanentEmployeeDecemberFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 
 export default function PKPCalculation({ form }: PKPCalculationProps) {
   const { watch, setValue, getValues, control } = form;
   const grossSalaryWatcher = watch([
-    "gross_salary.gross_total_before_december",
     "gross_salary.salary",
     "gross_salary.allowance",
     "gross_salary.thr",
@@ -21,17 +21,20 @@ export default function PKPCalculation({ form }: PKPCalculationProps) {
   ]);
 
   const totalGrossSalary = useMemo(() => {
-    return Object.values(grossSalaryWatcher).reduce(
-      (acc, curr) => acc + curr,
-      0
+    return (
+      Object.values(grossSalaryWatcher).reduce(
+        (acc, curr) => Number(acc) + Number(curr),
+        0
+      ) ?? 0
     );
   }, [grossSalaryWatcher]);
 
   useEffect(() => {
-    const taxableIncome =
-      totalGrossSalary - getValues("pkp_calculations.non_taxable_income");
+    const ptkp = getValues("pkp_calculations.ptkp") ?? 0;
 
-    setValue("pkp_calculations.taxable_income", Math.max(0, taxableIncome));
+    const taxableIncome = totalGrossSalary - ptkp;
+
+    setValue("pkp_calculations.result", Math.max(0, taxableIncome));
   }, [getValues, setValue, totalGrossSalary]);
 
   return (
@@ -43,7 +46,7 @@ export default function PKPCalculation({ form }: PKPCalculationProps) {
         <FormNumberInput
           label="Penghasilan Tidak Kena Pajak"
           control={control}
-          name="pkp_calculations.non_taxable_income"
+          name="pkp_calculations.ptkp"
           variant="inline"
           readonly
         />
@@ -51,7 +54,7 @@ export default function PKPCalculation({ form }: PKPCalculationProps) {
         <FormNumberInput
           label="Penghasilan Kena Pajak Setahun"
           control={control}
-          name="pkp_calculations.taxable_income"
+          name="pkp_calculations.result"
           variant="inline"
           readonly
         />

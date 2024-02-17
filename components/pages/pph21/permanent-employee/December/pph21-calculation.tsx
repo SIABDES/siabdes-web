@@ -15,9 +15,10 @@ import {
 } from "@/types/pph21/permanent-employee/permanent-employee";
 import { useForm } from "react-hook-form";
 import FormNumberInput from "@/components/patan-ui/form/form-number-input";
+import { PPh21PostPayloadRequest } from "@/types/pph21/request";
 
 interface PPh21CalculationProps {
-  form: ReturnType<typeof useForm<PermanentEmployeeDecemberFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 
 const hasNpwpTaxableIncomeRules = {
@@ -53,7 +54,7 @@ const boundaryKeys = Object.keys(hasNpwpTaxableIncomeRules) as Array<
 >;
 
 export default function PPh21Calculation({ form }: PPh21CalculationProps) {
-  const taxableIncome = form.watch("pkp_calculations.taxable_income");
+  const taxableIncome = form.watch("pkp_calculations.result");
 
   return (
     <Card className=" mt-9 mb-9 pt-6 pb-3 px-3">
@@ -75,7 +76,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
 
               <FormNumberInput
                 control={form.control}
-                name="pph21_calculations.has_npwp.percentage_5"
+                name="pph21_calculations.0.amount"
                 variant="inline"
                 defaultValue={0}
                 className="col-span-4 w-full"
@@ -87,7 +88,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
 
               <FormNumberInput
                 control={form.control}
-                name="pph21_calculations.has_npwp.percentage_5_result"
+                name="pph21_calculations.0.result"
                 variant="inline"
                 defaultValue={0}
                 className="col-span-4 w-full"
@@ -102,7 +103,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
 
               <FormNumberInput
                 control={form.control}
-                name="pph21_calculations.has_npwp.percentage_15"
+                name="pph21_calculations.1.amount"
                 variant="inline"
                 defaultValue={0}
                 className="col-span-4 w-full"
@@ -113,7 +114,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
               <p className="inline-flex justify-center">=</p>
               <FormNumberInput
                 control={form.control}
-                name="pph21_calculations.has_npwp.percentage_15_result"
+                name="pph21_calculations.1.result"
                 variant="inline"
                 defaultValue={0}
                 className="col-span-4 w-full"
@@ -128,7 +129,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
 
               <FormNumberInput
                 control={form.control}
-                name="pph21_calculations.has_npwp.percentage_25"
+                name="pph21_calculations.2.amount"
                 variant="inline"
                 defaultValue={0}
                 className="col-span-4 w-full"
@@ -139,7 +140,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
               <p className="inline-flex justify-center">=</p>
               <FormNumberInput
                 control={form.control}
-                name="pph21_calculations.has_npwp.percentage_25_result"
+                name="pph21_calculations.2.result"
                 variant="inline"
                 defaultValue={0}
                 className="col-span-4 w-full"
@@ -154,7 +155,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
 
               <FormNumberInput
                 control={form.control}
-                name="pph21_calculations.has_npwp.percentage_30"
+                name="pph21_calculations.3.amount"
                 variant="inline"
                 defaultValue={0}
                 className="col-span-4 w-full"
@@ -165,7 +166,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
               <p className="inline-flex justify-center">=</p>
               <FormNumberInput
                 control={form.control}
-                name="pph21_calculations.has_npwp.percentage_30_result"
+                name="pph21_calculations.3.result"
                 variant="inline"
                 defaultValue={0}
                 className="col-span-4 w-full"
@@ -180,7 +181,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
 
               <FormNumberInput
                 control={form.control}
-                name="pph21_calculations.has_npwp.percentage_35"
+                name="pph21_calculations.4.amount"
                 variant="inline"
                 defaultValue={0}
                 className="col-span-4 w-full"
@@ -191,7 +192,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
               <p className="inline-flex justify-center">=</p>
               <FormNumberInput
                 control={form.control}
-                name="pph21_calculations.has_npwp.percentage_35_result"
+                name="pph21_calculations.4.result"
                 variant="inline"
                 defaultValue={0}
                 className="col-span-4 w-full"
@@ -212,15 +213,31 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
 
           <div className="">
             <div className="grid grid-cols-12 items-center gap-x-4">
-              <Input value={"20%"} className="col-span-2" readOnly />
+              <Input value={"120%"} className="col-span-2" readOnly />
 
               <p className="inline-flex justify-center">x</p>
 
-              <Input className="col-span-4" readOnly />
+              <FormNumberInput
+                control={form.control}
+                name="pph21_calculations.5.amount"
+                variant="inline"
+                defaultValue={0}
+                className="col-span-4 w-full"
+                readonly
+                border={false}
+              />
 
               <p className="inline-flex justify-center">=</p>
 
-              <Input className="col-span-4" readOnly />
+              <FormNumberInput
+                control={form.control}
+                name="pph21_calculations.5.result"
+                variant="inline"
+                defaultValue={0}
+                className="col-span-4 w-full"
+                readonly
+                border={false}
+              />
             </div>
           </div>
         </Card>

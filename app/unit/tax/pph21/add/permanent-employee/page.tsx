@@ -29,7 +29,7 @@ export default function PermanentEmployee() {
     <Layout>
       <section>
         <div className="flex justify-between mb-6">
-          <h1 className="underline font-bold text-lg mt-1">
+          <h1 className="font-bold text-lg mt-1">
             Kalkulator Pajak Penghasilan Pasal 21
           </h1>
           <div className="flex space-x-6">
@@ -85,7 +85,7 @@ export default function PermanentEmployee() {
             <Card>
               <CardContent>
                 <h1 className="mt-3 mb-4 text-center font-bold text-lg">
-                  Pegawai Tetap Bulanan Masa Pajak Januari - November
+                  Pegawai Tetap Bulanan Masa Pajak Desember
                 </h1>
 
                 <Pph21EmployeeData

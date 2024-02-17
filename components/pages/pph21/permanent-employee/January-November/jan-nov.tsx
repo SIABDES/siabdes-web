@@ -94,46 +94,30 @@ export default function PermanentEmployeeJanNov({
     useAddPph21PermanentEmployee();
 
   const onSubmit = async (data: PPh21PostPayloadRequest) => {
-    try {
-      if (!selectedEmployee) {
-        toast({
-          title: "Kesalahan Input",
-          description: "Mohon pilih pegawai terlebih dahulu",
-          variant: "destructive",
-          duration: 5000,
-        });
-
-        return;
-      }
-
-      const hasNpwp = !!selectedEmployee.npwp;
-
-      if (hasNpwp) {
-        // remove index 1
-        data.pph21_calculations.pop();
-      } else {
-        // remove index 0
-        data.pph21_calculations.shift();
-      }
-
-      await mutatePph21(data);
-
+    if (!selectedEmployee) {
       toast({
-        title: "Berhasil",
-        description: "Data PPh21 berhasil disimpan",
+        title: "Kesalahan Input",
+        description: "Mohon pilih pegawai terlebih dahulu",
+        variant: "destructive",
         duration: 5000,
       });
 
-      router.push("/unit/tax/pph21");
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast({
-          title: "Gagal",
-          description: error.response?.data.message,
-          variant: "destructive",
-        });
-      }
+      return;
     }
+
+    const hasNpwp = !!selectedEmployee.npwp;
+
+    if (hasNpwp) {
+      // remove index 1
+      data.pph21_calculations.pop();
+    } else {
+      // remove index 0
+      data.pph21_calculations.shift();
+    }
+
+    await mutatePph21(data);
+
+    router.push("/unit/tax/pph21");
   };
 
   const grossSalaryWatcher = form.watch([
