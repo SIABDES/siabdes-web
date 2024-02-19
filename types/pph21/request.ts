@@ -89,7 +89,18 @@ export const Pph21MutationSchema = z.object({
     .number()
     .int()
     .min(1, "Bulan tidak valid")
-    .max(12, "Bulan tidak valid"),
+    .max(12, "Bulan tidak valid")
+    .nullish()
+    .refine(
+      (value) => {
+        if (value === null) {
+          return false;
+        }
+
+        return true;
+      },
+      { message: "Bulan tidak boleh kosong" }
+    ),
   period_years: z
     .number()
     .int()

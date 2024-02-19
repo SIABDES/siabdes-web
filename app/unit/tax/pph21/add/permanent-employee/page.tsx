@@ -14,8 +14,8 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function PermanentEmployee() {
-  const [periodMonth, setPeriodMonth] = useState<Pph21TaxPeriodMonth>(
-    Pph21TaxPeriodMonth.JANUARY
+  const [periodMonth, setPeriodMonth] = useState<Pph21TaxPeriodMonth | null>(
+    null
   );
 
   const { data: getEmployees, isLoading: isGetEmployeesLoading } =
@@ -70,7 +70,6 @@ export default function PermanentEmployee() {
                   isGetEmployeesLoading={isGetEmployeesLoading}
                   setPeriodMonth={setPeriodMonth}
                   periodMonth={periodMonth}
-                  defaultPeriodMonth={Pph21TaxPeriodMonth.JANUARY}
                   blacklistPeriodMonths={[Pph21TaxPeriodMonth.DECEMBER]}
                 />
 

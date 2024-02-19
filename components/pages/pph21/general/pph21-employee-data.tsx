@@ -33,8 +33,8 @@ interface Pph21EmployeeDataProps {
   >;
   getEmployees: GetEmployeesResponse | undefined;
   isGetEmployeesLoading: boolean;
-  periodMonth: Pph21TaxPeriodMonth;
-  setPeriodMonth: (periodMonth: Pph21TaxPeriodMonth) => void;
+  periodMonth: Pph21TaxPeriodMonth | null;
+  setPeriodMonth: (periodMonth: Pph21TaxPeriodMonth | null) => void;
   onEmployeeSelected?: (employee: Employee) => void;
   defaultPeriodMonth?: Pph21TaxPeriodMonth;
   periodMonthDisabled?: boolean;
@@ -137,12 +137,18 @@ export default function Pph21EmployeeData({
           <div className="w-full flex gap-y-4 flex-col">
             <Label>Masa Pajak</Label>
             <Select
-              value={periodMonth?.toString() ?? defaultPeriodMonth}
+              value={
+                periodMonth
+                  ? periodMonth.toString()
+                  : (defaultPeriodMonth ?? "").toString()
+              }
               onValueChange={(value) => {
                 const month = parseInt(value);
 
                 if (month >= 1 && month <= 12) {
                   setPeriodMonth(month);
+                } else {
+                  setPeriodMonth(null);
                 }
               }}
               disabled={isGetEmployeesLoading || periodMonthDisabled}

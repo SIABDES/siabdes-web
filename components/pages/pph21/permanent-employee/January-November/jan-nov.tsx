@@ -28,7 +28,7 @@ import useGetEmployeeTer from "@/hooks/employee/useGetEmployeeTer";
 
 interface PermanentEmployeeJanNovProps {
   selectedEmployee: Employee | undefined;
-  periodMonth: Pph21TaxPeriodMonth;
+  periodMonth: Pph21TaxPeriodMonth | null;
 }
 
 export default function PermanentEmployeeJanNov({
@@ -73,7 +73,7 @@ export default function PermanentEmployeeJanNov({
       },
     },
   });
-  const { setValue: setFormValue, getValues: getFormValues } = form;
+  const { setValue: setFormValue, getValues: getFormValues, formState } = form;
 
   useEffect(() => {
     if (periodMonth) {
@@ -99,9 +99,17 @@ export default function PermanentEmployeeJanNov({
         title: "Kesalahan Input",
         description: "Mohon pilih pegawai terlebih dahulu",
         variant: "destructive",
-        duration: 5000,
       });
 
+      return;
+    }
+
+    if (!periodMonth) {
+      toast({
+        title: "Kesalahan Input",
+        description: "Mohon pilih bulan terlebih dahulu",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -151,11 +159,14 @@ export default function PermanentEmployeeJanNov({
   useEffect(() => {
     if (!selectedEmployee) return;
 
+    const period_month = getFormValues("period_month");
+    if (!period_month) return;
+
     fetchTer({
       employee_id: selectedEmployee.id,
       gross_salary: debounceTotalSalary,
       period_years: new Date().getFullYear(),
-      period_month: getFormValues("period_month"),
+      period_month,
     });
   }, [debounceTotalSalary, fetchTer, getFormValues, selectedEmployee]);
 
@@ -168,10 +179,13 @@ export default function PermanentEmployeeJanNov({
     );
     const npwpTariffResult = totalGrossSalary * npwpTariffPercentage;
 
+    const hasNpwp = !!selectedEmployee.npwp;
     const noNpwpTariffPercentage = getFormValues(
       "pph21_calculations.1.tariff_percentage"
     );
-    const noNpwpTariffResult = npwpTariffResult * noNpwpTariffPercentage;
+    const noNpwpTariffResult = hasNpwp
+      ? 0
+      : npwpTariffResult * noNpwpTariffPercentage;
 
     const totalPph21 = !!selectedEmployee.npwp
       ? npwpTariffResult
@@ -196,16 +210,23 @@ export default function PermanentEmployeeJanNov({
     applyPph21Calculations();
   }, [applyPph21Calculations, employeeTer, setFormValue]);
 
+  const npwpTariffResultWatcher = form.watch("pph21_calculations.0.result");
+
   // Apply total gross salary result to form field
   useEffect(() => {
     if (!selectedEmployee) return;
 
     setFormValue("pph21_calculations.0.amount", totalGrossSalary);
-    setFormValue("pph21_calculations.1.amount", totalGrossSalary);
+
+    const hasNpwp = !!selectedEmployee.npwp;
+    const noNpwpAmount = hasNpwp ? 0 : npwpTariffResultWatcher;
+
+    setFormValue("pph21_calculations.1.amount", noNpwpAmount);
 
     applyPph21Calculations();
   }, [
     applyPph21Calculations,
+    npwpTariffResultWatcher,
     selectedEmployee,
     setFormValue,
     totalGrossSalary,
@@ -213,18 +234,18 @@ export default function PermanentEmployeeJanNov({
 
   // Show validation error toast if form has error
   useEffect(() => {
-    if (form.formState.errors.root) {
+    if (formState.errors.root) {
       toast({
         title: "Kesalahan Input",
         description: "Mohon periksa kembali data yang anda masukkan",
         variant: "destructive",
       });
     }
-  }, [form.formState.errors]);
+  }, [formState.errors]);
 
   const isLoading = useMemo(() => {
-    return isMutatePph21Pending || form.formState.isSubmitting;
-  }, [form.formState.isSubmitting, isMutatePph21Pending]);
+    return isMutatePph21Pending || formState.isSubmitting;
+  }, [formState.isSubmitting, isMutatePph21Pending]);
 
   return (
     <>
