@@ -1,30 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
+import useGetEmployeeTer from "@/hooks/employee/useGetEmployeeTer";
 import useAddPph21PermanentEmployee from "@/hooks/pph21/useAddPph21PermanentEmployee";
 import { Employee, EmployeesType } from "@/types/employees/employees";
-import {
-  PPh21EmployeeUnionFormData,
-  Pph21TaxPeriodMonth,
-} from "@/types/pph21/general";
-import {
-  PermanentEmployeeBeforeDecemberFormData,
-  PermanentEmployeeBeforeDecemberSchema,
-} from "@/types/pph21/permanent-employee/permanent-employee";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { UseFormReturn, useFieldArray, useForm } from "react-hook-form";
-import Results from "../../general/results";
-import GrossIncome from "./gross_income";
-import PPh21Calculation from "./pph21-calculation";
+import { Pph21TaxPeriodMonth } from "@/types/pph21/general";
 import {
   PPh21PostPayloadRequest,
   Pph21MutationSchema,
 } from "@/types/pph21/request";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDebounce } from "usehooks-ts";
-import useGetEmployeeTer from "@/hooks/employee/useGetEmployeeTer";
+import Results from "../../general/results";
+import GrossIncome from "./gross_income";
+import PPh21Calculation from "./pph21-calculation";
 
 interface PermanentEmployeeJanNovProps {
   selectedEmployee: Employee | undefined;
@@ -81,11 +73,10 @@ export default function PermanentEmployeeJanNov({
   } = form;
 
   useEffect(() => {
-    if (periodMonth) {
-      if (periodMonth === Pph21TaxPeriodMonth.DECEMBER) return;
+    if (!periodMonth) return;
+    if (periodMonth === Pph21TaxPeriodMonth.DECEMBER) return;
 
-      setFormValue("period_month", periodMonth);
-    }
+    setFormValue("period_month", periodMonth);
   }, [periodMonth, setFormValue]);
 
   useEffect(() => {
