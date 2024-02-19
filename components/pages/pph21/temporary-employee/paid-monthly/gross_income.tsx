@@ -1,107 +1,45 @@
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { NonPermanentEmployeeMonthlyFormData } from '@/types/pph21/temporary-employee/temporary-employee';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  formatNumber,
-  formatRupiah,
-  reverseFormat,
-} from '@/common/helpers/number-format';
+import { PPh21PostPayloadRequest } from '@/types/pph21/request';
+import FormNumberInput from '@/components/patan-ui/form/form-number-input';
 
 interface TemporaryEmployeeGrossIncomeProps {
-  form: ReturnType<typeof useForm<NonPermanentEmployeeMonthlyFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 export default function TemporaryEmployeeMonthlyGrossIncome({
   form,
 }: TemporaryEmployeeGrossIncomeProps) {
+  const { control } = form;
   return (
     <Card className="col-span-4 border border-gray-300 shadow-md">
       <h1 className="text-center font-bold text-sm mb-3 pt-3">
         Penghasilan Bruto
       </h1>
       <CardContent>
-        <FormField
-          control={form.control}
+        <FormNumberInput
+          control={control}
           name="gross_salary.daily_salary"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>Penghasilan Sehari</FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  value={formatRupiah(
-                    form.getValues('gross_salary.daily_salary')
-                  )}
-                  onChange={(e) => {
-                    const value = reverseFormat(e.target.value);
-                    form.setValue(
-                      'gross_salary.daily_salary',
-                      parseFloat(value)
-                    );
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Penghasilan Sehari"
+          variant="inline"
+          defaultValue={0}
+          placeholder="Penghasilan Sehari"
         />
-        <FormField
-          control={form.control}
+        <FormNumberInput
+          control={control}
           name="gross_salary.working_days"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>
-                Jumlah Hari Kerja Sebulan
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  // tambaili string hari di belakanng value
-                  value={formatNumber(
-                    form.getValues('gross_salary.working_days')
-                  )}
-                  onChange={(e) => {
-                    const value = reverseFormat(e.target.value);
-                    form.setValue(
-                      'gross_salary.working_days',
-                      parseFloat(value)
-                    );
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Jumlah Hari Kerja Sebulan"
+          variant="inline"
+          defaultValue={0}
+          placeholder="Jumlah Hari Kerja Sebulan"
         />
-        <FormField
-          control={form.control}
+        <FormNumberInput
+          control={control}
           name="gross_salary.monthly_salary"
-          render={({ field }) => (
-            <FormItem className="w-full grid grid-cols-2 items-center">
-              <FormLabel htmlFor={field.name}>Penghasilan Sebulan</FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  value={formatRupiah(
-                    form.getValues('gross_salary.monthly_salary')
-                  )}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Penghasilan Sebulan"
+          variant="inline"
+          defaultValue={0}
+          placeholder="Penghasilan Sebulan"
         />
       </CardContent>
     </Card>

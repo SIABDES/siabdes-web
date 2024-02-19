@@ -1,23 +1,12 @@
 import { Card } from '@/components/ui/card';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { SeverencePayPeriodicFormData } from '@/types/pph21/severance-pay/severence-pay';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { formatRupiah } from '@/common/helpers/number-format';
-import { fi } from 'date-fns/locale';
-import {
-  PPh21OtherActivityParticipantFormData,
-  PPh21OtherNonEmployeeSupervisorFormData,
-} from '@/types/pph21/pph21/other-pph21';
+import { PPh21PostPayloadRequest } from '@/types/pph21/request';
+import FormNumberInput from '@/components/patan-ui/form/form-number-input';
 
 interface NotHaveNPWPProps {
-  form: ReturnType<typeof useForm<PPh21OtherNonEmployeeSupervisorFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 
 export default function NotHaveNPWP({ form }: NotHaveNPWPProps) {
@@ -26,65 +15,33 @@ export default function NotHaveNPWP({ form }: NotHaveNPWPProps) {
       <h2 className="text-center font-medium text-sm py-2 bg-blue-200 rounded-md w-80 mx-auto">
         Wajib Pajak Tidak Memiliki NPWP
       </h2>
-      <p className="my-2">Peraturan DJP Nomor: PER-16/PJ/2016 :</p>
-      <div className="space-y-3">
-        <div className="grid grid-cols-9">
-          <FormField
+      <p className="my-2 text-red-500">Peraturan DJP Nomor: PER-16/PJ/2016 :</p>
+      <div className="">
+        <div className="grid grid-cols-12 items-center gap-x-4">
+          <Input value={'120%'} className="col-span-2" readOnly />
+
+          <p className="inline-flex justify-center">x</p>
+
+          <FormNumberInput
             control={form.control}
-            name="constants.tariff_tax_non_npwp"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={field.value + '%'}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pph21_calculations.5.amount"
+            variant="inline"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">x</span>
-          </div>
-          <FormField
+
+          <p className="inline-flex justify-center">=</p>
+
+          <FormNumberInput
             control={form.control}
-            name="calculations.pph21_non_npwp"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(field.value)}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">=</span>
-          </div>
-          <FormField
-            control={form.control}
-            name="calculations.total_pph21_non_npwp"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(field.value)}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pph21_calculations.5.result"
+            variant="inline"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
         </div>
       </div>

@@ -11,9 +11,10 @@ import { SeverencePayPeriodicFormData } from '@/types/pph21/severance-pay/severe
 import { useForm } from 'react-hook-form';
 import HaveNPWP from './have_npwp';
 import NotHaveNPWP from './not_have_npwp';
+import { PPh21PostPayloadRequest } from '@/types/pph21/request';
 
 interface PPh21CalculationProps {
-  form: ReturnType<typeof useForm<SeverencePayPeriodicFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 export default function SeverencePayPeriodicPPh21Calculation({
   form,

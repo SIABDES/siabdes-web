@@ -1,19 +1,11 @@
+import FormNumberInput from '@/components/patan-ui/form/form-number-input';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { NonPermanentEmployeeNotMonthlyFormData } from '@/types/pph21/temporary-employee/temporary-employee';
-import React from 'react';
+import { PPh21PostPayloadRequest } from '@/types/pph21/request';
 import { useForm } from 'react-hook-form';
-import { formatRupiah } from '@/common/helpers/number-format';
 
 interface MoreThan450Props {
-  form: ReturnType<typeof useForm<NonPermanentEmployeeNotMonthlyFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 export default function MoreThan450({ form }: MoreThan450Props) {
   return (
@@ -22,72 +14,36 @@ export default function MoreThan450({ form }: MoreThan450Props) {
         Upah Harian {`>`} 450.000 - 2.500.000
       </h1>
       <CardContent>
-        <div className="grid grid-cols-10">
-          <FormField
-            control={form.control}
-            name="constants.tariff_ter"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-2">
-                <FormLabel htmlFor={field.name}>Tarif TER</FormLabel>
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={`${0.5}%`}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">x</span>
+        <div className="grid grid-cols-12 items-center gap-x-4">
+          <div className="col-span-2 space-y-3">
+            <p className="text-sm font-medium">Tarif TER</p>
+            <Input value={'0.5%'} readOnly />
           </div>
-          <FormField
+
+          <p className="inline-flex justify-center mt-6">x</p>
+
+          <FormNumberInput
             control={form.control}
-            name="calculations.salary_more_450"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormLabel htmlFor={field.name}>Upah Harian</FormLabel>
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(
-                      form.getValues('calculations.salary_more_450')
-                    )}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pkp_calculations.amount"
+            variant="horizontal"
+            label="Upah Harian"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">=</span>
-          </div>
-          <FormField
+
+          <p className="inline-flex justify-center mt-6">=</p>
+
+          <FormNumberInput
             control={form.control}
-            name="calculations.pph21_has_npwp_more_then_450"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormLabel htmlFor={field.name}>PPh 21</FormLabel>
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(
-                      form.getValues(
-                        'calculations.pph21_has_npwp_more_then_450'
-                      )
-                    )}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pkp_calculations.result"
+            variant="horizontal"
+            defaultValue={0}
+            label="PPh 21"
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
         </div>
       </CardContent>

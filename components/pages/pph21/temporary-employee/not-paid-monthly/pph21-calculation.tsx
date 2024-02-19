@@ -1,23 +1,13 @@
-import { Card, CardContent } from '@/components/ui/card';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { NonPermanentEmployeeNotMonthlyFormData } from '@/types/pph21/temporary-employee/temporary-employee';
-import React from 'react';
+import { Card } from '@/components/ui/card';
+import { PPh21PostPayloadRequest } from '@/types/pph21/request';
 import { useForm } from 'react-hook-form';
-import MoreThan450 from './more-than-450';
 import LessThan450 from './less-than-450';
 import MoreThan2500 from './more-than-2500';
-import Tax from '@/app/unit/tax/page';
+import MoreThan450 from './more-than-450';
 import TaxNonNPWP from './tax-non-npwp';
 
 interface TemporaryEmployeeNotMonthlyPPh21CalculationPro {
-  form: ReturnType<typeof useForm<NonPermanentEmployeeNotMonthlyFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 
 export default function TemporaryEmployeeNotMonthlyPPh21Calculation({

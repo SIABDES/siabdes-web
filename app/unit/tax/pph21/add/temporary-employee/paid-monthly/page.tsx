@@ -1,45 +1,33 @@
-"use client";
+'use client';
 
-import Layout from "@/components/layout/layout";
-import EmployeeData12Months from "@/components/pages/pph21/general/employee-data-12-months";
-import Pph21EmployeeData from "@/components/pages/pph21/general/pph21-employee-data";
-import TemporaryEmployeeMonthlyGrossIncome from "@/components/pages/pph21/temporary-employee/paid-monthly/gross_income";
-import TemporaryEmployeeGrossIncome from "@/components/pages/pph21/temporary-employee/paid-monthly/gross_income";
-import TemporaryEmployeeMonthlyPPh21Calculation from "@/components/pages/pph21/temporary-employee/paid-monthly/pph21-calculation";
-import TemporaryEmployeePPh21Calculation from "@/components/pages/pph21/temporary-employee/paid-monthly/pph21-calculation";
-import TemporaryEmployeeMonthlyResults from "@/components/pages/pph21/temporary-employee/paid-monthly/result";
-import Results from "@/components/pages/pph21/temporary-employee/paid-monthly/result";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import Layout from '@/components/layout/layout';
+import Pph21EmployeeData from '@/components/pages/pph21/general/pph21-employee-data';
+import Results from '@/components/pages/pph21/general/results';
+import TemporaryEmployeeMonthlyGrossIncome from '@/components/pages/pph21/temporary-employee/paid-monthly/gross_income';
+import TemporaryEmployeeMonthlyPPh21Calculation from '@/components/pages/pph21/temporary-employee/paid-monthly/pph21-calculation';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Form } from '@/components/ui/form';
+import { toast } from '@/components/ui/use-toast';
+import useGetEmployeeTer from '@/hooks/employee/useGetEmployeeTer';
+import useGetEmployees from '@/hooks/employee/useGetEmployees';
+import useAddPph21TemporaryEmployeePaidMonthly from '@/hooks/pph21/useAddPph21TemporaryEmployeePaidMonthly';
+import { Employee, EmployeesType } from '@/types/employees/employees';
+import { Pph21TaxPeriodMonth } from '@/types/pph21/general';
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
-import useGetEmployees from "@/hooks/employee/useGetEmployees";
-import useAddPph21TemporaryEmployeePaidMonthly from "@/hooks/pph21/useAddPph21TemporaryEmployeePaidMonthly";
-import { Employee } from "@/types/employees/employees";
-import { Pph21TaxPeriodMonth } from "@/types/pph21/general";
-import { PermanentEmployeeFormData } from "@/types/pph21/permanent-employee/permanent-employee";
-import {
-  NonPermanentEmployeeMonthlyFormData,
-  NonPermanentEmployeeMonthlyScema,
-} from "@/types/pph21/temporary-employee/temporary-employee";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+  PPh21PostPayloadRequest,
+  Pph21MutationSchema,
+} from '@/types/pph21/request';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDebounce } from 'usehooks-ts';
 
 export default function PaidMonthly() {
-  const [periodMonth, setPeriodMonth] = useState<Pph21TaxPeriodMonth>(
-    Pph21TaxPeriodMonth.JANUARY
+  const [periodMonth, setPeriodMonth] = useState<Pph21TaxPeriodMonth | null>(
+    null
   );
 
   const { data: getEmployees, isLoading: isGetEmployeesLoading } =
@@ -50,146 +38,204 @@ export default function PaidMonthly() {
   >(undefined);
 
   const router = useRouter();
-
-  const form = useForm<NonPermanentEmployeeMonthlyFormData>({
-    resolver: zodResolver(NonPermanentEmployeeMonthlyScema),
+  const [formDisabled, setFormDisabled] = useState(true);
+  const form = useForm<PPh21PostPayloadRequest>({
+    resolver: zodResolver(Pph21MutationSchema),
+    disabled: formDisabled,
     defaultValues: {
-      employee_id: "",
-      period: {
-        month: Pph21TaxPeriodMonth.JANUARY,
-        years: new Date().getFullYear(),
-      },
-      constants: {
-        tariff_tax_non_npwp: 0, // 0,2 = 20%
-        tariff_ter: 0, // 0,05 5%
-      },
-      calculations: {
-        pph21_has_npwp: 0,
-        pph21_non_npwp: 0,
-        total_pph21_non_npwp: 0,
-      },
-      result: {
-        net_receipts: 0,
-        total_pph21: 0,
-        total_salary: 0,
-      },
+      employee_id: selectedEmployee?.id || '',
+      employee_type: EmployeesType.DIBAYAR_BULANAN,
+      period_month: undefined,
+      period_years: new Date().getFullYear(),
       gross_salary: {
         daily_salary: 0,
         working_days: 0,
         monthly_salary: 0,
       },
+      pph21_calculations: [
+        {
+          tariff_percentage: 0,
+          amount: 0,
+          result: 0,
+        },
+        {
+          tariff_percentage: 1.2,
+          amount: 0,
+          result: 0,
+        },
+      ],
+      result: {
+        net_receipts: 0,
+        total_pph21: 0,
+        total_salary: 0,
+      },
     },
   });
 
-  const dailySalaryWatcher = form.watch("gross_salary.daily_salary");
-  const workingDaysWatcher = form.watch("gross_salary.working_days");
-
-  useEffect(() => {
-    // gross salary
-    const dailySalary = dailySalaryWatcher;
-    const workingDays = workingDaysWatcher;
-
-    form.setValue("gross_salary.daily_salary", dailySalary);
-    form.setValue("gross_salary.working_days", workingDays);
-
-    form.setValue("gross_salary.monthly_salary", dailySalary * workingDays);
-
-    // calculations has npwp
-    const tariff = form.getValues("constants.tariff_ter");
-    const grossSalary = form.getValues("gross_salary.monthly_salary");
-
-    // belum dapet ter dari backend
-    // const pph21HasNpwp = (tariff / 100) * grossSalary;
-    form.setValue("constants.tariff_ter", 20);
-    const pph21HasNpwp = (20 / 100) * grossSalary;
-
-    form.setValue("calculations.pph21_has_npwp", pph21HasNpwp);
-
-    // result
-    form.setValue("result.total_salary", grossSalary);
-    form.setValue("result.total_pph21", pph21HasNpwp);
-    form.setValue("result.net_receipts", grossSalary - pph21HasNpwp);
-
-    // calculations non npwp
-    if (!selectedEmployee?.npwp) {
-      const tariffTaxNonNpwp = form.getValues("constants.tariff_tax_non_npwp");
-      const pph21NonNpwp = form.getValues("calculations.pph21_has_npwp");
-      form.setValue("calculations.pph21_non_npwp", pph21NonNpwp);
-
-      // belum dapet tarif dari backend
-      // const totalPph21NonNpwp = (tariffTaxNonNpwp / 100) * pph21NonNpwp;
-
-      form.setValue("constants.tariff_tax_non_npwp", 20);
-      const totalPph21NonNpwp = (120 / 100) * pph21NonNpwp;
-      form.setValue("calculations.total_pph21_non_npwp", totalPph21NonNpwp);
-
-      // result
-      form.setValue("result.total_salary", grossSalary);
-      form.setValue("result.total_pph21", totalPph21NonNpwp);
-      form.setValue("result.net_receipts", grossSalary - totalPph21NonNpwp);
-    }
-  }, [dailySalaryWatcher, workingDaysWatcher, form, selectedEmployee]);
+  const { setValue, formState, reset, watch, getValues } = form;
 
   useEffect(() => {
     if (periodMonth) {
-      if (periodMonth === Pph21TaxPeriodMonth.DECEMBER) return;
-
-      form.setValue("period.month", periodMonth);
+      setValue('period_month', periodMonth);
     }
-  }, [form, periodMonth]);
+  }, [periodMonth, setValue]);
+
+  const dailySalaryWatch = watch('gross_salary.daily_salary');
+  const workingDaysWatch = watch('gross_salary.working_days');
+
+  useEffect(() => {
+    // gross salary
+
+    if (!dailySalaryWatch) return;
+    if (!workingDaysWatch) return;
+
+    const dailySalary = dailySalaryWatch;
+    const workingDays = workingDaysWatch;
+
+    form.setValue('gross_salary.monthly_salary', dailySalary * workingDays);
+  }, [form, dailySalaryWatch, workingDaysWatch]);
+
+  const monthlySalary = getValues('gross_salary.monthly_salary');
+
+  const debounceTotalSalary = useDebounce(monthlySalary, 1000); // 1 second = 1000ms
+
+  const {
+    mutateAsync: fetchTer,
+    data: employeeTer,
+    isPending: isEmployeeTerLoading,
+  } = useGetEmployeeTer();
+
+  useEffect(() => {
+    if (!selectedEmployee) return;
+
+    const period_month = getValues('period_month');
+    if (!period_month) return;
+
+    fetchTer({
+      employee_id: selectedEmployee.id,
+      gross_salary: debounceTotalSalary || 0,
+      period_years: new Date().getFullYear(),
+      period_month,
+    });
+  }, [debounceTotalSalary, fetchTer, getValues, selectedEmployee]);
+
+  const applyPph21Calculations = useCallback(() => {
+    if (!selectedEmployee) return;
+    if (!monthlySalary) return;
+
+    const npwpTariffPercentage = getValues(
+      'pph21_calculations.0.tariff_percentage'
+    );
+    const npwpTariffResult = monthlySalary * npwpTariffPercentage;
+
+    const noNpwpTariffPercentage = getValues(
+      'pph21_calculations.1.tariff_percentage'
+    );
+    const noNpwpTariffResult = npwpTariffResult * noNpwpTariffPercentage;
+
+    const hasnpwp = !!selectedEmployee.npwp;
+
+    const totalPph21 = hasnpwp ? npwpTariffResult : noNpwpTariffResult;
+
+    if (hasnpwp) {
+      setValue('pph21_calculations.1.tariff_percentage', 0);
+      setValue('pph21_calculations.1.amount', 0);
+      setValue('pph21_calculations.1.result', 0);
+    }
+
+    setValue('pph21_calculations.0.result', npwpTariffResult);
+    setValue('pph21_calculations.1.result', noNpwpTariffResult);
+
+    setValue('result.total_salary', monthlySalary);
+    setValue('result.total_pph21', totalPph21);
+    setValue('result.net_receipts', monthlySalary - totalPph21);
+  }, [getValues, selectedEmployee, setValue, monthlySalary]);
+
+  useEffect(() => {
+    if (!employeeTer) return;
+
+    setValue('pph21_calculations.0.tariff_percentage', employeeTer?.percentage);
+    applyPph21Calculations();
+  }, [applyPph21Calculations, employeeTer, setValue]);
+
+  const pph21nonpwpamountWatch = watch('pph21_calculations.0.result');
+  useEffect(() => {
+    if (!selectedEmployee) return;
+    if (!monthlySalary) return;
+
+    const pph21nonpwpamount = pph21nonpwpamountWatch;
+    setValue('pph21_calculations.0.amount', monthlySalary);
+    setValue('pph21_calculations.1.amount', pph21nonpwpamount);
+
+    applyPph21Calculations();
+  }, [
+    applyPph21Calculations,
+    selectedEmployee,
+    setValue,
+    monthlySalary,
+    pph21nonpwpamountWatch,
+  ]);
 
   useEffect(() => {
     if (selectedEmployee) {
-      form.setValue("employee_id", selectedEmployee.id);
-      form.setValue("constants.tariff_ter", selectedEmployee.ter?.percentage);
+      setValue('employee_id', selectedEmployee.id);
+      setFormDisabled(false);
     }
-  }, [form, selectedEmployee]);
+  }, [selectedEmployee, setValue]);
+
+  useEffect(() => {
+    if (form.formState.errors.root) {
+      toast({
+        title: 'Kesalahan Input',
+        description: 'Mohon periksa kembali data yang anda masukkan',
+        variant: 'destructive',
+      });
+    }
+  }, [form.formState.errors]);
 
   const { mutateAsync: mutatePph21, isPending: isMutatePph21Pending } =
     useAddPph21TemporaryEmployeePaidMonthly();
 
-  const onSubmit = async (data: NonPermanentEmployeeMonthlyFormData) => {
-    try {
-      if (!selectedEmployee) {
-        toast({
-          title: "Kesalahan Input",
-          description: "Mohon pilih pegawai terlebih dahulu",
-          variant: "destructive",
-          duration: 5000,
-        });
-
-        return;
-      }
-
-      await mutatePph21(data);
-
+  const onSubmit = async (data: PPh21PostPayloadRequest) => {
+    if (!selectedEmployee) {
       toast({
-        title: "Berhasil",
-        description: "Data PPh21 berhasil disimpan",
+        title: 'Kesalahan Input',
+        description: 'Mohon pilih pegawai terlebih dahulu',
+        variant: 'destructive',
         duration: 5000,
       });
 
-      router.push("/unit/tax/pph21");
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast({
-          title: "Gagal",
-          description: error.response?.data.message,
-          variant: "destructive",
-        });
-      }
+      return;
     }
+
+    const hasNpwp = !!selectedEmployee.npwp;
+
+    if (hasNpwp) {
+      // remove index 1
+      data.pph21_calculations.pop();
+    } else {
+      // remove index 0
+      data.pph21_calculations.shift();
+    }
+
+    await mutatePph21(data);
+
+    router.push('/unit/tax/pph21');
   };
 
   useEffect(() => {
     if (form.formState.errors.root) {
       toast({
-        title: "Kesalahan Input",
-        description: "Mohon periksa kembali data yang anda masukkan",
-        variant: "destructive",
+        title: 'Kesalahan Input',
+        description: 'Mohon periksa kembali data yang anda masukkan',
+        variant: 'destructive',
       });
     }
   }, [form.formState.errors]);
+
+  const isLoading = useMemo(() => {
+    return isMutatePph21Pending || form.formState.isSubmitting;
+  }, [isMutatePph21Pending, form.formState.isSubmitting]);
 
   return (
     <Layout>
@@ -200,7 +246,7 @@ export default function PaidMonthly() {
           </h1>
           <div className="flex space-x-6">
             <Button>Lampiran</Button>
-            <Link href={"/unit/tax/pph21"}>
+            <Link href={'/unit/tax/pph21'}>
               <Button>Kembali</Button>
             </Link>
           </div>
@@ -219,7 +265,6 @@ export default function PaidMonthly() {
                 isGetEmployeesLoading={isGetEmployeesLoading}
                 setPeriodMonth={setPeriodMonth}
                 periodMonth={periodMonth}
-                defaultPeriodMonth={Pph21TaxPeriodMonth.JANUARY}
               />
               {/* <EmployeeData12Months
                 selectedEmployee={selectedEmployee}
@@ -232,17 +277,21 @@ export default function PaidMonthly() {
                 <TemporaryEmployeeMonthlyGrossIncome form={form} />
                 <TemporaryEmployeeMonthlyPPh21Calculation form={form} />
               </div>
-              <TemporaryEmployeeMonthlyResults
+              {/* <TemporaryEmployeeMonthlyResults
                 form={form}
                 total_salary="result.total_salary"
                 total_pph21="result.total_pph21"
                 net_receipts="result.net_receipts"
-              />
+              /> */}
+              <Results form={form} />
               <div className="flex justify-center mt-10 mb-10 mr-8 gap-10">
-                <Button type="submit" disabled={isMutatePph21Pending}>
-                  {isMutatePph21Pending
-                    ? "Menyimpan..."
-                    : "Simpan Data Perpajakan Pegawai"}
+                <Button
+                  type="submit"
+                  disabled={isLoading || isEmployeeTerLoading}
+                >
+                  {isLoading
+                    ? 'Menyimpan...'
+                    : 'Simpan Data Perpajakan Pegawai'}
                 </Button>
               </div>
             </form>

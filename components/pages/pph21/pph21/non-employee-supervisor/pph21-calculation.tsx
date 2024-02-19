@@ -1,20 +1,12 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { SeverencePayPeriodicFormData } from '@/types/pph21/severance-pay/severence-pay';
 import { useForm } from 'react-hook-form';
 import HaveNPWP from './have_npwp';
 import NotHaveNPWP from './not_have_npwp';
-import { PPh21OtherNonEmployeeSupervisorFormData } from '@/types/pph21/pph21/other-pph21';
+import { PPh21PostPayloadRequest } from '@/types/pph21/request';
 
 interface PPh21CalculationProps {
-  form: ReturnType<typeof useForm<PPh21OtherNonEmployeeSupervisorFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 export default function PPh21OtherNonEmployeeSupervisorPPh21Calculation({
   form,

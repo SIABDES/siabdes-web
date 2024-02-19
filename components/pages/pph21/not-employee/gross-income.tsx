@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import {
   FormControl,
@@ -6,27 +6,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { NotEmployeeFormData } from "@/types/pph21/not-employee/not-employee";
+} from '@/components/ui/form';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { useForm } from 'react-hook-form';
+import { NotEmployeeFormData } from '@/types/pph21/not-employee/not-employee';
 import {
   formatRupiah,
   reverseFormat,
   reverseFormatRupiah,
-} from "@/common/helpers/number-format";
-import FormNumberInput from "@/components/patan-ui/form/form-number-input";
+} from '@/common/helpers/number-format';
+import FormNumberInput from '@/components/patan-ui/form/form-number-input';
+import { PPh21PostPayloadRequest } from '@/types/pph21/request';
 
 interface NotEmployeeGrossIncomeProps {
-  form: ReturnType<typeof useForm<NotEmployeeFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 export default function NotEmployeeGrossIncome({
   form,
 }: NotEmployeeGrossIncomeProps) {
   return (
     <Card className="p-3 border border-gray-300 shadow-md">
-      <h2 className="text-center font-medium text-sm py-2  rounded-md w-80 mx-auto">
+      <h2 className="text-center font-bold text-sm py-3  rounded-md w-80 mx-auto">
         Penghasilan Bruto
       </h2>
       <div className="space-y-3 mt-3">
@@ -52,13 +53,13 @@ export default function NotEmployeeGrossIncome({
           )}
         /> */}
 
-        <FormNumberInput
+        {/* <FormNumberInput
           control={form.control}
           name="gross_salary.salary"
           label="Penghasilan Bruto"
           transform={{
             input: (value) => {
-              return isNaN(value) ? "" : formatRupiah(value);
+              return isNaN(value) ? '' : formatRupiah(value);
             },
             output: (event) => {
               const unformatted = event.target.value;
@@ -70,70 +71,46 @@ export default function NotEmployeeGrossIncome({
               return isNaN(output) ? 0 : output;
             },
           }}
-        />
-      </div>
-      <h2 className="text-center font-medium text-sm py-2  rounded-md w-80 mx-auto mt-12">
-        Penghasilan Kena Pajak
-      </h2>
-      <div className="grid grid-cols-9 mt-3">
-        <FormField
-          control={form.control}
-          name="constants.tariff_pkp"
-          render={({ field }) => (
-            <FormItem className="w-full flex items-end">
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  value={field.value + "%"}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="flex justify-center items-end col-span-1">
-          <span className="text-lg mb-2">x</span>
-        </div>
-        <FormField
+        /> */}
+        <FormNumberInput
           control={form.control}
           name="gross_salary.salary"
-          render={({ field }) => (
-            <FormItem className="w-full col-span-3">
-              <FormLabel htmlFor={field.name}>Penghasilan Bruto</FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  value={formatRupiah(field.value)}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Penghasilan Bruto"
+          variant="horizontal"
+          defaultValue={0}
+          placeholder="Penghasilan Bruto"
         />
-        <div className="flex justify-center items-end col-span-1">
-          <span className="text-lg mb-2">=</span>
-        </div>
-        <FormField
+      </div>
+      <h2 className="text-center font-bold text-sm py-2  rounded-md w-80 mx-auto mt-12">
+        Penghasilan Kena Pajak
+      </h2>
+      <div className="grid grid-cols-12 items-center gap-x-4">
+        <Input
+          value={'50%'}
+          className="col-span-2 border border-gray-400"
+          readOnly
+        />
+        <p className="inline-flex justify-center">x</p>
+
+        <FormNumberInput
           control={form.control}
-          name="gross_salary.pkp"
-          render={({ field }) => (
-            <FormItem className="w-full col-span-3">
-              <FormLabel htmlFor={field.name}>PKP</FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-gray-400"
-                  {...field}
-                  value={formatRupiah(field.value)}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          name="pkp_calculations.amount"
+          variant="inline"
+          defaultValue={0}
+          className="col-span-4 w-full"
+          readonly
+          border={true}
+        />
+
+        <p className="inline-flex justify-center">=</p>
+        <FormNumberInput
+          control={form.control}
+          name="pkp_calculations.result"
+          variant="inline"
+          defaultValue={0}
+          className="col-span-4 w-full"
+          readonly
+          border={true}
         />
       </div>
     </Card>

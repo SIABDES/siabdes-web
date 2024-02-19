@@ -1,23 +1,12 @@
-import { formatRupiah } from '@/common/helpers/number-format';
+import FormNumberInput from '@/components/patan-ui/form/form-number-input';
 import { Card } from '@/components/ui/card';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  PPh21OtherActivityParticipantFormData,
-  PPh21OtherNonEmployeeSupervisorFormData,
-} from '@/types/pph21/pph21/other-pph21';
-import { SeverencePayPeriodicFormData } from '@/types/pph21/severance-pay/severence-pay';
-import { format } from 'path';
+import { PPh21PostPayloadRequest } from '@/types/pph21/request';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 interface HaveNPWPProps {
-  form: ReturnType<typeof useForm<PPh21OtherNonEmployeeSupervisorFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 
 export default function HaveNPWP({ form }: HaveNPWPProps) {
@@ -27,300 +16,136 @@ export default function HaveNPWP({ form }: HaveNPWPProps) {
         Wajib Pajak Memiliki NPWP
       </h2>
       <p className="my-2 text-red-500">Tarif Pasal 17 ayat (1a) :</p>
-      <div className="space-y-3">
-        <div className="grid grid-cols-9">
-          <FormField
+      <div className="flex flex-col gap-y-3">
+        <div className="grid grid-cols-12 items-center gap-x-4">
+          <Input value={'5%'} className="col-span-2" readOnly />
+
+          <p className="inline-flex justify-center">x</p>
+
+          <FormNumberInput
             control={form.control}
-            name="constants.tariff_chapter_17_5_percent"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={5 + '%'}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pph21_calculations.0.amount"
+            variant="inline"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">x</span>
-          </div>
-          <FormField
+
+          <p className="inline-flex justify-center">=</p>
+
+          <FormNumberInput
             control={form.control}
-            name="calculations.pph21_chapter_17_5_percent"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(field.value)}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">=</span>
-          </div>
-          <FormField
-            control={form.control}
-            name="calculations.total_pph21_chapter_17_5_percent"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(field.value)}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pph21_calculations.0.result"
+            variant="inline"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
         </div>
-        <div className="grid grid-cols-9">
-          <FormField
+
+        <div className="grid grid-cols-12 items-center gap-x-4">
+          <Input value={'15%'} className="col-span-2" readOnly />
+          <p className="inline-flex justify-center">x</p>
+
+          <FormNumberInput
             control={form.control}
-            name="constants.tariff_chapter_17_15_percent"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={15 + '%'}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pph21_calculations.1.amount"
+            variant="inline"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">x</span>
-          </div>
-          <FormField
+
+          <p className="inline-flex justify-center">=</p>
+          <FormNumberInput
             control={form.control}
-            name="calculations.pph21_chapter_17_15_percent"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(field.value)}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">=</span>
-          </div>
-          <FormField
-            control={form.control}
-            name="calculations.total_pph21_chapter_17_15_percent"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(field.value)}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pph21_calculations.1.result"
+            variant="inline"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
         </div>
-        <div className="grid grid-cols-9">
-          <FormField
+
+        <div className="grid grid-cols-12 items-center gap-x-4">
+          <Input value={'25%'} className="col-span-2" readOnly />
+          <p className="inline-flex justify-center">x</p>
+
+          <FormNumberInput
             control={form.control}
-            name="constants.tariff_chapter_17_25_percent"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={25 + '%'}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pph21_calculations.2.amount"
+            variant="inline"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">x</span>
-          </div>
-          <FormField
+
+          <p className="inline-flex justify-center">=</p>
+          <FormNumberInput
             control={form.control}
-            name="calculations.pph21_chapter_17_25_percent"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(field.value)}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">=</span>
-          </div>
-          <FormField
-            control={form.control}
-            name="calculations.total_pph21_chapter_17_25_percent"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(field.value)}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pph21_calculations.2.result"
+            variant="inline"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
         </div>
-        <div className="grid grid-cols-9">
-          <FormField
+
+        <div className="grid grid-cols-12 items-center gap-x-4">
+          <Input value={'30%'} className="col-span-2" readOnly />
+          <p className="inline-flex justify-center">x</p>
+
+          <FormNumberInput
             control={form.control}
-            name="constants.tariff_chapter_17_30_percent"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={30 + '%'}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pph21_calculations.3.amount"
+            variant="inline"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">x</span>
-          </div>
-          <FormField
+
+          <p className="inline-flex justify-center">=</p>
+          <FormNumberInput
             control={form.control}
-            name="calculations.pph21_chapter_17_30_percent"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(field.value)}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">=</span>
-          </div>
-          <FormField
-            control={form.control}
-            name="calculations.total_pph21_chapter_17_30_percent"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(field.value)}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pph21_calculations.3.result"
+            variant="inline"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
         </div>
-        <div className="grid grid-cols-9">
-          <FormField
+
+        <div className="grid grid-cols-12 items-center gap-x-4">
+          <Input value={'35%'} className="col-span-2" readOnly />
+          <p className="inline-flex justify-center">x</p>
+
+          <FormNumberInput
             control={form.control}
-            name="constants.tariff_chapter_17_35_percent"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={35 + '%'}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pph21_calculations.4.amount"
+            variant="inline"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">x</span>
-          </div>
-          <FormField
+
+          <p className="inline-flex justify-center">=</p>
+          <FormNumberInput
             control={form.control}
-            name="calculations.pph21_chapter_17_35_percent"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(field.value)}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex justify-center items-end col-span-1">
-            <span className="text-lg mb-2">=</span>
-          </div>
-          <FormField
-            control={form.control}
-            name="calculations.total_pph21_chapter_17_35_percent"
-            render={({ field }) => (
-              <FormItem className="w-full col-span-3">
-                <FormControl>
-                  <Input
-                    className="border border-gray-400"
-                    {...field}
-                    value={formatRupiah(field.value)}
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="pph21_calculations.4.result"
+            variant="inline"
+            defaultValue={0}
+            className="col-span-4 w-full"
+            readonly
+            border={false}
           />
         </div>
       </div>

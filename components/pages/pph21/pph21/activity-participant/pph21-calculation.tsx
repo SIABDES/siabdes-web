@@ -1,14 +1,12 @@
 import React from 'react';
-import InputField from '@/components/Input/input-field';
-import { PPh21CalculationType } from '@/types/pph21/pph21/activity-participant/pph21-calculation';
 import { Card } from '@/components/ui/card';
-import { PPh21OtherActivityParticipantFormData } from '@/types/pph21/pph21/other-pph21';
 import { useForm } from 'react-hook-form';
 import HaveNPWP from './have_npwp';
 import NotHaveNPWP from './not_have_npwp';
+import { PPh21PostPayloadRequest } from '@/types/pph21/request';
 
 interface PPh21CalculationProps {
-  form: ReturnType<typeof useForm<PPh21OtherActivityParticipantFormData>>;
+  form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 
 export default function PPh21OtherActivityParticipantPPh21Calculation({
