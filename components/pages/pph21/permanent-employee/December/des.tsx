@@ -28,8 +28,47 @@ import { useRouter } from "next/navigation";
 
 interface PermanentEmployeeDesProps {
   selectedEmployee: Employee | undefined;
-  periodMonth: Pph21TaxPeriodMonth;
+  periodMonth: Pph21TaxPeriodMonth | null;
 }
+
+const pph21CalculationDefaultValues: {
+  amount?: number | undefined;
+  result?: number | undefined;
+  tariff_percentage?: number | undefined;
+}[] = [
+  // Has npwp
+  {
+    tariff_percentage: 0.05,
+    amount: 0,
+    result: 0,
+  },
+  {
+    tariff_percentage: 0.15,
+    amount: 0,
+    result: 0,
+  },
+  {
+    tariff_percentage: 0.25,
+    amount: 0,
+    result: 0,
+  },
+  {
+    tariff_percentage: 0.3,
+    amount: 0,
+    result: 0,
+  },
+  {
+    tariff_percentage: 0.35,
+    amount: 0,
+    result: 0,
+  },
+  // No Npwp
+  {
+    tariff_percentage: 1.2,
+    amount: 0,
+    result: 0,
+  },
+];
 
 export default function PermanentEmployeeDes({
   selectedEmployee,
@@ -71,40 +110,7 @@ export default function PermanentEmployeeDes({
         total_pph21: 0,
         net_receipts: 0,
       },
-      pph21_calculations: [
-        // Has npwp
-        {
-          tariff_percentage: 0.05,
-          amount: 0,
-          result: 0,
-        },
-        {
-          tariff_percentage: 0.15,
-          amount: 0,
-          result: 0,
-        },
-        {
-          tariff_percentage: 0.25,
-          amount: 0,
-          result: 0,
-        },
-        {
-          tariff_percentage: 0.3,
-          amount: 0,
-          result: 0,
-        },
-        {
-          tariff_percentage: 0.35,
-          amount: 0,
-          result: 0,
-        },
-        // No Npwp
-        {
-          tariff_percentage: 1.2,
-          amount: 0,
-          result: 0,
-        },
-      ],
+      pph21_calculations: pph21CalculationDefaultValues,
     },
   });
 
@@ -218,31 +224,18 @@ export default function PermanentEmployeeDes({
 
     let tempTaxable = pkpWatcher;
 
-    updatePph21Field(0, {
-      tariff_percentage: percentage5,
-      amount: 0,
-      result: 0,
-    });
-    updatePph21Field(1, {
-      tariff_percentage: percentage15,
-      amount: 0,
-      result: 0,
-    });
-    updatePph21Field(2, {
-      tariff_percentage: percentage25,
-      amount: 0,
-      result: 0,
-    });
-    updatePph21Field(3, {
-      tariff_percentage: percentage30,
-      amount: 0,
-      result: 0,
-    });
-    updatePph21Field(4, {
-      tariff_percentage: percentage35,
-      amount: 0,
-      result: 0,
-    });
+    setValue("pph21_calculations.0.amount", 0, { shouldDirty: false });
+    setValue("pph21_calculations.0.result", 0, { shouldDirty: false });
+    setValue("pph21_calculations.1.amount", 0, { shouldDirty: false });
+    setValue("pph21_calculations.1.result", 0, { shouldDirty: false });
+    setValue("pph21_calculations.2.amount", 0, { shouldDirty: false });
+    setValue("pph21_calculations.2.result", 0, { shouldDirty: false });
+    setValue("pph21_calculations.3.amount", 0, { shouldDirty: false });
+    setValue("pph21_calculations.3.result", 0, { shouldDirty: false });
+    setValue("pph21_calculations.4.amount", 0, { shouldDirty: false });
+    setValue("pph21_calculations.4.result", 0, { shouldDirty: false });
+    setValue("pph21_calculations.5.amount", 0, { shouldDirty: false });
+    setValue("pph21_calculations.5.result", 0, { shouldDirty: false });
 
     const applyResultPercentage5 = applyPercentage(
       tempTaxable,
@@ -303,14 +296,25 @@ export default function PermanentEmployeeDes({
   }, [npwpPph21CalculationsResultWatcher]);
 
   useEffect(() => {
+    const hasNpwp = !!selectedEmployee?.npwp;
     const tariffPercentage = getValues(
       "pph21_calculations.5.tariff_percentage"
     );
-    const result = totalNpwpPph21CalculationsResult * tariffPercentage;
+    const result = hasNpwp
+      ? 0
+      : totalNpwpPph21CalculationsResult * tariffPercentage;
 
-    setValue("pph21_calculations.5.amount", totalNpwpPph21CalculationsResult);
+    setValue(
+      "pph21_calculations.5.amount",
+      hasNpwp ? 0 : totalNpwpPph21CalculationsResult
+    );
     setValue("pph21_calculations.5.result", result);
-  }, [getValues, setValue, totalNpwpPph21CalculationsResult]);
+  }, [
+    getValues,
+    selectedEmployee?.npwp,
+    setValue,
+    totalNpwpPph21CalculationsResult,
+  ]);
 
   const noNpwpPph21CalculationsResultWatcher = watch(
     "pph21_calculations.5.result"

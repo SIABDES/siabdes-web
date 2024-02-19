@@ -73,7 +73,12 @@ export default function PermanentEmployeeJanNov({
       },
     },
   });
-  const { setValue: setFormValue, getValues: getFormValues, formState } = form;
+  const {
+    setValue: setFormValue,
+    getValues: getFormValues,
+    formState,
+    reset: resetForm,
+  } = form;
 
   useEffect(() => {
     if (periodMonth) {
@@ -85,10 +90,11 @@ export default function PermanentEmployeeJanNov({
 
   useEffect(() => {
     if (selectedEmployee) {
+      resetForm();
       setFormValue("employee_id", selectedEmployee.id);
       setFormDisabled(false);
     }
-  }, [selectedEmployee, setFormValue]);
+  }, [resetForm, selectedEmployee, setFormValue]);
 
   const { mutateAsync: mutatePph21, isPending: isMutatePph21Pending } =
     useAddPph21PermanentEmployee();
