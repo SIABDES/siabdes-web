@@ -13,6 +13,7 @@ import {
   useState,
 } from "react";
 import { useBoolean } from "usehooks-ts";
+import { ScrollArea } from "../ui/scroll-area";
 
 interface SidebarLinkProps extends ComponentProps<typeof Link> {
   isActive?: boolean;
@@ -156,28 +157,27 @@ export function Sidebar({ items, ...props }: SidebarProps) {
         </Link>
       </div>
 
-      <div
-        id="sidebar-body"
-        className="row-span-8 py-8 px-2 flex flex-col gap-y-2"
-      >
-        {Object.entries(items).map(([key, item], index) => {
-          if (isSidebarLink(item)) {
-            return <SidebarLink key={index} {...item} />;
-          }
+      <ScrollArea className="row-span-8" scrollHideDelay={1}>
+        <div id="sidebar-body" className="py-8 px-2 flex flex-col gap-y-2">
+          {Object.entries(items).map(([key, item], index) => {
+            if (isSidebarLink(item)) {
+              return <SidebarLink key={index} {...item} />;
+            }
 
-          if (isSidebarNavs(item)) {
-            return (
-              <SidebarNavs
-                key={index}
-                id={key}
-                {...item}
-                open={navsActive === key}
-                setNavsActive={handleSetNavsActive}
-              />
-            );
-          }
-        })}
-      </div>
+            if (isSidebarNavs(item)) {
+              return (
+                <SidebarNavs
+                  key={index}
+                  id={key}
+                  {...item}
+                  open={navsActive === key}
+                  setNavsActive={handleSetNavsActive}
+                />
+              );
+            }
+          })}
+        </div>
+      </ScrollArea>
 
       <div id="sidebar-footer"></div>
     </div>
