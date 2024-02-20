@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -6,16 +6,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { cn } from '@/lib/utils';
-import React from 'react';
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import React from "react";
 
 interface TableViewProps<T extends object>
   extends React.HTMLAttributes<HTMLTableElement> {
-  headers: string[];
+  headers?: string[];
   items: T[];
   renderRow: (item: T, index: number) => React.ReactNode;
   renderHeader?: (header: string) => React.ReactNode;
+  skipIf?: (item: T) => boolean;
   onRowClick?: (item: T) => void;
   isLoading?: boolean;
   renderLoading?: () => React.ReactNode;
@@ -31,16 +32,20 @@ export default function TableView<T extends object>({
   loadingPlaceholderAmount = 10,
   renderHeader = (header) => <TableHead key={header}>{header}</TableHead>,
   onRowClick,
+  skipIf,
   ...props
 }: TableViewProps<T>) {
   return (
     <Table {...props}>
-      <TableHeader>
-        <TableRow>{headers.map((header) => renderHeader(header))}</TableRow>
-      </TableHeader>
+      {headers && (
+        <TableHeader>
+          <TableRow>{headers.map((header) => renderHeader(header))}</TableRow>
+        </TableHeader>
+      )}
 
       <TableBody>
         {isLoading &&
+          headers &&
           Array.from({ length: loadingPlaceholderAmount }).map(
             (_, plcIndex) =>
               renderLoading?.() ?? (
@@ -54,15 +59,18 @@ export default function TableView<T extends object>({
               )
           )}
         {!isLoading &&
-          items.map((item, index) => (
-            <TableRow
-              key={index}
-              onClick={() => onRowClick?.(item)}
-              className={cn(onRowClick && 'cursor-pointer')}
-            >
-              {renderRow(item, index)}
-            </TableRow>
-          ))}
+          items.map((item, index) => {
+            if (skipIf?.(item)) return null;
+            return (
+              <TableRow
+                key={index}
+                onClick={() => onRowClick?.(item)}
+                className={cn(onRowClick && "cursor-pointer")}
+              >
+                {renderRow(item, index)}
+              </TableRow>
+            );
+          })}
       </TableBody>
     </Table>
   );

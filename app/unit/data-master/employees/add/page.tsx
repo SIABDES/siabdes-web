@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, {
   ChangeEvent,
@@ -6,14 +6,14 @@ import React, {
   use,
   useEffect,
   useState,
-} from 'react';
-import Layout from '@/components/layout/layout';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { ComboBox } from '@/components/ui/combobox';
-import InputField from '@/components/Input/input-field';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Button } from '@/components/ui/button';
+} from "react";
+import Layout from "@/components/layout/layout";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { ComboBox } from "@/components/ui/combobox";
+import InputField from "@/components/Input/input-field";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Button } from "@/components/ui/button";
 
 import {
   Select,
@@ -24,8 +24,8 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Card, CardContent } from '@/components/ui/card';
+} from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -33,10 +33,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
-import { EmployeesSchema, EmployeeFormDataType } from '@/types/employees/dto';
-import { zodResolver } from '@hookform/resolvers/zod';
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { EmployeesSchema, EmployeeFormDataType } from "@/types/employees/dto";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   EmployeesChildrenAmount,
   EmployeesExistenceNPWP as ada,
@@ -45,18 +45,18 @@ import {
   EmployeesNPWPStatus,
   EmployeesStatus,
   EmployeesType,
-} from '@/types/employees/employees';
-import Link from 'next/link';
-import { format } from 'path';
-import { useRouter } from 'next/navigation';
-import useAddEmployee from '@/hooks/employee/useAddEmployee';
-import { toast } from '@/components/ui/use-toast';
-import { DatePicker } from '@/components/ui/date-picker';
-import { AxiosError } from 'axios';
-import { string } from 'zod';
-import { Value } from '@radix-ui/react-select';
-import { UndoIcon } from 'lucide-react';
-import { maxHeaderSize } from 'http';
+} from "@/types/employees/employees";
+import Link from "next/link";
+import { format } from "path";
+import { useRouter } from "next/navigation";
+import useAddEmployee from "@/hooks/employee/useAddEmployee";
+import { toast } from "@/components/ui/use-toast";
+import { DatePicker } from "@/components/ui/date-picker";
+import { AxiosError } from "axios";
+import { string } from "zod";
+import { Value } from "@radix-ui/react-select";
+import { UndoIcon } from "lucide-react";
+import { maxHeaderSize } from "http";
 
 export default function Add() {
   const router = useRouter();
@@ -65,11 +65,11 @@ export default function Add() {
   const form = useForm<EmployeeFormDataType>({
     resolver: zodResolver(EmployeesSchema),
     defaultValues: {
-      name: '',
+      name: "",
       gender: undefined,
-      nik: '',
+      nik: "",
       start_working_at: undefined,
-      npwp: '',
+      npwp: "",
       npwp_status: undefined,
       marriage_status: undefined,
       children_amount: undefined,
@@ -77,7 +77,7 @@ export default function Add() {
       employee_type: undefined,
     },
   });
-  const [existenceNPWP, setExistenceNPWP] = useState<string | undefined>('ada');
+  const [existenceNPWP, setExistenceNPWP] = useState<string | undefined>("ada");
 
   useEffect(() => {
     console.log(form.watch());
@@ -85,15 +85,15 @@ export default function Add() {
 
   //new Date().getFullYear().toString() + '-01-01',
   const formatNPWP = (value: string) => {
-    const cleanedValue = value.replace(/\D/g, '');
+    const cleanedValue = value.replace(/\D/g, "");
 
-    let formatted = '';
+    let formatted = "";
     for (let i = 0; i < cleanedValue.length && formatted.length < 20; i++) {
       if (i === 2 || i === 5 || i === 8 || i === 12) {
-        formatted += '.';
+        formatted += ".";
       }
       if (i === 9) {
-        formatted += '-';
+        formatted += "-";
       }
       formatted += cleanedValue[i];
     }
@@ -102,39 +102,39 @@ export default function Add() {
   };
 
   const onSubmit = async (data: EmployeeFormDataType) => {
-    console.log('mantaps dadada');
+    console.log("mantaps dadada");
 
     const validatedData = EmployeesSchema.safeParse(data);
 
     if (!validatedData.success) {
       toast({
-        title: 'Kesalahan Input Pengguna',
-        description: 'Mohon periksa kembali inputan anda..',
-        variant: 'destructive',
+        title: "Kesalahan Input Pengguna",
+        description: "Mohon periksa kembali inputan anda..",
+        variant: "destructive",
       });
     }
 
     await mutateNewEmployee(data, {
       onSettled: () => {
         toast({
-          title: 'Menambahkan...',
-          description: 'Sedang menambahkan data tenaga kerja..',
+          title: "Menambahkan...",
+          description: "Sedang menambahkan data tenaga kerja..",
         });
       },
       onSuccess: () => {
         toast({
-          title: 'Berhasil',
-          description: 'Berhasil menambahkan data tenaga kerja..',
+          title: "Berhasil",
+          description: "Berhasil menambahkan data tenaga kerja..",
         });
-        router.push('/unit/data-master/employees');
+        router.push("/unit/data-master/employees");
       },
       onError: (error) => {
         toast({
-          title: 'Gagal',
+          title: "Gagal",
           description:
             (error instanceof AxiosError && error.response?.data.message) ??
-            'Terjadi kesalahan internal..',
-          variant: 'destructive',
+            "Terjadi kesalahan internal..",
+          variant: "destructive",
         });
       },
     });
@@ -204,16 +204,16 @@ export default function Add() {
                           className="border border-gray-400"
                           {...field}
                           placeholder={
-                            existenceNPWP === 'ada'
-                              ? '_ _ . _ _ _ . _ _ _ - _ . _ _ _ . _ _ _'
-                              : '00.000.000-0.000.000'
+                            existenceNPWP === "ada"
+                              ? "_ _ . _ _ _ . _ _ _ - _ . _ _ _ . _ _ _"
+                              : "00.000.000-0.000.000"
                           }
                           value={
-                            existenceNPWP === 'tidak'
-                              ? ''
+                            existenceNPWP === "tidak"
+                              ? ""
                               : formatNPWP(String(field.value))
                           }
-                          disabled={existenceNPWP === 'tidak'}
+                          disabled={existenceNPWP === "tidak"}
                           maxLength={20}
                         />
                       </FormControl>
@@ -303,7 +303,7 @@ export default function Add() {
                           date={field.value}
                           setDate={field.onChange}
                           disablePreviousYears={
-                            form.watch('employee_status') ===
+                            form.watch("employee_status") ===
                             EmployeesStatus.KARYAWAN_BARU
                           }
                         />
@@ -392,9 +392,9 @@ export default function Add() {
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                           disabled={
-                            form.watch('gender') === EmployeesGender.PRIA ||
-                            (form.watch('gender') === EmployeesGender.WANITA &&
-                              form.watch('marriage_status') ===
+                            form.watch("gender") === EmployeesGender.PRIA ||
+                            (form.watch("gender") === EmployeesGender.WANITA &&
+                              form.watch("marriage_status") ===
                                 EmployeesMarriageStatus.BELUM_KAWIN)
                           }
                           // value={
@@ -410,9 +410,9 @@ export default function Add() {
                             <SelectTrigger>
                               <SelectValue
                                 placeholder={
-                                  form.watch('gender') === EmployeesGender.PRIA
-                                    ? '_ _ _ _ _ _ _ _ _'
-                                    : 'Pilih status NPWP'
+                                  form.watch("gender") === EmployeesGender.PRIA
+                                    ? "_ _ _ _ _ _ _ _ _"
+                                    : "Pilih status NPWP"
                                 }
                               />
                             </SelectTrigger>
@@ -537,8 +537,8 @@ export default function Add() {
                 disabled={isPendingNewEmployee}
               >
                 {isPendingNewEmployee
-                  ? 'Menambahkan Karyawan...'
-                  : 'Tambah Karyawan'}
+                  ? "Menambahkan Karyawan..."
+                  : "Tambah Karyawan"}
               </Button>
             </div>
           </form>

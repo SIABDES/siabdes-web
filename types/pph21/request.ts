@@ -131,12 +131,6 @@ export const Pph21MutationSchema = z.object({
 });
 
 export type PPh21PostPayloadRequest = z.infer<typeof Pph21MutationSchema>;
-export type Pph21TaxDetails = PPh21PostPayloadRequest & {
-  id: string;
-  has_npwp: boolean;
-  employee_id: string;
-  created_at: Date;
-};
 
 export type Pph21TaxOverview = {
   id: string;

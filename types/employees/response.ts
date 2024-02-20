@@ -4,6 +4,7 @@ import {
   EmployeeCurrentTerTariff,
   EmployeeOverview,
 } from "./employees";
+import { Pph21TaxOverview } from "../pph21/request";
 
 export type EmployeesOverviewResponse = {
   _count: number;
@@ -27,3 +28,13 @@ export type UpdateEmployeeDataResponse = BackendResponseType<{
 
 export type GetEmployeeTerResponse =
   BackendResponseType<EmployeeCurrentTerTariff>;
+
+export type GetEmployeeTaxesResponse = BackendResponseType<{
+  _count: number;
+  _total: {
+    gross_salary: number;
+    net_salary: number;
+    pph21: number;
+  };
+  taxes: Pph21TaxOverview[];
+}>;

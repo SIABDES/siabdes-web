@@ -1,5 +1,5 @@
-import { BackendResponseType } from '@/common/types';
-import { Pph21EmployeeTaxOverview } from './pph21';
+import { BackendResponseType } from "@/common/types";
+import { Pph21EmployeeTaxOverview, Pph21TaxDetails } from "./pph21";
 
 export type AddPph21Response = BackendResponseType<{
   id: string;
@@ -15,3 +15,5 @@ export type UpdatePPh21Response = BackendResponseType<{
   id: string;
   updated_at: string;
 }>;
+
+export type GetDetailsPph21Response = BackendResponseType<Pph21TaxDetails>;

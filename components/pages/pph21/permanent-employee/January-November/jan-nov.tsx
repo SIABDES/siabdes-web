@@ -72,6 +72,13 @@ export default function PermanentEmployeeJanNov({
     reset: resetForm,
   } = form;
 
+  const formWatcher = form.watch();
+
+  useEffect(() => {
+    console.log(formState.errors);
+    console.log(formWatcher);
+  }, [formState.errors, formWatcher]);
+
   useEffect(() => {
     if (!periodMonth) return;
     if (periodMonth === Pph21TaxPeriodMonth.DECEMBER) return;
@@ -81,11 +88,27 @@ export default function PermanentEmployeeJanNov({
 
   useEffect(() => {
     if (selectedEmployee) {
-      resetForm();
+      resetForm({
+        period_month: periodMonth,
+        period_years: new Date().getFullYear(),
+        employee_type: EmployeesType.PEGAWAI_TETAP,
+        pph21_calculations: [
+          {
+            tariff_percentage: 0,
+            amount: 0,
+            result: 0,
+          },
+          {
+            tariff_percentage: 1.2,
+            amount: 0,
+            result: 0,
+          },
+        ],
+      });
       setFormValue("employee_id", selectedEmployee.id);
       setFormDisabled(false);
     }
-  }, [resetForm, selectedEmployee, setFormValue]);
+  }, [periodMonth, resetForm, selectedEmployee, setFormValue]);
 
   const { mutateAsync: mutatePph21, isPending: isMutatePph21Pending } =
     useAddPph21PermanentEmployee();
@@ -155,11 +178,12 @@ export default function PermanentEmployeeJanNov({
   // Fetch TER data when total gross salary changes
   useEffect(() => {
     if (!selectedEmployee) return;
+    if (!selectedEmployee.ter) return;
 
     const period_month = getFormValues("period_month");
     if (!period_month) return;
 
-    fetchTer({
+    void fetchTer({
       employee_id: selectedEmployee.id,
       gross_salary: debounceTotalSalary,
       period_years: new Date().getFullYear(),

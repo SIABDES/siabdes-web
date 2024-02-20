@@ -25,6 +25,7 @@ import {
 } from "@/types/pph21/request";
 import useAddPph21PermanentEmployee from "@/hooks/pph21/useAddPph21PermanentEmployee";
 import { useRouter } from "next/navigation";
+import { useGetEmployeeTaxesMutation } from "@/hooks/employee/useGetEmployeeTaxes";
 
 interface PermanentEmployeeDesProps {
   selectedEmployee: Employee | undefined;
@@ -78,6 +79,12 @@ export default function PermanentEmployeeDes({
   const [formDisabled, setFormDisabled] = useState(true);
   const [grossSalaryBeforeDecember, setGrossSalaryBeforeDecember] = useState(0);
 
+  const {
+    mutateAsync: fetchEmployeeTaxes,
+    data: employeeTaxes,
+    isPending: isGetEmployeeTaxesLoading,
+  } = useGetEmployeeTaxesMutation();
+
   const form = useForm<PPh21PostPayloadRequest>({
     resolver: zodResolver(Pph21MutationSchema),
     disabled: formDisabled,
@@ -120,10 +127,23 @@ export default function PermanentEmployeeDes({
     if (selectedEmployee) {
       reset();
       setValue("employee_id", selectedEmployee.id);
-      setValue("pkp_calculations.ptkp", selectedEmployee.ptkp.boundary_salary);
-      setFormDisabled(false);
+
+      void fetchEmployeeTaxes({
+        employee_id: selectedEmployee.id,
+        min_period_month: Pph21TaxPeriodMonth.JANUARY,
+        max_period_month: Pph21TaxPeriodMonth.NOVEMBER,
+        min_period_years: new Date().getFullYear(),
+        max_period_years: new Date().getFullYear(),
+      }).then((res) => {
+        setGrossSalaryBeforeDecember(res.data._total.gross_salary);
+        setValue(
+          "pkp_calculations.ptkp",
+          selectedEmployee.ptkp.boundary_salary
+        );
+        setFormDisabled(false);
+      });
     }
-  }, [reset, selectedEmployee, setValue]);
+  }, [fetchEmployeeTaxes, reset, selectedEmployee, setValue]);
 
   useEffect(() => {
     if (formState.errors.root) {
