@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { AxiosClientSide } from '@/common/api';
-import { formatNumber } from '@/common/helpers/number-format';
-import { Card, CardContent } from '@/components/ui/card';
-import { ComboBox } from '@/components/ui/combobox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { AxiosClientSide } from "@/common/api";
+import { formatNumber } from "@/common/helpers/number-format";
+import { Card, CardContent } from "@/components/ui/card";
+import { ComboBox } from "@/components/ui/combobox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -14,16 +14,16 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { toast } from '@/components/ui/use-toast';
-import { Employee, EmployeesGender } from '@/types/employees/employees';
+} from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
+import { Employee, EmployeesGender } from "@/types/employees/employees";
 import {
   GetEmployeeDetailsResponse,
   GetEmployeesResponse,
-} from '@/types/employees/response';
-import { Pph21TaxPeriodMonth } from '@/types/pph21/general';
-import { AxiosError } from 'axios';
-import React, { useCallback, useEffect } from 'react';
+} from "@/types/employees/response";
+import { Pph21TaxPeriodMonth } from "@/types/pph21/general";
+import { AxiosError } from "axios";
+import React, { useCallback, useEffect } from "react";
 
 interface EmployeeDataMonths12Props {
   selectedEmployee: Employee | undefined;
@@ -51,7 +51,7 @@ export default function EmployeeData12Months({
       onEmployeeSelected?.(selectedEmployee);
 
       toast({
-        title: 'Berhasil mengambil data pegawai',
+        title: "Berhasil mengambil data pegawai",
         description: `Pegawai '${selectedEmployee.name}' telah dipilih...`,
         duration: 5000,
       });
@@ -82,20 +82,20 @@ export default function EmployeeData12Months({
       if (error instanceof AxiosError) {
         if (error.response?.status === 404) {
           toast({
-            title: 'Data pegawai tidak ditemukan...',
-            description: 'Data pegawai tidak ditemukan...',
+            title: "Data pegawai tidak ditemukan...",
+            description: "Data pegawai tidak ditemukan...",
             duration: 5000,
-            variant: 'destructive',
+            variant: "destructive",
           });
         }
         return;
       }
 
       toast({
-        title: 'Gagal mengambil data pegawai...',
-        description: 'Terjadi kesalahan saat mengambil data pegawai...',
+        title: "Gagal mengambil data pegawai...",
+        description: "Terjadi kesalahan saat mengambil data pegawai...",
         duration: 5000,
-        variant: 'destructive',
+        variant: "destructive",
       });
     }
   };
@@ -159,7 +159,7 @@ export default function EmployeeData12Months({
             <Label>Nama Lengkap</Label>
             <Input
               className="border border-gray-400"
-              value={selectedEmployee?.name ?? ''}
+              value={selectedEmployee?.name ?? ""}
               placeholder="Nama pegawai..."
               readOnly
             />
@@ -169,7 +169,7 @@ export default function EmployeeData12Months({
             <Label>Status Penghasilan Tidak Kena Pajak (PTKP)</Label>
             <Input
               className="border border-gray-400"
-              value={selectedEmployee?.ptkp.status ?? ''}
+              value={selectedEmployee?.ptkp.status ?? ""}
               placeholder="Nama lengkap pegawai..."
               readOnly
             />
@@ -179,7 +179,7 @@ export default function EmployeeData12Months({
             <Label>Nomor Pokok Wajib Pajak (NPWP)</Label>
             <Input
               className="border border-gray-400"
-              value={selectedEmployee?.npwp ?? ''}
+              value={selectedEmployee?.npwp ?? ""}
               placeholder="Tidak memiliki NPWP..."
               readOnly
             />
@@ -189,7 +189,7 @@ export default function EmployeeData12Months({
             <Label>Kategori Tarif Efektif Rata-rata (TER)</Label>
             <Input
               className="border border-gray-400"
-              value={selectedEmployee?.ter.type ?? ''}
+              value={selectedEmployee?.ter?.type ?? ""}
               placeholder="Tarif efektif rata-rata..."
               readOnly
             />
@@ -202,9 +202,9 @@ export default function EmployeeData12Months({
               value={
                 (selectedEmployee?.gender &&
                   (selectedEmployee?.gender === EmployeesGender.PRIA
-                    ? 'Laki-laki'
-                    : 'Perempuan')) ??
-                ''
+                    ? "Laki-laki"
+                    : "Perempuan")) ??
+                ""
               }
               placeholder="Jenis kelamin..."
               readOnly
