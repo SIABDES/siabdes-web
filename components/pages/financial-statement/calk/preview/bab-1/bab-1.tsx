@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import BumdesIdentity from './heading-2/bumdes-identity';
 import BumdesAdministrator from './heading-2/bumdes-administrator';

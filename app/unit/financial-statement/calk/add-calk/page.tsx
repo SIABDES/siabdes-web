@@ -178,13 +178,14 @@ export default function AddCALK() {
         />
       </section>
       <section>
-        <h2 className="p-2 mt-4 text-lg font-bold text-black w-full">
+        {/* Dimatiin untuk keperluan FGD */}
+        {/* <h2 className="p-2 mt-4 text-lg font-bold text-black w-full">
           Rekap Bagi Hasil
         </h2>
         <RecapOfProfitSharing
           data={recapOfProfitSharingData}
           onChange={handleRecapOfProfitSharingChange}
-        />
+        /> */}
       </section>
       <div className="flex justify-end mt-10 mb-10">
         <Button

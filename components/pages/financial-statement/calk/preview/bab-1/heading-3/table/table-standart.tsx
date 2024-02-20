@@ -30,7 +30,7 @@ export default function TableStandart({ data = [{}] }: TableWithSumProps) {
           </TableRow>
         </TableHeader>
 
-        <TableBody>
+        {/* <TableBody>
           {data.map((row, index) => (
             <TableRow key={index.toString()}>
               {headers.map((header, colIndex) => (
@@ -49,6 +49,32 @@ export default function TableStandart({ data = [{}] }: TableWithSumProps) {
               ))}
             </TableRow>
           ))}
+        </TableBody> */}
+        {/* BUAT DATA DUMMY AJA*/}
+        <TableBody>
+          <TableRow>
+            <TableCell className="border border-black text-center ">
+              2021
+            </TableCell>
+            <TableCell className="border border-black text-center ">
+              Rp. 70.000.000
+            </TableCell>
+            <TableCell className="border border-black text-center ">
+              Rp. 90.000.000
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="border border-black text-center ">
+              2021
+            </TableCell>
+
+            <TableCell className="border border-black text-center ">
+              Rp. 50.000.000
+            </TableCell>
+            <TableCell className="border border-black text-center ">
+              Rp. 80.000.000
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </div>

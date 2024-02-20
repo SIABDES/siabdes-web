@@ -66,7 +66,7 @@ export default function StatementOfFinancialPosition() {
                   Nama Akun
                 </TableHead>
                 <TableHead className="text-center font-bold">2023</TableHead>
-                <TableHead className="text-center font-bold">2022</TableHead>
+                <TableHead className="text-center font-bold">2024</TableHead>
               </TableRow>
             </TableHeader>
 
@@ -91,7 +91,7 @@ export default function StatementOfFinancialPosition() {
                     </TableCell>
                     <TableCell>{account.account.name}</TableCell>
                     <TableCell className="text-center">
-                      {sum(account.result.posisi_keuangan)}
+                      {/* {sum(account.result.posisi_keuangan)} */}0
                     </TableCell>
                     <TableCell className="text-center">
                       {sum(account.result.posisi_keuangan)}

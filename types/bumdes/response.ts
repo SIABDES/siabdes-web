@@ -1,5 +1,5 @@
-import { BackendResponseType } from "@/common/types";
-import { BumdesOrganization, BumdesProfile } from ".";
+import { BackendResponseType } from '@/common/types';
+import { BumdesOrganizationType, BumdesProfile } from '.';
 
 export type UpdateBumdesProfileResponse = BackendResponseType<{
   id: string;
@@ -14,4 +14,4 @@ export type UpdateBumdesOrganizationResponse = BackendResponseType<{
 }>;
 
 export type GetBumdesOrganizationResponse =
-  BackendResponseType<BumdesOrganization>;
+  BackendResponseType<BumdesOrganizationType>;

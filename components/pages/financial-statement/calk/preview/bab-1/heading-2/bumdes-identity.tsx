@@ -17,54 +17,65 @@ export default function BumdesIdentity() {
           label="Nama BUMDes"
           name="nama_bumdes"
           type="text"
-          value={bumdes?.name}
+          // value={bumdes?.name}
+          value="Bumdes Balamoa"
         />
         <InputField
           label="Tanggal Pendirian BUMDes"
           name="tanggal_pendirian_bumdes"
           type="text"
-          value={bumdes?.founded_at}
+          // value={bumdes?.founded_at}
+          value="17 April 2021"
         />
         <InputField
           label="Nomor Peraturan Desa"
           name="nomor_peraturan_desa"
           type="text"
-          value="ini dari mana ya?"
+          value="09863890378980"
         />
         <InputField
           label="Nomor SK Pengurus BUMDes"
           name="nomor_sk_pengurus_bumdes"
           type="number"
-          value="ini dari mana ya?"
+          value="09827973903467"
         />
         <InputField
           label="Tanggal SK Pengurus BUMDes "
           name="tanggal_sk_pengurus_bumdes"
-          type="date"
-          value="ini dari mana ya?"
+          // type="date"
+          value="12 Mei 2021"
         />
         <InputField
           label="Nomor SK AD/ART BUMDes"
           name="nomor_sk_ad_art_bumdes"
           type="string"
-          value={bumdes?.sk_administrator_date}
+          // value={bumdes?.sk_administrator_date}
+          value="87820978263789"
         />
         <InputField
           label="Tanggal SK AD/ART BUMDes"
           name="tanggal_sk_ad_art_bumdes"
-          type="date"
+          // type="date"
+          value="6 juni 2021"
         />
         <InputField
           label="Nama Bank Buku Rek. BUMDes"
           name="nama_bank_buku_rek_bumdes"
           type="text"
+          value="Bank BRI"
         />
         <InputField
           label="Nomor Rekening BUMDes"
           name="nomor_rekening_bumdes"
-          type="text"
+          type="number"
+          value="0982739872398"
         />
-        <InputField label="NPWP BUMDes" name="npwp_bumdes" type="text" />
+        <InputField
+          label="NPWP BUMDes"
+          name="npwp_bumdes"
+          type="text"
+          value="232.498.1-678.989"
+        />
         <div className="flex">
           <Label className="p-2 block text-base font-medium text-black w-full">
             Alamat Kantor BUMDes
@@ -79,10 +90,21 @@ export default function BumdesIdentity() {
         <InputField
           label="Telepon Kantor/Fax BUMDes"
           name="telepon_kantor_fax_bumdes"
-          type="number"
+          type="text"
+          value="021-1234567"
         />
-        <InputField label="Email BUMDes" name="email_bumdes" type="email" />
-        <InputField label="Website BUMDes" name="website_bumdes" type="text" />
+        <InputField
+          label="Email BUMDes"
+          name="email_bumdes"
+          type="email"
+          value={'bumdesbalamoa@gmail.com'}
+        />
+        <InputField
+          label="Website BUMDes"
+          name="website_bumdes"
+          type="text"
+          value={'bumdesbalamoa.com'}
+        />
         <div className="flex">
           <label
             htmlFor="Website BUMDes"
@@ -96,34 +118,40 @@ export default function BumdesIdentity() {
           name="facebook_bumdes"
           type="text"
           labelClassName="ml-10 text-start"
+          value={'Bumdes Balamoa'}
         />
         <InputField
           label="b. Instagram"
           name="instagram_bumdes"
           type="text"
           labelClassName="ml-10 text-start"
+          value={'@bumdesbalamoa'}
         />
         <InputField
           label="c. Twitter"
           name="twitter_bumdes"
           type="text"
           labelClassName="ml-10 text-start"
+          value={'@bumdesbalamoa'}
         />
         <InputField
           label="d. Lainnya"
           name="sosial_media_lainnya"
           type="text"
           labelClassName="ml-10 text-start"
+          value={'-'}
         />
         <InputField
           label="Penyertaan Modal Awal "
           name="penyertaan_modal_awal"
           type="text"
+          value={'Rp. 10.000.000'}
         />
         <InputField
           label="Penambahan Penyertaan Modal "
           name="penambahan_penyertaan_modal"
           type="text"
+          value={'Rp. 5.000.000'}
         />
       </div>
     </div>

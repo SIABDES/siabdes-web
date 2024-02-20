@@ -47,6 +47,7 @@ export default function TableLaborSource({
                   type="number"
                   className="text-center"
                   //   value={row.permanent}
+                  value={11}
                   placeholder={`Silahkan di isi`}
                   //   onChange={(e) =>
                   //     updateCellValue(rowIndex, 'permanent', e.target.value)
@@ -58,6 +59,7 @@ export default function TableLaborSource({
                   type="number"
                   className="text-center"
                   //   value={row.nonPermanent}
+                  value={5}
                   placeholder="Silahkan di isi"
                   //   onChange={(e) =>
                   //     updateCellValue(rowIndex, 'nonPermanent', e.target.value)
@@ -74,10 +76,10 @@ export default function TableLaborSource({
               Total Tenaga Kerja
             </TableCell>
             <TableCell className="border border-black text-center font-bold">
-              SUM
+              11
             </TableCell>
             <TableCell className="border border-black text-center font-bold">
-              SUM
+              5
             </TableCell>
           </TableRow>
         </TableFooter>

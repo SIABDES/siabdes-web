@@ -1,7 +1,6 @@
 import { AxiosClientSide } from '@/common/api';
 import { GetBumdesProfileResponse } from '@/types/bumdes/profile/response';
 import { useQuery } from '@tanstack/react-query';
-import React, { use } from 'react';
 
 export default function useGetBumdesProfile() {
   return useQuery({

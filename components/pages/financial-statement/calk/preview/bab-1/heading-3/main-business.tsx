@@ -27,11 +27,13 @@ export default function MainBusiness() {
           label="a.. Bidang Usaha Utama"
           name="bidang_usaha_utama"
           type="text"
+          value={'Pariwisata'}
         />
         <InputField
           label="b. Kerjasama dengan Pihak Ketiga"
           name="kerjasama_dengan_pihak_ketiga"
           type="text"
+          value={'Tidak Ada'}
         />
         <div className="flex">
           <Label className="p-2 block text-base font-medium text-black w-full">
@@ -41,41 +43,50 @@ export default function MainBusiness() {
           <Textarea
             name="deskripsi_kegiatan_usaha"
             className={`p-2 w-full border rounded-md ml h-28`}
+            value={
+              'Bumdes Balamoa bergerak di bidang pariwisata, dengan kegiatan utama adalah pengelolaan wisata alam dan budaya di Desa Balamoa.'
+            }
           />
         </div>
         <InputField
           label="d. Susunan Pengurus"
           name="nama_pengurus"
           type="text"
+          readOnly
         />
         <InputField
           label="৹ Kepala Unit"
           name="nama_kepala_unit"
           type="text"
           labelClassName="ml-10 text-start"
+          value={'Agus Purnomo'}
         />
         <InputField
           label="• Anggota"
           name="nama_anggota"
           type="text"
           labelClassName="ml-20 text-start"
+          value={'Ali Akbar'}
         />
         <InputField
           label="• Anggota"
           name="nama_kepala_anggota"
           type="text"
           labelClassName="ml-20 text-start"
+          value={'Afik Kurniawan'}
         />
         <InputField
           label="e. Tahun Pendirian"
           name="tahun_pendirian"
           type="text"
+          value={'18 April 2021'}
         />
         <div>
           <InputField
             label="f. Riwayat Pemodalan"
             name="tahun_mulai_operasi"
             type="text"
+            readOnly
           />
           <TableWithSum data={dataPemodalan} />
         </div>

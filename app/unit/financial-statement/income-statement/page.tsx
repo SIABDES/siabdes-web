@@ -74,7 +74,7 @@ export default function IncomeStatement() {
                   Nama Akun
                 </TableHead>
                 <TableHead className="text-center font-bold">2023</TableHead>
-                <TableHead className="text-center font-bold">2022</TableHead>
+                <TableHead className="text-center font-bold">2024</TableHead>
               </TableRow>
             </TableHeader>
 
@@ -99,7 +99,7 @@ export default function IncomeStatement() {
                     </TableCell>
                     <TableCell>{account.account.name}</TableCell>
                     <TableCell className="text-center">
-                      {sum(account.result.laba_rugi)}
+                      {/* {sum(account.result.laba_rugi)} */}0
                     </TableCell>
                     <TableCell className="text-center">
                       {sum(account.result.laba_rugi)}

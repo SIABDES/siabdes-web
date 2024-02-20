@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const UpdateBumdesOrganizationRequest = z.object({
   consultant: z.string().optional(),
@@ -20,23 +20,27 @@ export type UpdateBumdesOrganizationFormData = z.infer<
   typeof UpdateBumdesOrganizationRequest
 >;
 
-export type BumdesUnitOrganization = {
-  name: string;
+export type BumdesOrganizationCoreType = {
   leader: string;
-  members: string[];
+  secretary: string;
+  treasurer: string;
+  units: BumdesOrganizationUnitsType[];
 };
 
-export type BumdesOrganization = {
+export type BumdesOrganizationUnitsType = {
+  name: string;
+  leader: string;
+  members: string[]; //Array<string>
+};
+
+export type BumdesOrganizationSupervisorType = {
+  leader: string;
+  secretary: string;
+  treasurer: string;
+};
+
+export type BumdesOrganizationType = {
   consultant: string;
-  core: {
-    leader: string;
-    secretary: string;
-    treasurer: string;
-    units: BumdesUnitOrganization[];
-  };
-  supervisor?: {
-    leader?: string;
-    secretary?: string;
-    treasurer?: string;
-  };
+  core: BumdesOrganizationCoreType;
+  supervisor: BumdesOrganizationSupervisorType;
 };

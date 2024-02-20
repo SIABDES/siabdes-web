@@ -13,6 +13,7 @@ interface InputFieldProps {
   labelClassName?: string;
   inputClassName?: string;
   disabled?: boolean;
+  readOnly?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -27,6 +28,7 @@ const InputField: React.FC<InputFieldProps> = ({
   inputClassName,
   //   required,
   disabled,
+  readOnly,
   onChange,
 }) => {
   return (
@@ -48,6 +50,7 @@ const InputField: React.FC<InputFieldProps> = ({
         className={`p-2 w-full border rounded-md ml ${inputClassName || ''}`}
         // required={required}
         disabled={disabled}
+        readOnly={readOnly}
         onChange={onChange}
       />
     </div>

@@ -8,7 +8,7 @@ export default function BusinessActivities() {
       <h2 className="text-lg font-semibold mt-6">E. Aktivitas Usaha</h2>
       <div className="p-2">
         <MainBusiness />
-        <OtherBusiness />
+        {/* <OtherBusiness /> */}
       </div>
     </div>
   );

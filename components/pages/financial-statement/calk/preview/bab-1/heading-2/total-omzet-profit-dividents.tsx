@@ -38,10 +38,18 @@ export default function TotalOmzetProfitDividents() {
 
           <TableBody>
             <TableRow>
-              <TableCell className="border border-black text-center font-bold"></TableCell>
-              <TableCell className="border border-black text-center font-bold"></TableCell>
-              <TableCell className="border border-black text-center font-bold"></TableCell>
-              <TableCell className="border border-black text-center font-bold"></TableCell>
+              <TableCell className="border border-black text-center ">
+                2024
+              </TableCell>
+              <TableCell className="border border-black text-center ">
+                Rp. 50.000.000
+              </TableCell>
+              <TableCell className="border border-black text-center ">
+                Rp. 30.000.000
+              </TableCell>
+              <TableCell className="border border-black text-center ">
+                Rp. 80.000.000
+              </TableCell>
             </TableRow>
           </TableBody>
 
@@ -54,10 +62,10 @@ export default function TotalOmzetProfitDividents() {
                 TOTAL
               </TableCell>
               <TableCell className="border border-black text-center font-bold">
-                0
+                Rp. 30.000.000
               </TableCell>
               <TableCell className="border border-black text-center font-bold">
-                0
+                Rp. 80.000.000
               </TableCell>
             </TableRow>
           </TableFooter>

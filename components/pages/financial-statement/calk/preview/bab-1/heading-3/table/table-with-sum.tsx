@@ -34,7 +34,7 @@ export default function TableWithSum({ data = [{}] }: TableWithSumProps) {
           </TableRow>
         </TableHeader>
 
-        <TableBody>
+        {/* <TableBody>
           {data.map((row, index) => (
             <TableRow key={index.toString()}>
               <TableCell className="border border-black text-center">
@@ -56,6 +56,38 @@ export default function TableWithSum({ data = [{}] }: TableWithSumProps) {
               ))}
             </TableRow>
           ))}
+        </TableBody> */}
+
+        {/* BUAT DATA DUMMY AJA*/}
+        <TableBody>
+          <TableRow>
+            <TableCell className="border border-black text-center ">
+              1
+            </TableCell>
+            <TableCell className="border border-black text-center ">
+              Pendapatan Pengelolaan Wisata Waduk Cacaban
+            </TableCell>
+            <TableCell className="border border-black text-center ">
+              Rp. 10.000.000
+            </TableCell>
+            <TableCell className="border border-black text-center ">
+              Rp. 60.000.000
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="border border-black text-center ">
+              2
+            </TableCell>
+            <TableCell className="border border-black text-center ">
+              Pendapatan Penjualan Baju Adat
+            </TableCell>
+            <TableCell className="border border-black text-center ">
+              Rp. 7.000.000
+            </TableCell>
+            <TableCell className="border border-black text-center ">
+              Rp. 34.000.000
+            </TableCell>
+          </TableRow>
         </TableBody>
 
         <TableFooter>
@@ -67,10 +99,10 @@ export default function TableWithSum({ data = [{}] }: TableWithSumProps) {
               Jumlah
             </TableCell>
             <TableCell className="border border-black text-center font-bold">
-              SUM
+              Rp. 17.000.000
             </TableCell>
             <TableCell className="border border-black text-center font-bold">
-              SUM
+              Rp. 94.000.000
             </TableCell>
             {/* {headers.map((header, colIndex) => (
               <TableCell
