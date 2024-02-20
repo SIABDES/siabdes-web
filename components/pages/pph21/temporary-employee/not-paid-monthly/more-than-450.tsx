@@ -24,7 +24,7 @@ export default function MoreThan450({ form }: MoreThan450Props) {
 
           <FormNumberInput
             control={form.control}
-            name="pkp_calculations.amount"
+            name="pph21_calculations.7.amount"
             variant="horizontal"
             label="Upah Harian"
             defaultValue={0}
@@ -37,7 +37,7 @@ export default function MoreThan450({ form }: MoreThan450Props) {
 
           <FormNumberInput
             control={form.control}
-            name="pkp_calculations.result"
+            name="pph21_calculations.7.result"
             variant="horizontal"
             defaultValue={0}
             label="PPh 21"
