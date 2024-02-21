@@ -169,7 +169,7 @@ import { useGetAccounts } from "@/hooks/account/useGetAccounts";
 import { useAddAdjustmentJournal } from "@/hooks/journals/useAddAdjustmentJournal";
 import { useAddGeneralJournal } from "@/hooks/journals/useAddGeneralJournal";
 import {
-  AddJournalRequest,
+  MutationJournalRequest,
   AddJournalRequestSchema,
   JournalInputItemOld,
 } from "@/types/journals";
@@ -180,7 +180,7 @@ import { useForm } from "react-hook-form";
 
 export default function AddJournal() {
   const { toast } = useToast();
-  const form = useForm<AddJournalRequest>({
+  const form = useForm<MutationJournalRequest>({
     resolver: zodResolver(AddJournalRequestSchema),
     reValidateMode: "onSubmit",
     defaultValues: {
@@ -219,7 +219,7 @@ export default function AddJournal() {
     }
   }, [data_transactions_errors?.root, toast]);
 
-  const onSubmit = async (data: AddJournalRequest) => {
+  const onSubmit = async (data: MutationJournalRequest) => {
     const formData = new FormData();
 
     formData.append("description", data.description);

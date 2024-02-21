@@ -3,7 +3,7 @@ import FormInput from "@/components/patan-ui/form/form-input";
 import React from "react";
 import JournalEvidenceForm from "./journal-evidence-form";
 import { UseFormReturn } from "react-hook-form";
-import { AddJournalRequest } from "@/types/journals";
+import { MutationJournalRequest } from "@/types/journals";
 import {
   FormControl,
   FormField,
@@ -25,7 +25,7 @@ import format from "date-fns/format";
 import { formatDateToString } from "@/common/helpers/date";
 
 interface AdjustmentJournalEssentialsFormProps {
-  form: UseFormReturn<AddJournalRequest>;
+  form: UseFormReturn<MutationJournalRequest>;
 }
 
 export default function AdjustmentJournalEssentialsForm({
