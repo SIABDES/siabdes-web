@@ -1,12 +1,12 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { AddGeneralJournalRequest } from "@/types/journals";
+import { AddJournalRequest } from "@/types/journals";
 import { PlusCircleIcon } from "lucide-react";
 import { UseFieldArrayAppend } from "react-hook-form";
 
 interface NewTransactionFormProps {
-  append: UseFieldArrayAppend<AddGeneralJournalRequest, "data_transactions">;
+  append: UseFieldArrayAppend<AddJournalRequest, "data_transactions">;
   className?: string;
 }
 

@@ -1,12 +1,7 @@
 import { z } from "zod";
-import {
-  AddGeneralJournalRequestSchema,
-  JournalInputItemSchema,
-} from "./validators";
+import { AddJournalRequestSchema, JournalInputItemSchema } from "./validators";
 
-export type AddGeneralJournalRequest = z.infer<
-  typeof AddGeneralJournalRequestSchema
->;
+export type AddJournalRequest = z.infer<typeof AddJournalRequestSchema>;
 export type JournalInputItem = z.infer<typeof JournalInputItemSchema>;
 
 export type JournalInputItemOld = {

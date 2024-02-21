@@ -19,7 +19,7 @@ export const JournalInputItemSchema = z
     { message: "Akun harus diisi!" }
   );
 
-export const AddGeneralJournalRequestSchema = z.object({
+export const AddJournalRequestSchema = z.object({
   description: z.string({ required_error: "Deskripsi tidak boleh kosong!" }),
   occurred_at: z
     .date({ required_error: "Tanggal transaksi tidak boleh kosong!" })

@@ -4,36 +4,25 @@ import { addArrayObjectToFormData } from "@/common/helpers/multipart-form";
 import Layout from "@/components/layout/layout";
 import GeneralJournalEssentialsForm from "@/components/pages/journals/form/general-journal-essentials-form";
 import JournalTransactionsContainerForm from "@/components/pages/journals/form/journal-transactions-container-form";
-import JournalTransactionsForm from "@/components/pages/journals/journal-transactions-form";
-import NewTransactionForm from "@/components/pages/journals/new-transaction-form";
-import FormDateInput from "@/components/patan-ui/form/form-date-input";
-import FormInput from "@/components/patan-ui/form/form-input";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
 import { useGetAccounts } from "@/hooks/account/useGetAccounts";
 import { useAddGeneralJournal } from "@/hooks/journals/useAddGeneralJournal";
 import {
-  AddGeneralJournalRequest,
-  AddGeneralJournalRequestSchema,
-  JournalInputItem,
+  AddJournalRequest,
+  AddJournalRequestSchema,
   JournalInputItemOld,
-  JournalInputItemSchema,
-  JournalTransactionFormDataType,
 } from "@/types/journals";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { nanoid } from "nanoid";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function AddJournal() {
   const { toast } = useToast();
-  const router = useRouter();
-  const form = useForm<AddGeneralJournalRequest>({
-    resolver: zodResolver(AddGeneralJournalRequestSchema),
+  const form = useForm<AddJournalRequest>({
+    resolver: zodResolver(AddJournalRequestSchema),
     reValidateMode: "onSubmit",
     defaultValues: {
       description: "",
@@ -62,12 +51,6 @@ export default function AddJournal() {
   } = useAddGeneralJournal();
 
   const { data_transactions: data_transactions_errors } = formState.errors;
-  const formWatch = form.watch();
-
-  useEffect(() => {
-    console.log(formWatch);
-    console.log(formState.errors);
-  }, [formState.errors, formWatch]);
 
   useEffect(() => {
     if (data_transactions_errors?.root) {
@@ -80,7 +63,7 @@ export default function AddJournal() {
     }
   }, [data_transactions_errors?.root, toast]);
 
-  const onSubmit = async (data: AddGeneralJournalRequest) => {
+  const onSubmit = async (data: AddJournalRequest) => {
     if (!evidence) {
       toast({
         title: "Data tidak valid!",
