@@ -1,7 +1,7 @@
 import FormInput from "@/components/patan-ui/form/form-input";
 
 interface JournalEvidenceFormProps {
-  setEvidence: React.Dispatch<React.SetStateAction<File | null>>;
+  setEvidence: (evidence: File | null) => void;
 }
 
 export default function JournalEvidenceForm({

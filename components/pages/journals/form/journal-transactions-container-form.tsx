@@ -1,22 +1,36 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AccountType } from "@/types/accounts";
-import { JournalTransactionFormDataType } from "@/types/journals";
+import {
+  AddGeneralJournalRequest,
+  JournalTransactionFormDataType,
+} from "@/types/journals";
 import JournalTransactionsForm from "../journal-transactions-form";
 import NewTransactionForm from "../new-transaction-form";
+import { UseFormReturn, useFieldArray } from "react-hook-form";
+import { useMemo } from "react";
 
 interface JournalTransactionsFormProps {
-  transactions: JournalTransactionFormDataType[];
-  setTransactions: React.Dispatch<
-    React.SetStateAction<JournalTransactionFormDataType[]>
-  >;
+  form: UseFormReturn<AddGeneralJournalRequest>;
   accounts: AccountType[];
 }
 
 export default function JournalTransactionsContainerForm({
   accounts,
-  setTransactions,
-  transactions,
+  form,
 }: JournalTransactionsFormProps) {
+  const {
+    fields: transactions,
+    append,
+    remove,
+    update,
+  } = useFieldArray({
+    control: form.control,
+    name: "data_transactions",
+    rules: {
+      minLength: 2,
+    },
+  });
+
   return (
     <>
       <p className="pt-8">Data Transaksi</p>
@@ -24,20 +38,18 @@ export default function JournalTransactionsContainerForm({
         <div className="flex flex-col gap-y-6">
           {transactions.map((transaction, index) => (
             <JournalTransactionsForm
-              key={transaction.unique_id}
-              index={index + 1}
-              transaction={transaction}
+              key={transaction.id}
+              form={form}
+              index={index}
+              remove={remove}
               accounts={accounts}
-              setTransactions={setTransactions}
-              isAbleToDelete={transactions.length > 2}
+              update={update}
+              isDeleteAble={transactions.length > 2}
             />
           ))}
         </div>
 
-        <NewTransactionForm
-          transactions={transactions}
-          setTransactions={setTransactions}
-        />
+        <NewTransactionForm append={append} />
       </ScrollArea>
     </>
   );

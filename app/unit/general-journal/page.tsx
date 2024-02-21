@@ -43,43 +43,59 @@ export default function Generaljournal() {
         </header>
 
         <section className="pt-8">
-          <Table className="w-full">
-            <TableHeader>
-              <TableRow>
-                <TableHead>No</TableHead>
-                <TableHead>Tanggal Transaksi</TableHead>
-                <TableHead>Deskripsi</TableHead>
-              </TableRow>
-            </TableHeader>
+          {data && data?.journals.length === 0 && (
+            <div className="flex flex-col items-center justify-center mt-16">
+              <h6 className="font-semibold text-lg">
+                Catatan Jurnal Umum Kosong
+              </h6>
+              <p className="text-sm">
+                Tidak ada jurnal umum yang tersedia. Silahkan tambahkan jurnal
+                umum baru.
+              </p>
 
-            <TableBody>
-              {isLoading && (
-                <>
-                  {Array.from(Array(8).keys()).map((_, index) => (
-                    <TableRow key={index}>
-                      <TableCell colSpan={3}>
-                        <Skeleton className="w-full h-[2rem]" />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </>
-              )}
+              <Button className="mt-8" asChild>
+                <Link href="/unit/general-journal/add">Tambah Jurnal</Link>
+              </Button>
+            </div>
+          )}
 
-              {data?.journals.map((journal, index) => (
-                <TableRow
-                  key={journal.id}
-                  onClick={(e) => handleRowClick(e, journal.id)}
-                  className="cursor-pointer hover:bg-gray-200 w-full"
-                >
-                  <TableCell className="w-28">{index + 1}</TableCell>
-                  <TableCell className="w-80">
-                    {formatDateToString(journal.occured_at)}
-                  </TableCell>
-                  <TableCell>{journal.description}</TableCell>
-                </TableRow>
+          {!data && !isLoading && <div></div>}
+
+          {isLoading && (
+            <>
+              {Array.from(Array(8).keys()).map((_, index) => (
+                <Skeleton key={index} className="w-full h-[2rem]" />
               ))}
-            </TableBody>
-          </Table>
+            </>
+          )}
+
+          {data && data?.journals.length > 0 && (
+            <Table className="w-full">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>No</TableHead>
+                  <TableHead>Tanggal Transaksi</TableHead>
+                  <TableHead>Deskripsi</TableHead>
+                </TableRow>
+              </TableHeader>
+
+              <TableBody>
+                {data.journals.map((journal, index) => (
+                  <TableRow
+                    key={journal.id}
+                    onClick={(e) => handleRowClick(e, journal.id)}
+                    className="cursor-pointer hover:bg-gray-200 w-full"
+                  >
+                    <TableCell className="w-28">{index + 1}</TableCell>
+                    <TableCell className="w-80">
+                      {formatDateToString(journal.occured_at)}
+                    </TableCell>
+                    <TableCell>{journal.description}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </section>
       </section>
     </Layout>
