@@ -30,6 +30,8 @@ export type Pph21TaxDetails = PPh21PostPayloadRequest & {
   gender: string;
   nik: string;
   npwp: string;
+  ptkp_status: string;
+  ter_category: string;
 };
 
 export type Pph21PkpCalculationsType = z.infer<

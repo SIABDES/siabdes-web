@@ -1,28 +1,24 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-import Lengkong from '../../../../../../public/lengkong.png';
-import { formatRupiah, numberToWordsID } from '@/common/helpers/number-format';
-import { useReactToPrint } from 'react-to-print';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
-import { GetDetailsPph21Response } from '@/types/pph21/response';
-import useGetEmployees from '@/hooks/employee/useGetEmployees';
-import { data } from '@/components/chart/chart-financial-position';
 import {
   formatEmployeeGender,
   formatEmployeeType,
   formatMonth,
 } from '@/common/helpers/employee-format';
+import { formatRupiah, numberToWordsID } from '@/common/helpers/number-format';
 import PPh21PreviewGrossSalary from '@/components/pages/pph21/preview/pph21-preview-gross-salary';
 import PPh21PreviewNetCalculations from '@/components/pages/pph21/preview/pph21-preview-net-calculations';
-import Sign from '@/components/pages/pph21/preview/sign';
-import { EmployeesType } from '@/types/employees/employees';
 import Pph21PreviewPkpCalculations from '@/components/pages/pph21/preview/pph21-preview-pkp-calculations';
-import { set } from 'date-fns';
+import Sign from '@/components/pages/pph21/preview/sign';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { GetDetailsPph21Response } from '@/types/pph21/response';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import { useReactToPrint } from 'react-to-print';
+import Lengkong from '../../../../../../public/lengkong.png';
 
 export default function PreviewSalarySlip() {
   const contentRef = useRef(null);
@@ -133,6 +129,24 @@ export default function PreviewSalarySlip() {
                       {formatEmployeeGender(pph21Details?.data.gender)}
                     </span>
                   </div>
+                  <div className="grid grid-cols-9 items-center">
+                    <span className="col-span-3">Status PTKP</span>
+                    <span className="col-span-1">:</span>
+                    <span className="text-left col-span-5">
+                      {pph21Details?.data.ptkp_status}
+                    </span>
+                  </div>
+
+                  {pph21Details?.data.ter_category &&
+                    pph21Details.data.ter_category !== undefined && (
+                      <div className="grid grid-cols-9 items-center">
+                        <span className="col-span-3">Kategori TER</span>
+                        <span className="col-span-1">:</span>
+                        <span className="text-left col-span-5">
+                          {pph21Details.data.ter_category}
+                        </span>
+                      </div>
+                    )}
 
                   <PPh21PreviewGrossSalary
                     salary={pph21Details?.data.gross_salary.salary}

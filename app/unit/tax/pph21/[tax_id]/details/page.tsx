@@ -12,15 +12,13 @@ import { Pph21DetailsNetCalculations } from '@/components/pages/pph21/details/pp
 import Pph21DetailsPkpCalculations from '@/components/pages/pph21/details/pph21-details-pkp-calculations';
 import Pph21DetailsResult from '@/components/pages/pph21/details/pph21-details-result';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetQueryPph21Details } from '@/hooks/pph21/useGetPph21Details';
-import { Pph21TaxDetails } from '@/types/pph21/pph21';
+import { GetDetailsPph21Response } from '@/types/pph21/response';
 import { EditIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { GetDetailsPph21Response } from '@/types/pph21/response';
+import { useEffect, useState } from 'react';
 
 export default function Details({ params }: { params: { tax_id: string } }) {
   const router = useRouter();
@@ -33,6 +31,8 @@ export default function Details({ params }: { params: { tax_id: string } }) {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (!pph21Details) return;
+
+    console.log(pph21Details);
 
     setIsLoading(isPph21DetailsLoading);
     setPph21DetailsData(pph21Details);

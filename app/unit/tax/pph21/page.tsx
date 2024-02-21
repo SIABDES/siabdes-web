@@ -25,16 +25,12 @@ import { Pph21EmployeeTaxOverview } from '@/types/pph21/pph21';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { use, useEffect } from 'react';
 
 export default function PPH21() {
   const router = useRouter();
 
   const { data: getPph21, isLoading: isGetPph21Loading } = useGetPph21();
 
-  useEffect(() => {
-    console.log(getPph21);
-  }, [getPph21]);
   const mapPeriodMonthToName = (month: number) => {
     switch (month) {
       case 1:
@@ -93,16 +89,6 @@ export default function PPH21() {
 
   const isDataEmpty =
     !getPph21?.data?.taxes || getPph21.data.taxes.length === 0;
-
-  // let totalGrossSalary = 0;
-  // let jumlahPegawai = 0;
-
-  // if (getPph21 && getPph21.data && getPph21.data.taxes) {
-  //   for (const tax of getPph21.data.taxes) {
-  //     totalGrossSalary += tax.gross_salary;
-  //     jumlahPegawai++;
-  //   }
-  // }
 
   let totalPPh21 = 0;
   let jumlahPegawai = 0;
