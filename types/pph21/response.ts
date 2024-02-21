@@ -1,5 +1,5 @@
-import { BackendResponseType } from "@/common/types";
-import { Pph21EmployeeTaxOverview, Pph21TaxDetails } from "./pph21";
+import { BackendResponseType } from '@/common/types';
+import { Pph21EmployeeTaxOverview, Pph21TaxDetails } from './pph21';
 
 export type AddPph21Response = BackendResponseType<{
   id: string;
@@ -8,6 +8,11 @@ export type AddPph21Response = BackendResponseType<{
 
 export type GetManyPph21Response = BackendResponseType<{
   _count: number;
+  _total: {
+    gross_salary: number;
+    pph1: number;
+    net_salary: number;
+  };
   taxes: Pph21EmployeeTaxOverview[];
 }>;
 
