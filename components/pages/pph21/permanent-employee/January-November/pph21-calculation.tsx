@@ -1,26 +1,26 @@
-import { leadingZeroTrimmer } from "@/common/helpers/number-format";
-import FormNumberInput from "@/components/patan-ui/form/form-number-input";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { PPh21PostPayloadRequest } from "@/types/pph21/request";
-import { useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { leadingZeroTrimmer } from '@/common/helpers/number-format';
+import FormNumberInput from '@/components/patan-ui/form/form-number-input';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { PPh21PostPayloadRequest } from '@/types/pph21/request';
+import { useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface PPh21CalculationProps {
   form: ReturnType<typeof useForm<PPh21PostPayloadRequest>>;
 }
 
 export default function PPh21Calculation({ form }: PPh21CalculationProps) {
-  const noNpwpTariff = form.watch("pph21_calculations.1.tariff_percentage");
-  const npwpTariff = form.watch("pph21_calculations.0.tariff_percentage");
+  const noNpwpTariff = form.watch('pph21_calculations.1.tariff_percentage');
+  const npwpTariff = form.watch('pph21_calculations.0.tariff_percentage');
 
   const displayNoNpwpTariff = useMemo(
-    () => noNpwpTariff * 100 + "%",
+    () => noNpwpTariff * 100 + '%',
     [noNpwpTariff]
   );
   const displayNpwpTariff = useMemo(
-    () => leadingZeroTrimmer.format(npwpTariff * 100) + "%",
+    () => leadingZeroTrimmer.format(npwpTariff * 100) + '%',
     [npwpTariff]
   );
 
@@ -32,8 +32,8 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
           Wajib Pajak Memiliki NPWP
         </h2>
         <p className="text-red-500">Peraturan Pemerintah No 58 Tahun 2023</p>
-        <div className="grid grid-cols-9">
-          <div className="space-y-2">
+        <div className="grid grid-cols-12">
+          <div className="space-y-2 col-span-2">
             <Label>Tarif TER</Label>
             <Input
               value={displayNpwpTariff}
@@ -50,7 +50,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
             control={form.control}
             label="Penghasilan Bruto"
             name="pph21_calculations.0.amount"
-            className="col-span-3"
+            className="col-span-4"
             readonly
           />
 
@@ -62,7 +62,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
             control={form.control}
             label="PPh 21"
             name="pph21_calculations.0.result"
-            className="col-span-3"
+            className="col-span-4"
             readonly
           />
         </div>
@@ -72,10 +72,10 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
         </h2>
         <p className="text-red-500 mb-3">Peraturan DJP Nomor: PER-16/PJ/2016</p>
 
-        <div className="grid grid-cols-9">
+        <div className="grid grid-cols-12">
           <Input
             value={displayNoNpwpTariff}
-            className="border border-gray-400"
+            className="border border-gray-400 col-span-2"
             readOnly
           />
 
@@ -86,7 +86,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
           <FormNumberInput
             control={form.control}
             name="pph21_calculations.1.amount"
-            className="col-span-3"
+            className="col-span-4"
             readonly
           />
 
@@ -97,7 +97,7 @@ export default function PPh21Calculation({ form }: PPh21CalculationProps) {
           <FormNumberInput
             control={form.control}
             name="pph21_calculations.1.result"
-            className="col-span-3"
+            className="col-span-4"
             readonly
           />
         </div>
