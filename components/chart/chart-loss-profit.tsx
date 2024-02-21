@@ -7,9 +7,9 @@ import {
   LinearScale,
   Title,
   Tooltip,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
-import { Card, CardContent } from "../ui/card";
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+import { Card, CardContent } from '../ui/card';
 
 ChartJS.register(
   CategoryScale,
@@ -24,27 +24,27 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "top" as const,
+      position: 'top' as const,
     },
     title: {
       display: true,
-      text: "Chart.js Bar Chart",
+      text: 'Chart.js Bar Chart',
     },
   },
 };
 
-export const dataLabaRugi: ChartData<"bar", number[], string> = {
-  labels: ["Pendapatan", "Beban"],
+export const dataLabaRugi: ChartData<'bar', number[], string> = {
+  labels: ['Pendapatan', 'Beban'],
   datasets: [
     {
-      label: "Beban",
-      data: [0, 110000000],
-      backgroundColor: "rgb(53, 162, 235)",
+      label: 'Beban',
+      data: [0, 17700000],
+      backgroundColor: 'rgb(53, 162, 235)',
     },
     {
-      label: "Pendapatan",
-      data: [160000000, 0],
-      backgroundColor: "rgb(255, 99, 132)",
+      label: 'Pendapatan',
+      data: [24122000, 0],
+      backgroundColor: 'rgb(255, 99, 132)',
     },
   ],
 };

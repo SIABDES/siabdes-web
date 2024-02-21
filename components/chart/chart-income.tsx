@@ -6,11 +6,11 @@ import { Card, CardContent } from '../ui/card';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const dataPendapatan = {
-  labels: ['Parkir', 'Tiket', 'Toilet'],
+  labels: ['Jasa', 'Tiket', 'Parkir'],
   datasets: [
     {
       label: 'Pendapatan', //# of Votes
-      data: [40000000, 90000000, 40000000],
+      data: [10000000, 7000000, 7122000],
       backgroundColor: [
         'rgb(255, 99, 132)',
         'rgb(75, 192, 192)',

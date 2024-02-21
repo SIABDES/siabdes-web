@@ -6,17 +6,27 @@ import { Card, CardContent } from '../ui/card';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const dataBeban = {
-  labels: ['Listrik', 'Air', 'Gaji', 'Bunga Bank', 'Iklan'],
+  labels: [
+    'Seragam',
+    'Gaji',
+    'Perbaikan & Pemeliharaan',
+    'Listrik',
+    'Air',
+    'Sewa - Kendaraan',
+    'Penyusutan - Peralatan Kantor',
+  ],
   datasets: [
     {
       label: 'Beban', //# of Votes
-      data: [20000000, 25000000, 35000000, 10000000, 20000000],
+      data: [2650000, 8500000, 5000000, 500000, 350000, 500000, 200000],
       backgroundColor: [
         'rgb(255, 99, 132)',
         'rgb(75, 192, 192)',
         'rgb(53, 162, 235)',
         'rgb(25, 90, 132)',
         'rgb(210, 10, 80)',
+        'rgb(95, 120, 60)',
+        'rgb(20, 119, 90)',
       ],
     },
   ],
