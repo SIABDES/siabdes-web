@@ -1,14 +1,7 @@
-"use client";
-
-import {
-  formatNumber,
-  reverseFormatNumber,
-} from "@/common/helpers/number-format";
-import FormInput from "@/components/patan-ui/form/form-input";
+import { formatNumber, reverseFormat } from "@/common/helpers/number-format";
+import { ComboboxForm } from "@/components/patan-ui/form/combobox-form";
+import FormNumberInput from "@/components/patan-ui/form/form-number-input";
 import { Button } from "@/components/ui/button";
-import { ComboBox } from "@/components/ui/combobox";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
   TooltipContent,
@@ -16,140 +9,86 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { AccountType } from "@/types/accounts";
-import { JournalTransactionFormDataType } from "@/types/journals";
+import { AddJournalRequest } from "@/types/journals";
 import { TrashIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import {
+  UseFieldArrayRemove,
+  UseFieldArrayUpdate,
+  UseFormReturn,
+} from "react-hook-form";
 
 interface JournalTransactionsFormProps {
+  form: UseFormReturn<AddJournalRequest>;
   index: number;
-  transaction: JournalTransactionFormDataType;
-  isAbleToDelete: boolean;
-  setTransactions: React.Dispatch<
-    React.SetStateAction<JournalTransactionFormDataType[]>
-  >;
+  remove: UseFieldArrayRemove;
+  update: UseFieldArrayUpdate<AddJournalRequest, "data_transactions">;
   accounts: AccountType[];
+  isDeleteAble: boolean;
 }
 
 export default function JournalTransactionsForm({
-  transaction,
-  setTransactions,
-  ...props
+  index,
+  remove,
+  form,
+  accounts,
+  isDeleteAble,
+  update,
 }: JournalTransactionsFormProps) {
-  const [accountId, setAccountId] = useState<string | undefined>(
-    transaction.account_id?.toString()
-  );
+  const basePath = `data_transactions.${index}` as const;
 
-  const hasAccount =
-    accountId === undefined || accountId.trim().length === 0 ? false : true;
-
-  useEffect(() => {
-    if (!accountId) {
-      setTransactions((prev) =>
-        prev.map((transaction) => {
-          if (transaction.unique_id === transaction.unique_id) {
-            return {
-              ...transaction,
-              account_id: undefined,
-              debit: 0,
-              credit: 0,
-            };
-          }
-          return transaction;
-        })
-      );
-      return;
-    }
-
-    setTransactions((prev) =>
-      prev.map((transaction) => {
-        if (transaction.unique_id === transaction.unique_id) {
-          return { ...transaction, account_id: parseInt(accountId) };
-        }
-        return transaction;
-      })
-    );
-  }, [accountId, setTransactions]);
-
-  const handleChangeDebit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newValue = reverseFormatNumber(e.target.value);
-
-    if (newValue === "" || transaction.credit > 0) {
-      newValue = "0";
-    }
-
-    setTransactions((prev) =>
-      prev.map((transaction) => {
-        if (transaction.unique_id === transaction.unique_id) {
-          return { ...transaction, debit: parseFloat(newValue) }; // Use newValue here
-        }
-        return transaction;
-      })
-    );
-  };
-
-  const handleChangeCredit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newValue = reverseFormatNumber(e.target.value);
-
-    if (newValue === "" || transaction.debit > 0) {
-      newValue = "0";
-    }
-
-    setTransactions((prev) =>
-      prev.map((transaction) => {
-        if (transaction.unique_id === transaction.unique_id) {
-          return { ...transaction, credit: parseFloat(newValue) }; // Use newValue here
-        }
-        return transaction;
-      })
-    );
-  };
-
-  const handleDeleteTransaction = () => {
-    if (!props.isAbleToDelete) return;
-
-    setTransactions((prev) =>
-      prev.filter(
-        (transaction) => transaction.unique_id !== transaction.unique_id
-      )
-    );
-  };
+  const accountIdWatcher = form.watch(`${basePath}.account_id`);
+  const debitWatcher = form.watch(`${basePath}.debit`);
+  const creditWatcher = form.watch(`${basePath}.credit`);
 
   return (
     <div className="grid items-end grid-flow-col gap-x-8">
       <div className=" flex flex-col gap-y-2">
-        <Label>Akun {props.index}</Label>
-        <ComboBox
-          items={
-            props.accounts.map((account) => ({
-              label: `${account.ref} - ${account.name}`,
-              value: account.id.toString(),
-            })) ?? []
+        <ComboboxForm
+          form={form}
+          data={accounts}
+          itemBuilder={(item) => ({
+            key: item.id.toString(),
+            label: `${item.ref} - ${item.name}`,
+            value: item.id.toString(),
+          })}
+          label={`Akun ${index + 1}`}
+          name={`${basePath}.account_id`}
+          isLoading={!accounts}
+          loadingText="Memuat data akun"
+          classNameTrigger="min-w-[32rem]"
+          onSelect={(item) =>
+            update(index, {
+              account_id: parseInt(item.value),
+              debit: debitWatcher,
+              credit: creditWatcher,
+            })
           }
-          className="min-w-[32rem]"
-          value={accountId}
-          setValue={setAccountId}
         />
       </div>
 
       <div className="col-span-2">
-        <FormInput
+        <FormNumberInput
+          control={form.control}
+          name={`${basePath}.debit`}
           label="Debit"
-          name="debit"
-          onChange={handleChangeDebit}
-          value={formatNumber(transaction.debit)}
-          type="text"
-          disabled={transaction.credit > 0 || !hasAccount}
+          disabled={
+            (!accountIdWatcher && accountIdWatcher === -1) || creditWatcher > 0
+          }
+          placeholder="0"
+          border={false}
         />
       </div>
 
       <div className="col-span-2">
-        <FormInput
+        <FormNumberInput
+          control={form.control}
+          name={`${basePath}.credit`}
           label="Kredit"
-          name="kredit"
-          onChange={handleChangeCredit}
-          value={formatNumber(transaction.credit)}
-          type="text"
-          disabled={transaction.debit > 0 || !hasAccount}
+          disabled={
+            (!accountIdWatcher && accountIdWatcher === -1) || debitWatcher > 0
+          }
+          placeholder="0"
+          border={false}
         />
       </div>
 
@@ -160,22 +99,20 @@ export default function JournalTransactionsForm({
               <Button
                 variant={"destructive"}
                 size={"icon"}
-                onClick={handleDeleteTransaction}
-                disabled={!props.isAbleToDelete}
+                onClick={() => remove(index)}
+                disabled={!isDeleteAble}
               >
                 <TrashIcon size={16} />
               </Button>
             </TooltipTrigger>
             <TooltipContent className="bg-destructive text-destructive-foreground">
-              {props.isAbleToDelete
+              {isDeleteAble
                 ? "Hapus data transaksi"
                 : "Minimal harus ada 2 data transaksi"}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
-
-      <Separator className="w-full" />
     </div>
   );
 }

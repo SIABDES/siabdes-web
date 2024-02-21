@@ -27,7 +27,12 @@ import { cn } from "@/lib/utils";
 import { ScrollArea } from "../../ui/scroll-area";
 import React, { useEffect, useMemo } from "react";
 
-type ComboboxItem = { key: string; label: string; value: string };
+type ComboboxItem = {
+  key: string;
+  label: string;
+  value: string;
+  disabled?: boolean;
+};
 
 interface ComboboxFormProps<
   TForm extends Record<string, any>,
@@ -49,6 +54,7 @@ interface ComboboxFormProps<
   height?: "short" | "medium" | "tall";
   closeOnSelect?: boolean;
   onSelect?: (item: ComboboxItem) => void | Promise<void>;
+  blacklistValues?: string[];
   onValueChange?: (
     newValue: PathValue<TForm, Path<TForm>>
   ) => void | Promise<void>;
@@ -72,6 +78,7 @@ export function ComboboxForm<
   isLoading,
   loadingText = "Memuat...",
   height = "medium",
+  blacklistValues,
   closeOnSelect = true,
   onSelect = (item) =>
     form.setValue(name, item.value as PathValue<TForm, Path<TForm>>),
@@ -112,9 +119,8 @@ export function ComboboxForm<
                     classNameTrigger
                   )}
                 >
-                  {field.value
-                    ? items.find((item) => item.value === field.value)?.label
-                    : triggerPlaceholderText}
+                  {items.find((item) => item.value === String(field.value))
+                    ?.label ?? triggerPlaceholderText}
                   <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </FormControl>
@@ -139,6 +145,10 @@ export function ComboboxForm<
                         <CommandItem
                           key={item.key}
                           value={item.value}
+                          disabled={
+                            item.disabled ||
+                            blacklistValues?.includes(item.value)
+                          }
                           onSelect={() => {
                             onSelect(item);
                             if (closeOnSelect) setOpen(false);
