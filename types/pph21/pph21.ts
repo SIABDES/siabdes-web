@@ -1,12 +1,12 @@
-import { z } from "zod";
-import { EmployeesStatus, EmployeesType } from "../employees/employees";
+import { z } from 'zod';
+import { EmployeesStatus, EmployeesType } from '../employees/employees';
 import {
   PPh21PostPayloadRequest,
   Pph21CalculationsSchema,
   Pph21NetCalculationsSchema,
   Pph21PkpCalculationsSchema,
   Pph21ResultSchema,
-} from "./request";
+} from './request';
 
 export type Pph21EmployeeTaxOverview = {
   id: string;
@@ -26,6 +26,10 @@ export type Pph21TaxDetails = PPh21PostPayloadRequest & {
   id: string;
   has_npwp: boolean;
   created_at: Date;
+  name: string;
+  gender: string;
+  nik: string;
+  npwp: string;
 };
 
 export type Pph21PkpCalculationsType = z.infer<

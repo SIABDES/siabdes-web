@@ -1,22 +1,49 @@
-"use client";
+'use client';
 
-import Layout from "@/components/layout/layout";
-import Pph21DetailsCalculations from "@/components/pages/pph21/details/pph21-details-calculations";
-import Pph21DetailsDeleteButton from "@/components/pages/pph21/details/pph21-details-delete-button";
-import { Pph21DetailsGrossSalary } from "@/components/pages/pph21/details/pph21-details-gross-salary";
-import { Pph21DetailsNetCalculations } from "@/components/pages/pph21/details/pph21-details-net-calculations";
-import Pph21DetailsPkpCalculations from "@/components/pages/pph21/details/pph21-details-pkp-calculations";
-import Pph21DetailsResult from "@/components/pages/pph21/details/pph21-details-result";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useGetQueryPph21Details } from "@/hooks/pph21/useGetPph21Details";
-import { EditIcon } from "lucide-react";
-import Link from "next/link";
+import {
+  formatEmployeeType,
+  formatMonth,
+} from '@/common/helpers/employee-format';
+import Layout from '@/components/layout/layout';
+import Pph21DetailsCalculations from '@/components/pages/pph21/details/pph21-details-calculations';
+import Pph21DetailsDeleteButton from '@/components/pages/pph21/details/pph21-details-delete-button';
+import { Pph21DetailsGrossSalary } from '@/components/pages/pph21/details/pph21-details-gross-salary';
+import { Pph21DetailsNetCalculations } from '@/components/pages/pph21/details/pph21-details-net-calculations';
+import Pph21DetailsPkpCalculations from '@/components/pages/pph21/details/pph21-details-pkp-calculations';
+import Pph21DetailsResult from '@/components/pages/pph21/details/pph21-details-result';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useGetQueryPph21Details } from '@/hooks/pph21/useGetPph21Details';
+import { Pph21TaxDetails } from '@/types/pph21/pph21';
+import { EditIcon } from 'lucide-react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { GetDetailsPph21Response } from '@/types/pph21/response';
 
 export default function Details({ params }: { params: { tax_id: string } }) {
+  const router = useRouter();
   const { data: pph21Details, isLoading: isPph21DetailsLoading } =
     useGetQueryPph21Details({ taxId: params.tax_id });
+
+  // const [pph21DetailsData, setPph21DetailsData] =
+  //   useState<Pph21TaxDetails | null>(null);
+  const [pph21DetailsData, setPph21DetailsData] =
+    useState<GetDetailsPph21Response>();
+
+  useEffect(() => {
+    if (!pph21Details) return;
+
+    setPph21DetailsData(pph21Details);
+  }, [pph21Details]);
+
+  const handleClick = () => {
+    localStorage.setItem('pph21Details', JSON.stringify(pph21DetailsData));
+
+    console.log('data', pph21Details);
+    router.push('/unit/tax/report/pph21/salary-slip');
+  };
 
   return (
     <Layout>
@@ -25,7 +52,15 @@ export default function Details({ params }: { params: { tax_id: string } }) {
           Detail PPh 21
         </h1>
         <div className="inline-flex gap-x-4 justify-end">
-          <Button variant={"outline"}>
+          <section className="flex flex-row justify-end">
+            <div>
+              <Button variant="outline" onClick={handleClick}>
+                Cetak
+              </Button>
+            </div>
+          </section>
+
+          <Button variant={'outline'}>
             <Link
               href={`/unit/tax/ppn/${params.tax_id}/edit`} // ganti pph 21
               className="flex items-center"
@@ -37,13 +72,13 @@ export default function Details({ params }: { params: { tax_id: string } }) {
 
           <Pph21DetailsDeleteButton taxId={params.tax_id} />
 
-          <section className="flex flex-row justify-end">
+          {/* <section className="flex flex-row justify-end">
             <div>
               <Button variant="outline" asChild>
-                <Link href={"/unit/tax/pph21"}>Kembali</Link>
+                <Link href={'/unit/tax/pph21'}>Kembali</Link>
               </Button>
             </div>
-          </section>
+          </section> */}
         </div>
       </div>
 
@@ -59,9 +94,13 @@ export default function Details({ params }: { params: { tax_id: string } }) {
         {pph21Details && (
           <div className="space-y-6 my-6">
             <div>
-              <p>Jenis Pegawai: {pph21Details?.data.employee_type}</p>
+              <p>Nama Pegawai: {pph21Details?.data.name}</p>
               <p>
-                Periode: {pph21Details?.data.period_month}{" "}
+                Jenis Pegawai:{' '}
+                {formatEmployeeType(pph21Details?.data.employee_type)}
+              </p>
+              <p>
+                Periode: {formatMonth(pph21Details?.data.period_month)}{' '}
                 {pph21Details?.data.period_years}
               </p>
             </div>
