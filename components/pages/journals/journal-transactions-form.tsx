@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { AccountType } from "@/types/accounts";
-import { AddJournalRequest } from "@/types/journals";
+import { MutationJournalRequest } from "@/types/journals";
 import { TrashIcon } from "lucide-react";
 import {
   UseFieldArrayRemove,
@@ -18,10 +18,10 @@ import {
 } from "react-hook-form";
 
 interface JournalTransactionsFormProps {
-  form: UseFormReturn<AddJournalRequest>;
+  form: UseFormReturn<MutationJournalRequest>;
   index: number;
   remove: UseFieldArrayRemove;
-  update: UseFieldArrayUpdate<AddJournalRequest, "data_transactions">;
+  update: UseFieldArrayUpdate<MutationJournalRequest, "data_transactions">;
   accounts: AccountType[];
   isDeleteAble: boolean;
 }

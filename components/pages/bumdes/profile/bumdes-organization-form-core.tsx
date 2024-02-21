@@ -8,15 +8,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
-  BumdesOrganization,
-  BumdesUnitOrganization,
+  BumdesOrganizationType,
+  BumdesOrganizationUnitsType,
   UpdateBumdesOrganizationFormData,
 } from "@/types/bumdes";
 import { useForm } from "react-hook-form";
 
 interface BumdesOrganizationFormCoreProps {
   form: ReturnType<typeof useForm<UpdateBumdesOrganizationFormData>>;
-  organization: BumdesOrganization;
+  organization: BumdesOrganizationType;
 }
 
 export default function BumdesOrganizationFormCore({
@@ -83,7 +83,7 @@ export default function BumdesOrganizationFormCore({
 }
 
 interface CoreUnitMembersProps {
-  unit: BumdesUnitOrganization;
+  unit: BumdesOrganizationUnitsType;
   form: ReturnType<typeof useForm<UpdateBumdesOrganizationFormData>>;
 }
 

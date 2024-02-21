@@ -10,7 +10,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useGetAccounts } from "@/hooks/account/useGetAccounts";
 import { useAddGeneralJournal } from "@/hooks/journals/useAddGeneralJournal";
 import {
-  AddJournalRequest,
+  MutationJournalRequest,
   AddJournalRequestSchema,
   JournalInputItemOld,
 } from "@/types/journals";
@@ -21,7 +21,7 @@ import { useForm } from "react-hook-form";
 
 export default function AddJournal() {
   const { toast } = useToast();
-  const form = useForm<AddJournalRequest>({
+  const form = useForm<MutationJournalRequest>({
     resolver: zodResolver(AddJournalRequestSchema),
     reValidateMode: "onSubmit",
     defaultValues: {
@@ -63,7 +63,7 @@ export default function AddJournal() {
     }
   }, [data_transactions_errors?.root, toast]);
 
-  const onSubmit = async (data: AddJournalRequest) => {
+  const onSubmit = async (data: MutationJournalRequest) => {
     if (!evidence) {
       toast({
         title: "Data tidak valid!",
