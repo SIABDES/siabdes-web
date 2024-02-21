@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
-  BumdesOrganization,
+  BumdesOrganizationType,
   UpdateBumdesOrganizationFormData,
   UpdateBumdesOrganizationRequest,
 } from "@/types/bumdes";
@@ -20,7 +20,7 @@ import BumdesOrganizationFormSupervisor from "./bumdes-organization-form-supervi
 import { Button } from "@/components/ui/button";
 
 interface BumdesOrganizationFormProps {
-  organization: BumdesOrganization;
+  organization: BumdesOrganizationType;
 }
 
 export default function BumdesOrganizationForm({
