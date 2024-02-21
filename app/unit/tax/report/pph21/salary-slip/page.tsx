@@ -22,6 +22,7 @@ import PPh21PreviewNetCalculations from '@/components/pages/pph21/preview/pph21-
 import Sign from '@/components/pages/pph21/preview/sign';
 import { EmployeesType } from '@/types/employees/employees';
 import Pph21PreviewPkpCalculations from '@/components/pages/pph21/preview/pph21-preview-pkp-calculations';
+import { set } from 'date-fns';
 
 export default function PreviewSalarySlip() {
   const contentRef = useRef(null);
@@ -30,26 +31,17 @@ export default function PreviewSalarySlip() {
     documentTitle: 'Laporan PPh 21',
   });
 
-  // const { data: getEmployees, isLoading: isGetEmployeesLoading } =
-  //   useGetEmployees();
-
-  // console.log('employees', getEmployees);
   const [pph21Details, setPph21Details] = useState<GetDetailsPph21Response>();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const storedData = localStorage.getItem('pph21Details');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       setPph21Details(parsedData);
+      setIsLoading(false);
     }
-  }, []);
-
-  useEffect(() => {
-    console.log('data', pph21Details);
-  }, [pph21Details]);
-
-  const notPermanentEmployeeDecember =
-    pph21Details?.data.employee_type === EmployeesType.PEGAWAI_TETAP;
+  }, [setPph21Details, setIsLoading]);
 
   return (
     <>
@@ -66,13 +58,13 @@ export default function PreviewSalarySlip() {
       </div>
 
       <section ref={contentRef} className="max-w-5xl mx-auto">
-        {/* {isPph21DetailsLoading && (
+        {isLoading && (
           <div className="space-y-6 my-6">
             <Skeleton className="w-full h-36" />
             <Skeleton className="w-full h-36" />
             <Skeleton className="w-full h-36" />
           </div>
-        )} */}
+        )}
         {pph21Details && (
           <>
             <header className="border-b-4 border-black mb-8 pb-4 max-w-3xl mx-auto">

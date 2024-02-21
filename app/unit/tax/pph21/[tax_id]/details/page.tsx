@@ -27,21 +27,21 @@ export default function Details({ params }: { params: { tax_id: string } }) {
   const { data: pph21Details, isLoading: isPph21DetailsLoading } =
     useGetQueryPph21Details({ taxId: params.tax_id });
 
-  // const [pph21DetailsData, setPph21DetailsData] =
-  //   useState<Pph21TaxDetails | null>(null);
   const [pph21DetailsData, setPph21DetailsData] =
     useState<GetDetailsPph21Response>();
 
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (!pph21Details) return;
 
+    setIsLoading(isPph21DetailsLoading);
     setPph21DetailsData(pph21Details);
-  }, [pph21Details]);
+  }, [pph21Details, isPph21DetailsLoading]);
 
   const handleClick = () => {
     localStorage.setItem('pph21Details', JSON.stringify(pph21DetailsData));
+    setIsLoading(true);
 
-    console.log('data', pph21Details);
     router.push('/unit/tax/report/pph21/salary-slip');
   };
 
@@ -54,15 +54,19 @@ export default function Details({ params }: { params: { tax_id: string } }) {
         <div className="inline-flex gap-x-4 justify-end">
           <section className="flex flex-row justify-end">
             <div>
-              <Button variant="outline" onClick={handleClick}>
-                Cetak
+              <Button
+                variant="outline"
+                onClick={handleClick}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Loading...' : 'Cetak'}
               </Button>
             </div>
           </section>
 
           <Button variant={'outline'}>
             <Link
-              href={`/unit/tax/ppn/${params.tax_id}/edit`} // ganti pph 21
+              href={`/unit/tax/pph/${params.tax_id}/edit`} // ganti pph 21
               className="flex items-center"
             >
               <EditIcon size={16} className="mr-2" />
