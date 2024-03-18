@@ -41,7 +41,7 @@ export function Pph21DetailsGrossSalary(props: Pph21DetailsGrossSalaryProps) {
       <CardContent>
         <TableView
           items={items}
-          skipIf={(row) => !row.value}
+          skipIf={(row) => row.value === undefined}
           renderRow={(row) => (
             <>
               <TableCell>

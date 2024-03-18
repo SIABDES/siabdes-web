@@ -71,7 +71,11 @@ export default function Details({
 
   return (
     <Layout>
-      <h5 className="text-lg font-semibold">Jurnal Umum</h5>
+      <Button variant={'outline'} asChild>
+        <Link href="/unit/general-journal">Kembali</Link>
+      </Button>
+
+      <h5 className="text-lg font-semibold mt-4">Jurnal Umum</h5>
 
       {isFetched && details && (
         <div className="inline-flex justify-between items-center w-full pb-8 pt-4">

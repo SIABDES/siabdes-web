@@ -39,8 +39,7 @@ export default function PPh21PreviewGrossSalary(
       </div>
       {items.map(
         (item, index) =>
-          item.value !== undefined &&
-          item.value !== 0 && (
+          item.value !== undefined && (
             <div key={index} className="grid grid-cols-9 items-center">
               <span className="col-span-5 ml-9">{item.type}</span>
               <span className="col-span-1">:</span>

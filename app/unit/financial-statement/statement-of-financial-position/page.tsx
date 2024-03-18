@@ -15,6 +15,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useGetWtb } from '@/hooks/wtb/useGetWtb';
 import Link from 'next/link';
 import { DateRange } from 'react-day-picker';
+import { formatRupiah } from '@/common/helpers/number-format';
 
 export default function StatementOfFinancialPosition() {
   const [date, setDate] = React.useState<DateRange | undefined>(undefined);
@@ -91,10 +92,11 @@ export default function StatementOfFinancialPosition() {
                     </TableCell>
                     <TableCell>{account.account.name}</TableCell>
                     <TableCell className="text-center">
-                      {/* {sum(account.result.posisi_keuangan)} */}0
+                      {/* {sum(account.result.posisi_keuangan)} */}
+                      {formatRupiah(sum(account.result.posisi_keuangan))}
                     </TableCell>
                     <TableCell className="text-center">
-                      {sum(account.result.posisi_keuangan)}
+                      {formatRupiah(sum(account.result.posisi_keuangan))}
                     </TableCell>
                   </TableRow>
                 ))}

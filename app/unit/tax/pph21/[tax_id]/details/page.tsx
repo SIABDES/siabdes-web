@@ -98,15 +98,25 @@ export default function Details({ params }: { params: { tax_id: string } }) {
         {pph21Details && (
           <div className="space-y-6 my-6">
             <div>
-              <p>Nama Pegawai: {pph21Details?.data.name}</p>
-              <p>
-                Jenis Pegawai:{' '}
-                {formatEmployeeType(pph21Details?.data.employee_type)}
-              </p>
-              <p>
-                Periode: {formatMonth(pph21Details?.data.period_month)}{' '}
-                {pph21Details?.data.period_years}
-              </p>
+              <table>
+                <tr>
+                  <td className="w-32">Nama Pegawai</td>
+                  <td>: {pph21Details?.data.name}</td>
+                </tr>
+                <tr>
+                  <td>Jenis Pegawai</td>
+                  <td>
+                    : {formatEmployeeType(pph21Details?.data.employee_type)}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Periode</td>
+                  <td>
+                    : {formatMonth(pph21Details?.data.period_month)}{' '}
+                    {pph21Details?.data.period_years}
+                  </td>
+                </tr>
+              </table>
             </div>
 
             <Pph21DetailsGrossSalary

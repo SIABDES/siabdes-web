@@ -15,6 +15,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useGetWtb } from '@/hooks/wtb/useGetWtb';
 import Link from 'next/link';
 import { DateRange } from 'react-day-picker';
+import { formatRupiah } from '@/common/helpers/number-format';
 
 export default function IncomeStatement() {
   const [date, setDate] = React.useState<DateRange | undefined>(undefined);
@@ -99,10 +100,11 @@ export default function IncomeStatement() {
                     </TableCell>
                     <TableCell>{account.account.name}</TableCell>
                     <TableCell className="text-center">
-                      {/* {sum(account.result.laba_rugi)} */}0
+                      {/* {sum(account.result.laba_rugi)} */}
+                      {formatRupiah(sum(account.result.laba_rugi))}
                     </TableCell>
                     <TableCell className="text-center">
-                      {sum(account.result.laba_rugi)}
+                      {formatRupiah(sum(account.result.laba_rugi))}
                     </TableCell>
                   </TableRow>
                 ))}
