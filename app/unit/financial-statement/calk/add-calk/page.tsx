@@ -1,15 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import Layout from '@/components/layout/layout';
 import { Button } from '@/components/ui/button';
 import InputField from '@/components/Input/input-field';
 import RecapOfProfitSharing from '@/components/pages/financial-statement/calk/recap-of-profit-sharing';
 import { useRouter } from 'next/navigation';
 import { RecapOfProfitSharingFormData } from '@/types/financial-statement/calk/recap-of-profit-sharing';
+import { useSession } from 'next-auth/react';
 
 export default function AddCALK() {
   const router = useRouter();
+  const session = useSession();
 
   const [formValues, setFormValues] = useState({
     peraturan_daerah_kabupaten: '',
@@ -70,15 +72,16 @@ export default function AddCALK() {
   return (
     <Layout>
       <header>
-        <h1 className="text-2xl font-bold mb-3 text-center">
+        <h1 className="text-xl font-bold mb-3 text-center">
           Tambah Catatan Atas Laporan Keuangan
         </h1>
         <h2 className="p-2 mt-4 text-lg font-bold text-black w-full">
           Landasan Hukum Penyusunan Laporan Keuangan
         </h2>
         <h3 className="p-2 text-sm font-medium text-black w-full">
-          Pelaporan keuangan BUMDes #Nama BUMDes diselenggarakan berdasarkan
-          peraturan perundang-undangan yang mengatur keuangan, yaitu:
+          Pelaporan keuangan BUMDes {session.data?.user.bumdesName}{' '}
+          diselenggarakan berdasarkan peraturan perundang-undangan yang mengatur
+          keuangan, yaitu:
         </h3>
       </header>
       <section className="space-y-2">
