@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 import { SessionProvider } from "next-auth/react";
 import { NextUIProvider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+
 interface Props {
   children: ReactNode;
 }
@@ -13,7 +15,11 @@ const Providers = ({ children }: Props) => {
 
   return (
     <SessionProvider>
-      <NextUIProvider navigate={router.push}>{children}</NextUIProvider>
+      <NextUIProvider navigate={router.push}>
+        <NextThemesProvider attribute="class" defaultTheme="light">
+          {children}
+        </NextThemesProvider>
+      </NextUIProvider>
     </SessionProvider>
   );
 };
