@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDebounce } from "usehooks-ts";
+import { useDebounceValue } from "usehooks-ts";
 import Results from "../../general/results";
 import GrossIncome from "./gross_income";
 import PPh21Calculation from "./pph21-calculation";
@@ -166,7 +166,7 @@ export default function PermanentEmployeeJanNov({
   }, [grossSalaryWatcher]);
 
   // Debounce total gross salary
-  const debounceTotalSalary = useDebounce(totalGrossSalary, 1000);
+  const debounceTotalSalary = useDebounceValue(totalGrossSalary, 1000);
 
   // Fetch TER data
   const {
