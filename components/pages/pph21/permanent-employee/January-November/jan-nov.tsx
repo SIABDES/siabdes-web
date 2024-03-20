@@ -166,7 +166,10 @@ export default function PermanentEmployeeJanNov({
   }, [grossSalaryWatcher]);
 
   // Debounce total gross salary
-  const debounceTotalSalary = useDebounceValue(totalGrossSalary, 1000);
+  const [debounceTotalSalary, setDebounceTotalSalary] = useDebounceValue(
+    totalGrossSalary,
+    1000
+  );
 
   // Fetch TER data
   const {
