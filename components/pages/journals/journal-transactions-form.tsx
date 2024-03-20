@@ -1,27 +1,28 @@
-import { formatNumber, reverseFormat } from "@/common/helpers/number-format";
-import { ComboboxForm } from "@/components/patan-ui/form/combobox-form";
-import FormNumberInput from "@/components/patan-ui/form/form-number-input";
-import { Button } from "@/components/ui/button";
+import FormNumberInput from '@/components/patan-ui/form/form-number-input';
+import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { AccountType } from "@/types/accounts";
-import { MutationJournalRequest } from "@/types/journals";
-import { TrashIcon } from "lucide-react";
+} from '@/components/ui/tooltip';
+import { AccountType } from '@/types/accounts';
+import { MutationJournalRequest } from '@/types/journals';
+import { Autocomplete, AutocompleteItem } from '@nextui-org/react';
+import { Label } from '@radix-ui/react-label';
+import { TrashIcon } from 'lucide-react';
 import {
+  Controller,
   UseFieldArrayRemove,
   UseFieldArrayUpdate,
   UseFormReturn,
-} from "react-hook-form";
+} from 'react-hook-form';
 
 interface JournalTransactionsFormProps {
   form: UseFormReturn<MutationJournalRequest>;
   index: number;
   remove: UseFieldArrayRemove;
-  update: UseFieldArrayUpdate<MutationJournalRequest, "data_transactions">;
+  update: UseFieldArrayUpdate<MutationJournalRequest, 'data_transactions'>;
   accounts: AccountType[];
   isDeleteAble: boolean;
 }
@@ -43,27 +44,45 @@ export default function JournalTransactionsForm({
   return (
     <div className="grid items-end grid-flow-col gap-x-8">
       <div className=" flex flex-col gap-y-2">
-        <ComboboxForm
-          form={form}
-          data={accounts}
-          itemBuilder={(item) => ({
-            key: item.id.toString(),
-            label: `${item.ref} - ${item.name}`,
-            value: item.id.toString(),
-          })}
-          label={`Akun ${index + 1}`}
-          name={`${basePath}.account_id`}
-          isLoading={!accounts}
-          loadingText="Memuat data akun"
-          classNameTrigger="min-w-[32rem]"
-          onSelect={(item) =>
-            update(index, {
-              account_id: parseInt(item.value),
-              debit: debitWatcher,
-              credit: creditWatcher,
-            })
-          }
-        />
+        <div>
+          <Label className="text-sm font-medium">Akun {index + 1}</Label>
+          <Controller
+            control={form.control}
+            name={`${basePath}.account_id`}
+            render={({ field, fieldState }) => (
+              <Autocomplete
+                variant="bordered"
+                placeholder="Pilih Akun"
+                aria-label={`Akun ${index + 1}`}
+                size="md"
+                radius="sm"
+                onSelectionChange={(item) => {
+                  if (!item) return;
+
+                  update(index, {
+                    account_id: parseInt(item.toString()),
+                    debit: debitWatcher,
+                    credit: creditWatcher,
+                  });
+                }}
+                onKeyDown={(e: any) => e.continuePropagation()}
+                selectedKey={field.value.toString()}
+                isClearable={false}
+                errorMessage={fieldState.error?.message}
+              >
+                {accounts.map((account) => (
+                  <AutocompleteItem
+                    key={account.id}
+                    className="capitalize"
+                    aria-label={`${account.ref} - ${account.name}`}
+                  >
+                    {account.ref} - {account.name}
+                  </AutocompleteItem>
+                ))}
+              </Autocomplete>
+            )}
+          />
+        </div>
       </div>
 
       <div className="col-span-2">
@@ -77,6 +96,14 @@ export default function JournalTransactionsForm({
           placeholder="0"
           border={false}
         />
+        {/* <Input
+          variant="bordered"
+          placeholder="0"
+          label="Debit"
+          disabled={
+            (!accountIdWatcher && accountIdWatcher === -1) || creditWatcher > 0
+          }
+        /> */}
       </div>
 
       <div className="col-span-2">
@@ -97,8 +124,8 @@ export default function JournalTransactionsForm({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                variant={"destructive"}
-                size={"icon"}
+                variant={'destructive'}
+                size={'icon'}
                 onClick={() => remove(index)}
                 disabled={!isDeleteAble}
               >
@@ -107,8 +134,8 @@ export default function JournalTransactionsForm({
             </TooltipTrigger>
             <TooltipContent className="bg-destructive text-destructive-foreground">
               {isDeleteAble
-                ? "Hapus data transaksi"
-                : "Minimal harus ada 2 data transaksi"}
+                ? 'Hapus data transaksi'
+                : 'Minimal harus ada 2 data transaksi'}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
