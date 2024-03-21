@@ -136,7 +136,7 @@ const config = {
   },
 
   plugins: [
-    nextui(),
+    nextui({}),
     require("tailwindcss-animate"),
     plugin(({ addUtilities }) => {
       const popoverWidthBalancerUtils = {
