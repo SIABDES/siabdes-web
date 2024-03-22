@@ -18,7 +18,7 @@ export async function GET(
 
   try {
     const res = await AxiosToBackend.get(
-      `unit/${session.user.unitId}/${JOURNALS}/${journal_id}/evidence`
+      `units/${session.user.unitId}/${JOURNALS}/${journal_id}/evidence`
     );
 
     return NextResponse.json(res.data);

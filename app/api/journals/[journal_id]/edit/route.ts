@@ -16,6 +16,8 @@ export async function PUT(
     return NextResponse.redirect('/login');
   }
 
+  console.log(formData);
+
   try {
     const res = await AxiosToBackend.put(
       `units/${session.user.unitId}/${JOURNALS}/${params.journal_id}`,
