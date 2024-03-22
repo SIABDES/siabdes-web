@@ -13,6 +13,7 @@ import { useEditJournal } from '@/hooks/journals/useEditJournal';
 import { useGetJournalDetails } from '@/hooks/journals/useGetJournalDetails';
 import {
   AddJournalRequestSchema,
+  JournalCategory,
   JournalInputItem,
   JournalInputItemOld,
   MutationJournalRequest,
@@ -54,7 +55,10 @@ export default function EditGeneralJournal({
   const {
     mutateAsync: mutateGeneralJournal,
     isPending: isMutateGeneralJournalPending,
-  } = useEditJournal({ journal_id: params.journal_id });
+  } = useEditJournal({
+    journal_id: params.journal_id,
+    category: JournalCategory.GENERAL,
+  });
 
   const { data_transactions: data_transactions_errors } = formState.errors;
 
