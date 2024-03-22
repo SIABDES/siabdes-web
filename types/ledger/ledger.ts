@@ -1,18 +1,19 @@
-export type LedgerType = {
-  account_name: string;
-  account_ref: string;
-  account_is_credit: boolean;
-  result_balance: number;
-  _count: number;
-  transactions: LedgerTransactionItemType[];
-};
+import { WithCount, WithPagination } from "@/common/types";
+
+export type LedgerType = WithCount &
+  WithPagination<string> & {
+    account_is_credit: boolean;
+    last_balance: number;
+    result_balance: number;
+    transactions: LedgerTransactionItemType[];
+  };
 
 export type LedgerTransactionItemType = {
   id: string;
-  amount: number;
-  is_credit: boolean;
   occurred_at: string;
   description: string;
-  account_name: string;
-  calculation_result: number;
+  is_credit: boolean;
+  amount: number;
+  previous_balance: number;
+  result_balance: number;
 };

@@ -90,7 +90,7 @@ export default function Ledger() {
                           : 0}
                       </TableCell>
                       <TableCell>
-                        {formatNumber(transaction.calculation_result)}
+                        {formatNumber(transaction.result_balance)}
                       </TableCell>
                     </TableRow>
                   ))}

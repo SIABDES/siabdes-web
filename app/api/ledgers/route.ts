@@ -1,4 +1,4 @@
-import { AxiosAuthed } from "@/common/api";
+import { AxiosAuthed, AxiosToBackend } from "@/common/api";
 import { authOptions } from "@/lib/next-auth-options";
 import { AxiosError } from "axios";
 import { getServerSession } from "next-auth";
@@ -21,8 +21,14 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const res = await AxiosAuthed(session.backendTokens.accessToken).get(
-      `/ledgers/${account_id}`
+    const res = await AxiosToBackend.get(
+      `/units/${session.user.unitId}/ledgers`,
+      {
+        params: {
+          account_id,
+          business_type: session.user.unitBusinessType,
+        },
+      }
     );
 
     return NextResponse.json(res.data);

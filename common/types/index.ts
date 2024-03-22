@@ -1,6 +1,8 @@
-export type BackendResponseType<T extends object | string | number = any> = {
-  statusCode: number;
-  message: string;
+export type BackendResponseType<
+  T extends string | number | string[] | number[] | Record<string, any>
+> = {
+  statusCode?: number;
+  message?: string;
   data: T;
 };
 
