@@ -1,8 +1,9 @@
-import { AxiosAuthed } from "@/common/api";
-import { authOptions } from "@/lib/next-auth-options";
-import { AxiosError } from "axios";
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { AxiosAuthed, AxiosToBackend } from '@/common/api';
+import { JOURNALS } from '@/common/api/urls';
+import { authOptions } from '@/lib/next-auth-options';
+import { AxiosError } from 'axios';
+import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function PUT(
   request: NextRequest,
@@ -12,14 +13,12 @@ export async function PUT(
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.redirect("/login");
+    return NextResponse.redirect('/login');
   }
 
   try {
-    console.log(formData);
-
-    const res = await AxiosAuthed(session.backendTokens.accessToken).put(
-      `/journals/${params.journal_id}`,
+    const res = await AxiosToBackend.put(
+      `units/${session.user.unitId}/${JOURNALS}/${params.journal_id}`,
       formData
     );
 
