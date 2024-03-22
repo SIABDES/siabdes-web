@@ -1,3 +1,3 @@
-export * from './accounts';
+export * from "./accounts";
 
-export type BussinessType = 'COMMERCE' | 'INDUSTRY' | 'SERVICES';
+export type UnitBusinessType = "COMMERCE" | "INDUSTRY" | "SERVICES";

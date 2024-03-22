@@ -1,4 +1,4 @@
-import { AxiosAuthed } from "@/common/api";
+import { AxiosAuthed, AxiosToBackend } from "@/common/api";
 import { ACCOUNTS } from "@/common/api/urls";
 import { authOptions } from "@/lib/next-auth-options";
 import { getServerSession } from "next-auth";
@@ -15,14 +15,12 @@ export async function GET(request: NextRequest) {
 
   const account_id = nextUrl.searchParams.get("account_id");
 
-  const res = await AxiosAuthed(session?.backendTokens.accessToken).get(
-    ACCOUNTS,
-    {
-      params: {
-        account_id: account_id ? account_id : undefined,
-      },
-    }
-  );
+  const res = await AxiosToBackend.get(ACCOUNTS, {
+    params: {
+      unit_id: session.user.unitId,
+      account_id: account_id ? account_id : undefined,
+    },
+  });
 
   return NextResponse.json(res.data);
 }

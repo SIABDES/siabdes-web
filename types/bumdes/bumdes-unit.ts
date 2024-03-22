@@ -1,8 +1,8 @@
-import { BussinessType } from "../accounts";
+import { UnitBusinessType } from "../accounts";
 
 export type BumdesUnitType = {
   id: string;
   name: string;
-  business_type: BussinessType;
+  business_type: UnitBusinessType;
   created_at: string;
 };

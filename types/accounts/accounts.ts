@@ -1,10 +1,10 @@
-import { BussinessType } from ".";
+import { UnitBusinessType } from ".";
 
 export type AccountType = AccountSubgroupType & {
   id: number;
   group_ref: string;
   ref: string;
-  business_type: BussinessType;
+  business_type: UnitBusinessType;
   name: string;
   slug: string;
   is_credit: boolean;
