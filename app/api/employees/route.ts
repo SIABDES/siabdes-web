@@ -1,9 +1,9 @@
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
-import { AxiosAuthed } from "@/common/api";
+import { AxiosAuthed, AxiosToBackend } from "@/common/api";
+import { authOptions } from "@/lib/next-auth-options";
 import { GetEmployeesResponse } from "@/types/employees/response";
 import { AxiosError } from "axios";
-import { authOptions } from "@/lib/next-auth-options";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -11,21 +11,27 @@ export async function GET(request: NextRequest) {
   const loginUrl = new URL("/auth/login", request.url);
 
   if (!session) {
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.json(
+      { error: "Unauthorized" },
+      {
+        status: 401,
+      }
+    );
   }
 
   const limit = request.nextUrl.searchParams.get("limit");
   const cursor = request.nextUrl.searchParams.get("cursor");
 
   try {
-    const res = await AxiosAuthed(
-      session.backendTokens.accessToken
-    ).get<GetEmployeesResponse>(`/units/${session.user.unitId}/employees`, {
-      params: {
-        limit,
-        cursor,
-      },
-    });
+    const res = await AxiosToBackend.get<GetEmployeesResponse>(
+      `/units/${session.user.unitId}/employees`,
+      {
+        params: {
+          limit,
+          cursor,
+        },
+      }
+    );
 
     return NextResponse.json(res.data);
   } catch (error) {

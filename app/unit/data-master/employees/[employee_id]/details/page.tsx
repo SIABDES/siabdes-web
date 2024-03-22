@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { formatDateToString } from '@/common/helpers/date';
-import Layout from '@/components/layout/layout';
-import useGetEmployeeDetails from '@/hooks/employee/useGetEmployeeDetails';
-import { useRouter } from 'next/navigation';
-import { useToast } from '@/components/ui/use-toast';
+import React from "react";
+import { formatDateToString } from "@/common/helpers/date";
+import Layout from "@/components/layout/layout";
+import useGetEmployeeDetails from "@/hooks/employee/useGetEmployeeDetails";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Table,
   TableBody,
@@ -13,10 +13,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { FormControl, FormItem, FormLabel } from '@/components/ui/form';
-import { Label } from '@/components/ui/label';
-import useDeleteEmployee from '@/hooks/employee/useDeleteEmployee';
+} from "@/components/ui/table";
+import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+import useDeleteEmployee from "@/hooks/employee/useDeleteEmployee";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,10 +27,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { EditIcon, TrashIcon } from 'lucide-react';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { EditIcon, TrashIcon } from "lucide-react";
 import {
   formatEmployeeChildrenAmount,
   formatEmployeeGender,
@@ -38,7 +38,7 @@ import {
   formatEmployeeNPWPStatus,
   formatEmployeeStatus,
   formatEmployeeType,
-} from '@/common/helpers/employee-format';
+} from "@/common/helpers/employee-format";
 
 export default function DetailEmployees({
   params,
@@ -61,15 +61,15 @@ export default function DetailEmployees({
     void mutateDeleteEmployee(undefined, {
       onSuccess: () => {
         toast({
-          title: 'Hapus PPN',
-          description: 'Data PPN berhasil dihapus',
+          title: "Hapus PPN",
+          description: "Data PPN berhasil dihapus",
           duration: 5000,
         });
-        router.push('/unit/data-master/employees');
+        router.push("/unit/data-master/employees");
       },
       onError: (error) => {
         toast({
-          title: 'gagal Menghapus PPN',
+          title: "gagal Menghapus PPN",
           description: error.message,
           duration: 5000,
         });
@@ -79,16 +79,15 @@ export default function DetailEmployees({
 
   return (
     <Layout>
-      {/* <h1 className="text-2xl font-bold mb-4 text-left underline underline-offset-8 ">
-        Detail Tenaga Kerja
-      </h1> */}
-      <div className="flex justify-between">
-        <h5 className="text-lg font-semibold flex items-center">
-          Detail Tenaga Kerja
-        </h5>
+      <Link href="/unit/data-master/employees">
+        <Button variant={"outline"}>Kembali</Button>
+      </Link>
+
+      <div className="flex justify-between mt-8">
+        <h5 className="font-semibold flex items-center">Detail Tenaga Kerja</h5>
 
         <div className="inline-flex gap-x-4 justify-end">
-          <Button variant={'outline'}>
+          <Button variant={"outline"}>
             <Link
               href={`/unit/data-master/employees/${params.employee_id}/edit`}
               className="flex items-center"
@@ -100,9 +99,9 @@ export default function DetailEmployees({
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant={'destructive'} disabled={isMutateDeletePending}>
+              <Button variant={"destructive"} disabled={isMutateDeletePending}>
                 <TrashIcon size={16} className="mr-2" />
-                {isMutateDeletePending ? 'Menghapus...' : 'Hapus Data'}
+                {isMutateDeletePending ? "Menghapus..." : "Hapus Data"}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -119,7 +118,7 @@ export default function DetailEmployees({
                   className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                 >
                   <Button
-                    variant={'destructive'}
+                    variant={"destructive"}
                     className="w-fit"
                     onClick={handleDeleteEmployee}
                   >
@@ -133,22 +132,9 @@ export default function DetailEmployees({
         </div>
       </div>
 
-      <div>
+      <div className="mt-8">
         {isFetched && details && (
           <div>
-            <div className="inline-flex justify-between items-center w-full pb-8 pt-4">
-              <table>
-                <tbody>
-                  <tr>
-                    <td className="text-base font-medium min-w-[12rem]">
-                      Nama Karyawan:
-                    </td>
-                    <td className="text-base">{details.name}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
             <div className="flex flex-col h-screen">
               <div className="flex-grow overflow-auto">
                 <Table className="relative w-full">
@@ -186,7 +172,7 @@ export default function DetailEmployees({
                       <TableCell className="px-6 py-4 border border-black">
                         {/* {details?.npwp} */}
                         {/* gimana caranya jika null maka tidak akan di tmapilkan */}
-                        {details?.npwp ? details?.npwp : '-'}
+                        {details?.npwp ? details?.npwp : "-"}
                       </TableCell>
                     </TableRow>
                     <TableRow className="border border-black">
@@ -227,7 +213,7 @@ export default function DetailEmployees({
                       </TableCell>
                       <TableCell className="px-6 py-4 border border-black">
                         {formatEmployeeNPWPStatus(
-                          details?.npwp_status ? details?.npwp_status : '-'
+                          details?.npwp_status ? details?.npwp_status : "-"
                         )}
                       </TableCell>
                     </TableRow>
