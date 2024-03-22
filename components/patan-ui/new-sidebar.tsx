@@ -7,16 +7,70 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Link,
   ScrollShadow,
   Tooltip,
   cn,
 } from "@nextui-org/react";
 import { CaretLeftIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
-import { ChevronLeftIcon, HomeIcon } from "lucide-react";
+import { ChevronLeftIcon, HomeIcon, LucideIcon } from "lucide-react";
+import React from "react";
 import { useState } from "react";
 
-export function NewSidebar() {
+type SidebarLinkItem = {
+  label: string;
+  icon: LucideIcon;
+  tooltip?: string;
+  href?: string;
+  children?: SidebarLinkItem[];
+};
+
+interface SidebarLinkItemProps {
+  items: SidebarLinkItem[];
+  isOpen: boolean;
+}
+
+export function NewSidebarLinks({ items, isOpen }: SidebarLinkItemProps) {
+  return (
+    <>
+      {items.map((item, i) => (
+        <Tooltip
+          key={i}
+          placement="right-end"
+          content={item.tooltip}
+          color="primary"
+          radius="sm"
+          isDisabled={isOpen || !item.tooltip}
+          delay={500}
+        >
+          <Button
+            className={cn(
+              "text-white bg-transparent hover:text-primary-400",
+              i % 10 === 0 && "bg-primary-600 hover:text-white-100",
+              isOpen && "justify-start"
+            )}
+            startContent={React.createElement(item.icon, {
+              className: "w-5 h-5",
+            })}
+            isIconOnly={!isOpen}
+            radius="sm"
+            as={Link}
+            href={item.href}
+          >
+            {isOpen && item.label}
+          </Button>
+        </Tooltip>
+      ))}
+    </>
+  );
+}
+
+interface SidebarLinkProps {
+  items: SidebarLinkItem[];
+}
+
+export function NewSidebar({ items }: SidebarLinkProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -41,30 +95,7 @@ export function NewSidebar() {
             )}
             hideScrollBar
           >
-            {Array.from({ length: 20 }).map((_, i) => (
-              <Tooltip
-                key={i}
-                placement="right-end"
-                content="Tooltip"
-                color="primary"
-                radius="sm"
-                isDisabled={isOpen}
-                delay={500}
-              >
-                <Button
-                  className={cn(
-                    "text-white bg-transparent hover:text-primary-400",
-                    i % 10 === 0 && "bg-primary-600 hover:text-white-100",
-                    isOpen && "justify-start"
-                  )}
-                  startContent={<HomeIcon className="w-4 h-4" />}
-                  isIconOnly={!isOpen}
-                  radius="sm"
-                >
-                  {isOpen && faker.location.city()}
-                </Button>
-              </Tooltip>
-            ))}
+            <NewSidebarLinks items={items} isOpen={isOpen} />
           </ScrollShadow>
         </CardBody>
 
