@@ -37,7 +37,7 @@ import React, { useEffect, useState } from "react";
 
 export default function Details({ params }: { params: { ppn_id: string } }) {
   const { data: details, isFetched } = useGetPPNDetails({ params });
-  const detail = details?.objects;
+  const detail = details?.object_items;
 
   const router = useRouter();
   const { toast } = useToast();
@@ -81,7 +81,7 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
   useEffect(() => {
     if (isFetched && details) {
       // Hitung total PPN dari semua objek perhitungan
-      const calculatedTotalPPN = details.objects.reduce(
+      const calculatedTotalPPN = details.object_items.reduce(
         (accumulator, item) => accumulator + item.ppn,
         0
       );

@@ -1,11 +1,11 @@
-import { BackendResponseType } from '@/common/types';
+import { BackendResponseType } from "@/common/types";
 import {
   PpnItemType,
   PpnObjectItem,
   PpnTaxObjectType,
   PpnTransaction,
   PpnTransactionType,
-} from './ppn';
+} from "./ppn";
 
 export type GetPPNResponse = BackendResponseType<{
   _count: number;
@@ -21,7 +21,7 @@ export type GetPPNDetailsResponse = BackendResponseType<{
   transaction_number: string;
   transaction_evidence: string;
   tax_object: PpnTaxObjectType;
-  objects: PpnObjectItem[];
+  object_items: PpnObjectItem[];
 }>;
 
 export type AddPPNDataResponse = BackendResponseType<{

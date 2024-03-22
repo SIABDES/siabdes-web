@@ -89,7 +89,7 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
         item_type: details.item_type,
         given_to: details.given_to,
         tax_object: details.tax_object,
-        object_items: details.objects.map((item) => ({
+        object_items: details.object_items.map((item) => ({
           name: item.name,
           discount: item?.discount,
           dpp: item.dpp,

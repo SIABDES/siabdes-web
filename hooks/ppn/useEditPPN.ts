@@ -1,13 +1,13 @@
-import { AxiosClientSide } from '@/common/api';
-import { UpdatePPNFormData } from '@/types/ppn/dto';
-import { UpdatePPNResponse } from '@/types/ppn/response';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosClientSide } from "@/common/api";
+import { UpdatePPNFormData } from "@/types/ppn/dto";
+import { UpdatePPNResponse } from "@/types/ppn/response";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useEditPPN({ ppn_id }: { ppn_id: string }) {
   const queryClient = useQueryClient();
 
   const getPPN = useMutation({
-    mutationKey: ['ppn/edit', ppn_id],
+    mutationKey: ["ppn/edit", ppn_id],
     mutationFn: async ({
       data,
       evidence,
@@ -17,18 +17,18 @@ export function useEditPPN({ ppn_id }: { ppn_id: string }) {
     }) => {
       const formData = new FormData();
 
-      formData.append('given_to', data.given_to);
-      formData.append('item_type', data.item_type);
+      formData.append("given_to", data.given_to);
+      formData.append("item_type", data.item_type);
       formData.append(
-        'transaction_date',
+        "transaction_date",
         new Date(data.transaction_date).toISOString()
       );
-      formData.append('transaction_type', data.transaction_type);
-      formData.append('transaction_number', data.transaction_number);
-      formData.append('tax_object', data.tax_object);
+      formData.append("transaction_type", data.transaction_type);
+      formData.append("transaction_number", data.transaction_number);
+      formData.append("tax_object", data.tax_object);
 
       if (evidence) {
-        formData.append('transaction_evidence', evidence);
+        formData.append("transaction_evidence", evidence);
       }
 
       data.object_items.forEach((item, index) => {
@@ -60,7 +60,7 @@ export function useEditPPN({ ppn_id }: { ppn_id: string }) {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ['ppn-details', ppn_id],
+        queryKey: ["ppn_details", ppn_id],
       });
     },
   });
