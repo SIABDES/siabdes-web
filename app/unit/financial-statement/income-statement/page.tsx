@@ -16,6 +16,7 @@ import { useGetWtb } from '@/hooks/wtb/useGetWtb';
 import Link from 'next/link';
 import { DateRange } from 'react-day-picker';
 import { formatRupiah } from '@/common/helpers/number-format';
+import { RetrievalCategory } from '@/types/journals';
 
 export default function IncomeStatement() {
   const [date, setDate] = React.useState<DateRange | undefined>(undefined);
@@ -23,6 +24,7 @@ export default function IncomeStatement() {
   const { data, isLoading } = useGetWtb({
     start_occurred_at: date?.from,
     end_occurred_at: date?.to,
+    retrieval_category: RetrievalCategory.INCOME_STATEMENT,
   });
 
   const accounts = data?.list ?? [];
