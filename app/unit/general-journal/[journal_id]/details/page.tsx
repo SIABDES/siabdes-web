@@ -91,7 +91,7 @@ export default function Details({
               <tr>
                 <td className="text-sm font-medium">Tanggal Transaksi: </td>
                 <td className="text-sm">
-                  {formatDateToString(details.occured_at)}
+                  {formatDateToString(details.occurred_at)}
                 </td>
               </tr>
             </tbody>

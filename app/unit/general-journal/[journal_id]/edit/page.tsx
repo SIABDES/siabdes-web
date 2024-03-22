@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import { addArrayObjectToFormData } from "@/common/helpers/multipart-form";
-import Layout from "@/components/layout/layout";
-import GeneralJournalEssentialsForm from "@/components/pages/journals/form/general-journal-essentials-form";
-import JournalTransactionsContainerForm from "@/components/pages/journals/form/journal-transactions-container-form";
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useToast } from "@/components/ui/use-toast";
-import { useGetAccounts } from "@/hooks/account/useGetAccounts";
-import { useEditJournal } from "@/hooks/journals/useEditJournal";
-import { useGetJournalDetails } from "@/hooks/journals/useGetJournalDetails";
+import { addArrayObjectToFormData } from '@/common/helpers/multipart-form';
+import Layout from '@/components/layout/layout';
+import GeneralJournalEssentialsForm from '@/components/pages/journals/form/general-journal-essentials-form';
+import JournalTransactionsContainerForm from '@/components/pages/journals/form/journal-transactions-container-form';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useToast } from '@/components/ui/use-toast';
+import { useGetAccounts } from '@/hooks/account/useGetAccounts';
+import { useEditJournal } from '@/hooks/journals/useEditJournal';
+import { useGetJournalDetails } from '@/hooks/journals/useGetJournalDetails';
 import {
   AddJournalRequestSchema,
   JournalInputItem,
   JournalInputItemOld,
   MutationJournalRequest,
-} from "@/types/journals";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+} from '@/types/journals';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface EditGeneralJournalProps {
   params: { journal_id: string };
@@ -40,9 +40,9 @@ export default function EditGeneralJournal({
   const { toast } = useToast();
   const form = useForm<MutationJournalRequest>({
     resolver: zodResolver(AddJournalRequestSchema),
-    reValidateMode: "onSubmit",
+    reValidateMode: 'onSubmit',
     defaultValues: {
-      description: "",
+      description: '',
       occurred_at: undefined,
       data_transactions: [],
     },
@@ -67,18 +67,18 @@ export default function EditGeneralJournal({
           credit: transaction.is_credit ? transaction.amount : 0,
         }));
 
-      setValue("description", details.description);
-      setValue("occurred_at", new Date(details.occured_at));
-      setValue("data_transactions", dataTransactions);
+      setValue('description', details.description);
+      setValue('occurred_at', new Date(details.occurred_at));
+      setValue('data_transactions', dataTransactions);
     }
   }, [details, setValue]);
 
   useEffect(() => {
     if (data_transactions_errors?.root) {
       toast({
-        title: "Kesalahan Input!",
+        title: 'Kesalahan Input!',
         description: data_transactions_errors.root.message,
-        variant: "destructive",
+        variant: 'destructive',
         duration: 3000,
       });
     }
@@ -87,10 +87,10 @@ export default function EditGeneralJournal({
   const onSubmit = async (data: MutationJournalRequest) => {
     const formData = new FormData();
 
-    formData.append("description", data.description);
-    formData.append("occurred_at", data.occurred_at?.toISOString() ?? "");
+    formData.append('description', data.description);
+    formData.append('occurred_at', data.occurred_at?.toISOString() ?? '');
 
-    if (evidence) formData.append("evidence", evidence);
+    if (evidence) formData.append('evidence', evidence);
 
     const dataTransactionsTransformed: JournalInputItemOld[] =
       data.data_transactions.map((transaction) => ({
@@ -102,7 +102,7 @@ export default function EditGeneralJournal({
     addArrayObjectToFormData(
       formData,
       dataTransactionsTransformed,
-      "data_transactions"
+      'data_transactions'
     );
 
     await mutateGeneralJournal(formData);
@@ -112,9 +112,9 @@ export default function EditGeneralJournal({
     <Layout>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Button variant={"outline"} asChild>
+          <Button variant={'outline'} asChild>
             <Link
-              href={"/unit/general-journal/{journal_id}/details"}
+              href={'/unit/general-journal/{journal_id}/details'}
               as={`/unit/general-journal/${params.journal_id}/details`}
             >
               Kembali

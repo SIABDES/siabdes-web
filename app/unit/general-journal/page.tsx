@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { formatDateToString } from "@/common/helpers/date";
-import Layout from "@/components/layout/layout";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { formatDateToString } from '@/common/helpers/date';
+import Layout from '@/components/layout/layout';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -11,12 +11,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useGetGeneralJournals } from "@/hooks/journals/useGetGeneralJournals";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+} from '@/components/ui/table';
+import { useGetGeneralJournals } from '@/hooks/journals/useGetGeneralJournals';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-import React from "react";
+import React from 'react';
 
 export default function Generaljournal() {
   const router = useRouter();
@@ -88,7 +88,7 @@ export default function Generaljournal() {
                   >
                     <TableCell className="w-28">{index + 1}</TableCell>
                     <TableCell className="w-80">
-                      {formatDateToString(journal.occured_at)}
+                      {formatDateToString(journal.occurred_at)}
                     </TableCell>
                     <TableCell>{journal.description}</TableCell>
                   </TableRow>

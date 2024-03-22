@@ -1,8 +1,8 @@
-"use client";
-import { formatNumber } from "@/common/helpers/number-format";
-import Layout from "@/components/layout/layout";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+'use client';
+import { formatNumber } from '@/common/helpers/number-format';
+import Layout from '@/components/layout/layout';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -10,14 +10,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useGetWtb } from "@/hooks/wtb/useGetWtb";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+} from '@/components/ui/table';
+import { useGetWtb } from '@/hooks/wtb/useGetWtb';
+import { RetrievalCategory } from '@/types/journals';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function WorkingTrialBalance() {
   const router = useRouter();
-  const { data, isLoading } = useGetWtb();
+  const { data, isLoading } = useGetWtb({
+    retrieval_category: RetrievalCategory.ALL,
+  });
 
   const accounts = data?.list;
   const summary = data?.summary;
