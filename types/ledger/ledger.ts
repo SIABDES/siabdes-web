@@ -1,12 +1,11 @@
 import { WithCount, WithPagination } from "@/common/types";
 
-export type LedgerType = WithCount &
-  WithPagination<string> & {
-    account_is_credit: boolean;
-    last_balance: number;
-    result_balance: number;
-    transactions: LedgerTransactionItemType[];
-  };
+export type LedgerType = {
+  account_is_credit: boolean;
+  last_balance: number;
+  result_balance: number;
+  transactions: LedgerTransactionItemType[];
+};
 
 export type LedgerTransactionItemType = {
   id: string;

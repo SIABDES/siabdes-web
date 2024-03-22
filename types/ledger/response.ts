@@ -1,8 +1,10 @@
-import { BackendResponseType } from "@/common/types";
+import { BackendResponseType, WithCount, WithPagination } from "@/common/types";
 import { LedgerTransactionItemType, LedgerType } from ".";
 
 export type GetLedgerByIdResponse = BackendResponseType<
-  LedgerType & {
-    next_cursor: string;
-  }
+  WithCount &
+    WithPagination<string> &
+    LedgerType & {
+      next_cursor: string;
+    }
 >;
