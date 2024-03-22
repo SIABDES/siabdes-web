@@ -1,9 +1,9 @@
-import { AxiosAuthed } from "@/common/api";
-import { JOURNALS } from "@/common/api/urls";
-import { authOptions } from "@/lib/next-auth-options";
-import { AxiosError } from "axios";
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { AxiosAuthed, AxiosToBackend } from '@/common/api';
+import { JOURNALS } from '@/common/api/urls';
+import { authOptions } from '@/lib/next-auth-options';
+import { AxiosError } from 'axios';
+import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function DELETE(
   request: NextRequest,
@@ -14,12 +14,12 @@ export async function DELETE(
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.redirect("/login");
+    return NextResponse.redirect('/login');
   }
 
   try {
-    const res = await AxiosAuthed(session.backendTokens.accessToken).delete(
-      `${JOURNALS}/${journal_id}`
+    const res = await AxiosToBackend.delete(
+      `/units/${session.user.unitId}/${JOURNALS}/${journal_id}`
     );
 
     return NextResponse.json(res.data);

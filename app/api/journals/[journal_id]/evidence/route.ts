@@ -1,8 +1,9 @@
-import { AxiosAuthed } from "@/common/api";
-import { authOptions } from "@/lib/next-auth-options";
-import { AxiosError } from "axios";
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { AxiosAuthed, AxiosToBackend } from '@/common/api';
+import { JOURNALS } from '@/common/api/urls';
+import { authOptions } from '@/lib/next-auth-options';
+import { AxiosError } from 'axios';
+import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
@@ -12,12 +13,12 @@ export async function GET(
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.redirect("/login");
+    return NextResponse.redirect('/login');
   }
 
   try {
-    const res = await AxiosAuthed(session.backendTokens.accessToken).get(
-      `/files/general_journals/${journal_id}`
+    const res = await AxiosToBackend.get(
+      `unit/${session.user.unitId}/${JOURNALS}/${journal_id}/evidence`
     );
 
     return NextResponse.json(res.data);
