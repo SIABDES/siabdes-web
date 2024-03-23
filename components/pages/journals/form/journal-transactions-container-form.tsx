@@ -1,13 +1,9 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AccountType } from "@/types/accounts";
-import {
-  MutationJournalRequest,
-  JournalTransactionFormDataType,
-} from "@/types/journals";
+import { MutationJournalRequest } from "@/types/journals";
+import { UseFormReturn, useFieldArray } from "react-hook-form";
 import JournalTransactionsForm from "../journal-transactions-form";
 import NewTransactionForm from "../new-transaction-form";
-import { UseFormReturn, useFieldArray } from "react-hook-form";
-import { useMemo } from "react";
 
 interface JournalTransactionsFormProps {
   form: UseFormReturn<MutationJournalRequest>;

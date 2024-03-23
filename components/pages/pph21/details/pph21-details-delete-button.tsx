@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   AlertDialogHeader,
@@ -10,12 +10,12 @@ import {
   AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
-import useDeletePph21 from '@/hooks/pph21/useDeletePph21';
-import { TrashIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import useDeletePph21 from "@/hooks/pph21/useDeletePph21";
+import { TrashIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface Pph21DetailsDeleteButtonProps {
   taxId: string;
@@ -34,19 +34,26 @@ export default function Pph21DetailsDeleteButton({
       { taxId },
       {
         onSuccess: () => {
-          toast({
-            title: 'Berhasil',
-            description: 'Data PPh 21 berhasil dihapus',
-          });
+          // toast({
+          //   title: 'Berhasil',
+          //   description: 'Data PPh 21 berhasil dihapus',
+          // });
 
-          router.push('/unit/tax/pph21');
+          toast.success("Data PPh 21 berhasil dihapus", {
+            description: "Memuat ulang data PPh 21...",
+          });
+          router.push("/unit/tax/pph21");
         },
         onError: (error) => {
-          toast({
-            title: 'gagal Menghapus PPh 21',
+          // toast({
+          //   title: 'gagal Menghapus PPh 21',
+          //   description:
+          //     error.message || 'Terjadi kesalahan saat menghapus data PPh 21',
+          //   variant: 'destructive',
+          // });
+          toast.error("Gagal Menghapus PPh 21", {
             description:
-              error.message || 'Terjadi kesalahan saat menghapus data PPh 21',
-            variant: 'destructive',
+              error.message || "Terjadi kesalahan saat menghapus data PPh 21",
           });
         },
       }
@@ -56,9 +63,9 @@ export default function Pph21DetailsDeleteButton({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant={'destructive'} disabled={isMutateDeletePending}>
+        <Button variant={"destructive"} disabled={isMutateDeletePending}>
           <TrashIcon size={16} className="mr-2" />
-          {isMutateDeletePending ? 'Menghapus...' : 'Hapus Data PPh 21'}
+          {isMutateDeletePending ? "Menghapus..." : "Hapus Data PPh 21"}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -75,7 +82,7 @@ export default function Pph21DetailsDeleteButton({
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             <Button
-              variant={'destructive'}
+              variant={"destructive"}
               className="w-fit"
               onClick={handleDeletePPN}
             >

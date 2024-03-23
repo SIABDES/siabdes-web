@@ -8,7 +8,7 @@ export default function useDeletePPN(params: { ppn_id: string }) {
     mutationKey: ["delete-ppn", ppn_id],
     mutationFn: async () => {
       const response = await AxiosClientSide.delete(`/ppn/${ppn_id}`);
-      console.log("Delete PPN response:", response.data);
+
       return response.data;
     },
     onSuccess: async () => {

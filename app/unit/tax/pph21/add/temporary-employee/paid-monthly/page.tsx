@@ -8,7 +8,6 @@ import TemporaryEmployeeMonthlyPPh21Calculation from "@/components/pages/pph21/t
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
 import useGetEmployeeTer from "@/hooks/employee/useGetEmployeeTer";
 import useGetEmployees from "@/hooks/employee/useGetEmployees";
 import useAddPph21TemporaryEmployeePaidMonthly from "@/hooks/pph21/useAddPph21TemporaryEmployeePaidMonthly";
@@ -23,6 +22,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { useDebounceValue } from "usehooks-ts";
 
 export default function PaidMonthly() {
@@ -188,10 +188,13 @@ export default function PaidMonthly() {
 
   useEffect(() => {
     if (form.formState.errors.root) {
-      toast({
-        title: "Kesalahan Input",
-        description: "Mohon periksa kembali data yang anda masukkan",
-        variant: "destructive",
+      // toast({
+      //   title: "Kesalahan Input",
+      //   description: "Mohon periksa kembali data yang anda masukkan",
+      //   variant: "destructive",
+      // });
+      toast.error("Kesalahan Input!", {
+        description: form.formState.errors.root.message,
       });
     }
   }, [form.formState.errors]);
@@ -201,11 +204,14 @@ export default function PaidMonthly() {
 
   const onSubmit = async (data: PPh21PostPayloadRequest) => {
     if (!selectedEmployee) {
-      toast({
-        title: "Kesalahan Input",
+      // toast({
+      //   title: "Kesalahan Input",
+      //   description: "Mohon pilih pegawai terlebih dahulu",
+      //   variant: "destructive",
+      //   duration: 5000,
+      // });
+      toast.error("Kesalahan Input!", {
         description: "Mohon pilih pegawai terlebih dahulu",
-        variant: "destructive",
-        duration: 5000,
       });
 
       return;
@@ -228,10 +234,8 @@ export default function PaidMonthly() {
 
   useEffect(() => {
     if (form.formState.errors.root) {
-      toast({
-        title: "Kesalahan Input",
-        description: "Mohon periksa kembali data yang anda masukkan",
-        variant: "destructive",
+      toast.error("Kesalahan Input", {
+        description: form.formState.errors.root.message,
       });
     }
   }, [form.formState.errors]);

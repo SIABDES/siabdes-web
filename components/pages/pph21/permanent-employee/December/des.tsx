@@ -1,31 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
+import { useGetEmployeeTaxesMutation } from "@/hooks/employee/useGetEmployeeTaxes";
+import useAddPph21PermanentEmployee from "@/hooks/pph21/useAddPph21PermanentEmployee";
 import { Employee, EmployeesType } from "@/types/employees/employees";
+import { Pph21TaxPeriodMonth } from "@/types/pph21/general";
 import {
-  PPh21EmployeeUnionFormData,
-  Pph21TaxPeriodMonth,
-} from "@/types/pph21/general";
-import {
-  PermanentEmployeeDecemberFormData,
-  PermanentEmployeeDecemberSchema,
-} from "@/types/pph21/permanent-employee/permanent-employee";
+  PPh21PostPayloadRequest,
+  Pph21MutationSchema,
+} from "@/types/pph21/request";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { UseFormReturn, useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import Results from "../../general/results";
 import GrossIncomeDes from "./gross-income";
 import NetCalculation from "./net-calculation";
 import PKPCalculation from "./pkp-calculation";
 import PPh21Calculation from "./pph21-calculation";
 import PPh21CutInDecember from "./pph21-cut-in-december";
-import {
-  PPh21PostPayloadRequest,
-  Pph21MutationSchema,
-} from "@/types/pph21/request";
-import useAddPph21PermanentEmployee from "@/hooks/pph21/useAddPph21PermanentEmployee";
-import { useRouter } from "next/navigation";
-import { useGetEmployeeTaxesMutation } from "@/hooks/employee/useGetEmployeeTaxes";
 
 interface PermanentEmployeeDesProps {
   selectedEmployee: Employee | undefined;
@@ -147,10 +140,8 @@ export default function PermanentEmployeeDes({
 
   useEffect(() => {
     if (formState.errors.root) {
-      toast({
-        title: "Kesalahan Input",
+      toast.error("Kesalahan Input", {
         description: "Mohon periksa kembali data yang anda masukkan",
-        variant: "destructive",
       });
     }
   }, [formState.errors]);
@@ -368,10 +359,8 @@ export default function PermanentEmployeeDes({
 
   useEffect(() => {
     if (formState.errors.root) {
-      toast({
-        title: "Kesalahan Input",
+      toast.error("Kesalahan Input", {
         description: "Mohon periksa kembali data yang anda masukkan",
-        variant: "destructive",
       });
     }
   }, [formState.errors.root]);
@@ -381,10 +370,8 @@ export default function PermanentEmployeeDes({
 
   const onSubmit = async (data: PPh21PostPayloadRequest) => {
     if (!selectedEmployee || !data.employee_id) {
-      toast({
-        title: "Kesalahan Input",
+      toast.error("Kesalahan Input", {
         description: "Harap pilih pegawai terlebih dahulu",
-        variant: "destructive",
       });
       return;
     }

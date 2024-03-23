@@ -1,22 +1,15 @@
 "use client";
 
-import React from "react";
 import { formatDateToString } from "@/common/helpers/date";
-import Layout from "@/components/layout/layout";
-import useGetEmployeeDetails from "@/hooks/employee/useGetEmployeeDetails";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
-import { Label } from "@/components/ui/label";
-import useDeleteEmployee from "@/hooks/employee/useDeleteEmployee";
+  formatEmployeeChildrenAmount,
+  formatEmployeeGender,
+  formatEmployeeMarriageStatus,
+  formatEmployeeNPWPStatus,
+  formatEmployeeStatus,
+  formatEmployeeType,
+} from "@/common/helpers/employee-format";
+import Layout from "@/components/layout/layout";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,16 +22,20 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { EditIcon, TrashIcon } from "lucide-react";
 import {
-  formatEmployeeChildrenAmount,
-  formatEmployeeGender,
-  formatEmployeeMarriageStatus,
-  formatEmployeeNPWPStatus,
-  formatEmployeeStatus,
-  formatEmployeeType,
-} from "@/common/helpers/employee-format";
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import useDeleteEmployee from "@/hooks/employee/useDeleteEmployee";
+import useGetEmployeeDetails from "@/hooks/employee/useGetEmployeeDetails";
+import { EditIcon, TrashIcon } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { toast } from "sonner";
 
 export default function DetailEmployees({
   params,
@@ -47,9 +44,7 @@ export default function DetailEmployees({
 }) {
   const { data: details, isFetched } = useGetEmployeeDetails({ params });
 
-  console.log(details);
   const router = useRouter();
-  const { toast } = useToast();
 
   const {
     mutateAsync: mutateDeleteEmployee,
@@ -60,18 +55,24 @@ export default function DetailEmployees({
   const handleDeleteEmployee = (e: React.MouseEvent<HTMLButtonElement>) => {
     void mutateDeleteEmployee(undefined, {
       onSuccess: () => {
-        toast({
-          title: "Hapus PPN",
-          description: "Data PPN berhasil dihapus",
-          duration: 5000,
+        // toast({
+        //   title: "Hapus PPN",
+        //   description: "Data PPN berhasil dihapus",
+        //   duration: 5000,
+        // });
+        toast.success("Data Tenaga Kerja berhasil dihapus", {
+          description: "Memuat ulang data Tenaga Kerja...",
         });
         router.push("/unit/data-master/employees");
       },
       onError: (error) => {
-        toast({
-          title: "gagal Menghapus PPN",
+        // toast({
+        //   title: "gagal Menghapus PPN",
+        //   description: error.message,
+        //   duration: 5000,
+        // });
+        toast.error("Gagal menghapus data Tenaga Kerja", {
           description: error.message,
-          duration: 5000,
         });
       },
     });

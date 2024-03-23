@@ -27,8 +27,5 @@ export default function useGetEmployeeTer() {
 
       return res.data.data;
     },
-    onError: (error: AxiosError) => {
-      console.error("error", error);
-    },
   });
 }

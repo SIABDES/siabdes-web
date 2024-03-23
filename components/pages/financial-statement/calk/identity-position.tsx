@@ -12,9 +12,6 @@ export default function IdentityPosition() {
   const { data } = useGetUnitProfile();
   const unit = data?.data;
 
-  console.log("data", data);
-  console.log("unit", unit);
-
   const [members, setMembers] = useState<string[]>([]);
   const [collabs, setCollabs] = useState<string[]>([]);
   const [formValues, setFormValues] = useState({

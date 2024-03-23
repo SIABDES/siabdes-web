@@ -47,7 +47,7 @@ const RegisterForm = () => {
 
   const register = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log({ data: data.current });
+
     const res = await AxiosClientSide.post("/auth/register", {
       identifier: data.current.email,
       password: data.current.kataSandi,
@@ -67,8 +67,6 @@ const RegisterForm = () => {
       alert(res.statusText);
       return;
     }
-
-    console.log({ res });
   };
 
   return (

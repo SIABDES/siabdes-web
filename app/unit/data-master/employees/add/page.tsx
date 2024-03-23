@@ -10,8 +10,6 @@ import React, {
 import Layout from "@/components/layout/layout";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { ComboBox } from "@/components/ui/combobox";
-import InputField from "@/components/Input/input-field";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 
@@ -50,13 +48,13 @@ import Link from "next/link";
 import { format } from "path";
 import { useRouter } from "next/navigation";
 import useAddEmployee from "@/hooks/employee/useAddEmployee";
-import { toast } from "@/components/ui/use-toast";
 import { DatePicker } from "@/components/ui/date-picker";
 import { AxiosError } from "axios";
 import { string } from "zod";
 import { Value } from "@radix-ui/react-select";
 import { UndoIcon } from "lucide-react";
 import { maxHeaderSize } from "http";
+import { toast } from "sonner";
 
 export default function Add() {
   const router = useRouter();
@@ -79,10 +77,6 @@ export default function Add() {
   });
   const [existenceNPWP, setExistenceNPWP] = useState<string | undefined>("ada");
 
-  useEffect(() => {
-    console.log(form.watch());
-  }, [form]);
-
   //new Date().getFullYear().toString() + '-01-01',
   const formatNPWP = (value: string) => {
     const cleanedValue = value.replace(/\D/g, "");
@@ -102,39 +96,34 @@ export default function Add() {
   };
 
   const onSubmit = async (data: EmployeeFormDataType) => {
-    console.log("mantaps dadada");
-
     const validatedData = EmployeesSchema.safeParse(data);
 
     if (!validatedData.success) {
-      toast({
-        title: "Kesalahan Input Pengguna",
+      toast.error("Kesalahan Input Pengguna", {
         description: "Mohon periksa kembali inputan anda..",
-        variant: "destructive",
       });
     }
 
     await mutateNewEmployee(data, {
       onSettled: () => {
-        toast({
-          title: "Menambahkan...",
+        toast.loading("Menambahkan...", {
+          id: "add-employee",
           description: "Sedang menambahkan data tenaga kerja..",
         });
       },
       onSuccess: () => {
-        toast({
-          title: "Berhasil",
+        toast.success("Berhasil", {
+          id: "add-employee",
           description: "Berhasil menambahkan data tenaga kerja..",
         });
         router.push("/unit/data-master/employees");
       },
       onError: (error) => {
-        toast({
-          title: "Gagal",
+        toast.error("Gagal", {
+          id: "add-employee",
           description:
             (error instanceof AxiosError && error.response?.data.message) ??
             "Terjadi kesalahan internal..",
-          variant: "destructive",
         });
       },
     });

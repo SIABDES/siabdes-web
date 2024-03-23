@@ -1,6 +1,6 @@
 import { AxiosClientSide } from "@/common/api";
 import { GetJournalEvidenceResponse } from "@/types/journals";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export default function useGetGeneralJournalEvidence({
   journal_id,

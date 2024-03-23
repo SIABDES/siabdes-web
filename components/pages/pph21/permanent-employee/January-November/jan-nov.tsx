@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
 import useGetEmployeeTer from "@/hooks/employee/useGetEmployeeTer";
 import useAddPph21PermanentEmployee from "@/hooks/pph21/useAddPph21PermanentEmployee";
 import { Employee, EmployeesType } from "@/types/employees/employees";
@@ -17,6 +16,7 @@ import { useDebounceValue } from "usehooks-ts";
 import Results from "../../general/results";
 import GrossIncome from "./gross_income";
 import PPh21Calculation from "./pph21-calculation";
+import { toast } from "sonner";
 
 interface PermanentEmployeeJanNovProps {
   selectedEmployee: Employee | undefined;
@@ -72,13 +72,6 @@ export default function PermanentEmployeeJanNov({
     reset: resetForm,
   } = form;
 
-  const formWatcher = form.watch();
-
-  useEffect(() => {
-    console.log(formState.errors);
-    console.log(formWatcher);
-  }, [formState.errors, formWatcher]);
-
   useEffect(() => {
     if (!periodMonth) return;
     if (periodMonth === Pph21TaxPeriodMonth.DECEMBER) return;
@@ -115,20 +108,27 @@ export default function PermanentEmployeeJanNov({
 
   const onSubmit = async (data: PPh21PostPayloadRequest) => {
     if (!selectedEmployee) {
-      toast({
-        title: "Kesalahan Input",
+      // toast({
+      //   title: "Kesalahan Input",
+      //   description: "Mohon pilih pegawai terlebih dahulu",
+      //   variant: "destructive",
+      // });
+
+      toast.error("Kesalahan Input", {
         description: "Mohon pilih pegawai terlebih dahulu",
-        variant: "destructive",
       });
 
       return;
     }
 
     if (!periodMonth) {
-      toast({
-        title: "Kesalahan Input",
+      // toast({
+      //   title: "Kesalahan Input",
+      //   description: "Mohon pilih bulan terlebih dahulu",
+      //   variant: "destructive",
+      // });
+      toast.error("Kesalahan Input", {
         description: "Mohon pilih bulan terlebih dahulu",
-        variant: "destructive",
       });
       return;
     }
@@ -166,7 +166,10 @@ export default function PermanentEmployeeJanNov({
   }, [grossSalaryWatcher]);
 
   // Debounce total gross salary
-  const debounceTotalSalary = useDebounceValue(totalGrossSalary, 1000);
+  const [debounceTotalSalary, setDebounceTotalSalary] = useDebounceValue(
+    totalGrossSalary,
+    1000
+  );
 
   // Fetch TER data
   const {
@@ -256,10 +259,13 @@ export default function PermanentEmployeeJanNov({
   // Show validation error toast if form has error
   useEffect(() => {
     if (formState.errors.root) {
-      toast({
-        title: "Kesalahan Input",
+      // toast({
+      //   title: "Kesalahan Input",
+      //   description: "Mohon periksa kembali data yang anda masukkan",
+      //   variant: "destructive",
+      // });d
+      toast.error("Kesalahan Input", {
         description: "Mohon periksa kembali data yang anda masukkan",
-        variant: "destructive",
       });
     }
   }, [formState.errors]);

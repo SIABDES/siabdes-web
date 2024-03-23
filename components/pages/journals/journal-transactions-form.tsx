@@ -1,28 +1,29 @@
-import FormNumberInput from '@/components/patan-ui/form/form-number-input';
-import { Button } from '@/components/ui/button';
+import FormNumberInput from "@/components/patan-ui/form/form-number-input";
+import { Button } from "@/components/ui/button";
+import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { AccountType } from '@/types/accounts';
-import { MutationJournalRequest } from '@/types/journals';
-import { Autocomplete, AutocompleteItem } from '@nextui-org/react';
-import { Label } from '@radix-ui/react-label';
-import { TrashIcon } from 'lucide-react';
+} from "@/components/ui/tooltip";
+import { AccountType } from "@/types/accounts";
+import { MutationJournalRequest } from "@/types/journals";
+import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import { Label } from "@radix-ui/react-label";
+import { TrashIcon } from "lucide-react";
 import {
   Controller,
   UseFieldArrayRemove,
   UseFieldArrayUpdate,
   UseFormReturn,
-} from 'react-hook-form';
+} from "react-hook-form";
 
 interface JournalTransactionsFormProps {
   form: UseFormReturn<MutationJournalRequest>;
   index: number;
   remove: UseFieldArrayRemove;
-  update: UseFieldArrayUpdate<MutationJournalRequest, 'data_transactions'>;
+  update: UseFieldArrayUpdate<MutationJournalRequest, "data_transactions">;
   accounts: AccountType[];
   isDeleteAble: boolean;
 }
@@ -46,41 +47,48 @@ export default function JournalTransactionsForm({
       <div className=" flex flex-col gap-y-2">
         <div>
           <Label className="text-sm font-medium">Akun {index + 1}</Label>
-          <Controller
+
+          <FormField
             control={form.control}
             name={`${basePath}.account_id`}
-            render={({ field, fieldState }) => (
-              <Autocomplete
-                variant="bordered"
-                placeholder="Pilih Akun"
-                aria-label={`Akun ${index + 1}`}
-                size="md"
-                radius="sm"
-                onSelectionChange={(item) => {
-                  if (!item) return;
+            render={({ field, fieldState }) => {
+              return (
+                <FormItem>
+                  <FormControl>
+                    <Autocomplete
+                      variant="bordered"
+                      placeholder="Pilih Akun"
+                      aria-label={`Akun ${index + 1}`}
+                      size="md"
+                      radius="sm"
+                      onSelectionChange={(item) => {
+                        if (!item) return;
 
-                  update(index, {
-                    account_id: parseInt(item.toString()),
-                    debit: debitWatcher,
-                    credit: creditWatcher,
-                  });
-                }}
-                onKeyDown={(e: any) => e.continuePropagation()}
-                selectedKey={field.value.toString()}
-                isClearable={false}
-                errorMessage={fieldState.error?.message}
-              >
-                {accounts.map((account) => (
-                  <AutocompleteItem
-                    key={account.id}
-                    className="capitalize"
-                    aria-label={`${account.ref} - ${account.name}`}
-                  >
-                    {account.ref} - {account.name}
-                  </AutocompleteItem>
-                ))}
-              </Autocomplete>
-            )}
+                        update(index, {
+                          account_id: parseInt(item.toString()),
+                          debit: debitWatcher,
+                          credit: creditWatcher,
+                        });
+                      }}
+                      onKeyDown={(e: any) => e.continuePropagation()}
+                      selectedKey={field.value?.toString()}
+                      isClearable={false}
+                      errorMessage={fieldState.error?.message}
+                    >
+                      {accounts.map((account) => (
+                        <AutocompleteItem
+                          key={account.id}
+                          className="capitalize"
+                          aria-label={`${account.ref} - ${account.name}`}
+                        >
+                          {account.ref} - {account.name}
+                        </AutocompleteItem>
+                      ))}
+                    </Autocomplete>
+                  </FormControl>
+                </FormItem>
+              );
+            }}
           />
         </div>
       </div>
@@ -96,14 +104,6 @@ export default function JournalTransactionsForm({
           placeholder="0"
           border={false}
         />
-        {/* <Input
-          variant="bordered"
-          placeholder="0"
-          label="Debit"
-          disabled={
-            (!accountIdWatcher && accountIdWatcher === -1) || creditWatcher > 0
-          }
-        /> */}
       </div>
 
       <div className="col-span-2">
@@ -124,8 +124,8 @@ export default function JournalTransactionsForm({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                variant={'destructive'}
-                size={'icon'}
+                variant={"destructive"}
+                size={"icon"}
                 onClick={() => remove(index)}
                 disabled={!isDeleteAble}
               >
@@ -134,8 +134,8 @@ export default function JournalTransactionsForm({
             </TooltipTrigger>
             <TooltipContent className="bg-destructive text-destructive-foreground">
               {isDeleteAble
-                ? 'Hapus data transaksi'
-                : 'Minimal harus ada 2 data transaksi'}
+                ? "Hapus data transaksi"
+                : "Minimal harus ada 2 data transaksi"}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

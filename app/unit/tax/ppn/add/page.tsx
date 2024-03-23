@@ -1,35 +1,27 @@
 // import React from 'react';
-'use client';
-import Layout from '@/components/layout/layout';
-import PPNCalculationForm from '@/components/pages/tax/ppn-calculation-form';
-import PpnTransactionsForm from '@/components/pages/tax/ppn-transaction-form';
-import TaxInformation from '@/components/pages/tax/tax-information';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Form } from '@/components/ui/form';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useToast } from '@/components/ui/use-toast';
-import useAddPPN from '@/hooks/ppn/useAddPPN';
-import { CreatePPNFormData, CreatePPNSchema } from '@/types/ppn/dto';
-import { PpnTaxObjectType } from '@/types/ppn/ppn';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { AxiosError } from 'axios';
-import { watch } from 'fs';
-import { PlusCircleIcon } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+"use client";
+import Layout from "@/components/layout/layout";
+import PPNCalculationForm from "@/components/pages/tax/ppn-calculation-form";
+import PpnTransactionsForm from "@/components/pages/tax/ppn-transaction-form";
+import TaxInformation from "@/components/pages/tax/tax-information";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import useAddPPN from "@/hooks/ppn/useAddPPN";
+import { CreatePPNFormData, CreatePPNSchema } from "@/types/ppn/dto";
+import { PpnTaxObjectType } from "@/types/ppn/ppn";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
+import { watch } from "fs";
+import { PlusCircleIcon } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function AddPpn() {
-  // const [evidence, setEvidence] = useState<File | null>(null);
-  // const [occurred_at, setOccurredAt] = useState<Date | undefined>(new Date());
-  // const [taxableEmployers, setTaxableEmployers] = useState<string | null>(null);
-  // const [numberEvidence, setNumberEvidence] = useState<string | null>(null);
-  // const [taxObjeks, setTaxObjeks] = useState<PpnTaxObjectType | null>(null);
-
-  // const onSubmit = (data: CreatePPNFormData, PpnTransactionFormDataType) => {};
-  const { toast } = useToast();
   const router = useRouter();
   const [evidence, setEvidence] = useState<File | null>(null);
 
@@ -40,7 +32,7 @@ export default function AddPpn() {
     defaultValues: {
       object_items: [
         {
-          name: '',
+          name: "",
           discount: 0,
           dpp: 0,
           ppn: 0,
@@ -49,18 +41,18 @@ export default function AddPpn() {
           total_price: 0,
         },
       ],
-      given_to: '',
+      given_to: "",
       item_type: undefined,
       tax_object: undefined,
       transaction_date: undefined,
-      transaction_number: '',
+      transaction_number: "",
       transaction_type: undefined,
     },
   });
 
   const objectItemArray = useFieldArray({
     control: form.control,
-    name: 'object_items',
+    name: "object_items",
     rules: {
       minLength: 1,
     },
@@ -72,7 +64,7 @@ export default function AddPpn() {
 
   const handleAddItem = () => {
     objectItemArray.append({
-      name: '',
+      name: "",
       discount: 0,
       dpp: 0,
       ppn: 0,
@@ -85,21 +77,16 @@ export default function AddPpn() {
   const onSubmit = async (data: CreatePPNFormData) => {
     const validatedData = CreatePPNSchema.safeParse(data);
 
-    console.log('data ppn', data);
     if (!evidence) {
-      toast({
-        title: 'Terjadi kesalahan',
-        description: 'Mohon berikan bukti transaksi anda..',
-        variant: 'destructive',
+      toast.error("Terjadi kesalahan", {
+        description: "Mohon berikan bukti transaksi anda..",
       });
       return;
     }
 
     if (!validatedData.success) {
-      toast({
-        title: 'Terjadi kesalahan',
-        description: 'Mohon periksa kembali inputan anda..',
-        variant: 'destructive',
+      toast.error("Terjadi kesalahan", {
+        description: "Mohon periksa kembali inputan anda..",
       });
       return;
     }
@@ -108,25 +95,39 @@ export default function AddPpn() {
       { data, evidence },
       {
         onSettled: () => {
-          toast({
-            title: 'Menambahkan...',
-            description: 'Sedang menambahkan pajak pertambahan nilai (PPN)...',
+          // toast({
+          //   title: "Menambahkan...",
+          //   description: "Sedang menambahkan pajak pertambahan nilai (PPN)...",
+          // });d
+          toast.loading("Menambahkan...", {
+            id: "add-ppn",
+            description: "Sedang menambahkan pajak pertambahan nilai (PPN)...",
           });
         },
         onSuccess: () => {
-          toast({
-            title: 'Berhasil',
-            description: 'Berhasil menambahkan pajak pertambahan nilai (PPN)',
+          // toast({
+          //   title: "Berhasil",
+          //   description: "Berhasil menambahkan pajak pertambahan nilai (PPN)",
+          // });
+          toast.success("Berhasil", {
+            id: "add-ppn",
+            description: "Berhasil menambahkan pajak pertambahan nilai (PPN)",
           });
-          router.push('/unit/tax/ppn');
+          router.push("/unit/tax/ppn");
         },
         onError: (error) => {
-          toast({
-            title: 'Gagal',
+          // toast({
+          //   title: "Gagal",
+          //   description:
+          //     (error instanceof AxiosError && error.response?.data.message) ??
+          //     "Terjadi kesalahan internal..",
+          //   variant: "destructive",
+          // });
+          toast.error("Gagal", {
+            id: "add-ppn",
             description:
               (error instanceof AxiosError && error.response?.data.message) ??
-              'Terjadi kesalahan internal..',
-            variant: 'destructive',
+              "Terjadi kesalahan internal..",
           });
         },
       }
@@ -153,7 +154,7 @@ export default function AddPpn() {
               <h2 className="p-3">Perhitungan Nilai Objek</h2>
 
               <ScrollArea className="max-h-96 overflow-y-auto">
-                {form.getValues('object_items')?.map((_, index) => (
+                {form.getValues("object_items")?.map((_, index) => (
                   <PPNCalculationForm
                     key={index}
                     form={form}

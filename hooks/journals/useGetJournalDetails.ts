@@ -1,6 +1,10 @@
+"use client";
+
 import { AxiosClientSide } from "@/common/api";
+import { MutationJournalRequest } from "@/types/journals";
 import { GetJournalDetailsResponse } from "@/types/journals/response";
 import { useQuery } from "@tanstack/react-query";
+import { UseFormReturn } from "react-hook-form";
 
 export function useGetJournalDetails({
   params,

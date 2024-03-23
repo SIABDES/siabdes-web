@@ -1,9 +1,9 @@
-import { AxiosClientSide } from '@/common/api';
-import { toast } from '@/components/ui/use-toast';
-import { JournalCategory } from '@/types/journals';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
+import { AxiosClientSide } from "@/common/api";
+import { JournalCategory } from "@/types/journals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function useEditJournal({
   journal_id,
@@ -16,9 +16,9 @@ export function useEditJournal({
   const router = useRouter();
 
   const getGeneralJournals = useMutation({
-    mutationKey: ['general-journals/edit', journal_id],
+    mutationKey: ["general-journals/edit", journal_id],
     mutationFn: async (formData: FormData) => {
-      formData.append('category', category);
+      formData.append("category", category);
       const res = await AxiosClientSide.put(
         `/journals/${journal_id}/edit`,
         formData
@@ -27,40 +27,52 @@ export function useEditJournal({
       return res.data;
     },
     onMutate: () => {
-      toast({
-        title: 'Sedang menyimpan...',
-        description: 'Jurnal sedang disimpan',
-        duration: 3000,
+      toast.loading("Sedang menyimpan...", {
+        id: "edit-journal",
+        description: "Jurnal sedang disimpan",
       });
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ['journal-details', journal_id],
+        queryKey: ["journal-details", journal_id],
       });
 
-      router.push(`/unit/general-journal/${journal_id}/details`);
+      if (category === JournalCategory.GENERAL) {
+        await queryClient.invalidateQueries({
+          queryKey: ["general-journals"],
+        });
 
-      toast({
-        title: 'Berhasil!',
-        description: 'Jurnal berhasil diubah',
-        duration: 3000,
+        router.push(`/unit/general-journal/${journal_id}/details`);
+      } else {
+        await queryClient.invalidateQueries({
+          queryKey: ["adjustment-journals"],
+        });
+
+        router.push(
+          `/unit/working-trial-balance/adjustment-journal/${journal_id}/details`
+        );
+      }
+
+      toast.success("Berhasil!", {
+        id: "edit-journal",
+        description: "Jurnal berhasil diubah",
       });
     },
-    onError: (error) => {
+    onError: async (error) => {
+      await queryClient.invalidateQueries({
+        queryKey: ["journal-details", journal_id],
+      });
+
       if (error instanceof AxiosError) {
-        toast({
-          title: 'Gagal!',
+        toast.error("Gagal!", {
+          id: "edit-journal",
           description: error.response?.data.message,
-          variant: 'destructive',
-          duration: 3000,
         });
         return;
       }
-      toast({
-        title: 'Gagal!',
-        description: error.message,
-        variant: 'destructive',
-        duration: 3000,
+      toast.error("Gagal!", {
+        id: "edit-journal",
+        description: error.message || "Terjadi kesalahan saat mengubah jurnal",
       });
     },
   });

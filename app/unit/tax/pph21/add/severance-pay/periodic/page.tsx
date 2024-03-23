@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import Layout from '@/components/layout/layout';
-import Pph21EmployeeData from '@/components/pages/pph21/general/pph21-employee-data';
-import Results from '@/components/pages/pph21/general/results';
-import SeverencePayPeriodicPPh21Calculation from '@/components/pages/pph21/severance-pay/periodic/pph21-calculation';
-import SeverencePayPeriodicSalary from '@/components/pages/pph21/severance-pay/periodic/salary';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Form } from '@/components/ui/form';
-import { toast } from '@/components/ui/use-toast';
-import useGetEmployees from '@/hooks/employee/useGetEmployees';
-import useAddPph21SeverancePayPeriodic from '@/hooks/pph21/useAddPph21SeverancePayPeriodic';
-import { Employee, EmployeesType } from '@/types/employees/employees';
-import { Pph21TaxPeriodMonth } from '@/types/pph21/general';
+import Layout from "@/components/layout/layout";
+import Pph21EmployeeData from "@/components/pages/pph21/general/pph21-employee-data";
+import Results from "@/components/pages/pph21/general/results";
+import SeverencePayPeriodicPPh21Calculation from "@/components/pages/pph21/severance-pay/periodic/pph21-calculation";
+import SeverencePayPeriodicSalary from "@/components/pages/pph21/severance-pay/periodic/salary";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import useGetEmployees from "@/hooks/employee/useGetEmployees";
+import useAddPph21SeverancePayPeriodic from "@/hooks/pph21/useAddPph21SeverancePayPeriodic";
+import { Employee, EmployeesType } from "@/types/employees/employees";
+import { Pph21TaxPeriodMonth } from "@/types/pph21/general";
 import {
   PPh21PostPayloadRequest,
   Pph21MutationSchema,
-} from '@/types/pph21/request';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+} from "@/types/pph21/request";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function Periodic() {
   const [periodMonth, setPeriodMonth] = useState<Pph21TaxPeriodMonth | null>(
@@ -41,7 +41,7 @@ export default function Periodic() {
     resolver: zodResolver(Pph21MutationSchema),
     disabled: formDisabled,
     defaultValues: {
-      employee_id: selectedEmployee?.id || '',
+      employee_id: selectedEmployee?.id || "",
       employee_type: EmployeesType.DIBAYAR_BERKALA,
       period_month: undefined,
       period_years: new Date().getFullYear(),
@@ -92,34 +92,32 @@ export default function Periodic() {
 
   useEffect(() => {
     if (periodMonth) {
-      setValue('period_month', periodMonth);
+      setValue("period_month", periodMonth);
     }
   }, [periodMonth, setValue]);
 
   useEffect(() => {
     if (selectedEmployee) {
       reset();
-      setValue('employee_id', selectedEmployee.id);
+      setValue("employee_id", selectedEmployee.id);
       setFormDisabled(false);
     }
   }, [reset, selectedEmployee, setValue]);
 
   useEffect(() => {
     if (formState.errors.root) {
-      toast({
-        title: 'Kesalahan Input',
-        description: 'Mohon periksa kembali data yang anda masukkan',
-        variant: 'destructive',
+      toast.error("Kesalahan Input!", {
+        description: formState.errors.root.message,
       });
     }
   }, [formState.errors]);
 
-  const grossSalaryWatcher = watch('gross_salary.salary');
-  const pkpWatcher = watch('gross_salary.salary');
+  const grossSalaryWatcher = watch("gross_salary.salary");
+  const pkpWatcher = watch("gross_salary.salary");
 
   const { update: updatePph21Field, remove: removePph21Field } = useFieldArray({
     control: form.control,
-    name: 'pph21_calculations',
+    name: "pph21_calculations",
   });
 
   // menghitung pph21
@@ -129,11 +127,11 @@ export default function Periodic() {
     const maxPercentage25 = 250_000_000;
     const maxPercentage30 = 4_500_000_000;
 
-    const percentage5 = getValues('pph21_calculations.0.tariff_percentage');
-    const percentage15 = getValues('pph21_calculations.1.tariff_percentage');
-    const percentage25 = getValues('pph21_calculations.2.tariff_percentage');
-    const percentage30 = getValues('pph21_calculations.3.tariff_percentage');
-    const percentage35 = getValues('pph21_calculations.4.tariff_percentage');
+    const percentage5 = getValues("pph21_calculations.0.tariff_percentage");
+    const percentage15 = getValues("pph21_calculations.1.tariff_percentage");
+    const percentage25 = getValues("pph21_calculations.2.tariff_percentage");
+    const percentage30 = getValues("pph21_calculations.3.tariff_percentage");
+    const percentage35 = getValues("pph21_calculations.4.tariff_percentage");
 
     const applyPercentage = (
       gross: number,
@@ -152,21 +150,21 @@ export default function Periodic() {
 
     let tempTaxable = pkpWatcher || 0;
 
-    setValue('pph21_calculations.0.amount', 0, { shouldDirty: false });
-    setValue('pph21_calculations.0.result', 0, { shouldDirty: false });
-    setValue('pph21_calculations.1.amount', 0, { shouldDirty: false });
-    setValue('pph21_calculations.1.result', 0, { shouldDirty: false });
-    setValue('pph21_calculations.2.amount', 0, { shouldDirty: false });
-    setValue('pph21_calculations.2.result', 0, { shouldDirty: false });
-    setValue('pph21_calculations.3.amount', 0, { shouldDirty: false });
-    setValue('pph21_calculations.3.result', 0, { shouldDirty: false });
-    setValue('pph21_calculations.4.amount', 0, { shouldDirty: false });
-    setValue('pph21_calculations.4.result', 0, { shouldDirty: false });
-    setValue('pph21_calculations.5.amount', 0, { shouldDirty: false });
-    setValue('pph21_calculations.5.result', 0, { shouldDirty: false });
-    setValue('result.total_salary', 0, { shouldDirty: false });
-    setValue('result.total_pph21', 0, { shouldDirty: false });
-    setValue('result.net_receipts', 0, { shouldDirty: false });
+    setValue("pph21_calculations.0.amount", 0, { shouldDirty: false });
+    setValue("pph21_calculations.0.result", 0, { shouldDirty: false });
+    setValue("pph21_calculations.1.amount", 0, { shouldDirty: false });
+    setValue("pph21_calculations.1.result", 0, { shouldDirty: false });
+    setValue("pph21_calculations.2.amount", 0, { shouldDirty: false });
+    setValue("pph21_calculations.2.result", 0, { shouldDirty: false });
+    setValue("pph21_calculations.3.amount", 0, { shouldDirty: false });
+    setValue("pph21_calculations.3.result", 0, { shouldDirty: false });
+    setValue("pph21_calculations.4.amount", 0, { shouldDirty: false });
+    setValue("pph21_calculations.4.result", 0, { shouldDirty: false });
+    setValue("pph21_calculations.5.amount", 0, { shouldDirty: false });
+    setValue("pph21_calculations.5.result", 0, { shouldDirty: false });
+    setValue("result.total_salary", 0, { shouldDirty: false });
+    setValue("result.total_pph21", 0, { shouldDirty: false });
+    setValue("result.net_receipts", 0, { shouldDirty: false });
 
     updatePph21Field(0, {
       tariff_percentage: percentage5,
@@ -238,11 +236,11 @@ export default function Periodic() {
   }, [getValues, pkpWatcher, setValue, updatePph21Field]);
 
   const npwpPph21CalculationsResultWatcher = watch([
-    'pph21_calculations.0.result',
-    'pph21_calculations.1.result',
-    'pph21_calculations.2.result',
-    'pph21_calculations.3.result',
-    'pph21_calculations.4.result',
+    "pph21_calculations.0.result",
+    "pph21_calculations.1.result",
+    "pph21_calculations.2.result",
+    "pph21_calculations.3.result",
+    "pph21_calculations.4.result",
   ]);
 
   const totalNpwpPph21CalculationsResult = useMemo(() => {
@@ -257,22 +255,22 @@ export default function Periodic() {
 
     const hasnpwp = !!selectedEmployee.npwp;
     if (hasnpwp) {
-      setValue('pph21_calculations.5.tariff_percentage', 0);
-      setValue('pph21_calculations.5.amount', 0);
-      setValue('pph21_calculations.5.result', 0);
+      setValue("pph21_calculations.5.tariff_percentage", 0);
+      setValue("pph21_calculations.5.amount", 0);
+      setValue("pph21_calculations.5.result", 0);
     } else {
       const tariffPercentage = getValues(
-        'pph21_calculations.5.tariff_percentage'
+        "pph21_calculations.5.tariff_percentage"
       );
       const result = totalNpwpPph21CalculationsResult * tariffPercentage;
 
-      setValue('pph21_calculations.5.amount', totalNpwpPph21CalculationsResult);
-      setValue('pph21_calculations.5.result', result);
+      setValue("pph21_calculations.5.amount", totalNpwpPph21CalculationsResult);
+      setValue("pph21_calculations.5.result", result);
     }
   }, [getValues, setValue, totalNpwpPph21CalculationsResult, selectedEmployee]);
 
   const noNpwpPph21CalculationsResultWatcher = watch(
-    'pph21_calculations.5.result'
+    "pph21_calculations.5.result"
   );
 
   useEffect(() => {
@@ -286,9 +284,9 @@ export default function Periodic() {
       const totalSalary = grossSalaryWatcher;
       const netReceipts = totalSalary - totalPph21;
 
-      setValue('result.total_salary', totalSalary);
-      setValue('result.total_pph21', totalPph21);
-      setValue('result.net_receipts', netReceipts);
+      setValue("result.total_salary", totalSalary);
+      setValue("result.total_pph21", totalPph21);
+      setValue("result.net_receipts", netReceipts);
     }
   }, [
     npwpPph21CalculationsResultWatcher,
@@ -305,11 +303,8 @@ export default function Periodic() {
 
   const onSubmit = async (data: PPh21PostPayloadRequest) => {
     if (!selectedEmployee) {
-      toast({
-        title: 'Kesalahan Input',
-        description: 'Mohon pilih pegawai terlebih dahulu',
-        variant: 'destructive',
-        duration: 5000,
+      toast.error("Kesalahan Input!", {
+        description: "Mohon pilih pegawai terlebih dahulu",
       });
 
       return;
@@ -325,7 +320,7 @@ export default function Periodic() {
 
     await mutatePph21(data);
 
-    router.push('/unit/tax/pph21');
+    router.push("/unit/tax/pph21");
   };
 
   const isLoading = useMemo(() => {
@@ -341,7 +336,7 @@ export default function Periodic() {
           </h1>
           <div className="flex space-x-6">
             <Button>Lampiran</Button>
-            <Link href={'/unit/tax/pph21'}>
+            <Link href={"/unit/tax/pph21"}>
               <Button>Kembali</Button>
             </Link>
           </div>
@@ -381,8 +376,8 @@ export default function Periodic() {
               <div className="flex justify-center mt-10 mb-10 mr-8 gap-10">
                 <Button type="submit" disabled={isLoading}>
                   {isLoading
-                    ? 'Menyimpan...'
-                    : 'Simpan Data Perpajakan Pegawai'}
+                    ? "Menyimpan..."
+                    : "Simpan Data Perpajakan Pegawai"}
                 </Button>
               </div>
             </form>

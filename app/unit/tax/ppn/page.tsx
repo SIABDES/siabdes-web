@@ -38,7 +38,6 @@ export default function PPN() {
   const { data: getPPN, isLoading: isGetPPNLoading } = useGetPPN();
   // const ppn = data?.data.taxes;
 
-  console.log('ppn', getPPN);
   const router = useRouter();
   const handleRowClick = (tax: PpnTransaction) => {
     router.push(`/unit/tax/ppn/${tax.id}/details`);

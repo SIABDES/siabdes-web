@@ -15,7 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "@/components/ui/use-toast";
 import { Employee, EmployeesGender } from "@/types/employees/employees";
 import {
   GetEmployeeDetailsResponse,
@@ -24,6 +23,7 @@ import {
 import { Pph21TaxPeriodMonth } from "@/types/pph21/general";
 import { AxiosError } from "axios";
 import React, { useCallback, useEffect } from "react";
+import { toast } from "sonner";
 
 interface EmployeeDataMonths12Props {
   selectedEmployee: Employee | undefined;
@@ -50,10 +50,13 @@ export default function EmployeeData12Months({
     if (selectedEmployee) {
       onEmployeeSelected?.(selectedEmployee);
 
-      toast({
-        title: "Berhasil mengambil data pegawai",
-        description: `Pegawai '${selectedEmployee.name}' telah dipilih...`,
-        duration: 5000,
+      // toast({
+      //   title: "Berhasil mengambil data pegawai",
+      //   description: `Pegawai '${selectedEmployee.name}' telah dipilih...`,
+      //   duration: 5000,
+      // });
+      toast.success(`Pegawai '${selectedEmployee.name}' telah dipilih...`, {
+        description: "Berhasil mengambil data pegawai",
       });
     }
   }, [onEmployeeSelected, selectedEmployee]);
@@ -81,21 +84,14 @@ export default function EmployeeData12Months({
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 404) {
-          toast({
-            title: "Data pegawai tidak ditemukan...",
+          toast.error("Data pegawai tidak ditemukan...", {
             description: "Data pegawai tidak ditemukan...",
-            duration: 5000,
-            variant: "destructive",
           });
         }
         return;
       }
-
-      toast({
-        title: "Gagal mengambil data pegawai...",
+      toast.error("Gagal mengambil data pegawai...", {
         description: "Terjadi kesalahan saat mengambil data pegawai...",
-        duration: 5000,
-        variant: "destructive",
       });
     }
   };

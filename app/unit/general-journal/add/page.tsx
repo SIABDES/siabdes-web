@@ -6,24 +6,22 @@ import GeneralJournalEssentialsForm from "@/components/pages/journals/form/gener
 import JournalTransactionsContainerForm from "@/components/pages/journals/form/journal-transactions-container-form";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast";
 import { useGetAccounts } from "@/hooks/account/useGetAccounts";
 import { useAddGeneralJournal } from "@/hooks/journals/useAddGeneralJournal";
 import {
-  MutationJournalRequest,
-  AddJournalRequestSchema,
+  MutationJournalRequestSchema,
   JournalInputItemOld,
-  JournalCategory,
+  MutationJournalRequest,
 } from "@/types/journals";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function AddJournal() {
-  const { toast } = useToast();
   const form = useForm<MutationJournalRequest>({
-    resolver: zodResolver(AddJournalRequestSchema),
+    resolver: zodResolver(MutationJournalRequestSchema),
     reValidateMode: "onSubmit",
     defaultValues: {
       description: "",
@@ -55,21 +53,23 @@ export default function AddJournal() {
 
   useEffect(() => {
     if (data_transactions_errors?.root) {
-      toast({
-        title: "Kesalahan Input!",
-        description: data_transactions_errors.root.message,
-        variant: "destructive",
+      toast.error("Kesalahan Input!", {
+        description: data_transactions_errors?.root.message,
         duration: 3000,
       });
     }
-  }, [data_transactions_errors?.root, toast]);
+  }, [data_transactions_errors?.root]);
 
   const onSubmit = async (data: MutationJournalRequest) => {
     if (!evidence) {
-      toast({
-        title: "Data tidak valid!",
+      // toast({
+      //   title: "Data tidak valid!",
+      //   description: "Bukti transaksi tidak boleh kosong!",
+      //   variant: "destructive",
+      // });
+      toast.error("Data tidak valid!", {
         description: "Bukti transaksi tidak boleh kosong!",
-        variant: "destructive",
+        duration: 3000,
       });
       return;
     }

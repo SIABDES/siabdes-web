@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
 import { PropsWithChildren, useState } from "react";
-import BumdesNavbar from "../pages/bumdes/bumdes-navbar"; // ini
+// import BumdesNavbar from "../pages/bumdes/bumdes-navbar"; // ini
 import { DistrictRegencySidebar } from "../pages/regency/district-regency-sidebar";
 import { Separator } from "../ui/separator";
 
@@ -24,7 +24,7 @@ export default function DistrictRegencyLayout(props: PropsWithChildren) {
       />
 
       <div className={cn(sidebarOpen ? "ml-sidebar" : "ml-sidebar-collapsed")}>
-        <BumdesNavbar />
+        {/* <BumdesNavbar /> */}
 
         <Separator />
 

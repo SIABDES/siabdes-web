@@ -1,5 +1,7 @@
 import { AxiosClientSide } from "@/common/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
 
 export default function useDeleteJournal(params: { journal_id: string }) {
   const { journal_id } = params;
@@ -15,6 +17,27 @@ export default function useDeleteJournal(params: { journal_id: string }) {
 
       return response.data;
     },
+    onMutate: () => {
+      toast.loading("Menghapus Jurnal", {
+        id: "delete-journal",
+        description: "Harap tunggu sebentar...",
+      });
+    },
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        toast.error("Gagal menghapus jurnal", {
+          id: "delete-journal",
+          description: err.response?.data.message,
+        });
+
+        return;
+      }
+
+      toast.error("Gagal menghapus jurnal", {
+        id: "delete-journal",
+        description: "Terjadi kesalahan saat menghapus jurnal",
+      });
+    },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ["general-journals"],
@@ -22,6 +45,11 @@ export default function useDeleteJournal(params: { journal_id: string }) {
 
       await queryClient.invalidateQueries({
         queryKey: ["adjustment-journals"],
+      });
+
+      toast.success("Jurnal berhasil dihapus", {
+        id: "delete-journal",
+        description: "Memuat ulang data jurnal...",
       });
     },
   });

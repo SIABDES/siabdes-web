@@ -27,20 +27,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useToast } from "@/components/ui/use-toast";
 import useDeletePPN from "@/hooks/ppn/useDeletePPN";
 import useGetPPNDetails from "@/hooks/ppn/useGetPPNDetails";
 import { EditIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function Details({ params }: { params: { ppn_id: string } }) {
   const { data: details, isFetched } = useGetPPNDetails({ params });
   const detail = details?.object_items;
 
   const router = useRouter();
-  const { toast } = useToast();
 
   const {
     mutateAsync: mutateDeletePPN,
@@ -51,18 +50,15 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
   const handleDeletePPN = (e: React.MouseEvent<HTMLButtonElement>) => {
     void mutateDeletePPN(undefined, {
       onSuccess: () => {
-        toast({
-          title: "Hapus PPN",
-          description: "Data PPN berhasil dihapus",
-          duration: 5000,
+        toast.success("Data PPN berhasil dihapus", {
+          id: "delete-ppn",
         });
         router.push("/unit/tax/ppn");
       },
       onError: (error) => {
-        toast({
-          title: "gagal Menghapus PPN",
+        toast.error("Gagal menghapus PPN", {
+          id: "delete-ppn",
           description: error.message,
-          duration: 5000,
         });
       },
     });
@@ -89,7 +85,6 @@ export default function Details({ params }: { params: { ppn_id: string } }) {
       setTotalPPN(calculatedTotalPPN);
     }
 
-    console.log("total ppn", totalPPN);
   }, [isFetched, details, totalPPN]);
 
   return (

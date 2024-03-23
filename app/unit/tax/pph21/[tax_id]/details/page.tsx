@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
 import {
   formatEmployeeType,
   formatMonth,
-} from '@/common/helpers/employee-format';
-import Layout from '@/components/layout/layout';
-import Pph21DetailsCalculations from '@/components/pages/pph21/details/pph21-details-calculations';
-import Pph21DetailsDeleteButton from '@/components/pages/pph21/details/pph21-details-delete-button';
-import { Pph21DetailsGrossSalary } from '@/components/pages/pph21/details/pph21-details-gross-salary';
-import { Pph21DetailsNetCalculations } from '@/components/pages/pph21/details/pph21-details-net-calculations';
-import Pph21DetailsPkpCalculations from '@/components/pages/pph21/details/pph21-details-pkp-calculations';
-import Pph21DetailsResult from '@/components/pages/pph21/details/pph21-details-result';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useGetQueryPph21Details } from '@/hooks/pph21/useGetPph21Details';
-import { GetDetailsPph21Response } from '@/types/pph21/response';
-import { EditIcon } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+} from "@/common/helpers/employee-format";
+import Layout from "@/components/layout/layout";
+import Pph21DetailsCalculations from "@/components/pages/pph21/details/pph21-details-calculations";
+import Pph21DetailsDeleteButton from "@/components/pages/pph21/details/pph21-details-delete-button";
+import { Pph21DetailsGrossSalary } from "@/components/pages/pph21/details/pph21-details-gross-salary";
+import { Pph21DetailsNetCalculations } from "@/components/pages/pph21/details/pph21-details-net-calculations";
+import Pph21DetailsPkpCalculations from "@/components/pages/pph21/details/pph21-details-pkp-calculations";
+import Pph21DetailsResult from "@/components/pages/pph21/details/pph21-details-result";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useGetQueryPph21Details } from "@/hooks/pph21/useGetPph21Details";
+import { GetDetailsPph21Response } from "@/types/pph21/response";
+import { EditIcon } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Details({ params }: { params: { tax_id: string } }) {
   const router = useRouter();
@@ -32,17 +32,15 @@ export default function Details({ params }: { params: { tax_id: string } }) {
   useEffect(() => {
     if (!pph21Details) return;
 
-    console.log(pph21Details);
-
     setIsLoading(isPph21DetailsLoading);
     setPph21DetailsData(pph21Details);
   }, [pph21Details, isPph21DetailsLoading]);
 
   const handleClick = () => {
-    localStorage.setItem('pph21Details', JSON.stringify(pph21DetailsData));
+    localStorage.setItem("pph21Details", JSON.stringify(pph21DetailsData));
     setIsLoading(true);
 
-    router.push('/unit/tax/report/pph21/salary-slip');
+    router.push("/unit/tax/report/pph21/salary-slip");
   };
 
   return (
@@ -59,12 +57,12 @@ export default function Details({ params }: { params: { tax_id: string } }) {
                 onClick={handleClick}
                 disabled={isLoading}
               >
-                {isLoading ? 'Loading...' : 'Cetak'}
+                {isLoading ? "Loading..." : "Cetak"}
               </Button>
             </div>
           </section>
 
-          <Button variant={'outline'}>
+          <Button variant={"outline"}>
             <Link
               href={`/unit/tax/pph/${params.tax_id}/edit`} // ganti pph 21
               className="flex items-center"
@@ -112,7 +110,7 @@ export default function Details({ params }: { params: { tax_id: string } }) {
                 <tr>
                   <td>Periode</td>
                   <td>
-                    : {formatMonth(pph21Details?.data.period_month)}{' '}
+                    : {formatMonth(pph21Details?.data.period_month)}{" "}
                     {pph21Details?.data.period_years}
                   </td>
                 </tr>
