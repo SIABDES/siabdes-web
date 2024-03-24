@@ -27,7 +27,7 @@ export default function Pph21DetailsPkpCalculations({
         <TableView
           items={items}
           skipIf={(row) => !row.value}
-          renderRow={(row) => (
+          renderRowContent={(row) => (
             <>
               <TableCell>
                 <p>{row.type}</p>

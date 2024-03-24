@@ -20,7 +20,7 @@ export default function Pph21DetailsCalculations({
         <TableView
           items={calculations}
           headers={["Persentase Tarif", "Jumlah", "Hasil"]}
-          renderRow={(row) => (
+          renderRowContent={(row) => (
             <>
               <TableCell className="w-48">
                 <p>{(row.tariff_percentage * 100).toString() + "%"}</p>

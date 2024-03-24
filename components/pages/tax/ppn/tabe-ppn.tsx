@@ -1,4 +1,4 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -7,9 +7,9 @@ import {
   TableHeader,
   TableRow,
   TableFooter,
-} from '@/components/ui/table';
-import React from 'react';
-import { GetPPNResponse } from '@/types/ppn/response';
+} from "@/components/ui/table";
+import React from "react";
+import { GetPPNResponse } from "@/types/ppn/response";
 
 interface TablePPNProps {
   headers: string[];
@@ -26,7 +26,7 @@ export default function TablePPN({
   onRowClick,
 }: TablePPNProps) {
   const sumPPN = data.reduce(
-    (sum, row) => sum + parseFloat(row.PPN.replace(/\./g, '')),
+    (sum, row) => sum + parseFloat(row.PPN.replace(/\./g, "")),
     0
   );
 
@@ -71,27 +71,6 @@ export default function TablePPN({
               </TableRow>
             ))}
           </TableBody>
-          {/* <TableBody>
-            {data.map((row, rowIndex) => (
-              <TableRow
-                key={rowIndex}
-                className="transition-all hover:bg-gray-100 cursor-pointer"
-              >
-                <TableCell className="p-4 border border-gray-300">
-                  {rowIndex + 1}
-                </TableCell>
-                {headers.map((header, colIndex) => (
-                  <TableCell
-                    key={colIndex}
-                    onClick={() => onRowClick(row)}
-                    className="p-4 border border-gray-300"
-                  >
-                    {row[header]}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody> */}
           <TableFooter>
             <TableRow>
               <TableCell
@@ -101,7 +80,7 @@ export default function TablePPN({
                 TOTAL
               </TableCell>
               <TableCell className="text-center border border-gray-300">
-                {`Rp. ${sumPPN.toLocaleString('id-ID')}`}
+                {`Rp. ${sumPPN.toLocaleString("id-ID")}`}
               </TableCell>
             </TableRow>
           </TableFooter>

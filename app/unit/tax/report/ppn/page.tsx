@@ -1,35 +1,21 @@
-'use client';
-import React, { useMemo, useRef, useState } from 'react';
-import Image from 'next/image';
-import Lengkong from '../../../../../public/lengkong.png';
-import TablePPN from '@/components/pages/tax/ppn/tabe-ppn';
-import useGetPPN from '@/hooks/ppn/useGetPPN';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Skeleton } from '@/components/ui/skeleton';
-import { formatDateToString } from '@/common/helpers/date';
-import { formatPPNtaxObject } from '@/common/helpers/ppn-format';
-import { formatRupiah, numberToWordsID } from '@/common/helpers/number-format';
-import { useReactToPrint } from 'react-to-print';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { Separator } from '@/components/ui/separator';
-import TableReportPPN from '@/components/pages/tax/table-report-ppn';
-import { Session } from 'inspector';
+"use client";
+import { formatRupiah, numberToWordsID } from "@/common/helpers/number-format";
+import TableReportPPN from "@/components/pages/tax/table-report-ppn";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import useGetPPN from "@/hooks/ppn/useGetPPN";
+import Image from "next/image";
+import Link from "next/link";
+import { useMemo, useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+import Lengkong from "../../../../../public/lengkong.png";
 
 export default function PreviewPPN() {
   const { data, isLoading } = useGetPPN();
   const contentRef = useRef(null);
   const handlePrint = useReactToPrint({
     content: () => contentRef.current,
-    documentTitle: 'Laporan Pajak Pertambahan Nilai',
+    documentTitle: "Laporan Pajak Pertambahan Nilai",
   });
   const ppn = data?.data.taxes;
 
@@ -59,7 +45,7 @@ export default function PreviewPPN() {
   const totalDPPPurchase = useMemo(() => {
     return (
       ppn
-        ?.filter((ppn) => ppn.transaction_type === 'PURCHASE')
+        ?.filter((ppn) => ppn.transaction_type === "PURCHASE")
         .reduce((sum, item) => sum + item.total_dpp, 0) ?? 0
     );
   }, [ppn]);
@@ -67,7 +53,7 @@ export default function PreviewPPN() {
   const totalDPPSales = useMemo(() => {
     return (
       ppn
-        ?.filter((ppn) => ppn.transaction_type === 'SALES')
+        ?.filter((ppn) => ppn.transaction_type === "SALES")
         .reduce((sum, item) => sum + item.total_dpp, 0) ?? 0
     );
   }, [ppn]);
@@ -75,7 +61,7 @@ export default function PreviewPPN() {
   const totalPPNPurchase = useMemo(() => {
     return (
       ppn
-        ?.filter((ppn) => ppn.transaction_type === 'PURCHASE')
+        ?.filter((ppn) => ppn.transaction_type === "PURCHASE")
         .reduce((sum, item) => sum + item.total_ppn, 0) ?? 0
     );
   }, [ppn]);
@@ -83,7 +69,7 @@ export default function PreviewPPN() {
   const totalPPNSales = useMemo(() => {
     return (
       ppn
-        ?.filter((ppn) => ppn.transaction_type === 'SALES')
+        ?.filter((ppn) => ppn.transaction_type === "SALES")
         .reduce((sum, item) => sum + item.total_ppn, 0) ?? 0
     );
   }, [ppn]);
@@ -91,8 +77,8 @@ export default function PreviewPPN() {
     <>
       <div id="print-controller" className="my-6">
         <div className="mx-auto max-w-6xl flex justify-between">
-          <Button variant={'secondary'} asChild>
-            <Link href={'/unit/tax/ppn'}>Kembali ke halaman PPN</Link>
+          <Button variant={"secondary"} asChild>
+            <Link href={"/unit/tax/ppn"}>Kembali ke halaman PPN</Link>
           </Button>
 
           <Button onClick={handlePrint}>Cetak Laporan (PDF)</Button>
@@ -140,7 +126,7 @@ export default function PreviewPPN() {
           /> */}
 
             <TableReportPPN
-              data={ppn?.filter((ppn) => ppn.transaction_type === 'PURCHASE')}
+              data={ppn?.filter((ppn) => ppn.transaction_type === "PURCHASE")}
               isLoading={isLoading}
             />
 
@@ -264,7 +250,7 @@ export default function PreviewPPN() {
           </div>
           <div className="border p-4 flex flex-col items-center border-black rounded-lg">
             <div className="font-bold">
-              Dasar Pengenaan Pajak Masukan:{' '}
+              Dasar Pengenaan Pajak Masukan:{" "}
               {`${formatRupiah(totalDPPPurchase)}`}
             </div>
             <p className="h-0.5 my-2 w-full bg-black border-0 rounded" />
@@ -272,7 +258,7 @@ export default function PreviewPPN() {
           </div>
           <div className="border p-4 flex flex-col justify-center items-center border-black rounded-lg">
             <div className="font-bold">
-              Pajak Pertambahan Nilai Masukan:{' '}
+              Pajak Pertambahan Nilai Masukan:{" "}
               {`${formatRupiah(totalPPNPurchase)}`}
             </div>
             <p className="h-0.5 my-2 w-full bg-black border-0 rounded" />
@@ -281,7 +267,7 @@ export default function PreviewPPN() {
           <div>
             <h2 className="font-semibold mt-2 mb-2">PPN Keluaran</h2>
             <TableReportPPN
-              data={ppn?.filter((ppn) => ppn.transaction_type === 'SALES')}
+              data={ppn?.filter((ppn) => ppn.transaction_type === "SALES")}
               isLoading={isLoading}
             />
             {/* <TablePPN
@@ -416,7 +402,7 @@ export default function PreviewPPN() {
           </div>
           <div className="border p-4 flex flex-col justify-center items-center border-black rounded-lg">
             <div className="font-bold">
-              Pajak Pertambahan Nilai Masukan:{' '}
+              Pajak Pertambahan Nilai Masukan:{" "}
               {`${formatRupiah(totalPPNSales)}`}
             </div>
             <p className="h-0.5 my-2 w-full bg-black border-0 rounded" />

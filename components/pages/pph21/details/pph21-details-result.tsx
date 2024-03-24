@@ -25,7 +25,7 @@ export default function Pph21DetailsResult({
       <CardContent>
         <TableView
           items={items}
-          renderRow={(row) => (
+          renderRowContent={(row) => (
             <>
               <TableCell>{row.type}</TableCell>
               <TableCell>{formatRupiah(row.value)}</TableCell>
