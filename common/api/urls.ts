@@ -12,5 +12,7 @@ export const WILAYAH_KOTA = '/kota';
 export const WILAYAH_KECAMATAN = '/kecamatan';
 export const WILAYAH_KELURAHAN = '/kelurahan';
 
-export const EMPLOYEES_PPH21 = (unitId: string, employeeId: string) =>
-  `/units/${unitId}/employees/${employeeId}/pph21` as const;
+// export const EMPLOYEES_PPH21 = (unitId: string, employeeId: string) =>
+//   `/units/${unitId}/employees/${employeeId}/pph21` as const;
+
+export const EMPLOYEES_PPH21 = `/pph21`;

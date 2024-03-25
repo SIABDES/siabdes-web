@@ -1,7 +1,7 @@
-import { AxiosToBackend } from "@/common/api";
-import { authOptions } from "@/lib/next-auth-options";
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { AxiosToBackend } from '@/common/api';
+import { authOptions } from '@/lib/next-auth-options';
+import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   req: NextRequest,
@@ -13,14 +13,14 @@ export async function GET(
   if (!session || !unitId)
     return NextResponse.json(
       {
-        message: "You have no access to this resource",
+        message: 'You have no access to this resource',
       },
       { status: 401 }
     );
 
   const taxId = params.tax_id;
 
-  const res = await AxiosToBackend.get(`/units/${unitId}/pph21/${taxId}`);
+  const res = await AxiosToBackend.get(`/pph21/${taxId}`);
 
   return NextResponse.json(res.data, {
     status: res.status,
@@ -38,14 +38,14 @@ export async function DELETE(
   if (!session || !unitId)
     return NextResponse.json(
       {
-        message: "You have no access to this resource",
+        message: 'You have no access to this resource',
       },
       { status: 401 }
     );
 
   const taxId = params.tax_id;
 
-  const res = await AxiosToBackend.delete(`/units/${unitId}/pph21/${taxId}`);
+  const res = await AxiosToBackend.delete(`/pph21/${taxId}`);
 
   return NextResponse.json(res.data, {
     status: res.status,

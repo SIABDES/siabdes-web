@@ -1,26 +1,26 @@
-import { AxiosAuthed, AxiosToBackend } from "@/common/api";
-import { authOptions } from "@/lib/next-auth-options";
-import { GetEmployeesResponse } from "@/types/employees/response";
-import { AxiosError } from "axios";
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { AxiosAuthed, AxiosToBackend } from '@/common/api';
+import { authOptions } from '@/lib/next-auth-options';
+import { GetEmployeesResponse } from '@/types/employees/response';
+import { AxiosError } from 'axios';
+import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  const loginUrl = new URL("/auth/login", request.url);
+  const loginUrl = new URL('/auth/login', request.url);
 
   if (!session) {
     return NextResponse.json(
-      { error: "Unauthorized" },
+      { error: 'Unauthorized' },
       {
         status: 401,
       }
     );
   }
 
-  const limit = request.nextUrl.searchParams.get("limit");
-  const cursor = request.nextUrl.searchParams.get("cursor");
+  const limit = request.nextUrl.searchParams.get('limit');
+  const cursor = request.nextUrl.searchParams.get('cursor');
 
   try {
     const res = await AxiosToBackend.get<GetEmployeesResponse>(
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  const loginUrl = new URL("/auth/login", request.url);
+  const loginUrl = new URL('/auth/login', request.url);
 
   if (!session) {
     return NextResponse.redirect(loginUrl);
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
   const payload = await request.json();
 
   try {
-    const res = await AxiosAuthed(session?.backendTokens.accessToken).post(
+    const res = await AxiosToBackend.post(
       `/units/${session.user.unitId}/employees`,
       payload
     );

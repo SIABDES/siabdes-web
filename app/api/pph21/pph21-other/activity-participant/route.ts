@@ -1,4 +1,4 @@
-import { AxiosAuthed } from '@/common/api';
+import { AxiosAuthed, AxiosToBackend } from '@/common/api';
 import { EMPLOYEES_PPH21 } from '@/common/api/urls';
 import { authOptions } from '@/lib/next-auth-options';
 import { PPh21PostPayloadRequest } from '@/types/pph21/request';
@@ -27,12 +27,7 @@ export async function POST(req: NextRequest) {
   try {
     const payload: PPh21PostPayloadRequest = await req.json();
 
-    const pph21Url = EMPLOYEES_PPH21(session.user.unitId, payload.employee_id);
-
-    const res = await AxiosAuthed(session.backendTokens.accessToken).post(
-      pph21Url,
-      payload
-    );
+    const res = await AxiosToBackend.post(EMPLOYEES_PPH21, payload);
 
     return NextResponse.json(res.data, { status: res.status });
   } catch (error) {

@@ -23,6 +23,7 @@ import useGetPph21 from '@/hooks/pph21/useGetPph21';
 import { EmployeesType } from '@/types/employees/employees';
 import { Pph21EmployeeTaxOverview } from '@/types/pph21/pph21';
 import { CaretSortIcon } from '@radix-ui/react-icons';
+import { get } from 'http';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -111,11 +112,17 @@ export default function PPH21() {
 
         <ScrollArea className="mt-4">
           <div className="grid grid-cols-4 gap-x-6">
-            <Pph21OverviewCard
+            {/* <Pph21OverviewCard
               title="Total PPh 21"
               mainText={formatRupiah(getPph21?.data._total.pph1 ?? 0)}
               subText={`rata-rata ${formatRupiah(averagePPh21)}`}
-            />
+            /> */}
+
+            {/* <Pph21OverviewCard
+              title="Total PPh 21"
+              mainText={formatRupiah(getPph21?.data._total)}
+              subText={`rata-rata ${formatRupiah(averagePPh21)}`}
+            /> */}
 
             <Pph21OverviewCard
               title="Pegawai Kena Pajak"

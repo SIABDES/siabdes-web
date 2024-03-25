@@ -1,18 +1,19 @@
-import { AxiosClientSide } from "@/common/api";
-import { GetEmployeeTerResponse } from "@/types/employees/response";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import { AxiosClientSide } from '@/common/api';
+import { GetEmployeeTerResponse } from '@/types/employees/response';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 type GetEmployeeTerArgs = {
   employee_id: string;
   gross_salary: number;
   period_years: number | undefined;
   period_month: number | undefined;
+  ptkp_status: number | undefined;
 };
 
 export default function useGetEmployeeTer() {
   return useMutation({
-    mutationKey: ["employee-ter"],
+    mutationKey: ['employee-ter'],
     mutationFn: async (data: GetEmployeeTerArgs) => {
       const res = await AxiosClientSide.get<GetEmployeeTerResponse>(
         `/employees/${data.employee_id}/ter`,
@@ -21,6 +22,7 @@ export default function useGetEmployeeTer() {
             gross_salary: data.gross_salary,
             period_years: data.period_years,
             period_month: data.period_month,
+            ptkp_status: data.ptkp_status,
           },
         }
       );
@@ -28,7 +30,7 @@ export default function useGetEmployeeTer() {
       return res.data.data;
     },
     onError: (error: AxiosError) => {
-      console.error("error", error);
+      console.error('error', error);
     },
   });
 }
