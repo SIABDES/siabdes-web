@@ -1,8 +1,8 @@
-'use client';
-import React from 'react';
-import Layout from '@/components/layout/layout';
-import { CalendarDateRangePicker } from '@/components/date-range-picker';
-import { Button } from '@/components/ui/button';
+"use client";
+import React from "react";
+import Layout from "@/components/layout/layout";
+import { CalendarDateRangePicker } from "@/components/date-range-picker";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -10,13 +10,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useGetWtb } from '@/hooks/wtb/useGetWtb';
-import Link from 'next/link';
-import { DateRange } from 'react-day-picker';
-import { formatRupiah } from '@/common/helpers/number-format';
-import { RetrievalCategory } from '@/types/journals';
+} from "@/components/ui/table";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useGetWtb } from "@/hooks/wtb/useGetWtb";
+import Link from "next/link";
+import { DateRange } from "react-day-picker";
+import { formatRupiah } from "@/common/helpers/number-format";
+import { RetrievalCategory } from "@/types/journals";
 
 export default function StatementOfFinancialPosition() {
   const [date, setDate] = React.useState<DateRange | undefined>(undefined);
@@ -28,7 +28,6 @@ export default function StatementOfFinancialPosition() {
   });
 
   const accounts = data?.list;
-  // console.log(accounts);
 
   const filteredAccounts = accounts?.filter(
     (account) => account.account.is_posisi_keuangan

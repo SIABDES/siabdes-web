@@ -4,7 +4,6 @@ import { AxiosClientSide } from "@/common/api";
 import { formatNumber } from "@/common/helpers/number-format";
 import PatanCombobox from "@/components/patan-ui/form/patan-combobox";
 import { Card, CardContent } from "@/components/ui/card";
-import { ComboBox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -16,7 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "@/components/ui/use-toast";
 import { Employee, EmployeesGender } from "@/types/employees/employees";
 import {
   GetEmployeeDetailsResponse,
@@ -25,6 +23,7 @@ import {
 import { Pph21TaxPeriodMonth } from "@/types/pph21/general";
 import { AxiosError } from "axios";
 import React, { useCallback, useEffect } from "react";
+import { toast } from "sonner";
 
 interface Pph21EmployeeDataProps {
   selectedEmployee: Employee | undefined;
@@ -57,10 +56,11 @@ export default function Pph21EmployeeData({
     if (selectedEmployee) {
       onEmployeeSelected?.(selectedEmployee);
 
-      toast({
-        title: "Berhasil mengambil data pegawai",
-        description: `Pegawai '${selectedEmployee.name}' telah dipilih...`,
-      });
+      // toast({
+      //   title: "Berhasil mengambil data pegawai",
+      //   description: `Pegawai '${selectedEmployee.name}' telah dipilih...`,
+      // });
+      toast.success(`Pegawai '${selectedEmployee.name}' telah dipilih...`);
     }
   }, [onEmployeeSelected, selectedEmployee]);
 
@@ -77,19 +77,15 @@ export default function Pph21EmployeeData({
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 404) {
-          toast({
-            title: "Gagal mengambil data pegawai",
+          toast.error("Gagal mengambil data pegawai", {
             description: "Data pegawai tidak ditemukan...",
-            variant: "destructive",
           });
         }
         return;
       }
 
-      toast({
-        title: "Gagal mengambil data pegawai",
+      toast.error("Gagal mengambil data pegawai", {
         description: "Terjadi kesalahan saat mengambil data pegawai...",
-        variant: "destructive",
       });
     }
   };

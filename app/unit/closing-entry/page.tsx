@@ -51,7 +51,6 @@ export default function ClosingEntry() {
     0
   );
   const yearNow = new Date().getFullYear();
-  console.log(accountCadangan);
 
   return (
     <Layout>

@@ -1,15 +1,12 @@
-import React from 'react';
-import InputField from '@/components/Input/input-field';
-import { useSearchParams } from 'next/navigation';
-import { BumdesAdministratorFormData } from '@/types/financial-statement/calk/bumdes-administrator';
-import { table } from 'console';
+import React from "react";
+import InputField from "@/components/Input/input-field";
+import { useSearchParams } from "next/navigation";
+import { BumdesAdministratorFormData } from "@/types/financial-statement/calk/bumdes-administrator";
 
 const PreviewBumdesAdministrator = () => {
   const searchParams = useSearchParams();
-  // const data: BumdesAdministratorFormData = JSON.parse(
-  //   searchParams.get('data') || '{}'
-  // );
-  const data = JSON.parse(searchParams.get('data') || '{}');
+
+  const data = JSON.parse(searchParams.get("data") || "{}");
   return (
     <table className="w-full mt-5">
       <thead>
@@ -43,7 +40,7 @@ const PreviewBumdesAdministrator = () => {
         {Object.keys(data.BumdesAdministrator).map((key, index) => {
           let displayKey = key;
           displayKey = displayKey.charAt(0).toUpperCase() + displayKey.slice(1);
-          displayKey = displayKey.replace(/_/g, ' ');
+          displayKey = displayKey.replace(/_/g, " ");
 
           return (
             <tr
@@ -51,7 +48,7 @@ const PreviewBumdesAdministrator = () => {
               key={index}
             >
               <td className="w-full pl-60 ">
-                {index + 21 + '. ' + displayKey}
+                {index + 21 + ". " + displayKey}
               </td>
               <p className="text-center">:</p>
               <td className="w-full ml-3">

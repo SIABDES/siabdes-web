@@ -1,63 +1,56 @@
-'use client';
+"use client";
 
-import { AxiosClientSide } from '@/common/api';
-import { toast } from '@/components/ui/use-toast';
-import { AddGeneralJournalResponse, JournalCategory } from '@/types/journals';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
+import { AxiosClientSide } from "@/common/api";
+import { AddGeneralJournalResponse, JournalCategory } from "@/types/journals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function useAddGeneralJournal() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   const getGeneralJournals = useMutation({
-    mutationKey: ['general-journals/add'],
+    mutationKey: ["general-journals/add"],
     mutationFn: async (formData: FormData) => {
-      formData.append('category', JournalCategory.GENERAL);
       const res = await AxiosClientSide.post<AddGeneralJournalResponse>(
-        '/journals/general-journals',
+        "/journals/general-journals",
         formData
       );
 
       return res.data;
     },
     onMutate: () => {
-      toast({
-        title: 'Proses Tambah Jurnal Umum',
-        description: 'Sedang menambahkan Jurnal Umum...',
-        duration: 3000,
+      toast.loading("Status Tambah Jurnal Umum", {
+        id: "add-general-journal",
+        description: "Sedang menambahkan Jurnal Umum...",
       });
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ['general-journals'],
+        queryKey: ["general-journals"],
       });
 
-      toast({
-        title: 'Status Tambah Jurnal Umum',
-        description: 'Jurnal umum berhasil ditambahkan',
-        duration: 3000,
+      toast.success("Status Tambah Jurnal Umum", {
+        id: "add-general-journal",
+        description: "Jurnal umum berhasil ditambahkan!",
       });
 
-      router.push('/unit/general-journal');
+      router.push("/unit/general-journal");
     },
     onError: (err) => {
       if (err instanceof AxiosError) {
-        toast({
-          title: 'Gagal menambahkan jurnal umum',
+        toast.error("Gagal menambahkan jurnal umum", {
+          id: "add-general-journal",
           description: err.response?.data.message,
-          variant: 'destructive',
-          duration: 3000,
         });
         return;
       }
 
-      toast({
-        title: 'Gagal menambahkan jurnal umum',
+      toast.error("Gagal menambahkan jurnal umum", {
+        id: "add-general-journal",
         description: err.message,
-        variant: 'destructive',
-        duration: 3000,
       });
     },
   });

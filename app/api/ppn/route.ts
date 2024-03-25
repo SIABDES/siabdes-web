@@ -44,7 +44,12 @@ export async function POST(request: NextRequest) {
   const loginUrl = new URL("/auth/login", request.url);
 
   if (!session) {
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.json(
+      {
+        message: "You are not authorized to access this resource",
+      },
+      { status: 401 }
+    );
   }
 
   const body = await request.formData();
@@ -57,8 +62,6 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     );
   }
-
-  console.log(body);
 
   try {
     const res = await AxiosAuthed(session?.backendTokens.accessToken).post(

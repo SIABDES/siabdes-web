@@ -1,31 +1,31 @@
-'use client';
+"use client";
 
 import {
   formatNumber,
   reverseFormatNumber,
-} from '@/common/helpers/number-format';
-import FormInput from '@/components/patan-ui/form/form-input';
-import { Button } from '@/components/ui/button';
-import { ComboBox } from '@/components/ui/combobox';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
+} from "@/common/helpers/number-format";
+import FormInput from "@/components/patan-ui/form/form-input";
+import { Button } from "@/components/ui/button";
+import { ComboBox } from "@/components/ui/combobox";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { AccountType } from '@/types/accounts';
-import { JournalTransactionFormDataType } from '@/types/journals';
+} from "@/components/ui/tooltip";
+import { AccountType } from "@/types/accounts";
+import { JournalTransactionFormDataType } from "@/types/journals";
 import {
   PpnTariffPercentageMap,
   PpnTaxObjectType,
   PpnTransactionFormDataType,
-} from '@/types/ppn/ppn';
-import { TrashIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+} from "@/types/ppn/ppn";
+import { TrashIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface PpnTransactionsFormProps {
   index: number;
@@ -89,8 +89,8 @@ export default function PpnTransactionsForm(props: PpnTransactionsFormProps) {
   };
   const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = reverseFormatNumber(e.target.value);
-    if (newValue === '') {
-      newValue = '0';
+    if (newValue === "") {
+      newValue = "0";
     }
     props.setTransactions((prev) =>
       prev.map((transaction) => {
@@ -105,8 +105,8 @@ export default function PpnTransactionsForm(props: PpnTransactionsFormProps) {
   const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = reverseFormatNumber(e.target.value);
 
-    if (newValue === '') {
-      newValue = '0';
+    if (newValue === "") {
+      newValue = "0";
     }
 
     props.setTransactions((prev) =>
@@ -121,14 +121,13 @@ export default function PpnTransactionsForm(props: PpnTransactionsFormProps) {
   //create function for total price, with condition price * amount, and then set total price
   const calculateTotalPrice = () => {
     const total_price = props.transaction.price * props.transaction.amount;
-    // console.log(props.transaction.total_price);
     return total_price;
   };
   const handleChangeTotalPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = reverseFormatNumber(e.target.value);
 
-    if (newValue === '') {
-      newValue = '0';
+    if (newValue === "") {
+      newValue = "0";
     } else {
       newValue = calculateTotalPrice().toString();
     }
@@ -140,7 +139,6 @@ export default function PpnTransactionsForm(props: PpnTransactionsFormProps) {
         return transaction;
       })
     );
-    console.log('TESSS');
   };
 
   // const calculateDPP = () => {
@@ -186,8 +184,8 @@ export default function PpnTransactionsForm(props: PpnTransactionsFormProps) {
   const handleChangeDiscount = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = reverseFormatNumber(e.target.value);
 
-    if (newValue === '') {
-      newValue = '0';
+    if (newValue === "") {
+      newValue = "0";
     }
 
     props.setTransactions((prev) =>
@@ -202,8 +200,8 @@ export default function PpnTransactionsForm(props: PpnTransactionsFormProps) {
   const handleChangeDpp = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = reverseFormatNumber(e.target.value);
 
-    if (newValue === '') {
-      newValue = '0';
+    if (newValue === "") {
+      newValue = "0";
     }
 
     props.setTransactions((prev) =>
@@ -218,8 +216,8 @@ export default function PpnTransactionsForm(props: PpnTransactionsFormProps) {
   const handleChangeTax = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = reverseFormatNumber(e.target.value);
 
-    if (newValue === '') {
-      newValue = '0';
+    if (newValue === "") {
+      newValue = "0";
     }
 
     props.setTransactions((prev) =>
@@ -234,8 +232,8 @@ export default function PpnTransactionsForm(props: PpnTransactionsFormProps) {
   const handleChangePpn = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = reverseFormatNumber(e.target.value);
 
-    if (newValue === '') {
-      newValue = '0';
+    if (newValue === "") {
+      newValue = "0";
     }
 
     props.setTransactions((prev) =>
@@ -384,8 +382,8 @@ export default function PpnTransactionsForm(props: PpnTransactionsFormProps) {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                variant={'destructive'}
-                size={'icon'}
+                variant={"destructive"}
+                size={"icon"}
                 onClick={handleDeleteTransaction}
                 // disabled={!props.isAbleToDelete}
               >
@@ -394,8 +392,8 @@ export default function PpnTransactionsForm(props: PpnTransactionsFormProps) {
             </TooltipTrigger>
             <TooltipContent className="bg-destructive text-destructive-foreground">
               {props.isAbleToDelete
-                ? 'Hapus data transaksi'
-                : 'Minimal harus ada 1 data transaksi'}
+                ? "Hapus data transaksi"
+                : "Minimal harus ada 1 data transaksi"}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -16,23 +16,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   const handleConfirm = async () => {
     try {
       setDeleting(true);
-      //   const response = await fetch('https://example.com/api/delete', {
-      //     method: 'DELETE',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       // Tambahkan header otorisasi atau sesuai kebutuhan
-      //     },
-      //     // Tambahkan body jika diperlukan
-      //     // body: JSON.stringify({ dataId: 'dataIdToDelete' }),
-      //   });
-
-      //   if (response.ok) {
-      //     onConfirm();
-      //   } else {
-      //     console.error('Error deleting data:', response.statusText);
-      //   }
     } catch (error) {
-      console.error('Error deleting data:', error);
+      console.error("Error deleting data:", error);
     } finally {
       setDeleting(false);
     }
@@ -52,7 +37,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                 onClick={handleConfirm}
                 disabled={isDeleting}
               >
-                {isDeleting ? 'Menghapus...' : 'Hapus'}
+                {isDeleting ? "Menghapus..." : "Hapus"}
               </button>
               <button
                 className="bg-gray-300 text-gray-800 px-4 py-2 rounded"

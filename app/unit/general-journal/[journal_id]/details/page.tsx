@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { formatDateToString } from '@/common/helpers/date';
-import Layout from '@/components/layout/layout';
-import { PatanTable } from '@/components/patan-ui/table';
+import { formatDateToString } from "@/common/helpers/date";
+import Layout from "@/components/layout/layout";
+import { PatanTable } from "@/components/patan-ui/table";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,17 +13,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useToast } from '@/components/ui/use-toast';
-import useDeleteJournal from '@/hooks/journals/useDeleteJournal';
-import useGetGeneralJournalEvidence from '@/hooks/journals/useGetGeneralJournalEvidence';
-import { useGetJournalDetails } from '@/hooks/journals/useGetJournalDetails';
-import { DownloadIcon, EditIcon, TrashIcon } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React from 'react';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import useDeleteJournal from "@/hooks/journals/useDeleteJournal";
+import useGetGeneralJournalEvidence from "@/hooks/journals/useGetGeneralJournalEvidence";
+import { useGetJournalDetails } from "@/hooks/journals/useGetJournalDetails";
+import { DownloadIcon, EditIcon, TrashIcon } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 export default function Details({
   params,
@@ -33,7 +32,6 @@ export default function Details({
   const { data: details, isFetched } = useGetJournalDetails({ params });
 
   const router = useRouter();
-  const { toast } = useToast();
 
   const {
     mutateAsync: mutateDeleteJournal,
@@ -51,27 +49,14 @@ export default function Details({
   const handleDeleteJournal = (e: React.MouseEvent<HTMLButtonElement>) => {
     void mutateDeleteJournal(undefined, {
       onSuccess: () => {
-        toast({
-          title: 'Hapus Jurnal',
-          description: 'Jurnal berhasil dihapus',
-          duration: 5000,
-        });
-        router.push('/unit/general-journal');
-      },
-      onError: () => {
-        toast({
-          title: 'Gagal menghapus jurnal',
-          description: 'Terjadi kesalahan saat menghapus jurnal',
-          variant: 'destructive',
-          duration: 5000,
-        });
+        router.push("/unit/general-journal");
       },
     });
   };
 
   return (
     <Layout>
-      <Button variant={'outline'} asChild>
+      <Button variant={"outline"} asChild>
         <Link href="/unit/general-journal">Kembali</Link>
       </Button>
 
@@ -83,7 +68,7 @@ export default function Details({
             <tbody>
               <tr>
                 <td className="text-sm font-medium min-w-[12rem]">
-                  Deskripsi:{' '}
+                  Deskripsi:{" "}
                 </td>
                 <td className="text-sm">{details.description}</td>
               </tr>
@@ -99,7 +84,7 @@ export default function Details({
 
           <div className="inline-flex gap-x-4 justify-end">
             {!isEvidenceUrlLoading && evidence ? (
-              <Button variant={'outline'} asChild>
+              <Button variant={"outline"} asChild>
                 <Link href={evidence}>
                   <DownloadIcon size={16} className="mr-2" />
                   Download Bukti
@@ -107,7 +92,7 @@ export default function Details({
               </Button>
             ) : null}
 
-            <Button variant={'outline'} asChild>
+            <Button variant={"outline"} asChild>
               <Link href={`/unit/general-journal/${params.journal_id}/edit`}>
                 <EditIcon size={16} className="mr-2" />
                 Edit Jurnal
@@ -117,11 +102,11 @@ export default function Details({
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
-                  variant={'destructive'}
+                  variant={"destructive"}
                   disabled={isMutateDeletePending}
                 >
                   <TrashIcon size={16} className="mr-2" />
-                  {isMutateDeletePending ? 'Menghapus...' : 'Hapus Jurnal'}
+                  {isMutateDeletePending ? "Menghapus..." : "Hapus Jurnal"}
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -138,7 +123,7 @@ export default function Details({
                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                   >
                     <Button
-                      variant={'destructive'}
+                      variant={"destructive"}
                       className="w-fit"
                       onClick={handleDeleteJournal}
                     >

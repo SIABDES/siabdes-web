@@ -1,65 +1,61 @@
-'use client';
+"use client";
 
-import { AxiosClientSide } from '@/common/api';
-import { toast } from '@/components/ui/use-toast';
+import { AxiosClientSide } from "@/common/api";
 import {
   AddAdjustmentJournalResponse,
   JournalCategory,
-} from '@/types/journals';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
+} from "@/types/journals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function useAddAdjustmentJournal() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   const getAdjustmentJournals = useMutation({
-    mutationKey: ['adjustment-journals/add'],
+    mutationKey: ["adjustment-journals/add"],
     mutationFn: async (formData: FormData) => {
-      formData.append('category', JournalCategory.ADJUSTMENT);
       const res = await AxiosClientSide.post<AddAdjustmentJournalResponse>(
-        '/journals/adjustment-journals',
+        "/journals/adjustment-journals",
         formData
       );
 
       return res.data;
     },
     onMutate: () => {
-      toast({
-        title: 'Proses Tambah Jurnal Penyesuaian',
-        description: 'Sedang menambahkan Jurnal Penyesuaian...',
-        duration: 3000,
+      toast.loading("Menambahkan Jurnal Penyesuaian", {
+        id: "add-adjustment-journal",
+        description: "Harap tunggu sebentar...",
       });
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ['adjustment-journals'],
+        queryKey: ["adjustment-journals"],
       });
 
-      toast({
-        title: 'Status Tambah Jurnal Penyesuaian',
-        description: 'Jurnal penyesuaian berhasil ditambahkan',
-        duration: 3000,
+      toast.success("Jurnal Penyesuaian berhasil ditambahkan", {
+        id: "add-adjustment-journal",
+        description: "Memindahkan ke halaman jurnal penyesuaian...",
       });
 
-      router.push('/unit/working-trial-balance/adjustment-journal');
+      router.push("/unit/working-trial-balance/adjustment-journal");
     },
     onError: (err) => {
       if (err instanceof AxiosError) {
-        toast({
-          title: 'Gagal menambahkan jurnal penyesuaian',
+        toast.error("Gagal menambahkan jurnal peneysuaian", {
+          id: "add-adjustment-journal",
           description: err.response?.data.message,
-          variant: 'destructive',
           duration: 3000,
         });
+
         return;
       }
 
-      toast({
-        title: 'Gagal menambahkan jurnal penyesuaian',
+      toast.error("Gagal menambahkan jurnal peneysuaian", {
+        id: "add-adjustment-journal",
         description: err.message,
-        variant: 'destructive',
         duration: 3000,
       });
     },

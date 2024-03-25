@@ -7,30 +7,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { toast, useToast } from "@/components/ui/use-toast";
 import { useEditPPN } from "@/hooks/ppn/useEditPPN";
 import useGetPPNDetails from "@/hooks/ppn/useGetPPNDetails";
-import {
-  CreatePPNFormData,
-  CreatePPNSchema,
-  PpnObjectItemSchema,
-  UpdatePPNFormData,
-  UpdatePPNSchema,
-} from "@/types/ppn/dto";
-import { PpnTransactionType } from "@/types/ppn/ppn";
+import { UpdatePPNFormData, UpdatePPNSchema } from "@/types/ppn/dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
-import { da } from "date-fns/locale";
 import { PlusCircleIcon } from "lucide-react";
-import { Update } from "next/dist/build/swc";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function EditPPN({ params }: { params: { ppn_id: string } }) {
   const [evidence, setEvidence] = useState<File | null>(null);
-  const { toast } = useToast();
   const router = useRouter();
   const {
     data: details,
@@ -51,37 +41,8 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
     },
   });
 
-  // useEffect(() => {
-  //   const transactionTypeWatch = form.watch('transaction_type');
-  //   const TransactionType = form.getValues(transactionTypeWatch);
-  //   form.setValue('transaction_type', TransactionType);
-  // }, [form]);
-
-  const transactionTypeWatch = form.watch("transaction_type");
-  useEffect(() => {
-    console.log("transactionTypeWatch", transactionTypeWatch);
-  }, [transactionTypeWatch]);
-
   useEffect(() => {
     if (details) {
-      // form.setValue('transaction_number', details.transaction_number);
-      // form.setValue('transaction_date', new Date(details.transaction_date));
-      // form.setValue('transaction_type', details.transaction_type);
-      // form.setValue('item_type', details.item_type);
-      // form.setValue('given_to', details.given_to);
-      // form.setValue('tax_object', details.tax_object);
-      // form.setValue(
-      //   'object_items',
-      //   details.objects.map((item) => ({
-      //     name: item.name,
-      //     discount: item?.discount,
-      //     dpp: item.dpp,
-      //     ppn: item.ppn,
-      //     price: item.price,
-      //     quantity: item.quantity,
-      //     total_price: item.total_price,
-      //   }))
-      // );
       form.reset({
         transaction_number: details.transaction_number,
         transaction_date: new Date(details.transaction_date),
@@ -133,13 +94,9 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
     try {
       const validatedData = UpdatePPNSchema.safeParse(data);
 
-      console.log("data", data);
-
       if (!validatedData.success) {
-        toast({
-          title: "Terjadi kesalahan",
+        toast.error("Terjadi kesalahan", {
           description: "Mohon periksa kembali inputan anda..",
-          variant: "destructive",
         });
         return;
       }
@@ -148,21 +105,25 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
         { data, evidence },
         {
           onSettled: () => {
-            toast({
-              title: "Mengubah data PPN",
-              description: `Data Sedang diubah...`,
+            // toast({
+            //   title: "Mengubah data PPN",
+            //   description: `Data Sedang diubah...`,
+            // });
+            toast.loading("Mengubah data PPN", {
+              id: "edit-ppn",
+              description: "Data sedang diubah...",
             });
           },
           onSuccess: () => {
-            toast({
-              title: "Berhasil mengubah data PPN",
-              description: `Data berhasil diubah...`,
+            toast.success("Berhasil mengubah data PPN", {
+              id: "edit-ppn",
+              description: "Data berhasil diubah...",
             });
           },
           onError: () => {
-            toast({
-              title: "Gagal mengubah data PPN",
-              description: `Data gagal diubah...`,
+            toast.error("Gagal mengubah data PPN", {
+              id: "edit-ppn",
+              description: "Data gagal diubah...",
             });
           },
         }
@@ -170,10 +131,9 @@ export default function EditPPN({ params }: { params: { ppn_id: string } }) {
 
       router.push(`/unit/tax/ppn/${params.ppn_id}/details`);
     } catch (error) {
-      toast({
-        title: "Gagal mengubah data PPN",
-        description: `Data gagal diubah...`,
-        duration: 5000,
+      toast.error("Gagal mengubah data PPN", {
+        id: "edit-ppn",
+        description: "Data gagal diubah...",
       });
     }
   };

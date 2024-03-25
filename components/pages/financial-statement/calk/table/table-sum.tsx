@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -7,10 +7,10 @@ import {
   TableHeader,
   TableRow,
   TableFooter,
-} from '@/components/ui/table';
-import { TrashIcon } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/table";
+import { TrashIcon } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface TableProps {
   headers: string[];
@@ -24,18 +24,16 @@ const TableSum: React.FC<TableProps> = ({
   showTotal = true,
 }) => {
   const [rows, setRows] = useState<string[][]>([
-    new Array(headers.length).fill(''),
+    new Array(headers.length).fill(""),
   ]);
   const [totals, setTotals] = useState<number[]>(
     new Array(headers.length).fill(0)
   );
 
   const handleAddRow = () => {
-    setRows([...rows, new Array(headers.length).fill('')]);
+    setRows([...rows, new Array(headers.length).fill("")]);
   };
 
-  // console.log('rows', rows);
-  // console.log('totals', totals);
   const handleDeleteRow = (index: number) => {
     if (rows.length > 1) {
       const newRows = [...rows];
@@ -61,7 +59,7 @@ const TableSum: React.FC<TableProps> = ({
 
     newRows.forEach((row) => {
       row.forEach((cell, columnIndex) => {
-        newTotals[columnIndex] += cell !== '' ? parseFloat(cell) || 0 : 0;
+        newTotals[columnIndex] += cell !== "" ? parseFloat(cell) || 0 : 0;
       });
     });
 

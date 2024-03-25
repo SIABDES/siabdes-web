@@ -23,7 +23,6 @@ import useGetPph21 from '@/hooks/pph21/useGetPph21';
 import { EmployeesType } from '@/types/employees/employees';
 import { Pph21EmployeeTaxOverview } from '@/types/pph21/pph21';
 import { CaretSortIcon } from '@radix-ui/react-icons';
-import { get } from 'http';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -235,7 +234,7 @@ export default function PPH21() {
                 'PPh 21',
                 'Status',
               ]}
-              renderRow={(item) => (
+              renderRowContent={(item) => (
                 <>
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{item.npwp ?? 'Tidak ada NPWP'}</TableCell>

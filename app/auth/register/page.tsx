@@ -6,13 +6,13 @@ import RegisterProfileForm from "@/components/pages/register/register-profile-fo
 import RegisterWilayahForm from "@/components/pages/register/register-wilayah-form";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
 import useRegisterBumdes from "@/hooks/auth/useRegisterBumdes";
 import { RegisterFormData, RegisterSchema } from "@/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -52,19 +52,15 @@ export default function RegisterPage() {
   const onSubmit = (data: RegisterFormData) => {
     void mutateRegisterBumdes(data, {
       onSuccess: () => {
-        toast({
-          variant: "default",
-          title: "Berhasil mendaftarkan akun.",
+        toast("Berhasil mendaftarkan akun.", {
           description: `Email '${data.credentials.email}' berhasil di daftarkan.`,
-          duration: 5000,
+          duration: 3000,
         });
 
         void router.push("/auth/login");
       },
       onError: (error) => {
-        toast({
-          variant: "destructive",
-          title: "Gagal mendaftarkan akun.",
+        toast.error("Gagal mendaftarkan akun.", {
           description: error.message,
           duration: 5000,
         });

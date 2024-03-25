@@ -32,8 +32,6 @@ export async function GET(
   } catch (error) {
     if (error instanceof AxiosError) {
       if (error.response?.status === 404) {
-        console.log(error.response.data);
-
         return NextResponse.json(error.response.data, { status: 404 });
       }
     }
@@ -80,7 +78,7 @@ export async function PUT(
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   try {
@@ -92,7 +90,6 @@ export async function PUT(
     return NextResponse.json(res.data);
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.error(error.response?.data);
       if (error.response?.status === 404) {
         return NextResponse.redirect(loginUrl);
       }

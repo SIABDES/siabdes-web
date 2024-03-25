@@ -1,16 +1,16 @@
-import { AxiosAuthed, AxiosToBackend } from '@/common/api';
-import { GENERAL_JOURNALS, JOURNALS } from '@/common/api/urls';
-import { authOptions } from '@/lib/next-auth-options';
-import { JournalCategory } from '@/types/journals';
-import { AxiosError } from 'axios';
-import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
+import { AxiosToBackend } from "@/common/api";
+import { GENERAL_JOURNALS, JOURNALS } from "@/common/api/urls";
+import { authOptions } from "@/lib/next-auth-options";
+import { JournalCategory } from "@/types/journals";
+import { AxiosError } from "axios";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.redirect('/login');
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   const res = await AxiosToBackend.get(
@@ -23,12 +23,12 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const payload = await request.formData();
 
-  payload.append('category', JournalCategory.GENERAL);
+  payload.append("category", JournalCategory.GENERAL);
 
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.redirect('/login');
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   try {
