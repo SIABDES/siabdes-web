@@ -5,12 +5,13 @@ import { LedgerReportTable } from "@/components/pages/ledger/ledger-report-table
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useGetAllLedgersQuery } from "@/hooks/ledger/useGetAllLedgers";
-import { LedgerDataType } from "@/types/ledger";
+import { GetAllLedgersRequest, LedgerDataType } from "@/types/ledger";
 import { Spinner } from "@nextui-org/react";
 import { CaretLeftIcon } from "@radix-ui/react-icons";
 import { ChevronLeft, PrinterIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Fragment, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
@@ -19,11 +20,15 @@ export default function LedgerReportPage({
 }: {
   searchParams: { start_occurred_at: string; end_occurred_at: string };
 }) {
+  const validatedSearchParams = GetAllLedgersRequest.safeParse(searchParams);
+
   const {
     data: getAllLedgers,
     isLoading: isLedgersLoading,
     error,
   } = useGetAllLedgersQuery(searchParams);
+
+  const router = useRouter();
   const reportRef = useRef(null);
   const session = useSession();
 
@@ -32,7 +37,12 @@ export default function LedgerReportPage({
     documentTitle: `Laporan Buku Besar`,
   });
 
-  if (isLedgersLoading) {
+  if (!validatedSearchParams.success) {
+    router.replace("/unit/ledger", { scroll: false });
+    return null;
+  }
+
+  if (isLedgersLoading || !getAllLedgers) {
     return (
       <div className="flex flex-1 min-h-screen justify-center items-center">
         <Spinner label="Memuat..." />
@@ -40,8 +50,13 @@ export default function LedgerReportPage({
     );
   }
 
-  if (!getAllLedgers || error) {
+  if (error) {
     return <p>Terjadi kesalahan. {error?.message}</p>;
+  }
+
+  if (getAllLedgers.status !== 200) {
+    router.replace("/unit/ledger", { scroll: false });
+    return null;
   }
 
   const { accounts } = getAllLedgers.data.data;
