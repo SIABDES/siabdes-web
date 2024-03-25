@@ -1,23 +1,22 @@
 import { formatDateToString } from "@/common/helpers/date";
 import { formatNumber } from "@/common/helpers/number-format";
+import { LedgerDataType, LedgerTransactionItemDataType } from "@/types/ledger";
 import {
-  LedgerAccountDetailType,
-  LedgerTransactionItemDataType,
-} from "@/types/ledger";
-import {
+  Spinner,
   Table,
   TableBody,
   TableCell,
   TableColumn,
   TableHeader,
   TableRow,
+  cn,
   getKeyValue,
 } from "@nextui-org/react";
 
-interface LedgerReportTableProps {
-  account: LedgerAccountDetailType;
+type LedgerReportTableProps = {
+  account: LedgerDataType;
   isLoading: boolean;
-}
+};
 
 export function LedgerReportTable({
   account,
@@ -52,12 +51,22 @@ export function LedgerReportTable({
     ];
 
   return (
-    <Table aria-label="Tabel Buku Besar Daftar Transaksi">
+    <Table
+      aria-label="Tabel Buku Besar Daftar Transaksi"
+      className="break-after-avoid-page"
+    >
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>
 
-      <TableBody items={account.transactions} isLoading={isLoading}>
+      <TableBody
+        items={account.transactions}
+        isLoading={isLoading}
+        loadingContent={<Spinner label="Memuat..." />}
+        emptyContent={
+          !isLoading && "Tidak ditemukan data transaksi pada akun ini."
+        }
+      >
         {(transaction) => (
           <TableRow key={transaction.id}>
             {(columnKey) => {
@@ -74,7 +83,7 @@ export function LedgerReportTable({
               }
 
               if (columnKey === "is_debit") {
-                value = transaction.is_credit
+                value = !transaction.is_credit
                   ? formatNumber(transaction.amount)
                   : 0;
               }
@@ -83,7 +92,15 @@ export function LedgerReportTable({
                 value = formatNumber(transaction.result_balance);
               }
 
-              return <TableCell>{value}</TableCell>;
+              const isLastItem =
+                columnKey === "result_balance" &&
+                transaction.no === account.transactions.length;
+
+              return (
+                <TableCell className={cn(isLastItem && "font-semibold")}>
+                  {value}
+                </TableCell>
+              );
             }}
           </TableRow>
         )}
