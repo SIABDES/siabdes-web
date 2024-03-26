@@ -1,4 +1,4 @@
-import { JournalCategoryType } from ".";
+import { JournalCategoryType } from '.';
 
 export type JournalTransactionType = {
   account_id: number;
@@ -10,12 +10,14 @@ export type JournalTransactionType = {
 
 export type JournalType = {
   id: string;
+  unit_id: string;
   category: JournalCategoryType;
   description: string;
   occurred_at: Date | string;
+  evidence?: string;
   updated_at: Date | string;
   created_at: Date | string;
-  evidence?: string;
+  transaction_amount: number;
   data_transactions: JournalTransactionType[];
 };
 
@@ -24,4 +26,13 @@ export type JournalTransactionFormDataType = {
   account_id: number | undefined;
   credit: number;
   debit: number;
+};
+
+export type JournalsPrint = {
+  id: string;
+  date: Date | string;
+  account_name: string;
+  account_ref: string;
+  debit: number;
+  credit: number;
 };
