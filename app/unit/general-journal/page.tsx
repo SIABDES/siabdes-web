@@ -16,8 +16,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 // } from '@/components/ui/table';
 
 import {
-  Autocomplete,
-  AutocompleteItem,
   Spinner,
   Table,
   TableBody,
@@ -74,18 +72,9 @@ export default function Generaljournal() {
 
   return (
     <Layout>
-      <h1 className="text-2xl font-bold mb-4 text-center">Jurnal Umum</h1>
       <section>
+        <h1 className="text-2xl font-bold mb-4 text-center">Jurnal Umum</h1>
         <header className="mt-6 mb-8 flex flex-row justify-between items-center">
-          {/* <h4 className="text-sm font-semibold">Jurnal Umum</h4> */}
-
-          {/* <div className="flex space-x-6 pt-8">
-            <CalendarDateRangePicker date={date} setDate={setDate} />
-            <Link href="/unit/financial-statement/report/income-statement/preview">
-              <Button>Cetak</Button>
-            </Link>
-          </div> */}
-
           <div className="inline-flex flex-row gap-x-4">
             <CalendarDateRangePicker date={date} setDate={setDate} />
 
