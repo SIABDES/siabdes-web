@@ -26,7 +26,10 @@ import { formatNumber } from '@/common/helpers/number-format';
 export default function Generaljournal() {
   const router = useRouter();
   const [date, setDate] = React.useState<DateRange | undefined>(undefined);
-  const { data, isLoading } = useGetAdjustmentJournals();
+  const { data, isLoading } = useGetAdjustmentJournals({
+    start_occurred_at: date?.from,
+    end_occurred_at: date?.to,
+  });
 
   const journals: (JournalType & { no: number })[] =
     data?.journals.map((journal, index) => ({

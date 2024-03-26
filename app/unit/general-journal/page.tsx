@@ -147,7 +147,7 @@ export default function Generaljournal() {
                     </TableCell>
                     <TableCell>
                       <Button variant="outline" size="sm">
-                        <ArrowDownToLine />
+                        <ArrowDownToLine size={20} />
                         Download
                       </Button>
                     </TableCell>
