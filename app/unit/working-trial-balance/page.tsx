@@ -1,5 +1,6 @@
 'use client';
 import { formatNumber } from '@/common/helpers/number-format';
+import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import Layout from '@/components/layout/layout';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -15,9 +16,12 @@ import { useGetWtb } from '@/hooks/wtb/useGetWtb';
 import { RetrievalCategory } from '@/types/journals';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
 
 export default function WorkingTrialBalance() {
   const router = useRouter();
+  const [date, setDate] = useState<DateRange | undefined>(undefined);
   const { data, isLoading } = useGetWtb({
     retrieval_category: RetrievalCategory.ALL,
   });
@@ -25,16 +29,35 @@ export default function WorkingTrialBalance() {
   const accounts = data?.list;
   const summary = data?.summary;
 
+  const handleGetReportPreview = () => {
+    router.push(
+      `/unit/working-trial-balance/report?start_occurred_at=${date?.from?.toISOString()}&end_occurred_at=${date?.to?.toISOString()}`
+    );
+  };
+
   return (
     <Layout>
       <section>
         <header className="flex justify-center items-center">
           <h1 className="text-2xl font-bold mb-4 text-center">Neraca Lajur</h1>
         </header>
-        <section>
-          <Link href="/unit/working-trial-balance/adjustment-journal">
-            <Button className="mb-4">Jurnal Penyesuaian</Button>
-          </Link>
+        <section className="flex justify-between">
+          <div>
+            <Link href="/unit/working-trial-balance/adjustment-journal">
+              <Button className="mb-4">Jurnal Penyesuaian</Button>
+            </Link>
+          </div>
+
+          <div className="inline-flex flex-row gap-x-4">
+            <CalendarDateRangePicker date={date} setDate={setDate} />
+
+            <Button
+              onClick={handleGetReportPreview}
+              disabled={!date?.from || !date.to}
+            >
+              Cetak Buku Besar
+            </Button>
+          </div>
         </section>
 
         <section className="pt-8">

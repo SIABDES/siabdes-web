@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const JournalInputItemSchema = z
   .object({
@@ -10,23 +10,23 @@ export const JournalInputItemSchema = z
     (data) => {
       return data.debit > 0 || data.credit > 0;
     },
-    { message: "Debit atau kredit harus diisi!" }
+    { message: 'Debit atau kredit harus diisi!' }
   )
   .refine(
     (data) => {
       return data.account_id !== null || data.account_id !== -1;
     },
-    { message: "Akun harus diisi!" }
+    { message: 'Akun harus diisi!' }
   );
 
 export const MutationJournalRequestSchema = z.object({
-  description: z.string({ required_error: "Deskripsi tidak boleh kosong!" }),
+  description: z.string({ required_error: 'Deskripsi tidak boleh kosong!' }),
   occurred_at: z
-    .date({ required_error: "Tanggal transaksi tidak boleh kosong!" })
-    .max(new Date(), "Tanggal tidak boleh melebihi hari ini"),
+    .date({ required_error: 'Tanggal transaksi tidak boleh kosong!' })
+    .max(new Date(), 'Tanggal tidak boleh melebihi hari ini'),
   data_transactions: z
     .array(JournalInputItemSchema)
-    .min(2, "Minimal 2 data transaksi")
+    .min(2, 'Minimal 2 data transaksi')
     .refine(
       (data) => {
         const hasSameAccount = data.every((item, index, arr) => {
@@ -36,7 +36,7 @@ export const MutationJournalRequestSchema = z.object({
         });
         return hasSameAccount;
       },
-      { message: "Tidak boleh ada akun yang sama!" }
+      { message: 'Tidak boleh ada akun yang sama!' }
     )
     .refine(
       (data) => {
@@ -44,7 +44,7 @@ export const MutationJournalRequestSchema = z.object({
           return item.debit > 0 || item.credit > 0;
         });
       },
-      { message: "Data debit dan kredit harus diisi!" }
+      { message: 'Data debit dan kredit harus diisi!' }
     )
     .refine(
       (data) => {
@@ -58,6 +58,13 @@ export const MutationJournalRequestSchema = z.object({
 
         return totalDebit === totalCredit;
       },
-      { message: "Total debit dan kredit harus sama!" }
+      { message: 'Total debit dan kredit harus sama!' }
     ),
 });
+
+export const GetAllJournalsRequest = z.object({
+  start_occurred_at: z.coerce.date(),
+  end_occurred_at: z.coerce.date(),
+});
+
+export type GetAllJournalsRequestType = z.infer<typeof GetAllJournalsRequest>;

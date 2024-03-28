@@ -1,26 +1,65 @@
 'use client';
 
 import { formatDateToString } from '@/common/helpers/date';
+import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import Layout from '@/components/layout/layout';
 import { Button } from '@/components/ui/button';
+// import { Button } from '@nextui-org/react';
 import { Skeleton } from '@/components/ui/skeleton';
+// import {
+//   Table,
+//   TableBody,
+//   TableCell,
+//   TableHead,
+//   TableHeader,
+//   TableRow,
+// } from '@/components/ui/table';
+
 import {
+  Spinner,
   Table,
   TableBody,
   TableCell,
-  TableHead,
+  TableColumn,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '@nextui-org/react';
+
 import { useGetGeneralJournals } from '@/hooks/journals/useGetGeneralJournals';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import React from 'react';
+import React, { useState } from 'react';
+import { DateRange } from 'react-day-picker';
+import { JournalResponseWithCount, JournalType } from '@/types/journals';
+import { formatNumber, formatRupiah } from '@/common/helpers/number-format';
+import { ArrowDownToLine } from 'lucide-react';
 
 export default function Generaljournal() {
   const router = useRouter();
-  const { data, isLoading } = useGetGeneralJournals();
+  const [date, setDate] = useState<DateRange | undefined>(undefined);
+  const { data, isLoading } = useGetGeneralJournals({
+    start_occurred_at: date?.from,
+    end_occurred_at: date?.to,
+  });
+
+  // const { data, isLoading } = useGetWtb({
+  //   start_occurred_at: date?.from,
+  //   end_occurred_at: date?.to,
+  //   retrieval_category: RetrievalCategory.INCOME_STATEMENT,
+  // });
+
+  const journals: (JournalType & { no: number })[] =
+    data?.journals.map((journal, index) => ({
+      ...journal,
+      no: index + 1,
+    })) ?? [];
+
+  const handleGetReportPreview = () => {
+    router.push(
+      `/unit/general-journal/report?start_occurred_at=${date?.from?.toISOString()}&end_occurred_at=${date?.to?.toISOString()}`
+    );
+  };
 
   const handleRowClick = (
     e: React.MouseEvent<HTMLTableRowElement>,
@@ -34,15 +73,24 @@ export default function Generaljournal() {
   return (
     <Layout>
       <section>
-        <header className="flex justify-between items-center">
-          <h4 className="text-sm font-semibold">Jurnal Umum</h4>
+        <h1 className="text-2xl font-bold mb-4 text-center">Jurnal Umum</h1>
+        <header className="mt-6 mb-8 flex flex-row justify-between items-center">
+          <div className="inline-flex flex-row gap-x-4">
+            <CalendarDateRangePicker date={date} setDate={setDate} />
 
+            <Button
+              onClick={handleGetReportPreview}
+              disabled={!date?.from || !date.to}
+            >
+              Cetak Jurnal Umum
+            </Button>
+          </div>
           <Link href="/unit/general-journal/add">
             <Button>Tambah Jurnal</Button>
           </Link>
         </header>
 
-        <section className="pt-8">
+        <div>
           {data && data?.journals.length === 0 && (
             <div className="flex flex-col items-center justify-center mt-16">
               <h6 className="font-semibold text-lg">
@@ -59,44 +107,56 @@ export default function Generaljournal() {
             </div>
           )}
 
-          {!data && !isLoading && <div></div>}
+          <Table
+            aria-label={`Tabel Jurnal Umum`}
+            isHeaderSticky
+            fullWidth
+            classNames={{
+              base: 'max-h-[28rem]',
+              table: 'min-h-[16rem]',
+            }}
+          >
+            <TableHeader>
+              <TableColumn>No</TableColumn>
+              <TableColumn>Tanggal Transaksi</TableColumn>
+              <TableColumn>Deskripsi</TableColumn>
+              <TableColumn>Nominal</TableColumn>
+              <TableColumn>Bukti Transaksi</TableColumn>
+            </TableHeader>
 
-          {isLoading && (
-            <>
-              {Array.from(Array(8).keys()).map((_, index) => (
-                <Skeleton key={index} className="w-full h-[2rem]" />
-              ))}
-            </>
-          )}
-
-          {data && data?.journals.length > 0 && (
-            <Table className="w-full">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>No</TableHead>
-                  <TableHead>Tanggal Transaksi</TableHead>
-                  <TableHead>Deskripsi</TableHead>
-                </TableRow>
-              </TableHeader>
-
-              <TableBody>
-                {data.journals.map((journal, index) => (
+            <TableBody
+              items={journals}
+              isLoading={isLoading}
+              loadingContent={<Spinner label="Memuat..." />}
+              emptyContent={!isLoading && 'Tidak ada data jurnal'}
+            >
+              {(item) => {
+                return (
                   <TableRow
-                    key={journal.id}
-                    onClick={(e) => handleRowClick(e, journal.id)}
+                    key={item.id}
+                    onClick={(e) => handleRowClick(e, item.id)}
                     className="cursor-pointer hover:bg-gray-200 w-full"
                   >
-                    <TableCell className="w-28">{index + 1}</TableCell>
-                    <TableCell className="w-80">
-                      {formatDateToString(journal.occurred_at)}
+                    <TableCell>{item.no}</TableCell>
+                    <TableCell>
+                      {formatDateToString(item.occurred_at)}
                     </TableCell>
-                    <TableCell>{journal.description}</TableCell>
+                    <TableCell>{item.description}</TableCell>
+                    <TableCell>
+                      {formatNumber(item.transaction_amount)}
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="outline" size="sm">
+                        <ArrowDownToLine size={20} />
+                        Download
+                      </Button>
+                    </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </section>
+                );
+              }}
+            </TableBody>
+          </Table>
+        </div>
       </section>
     </Layout>
   );
